@@ -33,18 +33,18 @@ import groovy.transform.CompileStatic\n
 public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN)}
 
 @if{concrete}
-	@if{superConcreteTypes.size() > 0}
+	@if{concreteSuperTypes.size() > 0}
 	 extends
-		@foreach{superType: superConcreteTypes}
-		 @{superType.format(false)}
+		@foreach{concreteSuperType: concreteSuperTypes}
+		 @{concreteSuperType.format(false)}
 		@end{}
 	@end{}
 @end{}
 
-@if{superAbstractTypes.size() > 0}
+@if{abstractSuperTypes.size() > 0}
 	 @if{concrete}implements@else{}extends@end{}
-	@foreach{superAbstractType: superAbstractTypes}
-	 @{superAbstractType.format(false)}
+	@foreach{abstractSuperType: abstractSuperTypes}
+	 @{abstractSuperType.format(false)}
 	@end{', '}
 @end{} {\n
 
@@ -52,16 +52,22 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 
 	  final def @{helper.getNonGenericType(ifaceFQCN)} delegate;\n
 	  public @{ifaceSimpleName}(@{helper.getNonGenericType(ifaceFQCN)} delegate) {\n
-	@if{concrete && superConcreteTypes.size() > 0}
+	@if{concrete && concreteSuperTypes.size() > 0}
 	    super(delegate);\n
 	@end{}
 	    this.delegate = delegate;\n
 	  }\n
 
 	@foreach{method:methods}
-	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType} @{method.name}(@foreach{param: method.params}@{param.type.format(false)} @{param.name}@end{', '}) {\n
+	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.format(false)} @{method.name}(@foreach{param: method.params}@{param.type.format(false)} @{param.name}@end{', '}) {\n
 	    throw new UnsupportedOperationException();\n
 	  }\n
+	@end{}
+
+@else{}
+
+	@foreach{method:methods}
+	  @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.format(false)} @{method.name}(@foreach{param: method.params}@{param.type.format(false)} @{param.name}@end{', '});\n
 	@end{}
 
 @end{}
