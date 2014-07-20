@@ -36,7 +36,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	@if{concreteSuperTypes.size() > 0}
 	 extends
 		@foreach{concreteSuperType: concreteSuperTypes}
-		 @{concreteSuperType.format(false)}
+		 @{concreteSuperType.simpleName}
 		@end{}
 	@end{}
 @end{}
@@ -44,7 +44,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 @if{abstractSuperTypes.size() > 0}
 	 @if{concrete}implements@else{}extends@end{}
 	@foreach{abstractSuperType: abstractSuperTypes}
-	 @{abstractSuperType.format(false)}
+	 @{abstractSuperType.simpleName}
 	@end{', '}
 @end{} {\n
 
@@ -59,7 +59,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	  }\n
 
 	@foreach{method:methods}
-	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.format(false)} @{method.name}(@foreach{param: method.params}@{param.type.format(false)} @{param.name}@end{', '}) {\n
+	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@{param.type.simpleName} @{param.name}@end{', '}) {\n
 	    throw new UnsupportedOperationException();\n
 	  }\n
 	@end{}
@@ -67,7 +67,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 @else{}
 
 	@foreach{method:methods}
-	  @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.format(false)} @{method.name}(@foreach{param: method.params}@{param.type.format(false)} @{param.name}@end{', '});\n
+	  @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@{param.type.simpleName} @{param.name}@end{', '});\n
 	@end{}
 
 @end{}
