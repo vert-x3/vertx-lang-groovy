@@ -43,10 +43,9 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 
 @if{superAbstractTypes.size() > 0}
 	 @if{concrete}implements@else{}extends@end{}
-	@code{first=true}
 	@foreach{superAbstractType: superAbstractTypes}
-	 @if{!first}, @end{}@{first=false;superAbstractType.format(false)}
-	@end{}
+	 @{superAbstractType.format(false)}
+	@end{', '}
 @end{} {\n
 
 @if{concrete}
@@ -60,7 +59,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	  }\n
 
 	@foreach{method:methods}
-	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType} @{method.name}(@code{first=true}@foreach{param: method.params}@if{!first}, @end{}@code{first=false}@{param.type.format(false)} @{param.name}@end{}) {\n
+	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType} @{method.name}(@foreach{param: method.params}@{param.type.format(false)} @{param.name}@end{', '}) {\n
 	    throw new UnsupportedOperationException();\n
 	  }\n
 	@end{}
