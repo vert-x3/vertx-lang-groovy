@@ -17,15 +17,19 @@
  * under the License.\n
  */\n\n
 
-package @{helper.getPackageName(ifaceFQCN.replace("io.vertx.core", "io.vertx.groovy.core"))};\n
+package @{ifacePackageName.replace("io.vertx.core", "io.vertx.groovy.core")};\n
 
 import groovy.transform.CompileStatic\n
 @comment{"Generate the imports"}
 @foreach{importedType:importedTypes}
 	@if{importedType.kind.name() == "GEN"}
-	import @{importedType.toString().replace("io.vertx.core", "io.vertx.groovy.core")}\n
+		@if{!ifacePackageName.equals(importedType.packageName)}
+			import @{importedType.toString().replace("io.vertx.core", "io.vertx.groovy.core")}\n
+		@end{}
 	@else{}
-	import @{importedType}\n
+		@if{!importedType.packageName.equals("java.lang")}
+			import @{importedType}\n
+		@end{}
 	@end{}
 @end{}
 
