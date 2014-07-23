@@ -19,10 +19,58 @@
 
 package @{ifacePackageName.replace("io.vertx.core", "io.vertx.groovy.core")};\n
 
+@declare{'invokeDelegate'}
+@if{method.staticMethod}@{ifaceFQCN}@else{}@includeNamed{'rewriteDelegate';method=method}@end{}.@{method.name}(@foreach{param: method.params}@includeNamed{'paramArgument';param=param}@end{', '})
+@end{}
+
+@declare{'rewriteDelegate'}
+@if{method.ownerTypes.size() > 1}
+( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (@{method.ownerTypes.iterator().next().name}) delegate)
+@else{}
+delegate
+@end{}
+@end{}
+
+@declare{'paramTemplate'}
+	@if{param.type.kind.name() == "OPTIONS"}
+		Map<String, Object> @{param.name}
+	@else{}
+		@{param.type.simpleName} @{param.name}
+	@end{}
+@end{}
+
+@declare{'paramArgument'}
+	@if{param.type.kind.name() == "OPTIONS"}
+		new @{param.type.name}(new io.vertx.core.json.JsonObject(@{param.name}))
+	@else{param.type.kind.name() == "API"}
+		@{param.name}.delegate
+	@else{param.type.kind.name() == "HANDLER"}
+		@if{param.type.typeArguments[0].kind.name() == "OTHER"}
+			@{param.name}
+		@else{param.type.typeArguments[0].kind.name() == "API"}
+			new HandlerAdapter<>(@{param.name}, @{param.type.typeArguments[0].raw.name}.class, @{param.type.typeArguments[0].raw.simpleName}.class)
+		@else{param.type.typeArguments[0].kind.name() == "ASYNC_RESULT"}
+			@if{param.type.typeArguments[0].typeArguments[0].kind.name() == "OTHER"}
+				@{param.name}
+			@else{param.type.typeArguments[0].typeArguments[0].kind.name() == "API"}
+				new AsyncResultHandlerAdapter<>(@{param.name})
+			@else{}
+				null /* Handler<AsyncResult> not yet handled */
+			@end{}
+		@else{}
+			null /* Handler not yet handled */
+		@end{}
+	@else{}
+		@{param.name}
+	@end{}
+@end{}
+
 import groovy.transform.CompileStatic\n
+import io.vertx.lang.groovy.AsyncResultHandlerAdapter\n
+import io.vertx.lang.groovy.HandlerAdapter\n
 @comment{"Generate the imports"}
 @foreach{importedType:importedTypes}
-	@if{importedType.kind.name() == "GEN"}
+	@if{importedType.kind.name() == "API"}
 		@if{!ifacePackageName.equals(importedType.packageName)}
 			import @{importedType.toString().replace("io.vertx.core", "io.vertx.groovy.core")}\n
 		@end{}
@@ -62,16 +110,31 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	    this.delegate = delegate;\n
 	  }\n
 
+	  public @{ifaceFQCN} getDelegate() {\n
+	    return delegate;\n
+	  }\n
+
 	@foreach{method:methods}
-	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@{param.type.simpleName} @{param.name}@end{', '}) {\n
-	    throw new UnsupportedOperationException();\n
+	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param}@end{', '}) {\n
+	@if{method.fluent}
+	    @includeNamed{'invokeDelegate';method:method};\n
+	    return this;\n
+	@else{method.returnType.name.equals('void')}
+	    @includeNamed{'invokeDelegate';method:method};\n
+	@else{!method.returnType.name.startsWith('io.vertx.core')}
+	    return @includeNamed{'invokeDelegate';method:method};\n
+	@else{}
+	    return new @{method.returnType.simpleName}(@includeNamed{'invokeDelegate';method:method});\n
+	@end{}
 	  }\n
 	@end{}
 
 @else{}
 
+	  @{ifaceFQCN} getDelegate();\n
+
 	@foreach{method:methods}
-	  @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@{param.type.simpleName} @{param.name}@end{', '});\n
+	  @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param}@end{', '});\n
 	@end{}
 
 @end{}
