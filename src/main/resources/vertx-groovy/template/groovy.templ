@@ -48,7 +48,7 @@ delegate
 		@if{param.type.typeArguments[0].kind.name() == "OTHER"}
 			@{param.name}
 		@else{param.type.typeArguments[0].kind.name() == "API"}
-			new HandlerAdapter<>(@{param.name}, @{param.type.typeArguments[0].raw.name}.class, @{param.type.typeArguments[0].raw.simpleName}.class)
+			new Handler<@{param.type.typeArguments[0].raw.name}>() { public void handle(@{param.type.typeArguments[0].raw.name} event) { @{param.name}.handle(new @{param.type.typeArguments[0].raw.simpleName}(event)); } }
 		@else{param.type.typeArguments[0].kind.name() == "ASYNC_RESULT"}
 			@if{param.type.typeArguments[0].typeArguments[0].kind.name() == "OTHER"}
 				@{param.name}
