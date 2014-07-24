@@ -17,10 +17,10 @@
  * under the License.\n
  */\n\n
 
-package @{ifacePackageName.replace("io.vertx.core", "io.vertx.groovy.core")};\n
+package @{ifacePackageName.replace("io.vertx.", "io.vertx.groovy.")};\n
 
 @declare{'invokeDelegate'}
-@if{method.staticMethod}@{ifaceFQCN}@else{}@includeNamed{'rewriteDelegate';method=method}@end{}.@{method.name}(@foreach{param: method.params}@includeNamed{'paramArgument';param=param}@end{', '})
+@if{method.staticMethod}@{helper.getNonGenericType(ifaceFQCN)}@else{}@includeNamed{'rewriteDelegate';method=method}@end{}.@{method.name}(@foreach{param: method.params}@includeNamed{'paramArgument';param=param}@end{', '})
 @end{}
 
 @declare{'rewriteDelegate'}
@@ -65,6 +65,16 @@ delegate
 	@end{}
 @end{}
 
+@declare{'returnTypeTemplate'}
+	@if{type.kind.name() == "JSON_OBJECT"}
+		Map<String, Object>
+	@else{type.kind.name() == "JSON_ARRAY"}
+		List<Object>
+	@else{}
+		@{type.simpleName}
+	@end{}
+@end{}
+
 import groovy.transform.CompileStatic\n
 import io.vertx.lang.groovy.AsyncResultHandlerAdapter\n
 import io.vertx.lang.groovy.HandlerAdapter\n
@@ -72,7 +82,7 @@ import io.vertx.lang.groovy.HandlerAdapter\n
 @foreach{importedType:importedTypes}
 	@if{importedType.kind.name() == "API"}
 		@if{!ifacePackageName.equals(importedType.packageName)}
-			import @{importedType.toString().replace("io.vertx.core", "io.vertx.groovy.core")}\n
+			import @{importedType.toString().replace("io.vertx.", "io.vertx.groovy.")}\n
 		@end{}
 	@else{}
 		@if{!importedType.packageName.equals("java.lang")}
@@ -115,14 +125,18 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	  }\n
 
 	@foreach{method:methods}
-	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param}@end{', '}) {\n
+	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@includeNamed{'returnTypeTemplate';type=method.returnType} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param}@end{', '}) {\n
 	@if{method.fluent}
 	    @includeNamed{'invokeDelegate';method:method};\n
 	    return this;\n
 	@else{method.returnType.name.equals('void')}
 	    @includeNamed{'invokeDelegate';method:method};\n
-	@else{!method.returnType.name.startsWith('io.vertx.core')}
+	@else{!method.returnType.name.startsWith('io.vertx.')}
 	    return @includeNamed{'invokeDelegate';method:method};\n
+	@else{method.returnType.kind.name() == "JSON_OBJECT"}
+	    return @includeNamed{'invokeDelegate';method:method}.toMap();
+	@else{method.returnType.kind.name() == "JSON_ARRAY"}
+	    return @includeNamed{'invokeDelegate';method:method}.toList();
 	@else{}
 	    return new @{method.returnType.simpleName}(@includeNamed{'invokeDelegate';method:method});\n
 	@end{}

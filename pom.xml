@@ -118,9 +118,9 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <version>2.8</version>
         <executions>
-          <!-- Unpack vertx-core source code to target/vertx-core -->
+          <!-- Unpack vertx-core source code to target/sources/vertx-core -->
           <execution>
-            <id>unpack</id>
+            <id>unpack-vertx-core</id>
             <phase>generate-sources</phase>
             <goals>
               <goal>unpack</goal>
@@ -134,7 +134,26 @@
                   <classifier>sources</classifier>
                 </artifactItem>
               </artifactItems>
-              <outputDirectory>${project.build.directory}/vertx-core</outputDirectory>
+              <outputDirectory>${project.build.directory}/sources/vertx-core</outputDirectory>
+            </configuration>
+          </execution>
+          <!-- Unpack codegen source code to target/sources/codegen -->
+          <execution>
+            <id>unpack-codegen</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>io.vertx</groupId>
+                  <artifactId>codegen</artifactId>
+                  <version>1.0-SNAPSHOT</version>
+                  <classifier>sources</classifier>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/sources/codegen</outputDirectory>
             </configuration>
           </execution>
         </executions>
@@ -144,9 +163,9 @@
         <artifactId>maven-processor-plugin</artifactId>
         <version>2.2.4</version>
         <executions>
-          <!-- Run the annotation processor on vertx-core and generate the js API -->
+          <!-- Run the annotation processor on vertx-core and generate the Groovy API -->
           <execution>
-            <id>codegen</id>
+            <id>generate-vertx-core</id>
             <goals>
               <goal>process</goal>
             </goals>
@@ -159,10 +178,35 @@
                 <nameTemplate>${project.basedir}/src/main/groovy/@{typeFQN.replace("io.vertx.core", "io.vertx.groovy.core").replace(".", "/")}.groovy</nameTemplate>
                 <templateFileName>vertx-groovy/template/groovy.templ</templateFileName>
               </optionMap>
-              <sourceDirectory>${project.build.directory}/vertx-core</sourceDirectory>
+              <sourceDirectory>${project.build.directory}/sources/vertx-core</sourceDirectory>
+            </configuration>
+          </execution>
+          <!-- Run the annotation processor on codegen and generate the codegen API -->
+          <execution>
+            <id>generate-codegen</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <processors>
+                <processor>io.vertx.codegen.CodeGenProcessor</processor>
+              </processors>
+              <optionMap>
+                <nameTemplate>${project.basedir}/src/test/groovy/@{typeFQN.replace("io.vertx.codegen", "io.vertx.groovy.codegen").replace(".", "/")}.groovy</nameTemplate>
+                <templateFileName>vertx-groovy/template/groovy.templ</templateFileName>
+              </optionMap>
+              <sourceDirectory>${project.build.directory}/sources/codegen</sourceDirectory>
             </configuration>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>

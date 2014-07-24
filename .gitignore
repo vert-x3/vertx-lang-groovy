@@ -21,3 +21,4 @@ test-tmp
 *.class
 src/gen
 src/main/groovy/io/vertx/groovy/core/**/*.groovy
+src/test/groovy/io/vertx/groovy/codegen/**/*.groovy
