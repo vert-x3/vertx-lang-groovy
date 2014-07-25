@@ -2,6 +2,8 @@ package io.vertx.lang.groovy;
 
 import io.vertx.core.AsyncResult;
 
+import java.util.function.Function;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -15,9 +17,15 @@ public class AsyncResultChecker {
   int count = 0;
 
   void assertAsyncResult(Object expected, AsyncResult<?> result) {
+    assertAsyncResult(expected, result, e -> e);
+  }
+
+  <R, E> void assertAsyncResult(E expected, AsyncResult<R> result, Function<R, E> unwrapper) {
     assertTrue(result.succeeded());
     assertFalse(result.failed());
-    assertEquals(expected, result.result());
+    R r = result.result();
+    E unwrapped = unwrapper.apply(r);
+    assertEquals(expected, unwrapped);
     assertNull(result.cause());
     count++;
   }

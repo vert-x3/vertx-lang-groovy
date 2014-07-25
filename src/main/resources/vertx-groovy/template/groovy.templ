@@ -74,6 +74,9 @@ delegate
 				@code{elementKind=elementType.kind}
 				@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 					@{param.name}
+				@else{elementKind == API}
+					@code{collectionName=asyncResultType.raw.simpleName}
+					new Handler<AsyncResult<@{collectionName}<@{elementType.name}>>>() { public void handle(AsyncResult<@{collectionName}<@{elementType.name}>> event) { @{param.name}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementType.simpleName}>>(event.result().collect({ @{elementType.name} element -> new @{elementType.simpleName}(element)}) as @{collectionName}) : new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementType.simpleName}>>(event.cause())) } }
 				@else{}
 					null
 				@end{}

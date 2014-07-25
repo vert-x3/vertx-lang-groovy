@@ -143,11 +143,29 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerAsyncResultListVertxGen() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListVertxGen({ result ->
+      checker.assertAsyncResult(["foo","bar"], result, { list -> list.collect({ RefedInterface1 r -> r.string }) })
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
   public void testMethodWithHandlerSetVertxGen() {
     def count = 0;
     obj.methodWithHandlerSetVertxGen({
       assertEquals(["bar","foo"], it.collect({it.string}).sort())
       count++
     });
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetVertxGen() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetVertxGen({ result ->
+      checker.assertAsyncResult(["foo","bar"] as Set, result, { set -> set.collect({ RefedInterface1 r -> r.string }) as Set })
+    });
+    assertEquals(1, checker.count);
   }
 }
