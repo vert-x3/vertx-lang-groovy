@@ -56,6 +56,9 @@ delegate
 			@code{elementKind=elementType.kind.name()}
 			@if{elementKind=="PRIMITIVE"||elementKind=="BOXED_PRIMITIVE"||elementKind=="STRING"}
 				@{param.name}
+			@else{elementKind=="API"}
+				@code{collectionName=eventType.raw.simpleName}
+				new Handler<@{collectionName}<@{elementType.name}>>() { public void handle(@{collectionName}<@{elementType.name}> event) { @{param.name}.handle(event.collect({new @{elementType.simpleName}(it)}) as @{collectionName}) } }
 			@else{}
 				null
 			@end{}

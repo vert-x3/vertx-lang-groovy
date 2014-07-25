@@ -132,4 +132,22 @@ public class ApiTest {
     );
     assertEquals(4, checker.count);
   }
+
+  @Test
+  public void testMethodWithHandlerListVertxGen() {
+    def count = 0;
+    obj.methodWithHandlerListVertxGen({
+      assertEquals(["foo","bar"], it.collect({it.string}))
+      count++
+    });
+  }
+
+  @Test
+  public void testMethodWithHandlerSetVertxGen() {
+    def count = 0;
+    obj.methodWithHandlerSetVertxGen({
+      assertEquals(["bar","foo"], it.collect({it.string}).sort())
+      count++
+    });
+  }
 }
