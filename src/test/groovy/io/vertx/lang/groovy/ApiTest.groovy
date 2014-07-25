@@ -94,4 +94,21 @@ public class ApiTest {
     assertTrue(foo instanceof GString)
     obj.methodWithObjectParam("JsonArray", [foo, "bar", "wib"]);
   }
+
+  @Test
+  public void testOptionsParam() {
+    def options = [
+      foo: "hello",
+      bar: 123,
+      wibble: 1.23
+    ];
+    obj.methodWithOptionsParam(options);
+    def hell = "hell"
+    options = [
+        foo: "${hell}o",
+        bar: 123,
+        wibble: 1.23
+    ];
+    obj.methodWithOptionsParam(options);
+  }
 }
