@@ -1,7 +1,9 @@
-package io.vertx.lang.groovy;
+package io.vertx.lang.groovy
 
+import io.vertx.codegen.testmodel.RefedInterface1Impl;
 import io.vertx.codegen.testmodel.TestInterfaceImpl;
-import io.vertx.core.Handler;
+import io.vertx.core.Handler
+import io.vertx.groovy.codegen.testmodel.RefedInterface1;
 import io.vertx.groovy.codegen.testmodel.TestInterface;
 import org.junit.Test;
 
@@ -71,5 +73,12 @@ public class ApiTest {
         { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); }
     );
     assertEquals(9, count.get());
+  }
+
+  @Test
+  public void methodWithUserTypes() {
+    RefedInterface1 refed = new RefedInterface1(new RefedInterface1Impl());
+    refed.setString("aardvarks");
+    obj.methodWithUserTypes(refed);
   }
 }
