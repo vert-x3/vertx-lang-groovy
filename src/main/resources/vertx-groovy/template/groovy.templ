@@ -45,7 +45,7 @@ delegate
 	@else{param.type.kind.name() == "API"}
 		@{param.name}.delegate
 	@else{param.type.kind.name() == "HANDLER"}
-		@if{param.type.typeArguments[0].kind.name() == "OTHER"}
+		@if{param.type.typeArguments[0].kind.name() == "OTHER" || param.type.typeArguments[0].kind.basic}
 			@{param.name}
 		@else{param.type.typeArguments[0].kind.name() == "API"}
 			new Handler<@{param.type.typeArguments[0].raw.name}>() { public void handle(@{param.type.typeArguments[0].raw.name} event) { @{param.name}.handle(new @{param.type.typeArguments[0].raw.simpleName}(event)); } }
