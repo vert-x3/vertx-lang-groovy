@@ -19,17 +19,17 @@ public class ApiTest {
   final TestInterface obj = new TestInterface(new TestInterfaceImpl());
 
   @Test
-  public void methodWithBasicParams() {
+  public void testMethodWithBasicParams() {
     obj.methodWithBasicParams((byte) 123, (short) 12345, 1234567, 1265615234l, 12.345f, 12.34566d, true, 'X' as char, "foobar");
   }
 
   @Test
-  public void methodWithBasicBoxedParams() {
+  public void testMethodWithBasicBoxedParams() {
     obj.methodWithBasicBoxedParams((byte) 123, (short) 12345, 1234567, 1265615234l, 12.345f, 12.34566d, true, 'X' as char);
   }
 
   @Test
-  public void methodWithHandlerBasicTypes() {
+  public void testMethodWithHandlerBasicTypes() {
     AtomicInteger count = new AtomicInteger();
     obj.methodWithHandlerBasicTypes(
       { assertEquals(123, (byte) it); count.incrementAndGet(); },
@@ -46,7 +46,7 @@ public class ApiTest {
   }
 
   @Test
-  public void methodWithHandlerAsyncResultBasicTypes() {
+  public void testMethodWithHandlerAsyncResultBasicTypes() {
     AtomicInteger count = new AtomicInteger();
     obj.methodWithHandlerAsyncResultBasicTypes(false,
       { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(123, (byte) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
@@ -76,7 +76,7 @@ public class ApiTest {
   }
 
   @Test
-  public void methodWithUserTypes() {
+  public void testMethodWithUserTypes() {
     RefedInterface1 refed = new RefedInterface1(new RefedInterface1Impl());
     refed.setString("aardvarks");
     obj.methodWithUserTypes(refed);
