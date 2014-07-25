@@ -1,13 +1,10 @@
 package io.vertx.lang.groovy
 
 import io.vertx.codegen.testmodel.RefedInterface1Impl;
-import io.vertx.codegen.testmodel.TestInterfaceImpl;
-import io.vertx.core.Handler
+import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.groovy.codegen.testmodel.RefedInterface1;
 import io.vertx.groovy.codegen.testmodel.TestInterface;
-import org.junit.Test;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.Test
 
 import static org.junit.Assert.*;
 
@@ -30,49 +27,49 @@ public class ApiTest {
 
   @Test
   public void testMethodWithHandlerBasicTypes() {
-    AtomicInteger count = new AtomicInteger();
+    def count = 0;
     obj.methodWithHandlerBasicTypes(
-      { assertEquals(123, (byte) it); count.incrementAndGet(); },
-      { assertEquals(12345, (short) it); count.incrementAndGet(); },
-      { assertEquals(1234567, (int) it); count.incrementAndGet(); },
-      { assertEquals(1265615234l, (long) it); count.incrementAndGet(); },
-      { assertEquals(12.345f, (float) it, 0); count.incrementAndGet(); },
-      { assertEquals(12.34566d, (double) it, 0); count.incrementAndGet(); },
-      { assertEquals(true, it); count.incrementAndGet(); },
-      { assertEquals('X' as char, (char) it); count.incrementAndGet(); },
-      { assertEquals("quux!", it); count.incrementAndGet(); }
+      { assertEquals(123, (byte) it); count++; },
+      { assertEquals(12345, (short) it); count++; },
+      { assertEquals(1234567, (int) it); count++; },
+      { assertEquals(1265615234l, (long) it); count++; },
+      { assertEquals(12.345f, (float) it, 0); count++; },
+      { assertEquals(12.34566d, (double) it, 0); count++; },
+      { assertEquals(true, it); count++; },
+      { assertEquals('X' as char, (char) it); count++; },
+      { assertEquals("quux!", it); count++; }
     );
-    assertEquals(9, count.get());
+    assertEquals(9, count);
   }
 
   @Test
   public void testMethodWithHandlerAsyncResultBasicTypes() {
-    AtomicInteger count = new AtomicInteger();
+    def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultBasicTypes(false,
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(123, (byte) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(12345, (short) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(1234567, (int) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(1265615234l, (long) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(12.345f, (float) it.result(), 0); assertNull(it.cause()); count.incrementAndGet(); },
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(12.34566d, (double) it.result(), 0); assertNull(it.cause()); count.incrementAndGet(); },
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(true, it.result()); assertNull(it.cause()); count.incrementAndGet(); },
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals('X' as char, (char) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
-      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals("quux!", it.result()); assertNull(it.cause()); count.incrementAndGet(); }
+      { checker.assertAsyncResult((byte) 123, it); },
+      { checker.assertAsyncResult((short) 12345, it); },
+      { checker.assertAsyncResult(1234567, it); },
+      { checker.assertAsyncResult(1265615234l, it); },
+      { checker.assertAsyncResult(12.345f, it); },
+      { checker.assertAsyncResult(12.34566d, it); },
+      { checker.assertAsyncResult(true, it); },
+      { checker.assertAsyncResult('X' as char, it); },
+      { checker.assertAsyncResult("quux!", it); },
     );
-    assertEquals(9, count.get());
-    count.set(0);
+    assertEquals(9, checker.count);
+    checker.count = 0;
     obj.methodWithHandlerAsyncResultBasicTypes(true,
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
-        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); }
+      { checker.assertAsyncFailure("foobar!", it); },
+      { checker.assertAsyncFailure("foobar!", it); },
+      { checker.assertAsyncFailure("foobar!", it); },
+      { checker.assertAsyncFailure("foobar!", it); },
+      { checker.assertAsyncFailure("foobar!", it); },
+      { checker.assertAsyncFailure("foobar!", it); },
+      { checker.assertAsyncFailure("foobar!", it); },
+      { checker.assertAsyncFailure("foobar!", it); },
+      { checker.assertAsyncFailure("foobar!", it); }
     );
-    assertEquals(9, count.get());
+    assertEquals(9, checker.count);
   }
 
   @Test
@@ -114,25 +111,25 @@ public class ApiTest {
 
   @Test
   public void testMethodWithHandlerListAndSet() {
-    AtomicInteger count = new AtomicInteger();
+    def count = 0;
     obj.methodWithHandlerListAndSet(
-      { assertEquals(["foo", "bar", "wibble"], it); count.incrementAndGet() },
-      { assertEquals([5, 12, 100], it); count.incrementAndGet() },
-      { assertEquals(["foo", "bar", "wibble"] as Set, it); count.incrementAndGet() },
-      { assertEquals([5, 12, 100] as Set, it); count.incrementAndGet() },
+      { assertEquals(["foo", "bar", "wibble"], it); count++ },
+      { assertEquals([5, 12, 100], it); count++ },
+      { assertEquals(["foo", "bar", "wibble"] as Set, it); count++ },
+      { assertEquals([5, 12, 100] as Set, it); count++ },
     );
-    assertEquals(4, count.get());
+    assertEquals(4, count);
   }
 
   @Test
   public void testMethodWithHandlerAsyncResultListAndSet() {
-    AtomicInteger count = new AtomicInteger();
+    def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListAndSet(
-      { assertEquals(["foo", "bar", "wibble"], it.result()); count.incrementAndGet() },
-      { assertEquals([5, 12, 100], it.result()); count.incrementAndGet() },
-      { assertEquals(["foo", "bar", "wibble"] as Set, it.result()); count.incrementAndGet() },
-      { assertEquals([5, 12, 100] as Set, it.result()); count.incrementAndGet() },
+      { checker.assertAsyncResult(["foo", "bar", "wibble"], it) },
+      { checker.assertAsyncResult([5, 12, 100], it) },
+      { checker.assertAsyncResult(["foo", "bar", "wibble"] as Set, it) },
+      { checker.assertAsyncResult([5, 12, 100] as Set, it) }
     );
-    assertEquals(4, count.get());
+    assertEquals(4, checker.count);
   }
 }
