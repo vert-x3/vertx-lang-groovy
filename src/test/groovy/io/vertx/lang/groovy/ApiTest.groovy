@@ -42,4 +42,34 @@ public class ApiTest {
     );
     assertEquals(9, count.get());
   }
+
+  @Test
+  public void methodWithHandlerAsyncResultBasicTypes() {
+    AtomicInteger count = new AtomicInteger();
+    obj.methodWithHandlerAsyncResultBasicTypes(false,
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(123, (byte) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(12345, (short) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(1234567, (int) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(1265615234l, (long) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(12.345f, (float) it.result(), 0); assertNull(it.cause()); count.incrementAndGet(); },
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(12.34566d, (double) it.result(), 0); assertNull(it.cause()); count.incrementAndGet(); },
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals(true, it.result()); assertNull(it.cause()); count.incrementAndGet(); },
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals('X' as char, (char) it.result()); assertNull(it.cause()); count.incrementAndGet(); },
+      { assertTrue(it.succeeded()); assertFalse(it.failed()); assertEquals("quux!", it.result()); assertNull(it.cause()); count.incrementAndGet(); }
+    );
+    assertEquals(9, count.get());
+    count.set(0);
+    obj.methodWithHandlerAsyncResultBasicTypes(true,
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); },
+        { assertNull(it.result()); assertFalse(it.succeeded()); assertTrue(it.failed()); assertEquals("foobar!", it.cause().getMessage()); count.incrementAndGet(); }
+    );
+    assertEquals(9, count.get());
+  }
 }
