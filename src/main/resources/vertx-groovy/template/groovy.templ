@@ -32,7 +32,7 @@ delegate
 @end{}
 
 @declare{'paramTemplate'}
-	@if{param.type.kind.name() == "OPTIONS"}
+	@if{param.type.kind == OPTIONS}
 		Map<String, Object> @{param.name}
 	@else{}
 		@{param.type.simpleName} @{param.name}
@@ -40,44 +40,44 @@ delegate
 @end{}
 
 @declare{'paramArgument'}
-	@if{param.type.kind.name() == "OPTIONS"}
+	@if{param.type.kind == OPTIONS}
 		new @{param.type.name}(new io.vertx.core.json.JsonObject(@{param.name}))
-	@else{param.type.kind.name() == "API"}
+	@else{param.type.kind == API}
 		@{param.name}.delegate
-	@else{param.type.kind.name() == "OBJECT"}
+	@else{param.type.kind == OBJECT}
 		io.vertx.lang.groovy.Converter.unwrapObject(@{param.name})
-	@else{param.type.kind.name() == "HANDLER"}
+	@else{param.type.kind == HANDLER}
 		@code{eventType=param.type.typeArguments[0]}
-		@code{eventKind=eventType.kind.name()}
-		@if{eventKind == "OTHER" || eventType.kind.basic}
+		@code{eventKind=eventType.kind}
+		@if{eventKind == OTHER || eventKind.basic}
 			@{param.name}
-		@else{eventKind == "LIST" || eventKind == "SET"}
+		@else{eventKind == LIST || eventKind == SET}
 			@code{elementType=eventType.typeArguments[0]}
-			@code{elementKind=elementType.kind.name()}
-			@if{elementKind=="PRIMITIVE"||elementKind=="BOXED_PRIMITIVE"||elementKind=="STRING"}
+			@code{elementKind=elementType.kind}
+			@if{elementKind==PRIMITIVE||elementKind==BOXED_PRIMITIVE||elementKind==STRING}
 				@{param.name}
-			@else{elementKind=="API"}
+			@else{elementKind==API}
 				@code{collectionName=eventType.raw.simpleName}
 				new Handler<@{collectionName}<@{elementType.name}>>() { public void handle(@{collectionName}<@{elementType.name}> event) { @{param.name}.handle(event.collect({new @{elementType.simpleName}(it)}) as @{collectionName}) } }
 			@else{}
 				null
 			@end{}
-		@else{eventKind == "API"}
-			new Handler<@{eventType.raw.name}>() { public void handle(@{eventType.raw.name} event) { @{param.name}.handle(new @{eventType.raw.simpleName}(event)); } }
-		@else{eventKind == "ASYNC_RESULT"}
+		@else{eventKind == API}
+			new Handler<@{eventType.erased.name}>() { public void handle(@{eventType.erased.name} event) { @{param.name}.handle(new @{eventType.erased.simpleName}(event)); } }
+		@else{eventKind == ASYNC_RESULT}
 			@code{asyncResultType=eventType.typeArguments[0]}
-			@code{asyncResultKind=asyncResultType.kind.name()}
-			@if{asyncResultKind == "OTHER" || asyncResultType.kind.basic}
+			@code{asyncResultKind=asyncResultType.kind}
+			@if{asyncResultKind == OTHER || asyncResultKind.basic}
 				@{param.name}
-			@else{asyncResultKind == "LIST" || asyncResultKind == "SET"}
+			@else{asyncResultKind == LIST || asyncResultKind == SET}
 				@code{elementType=asyncResultType.typeArguments[0]}
-				@code{elementKind=elementType.kind.name()}
-				@if{elementKind=="PRIMITIVE"||elementKind=="BOXED_PRIMITIVE"||elementKind=="STRING"}
+				@code{elementKind=elementType.kind}
+				@if{elementKind==PRIMITIVE||elementKind==BOXED_PRIMITIVE||elementKind==STRING}
 					@{param.name}
 				@else{}
 					null
 				@end{}
-			@else{asyncResultKind == "API"}
+			@else{asyncResultKind == API}
 				new AsyncResultHandlerAdapter<>(@{param.name})
 			@else{}
 				null /* Handler<AsyncResult> not yet handled */
@@ -91,9 +91,9 @@ delegate
 @end{}
 
 @declare{'returnTypeTemplate'}
-	@if{type.kind.name() == "JSON_OBJECT"}
+	@if{type.kind == JSON_OBJECT}
 		Map<String, Object>
-	@else{type.kind.name() == "JSON_ARRAY"}
+	@else{type.kind == JSON_ARRAY}
 		List<Object>
 	@else{}
 		@{type.simpleName}
@@ -105,7 +105,7 @@ import io.vertx.lang.groovy.AsyncResultHandlerAdapter\n
 import io.vertx.lang.groovy.HandlerAdapter\n
 @comment{"Generate the imports"}
 @foreach{importedType:importedTypes}
-	@if{importedType.kind.name() == "API"}
+	@if{importedType.kind == API}
 		@if{!ifacePackageName.equals(importedType.packageName)}
 			import @{importedType.toString().replace("io.vertx.", "io.vertx.groovy.")}\n
 		@end{}
@@ -158,9 +158,9 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	    @includeNamed{'invokeDelegate';method:method};\n
 	@else{!method.returnType.name.startsWith('io.vertx.')}
 	    return @includeNamed{'invokeDelegate';method:method};\n
-	@else{method.returnType.kind.name() == "JSON_OBJECT"}
+	@else{method.returnType.kind == JSON_OBJECT}
 	    return @includeNamed{'invokeDelegate';method:method}.toMap();
-	@else{method.returnType.kind.name() == "JSON_ARRAY"}
+	@else{method.returnType.kind == JSON_ARRAY}
 	    return @includeNamed{'invokeDelegate';method:method}.toList();
 	@else{}
 	    return new @{method.returnType.simpleName}(@includeNamed{'invokeDelegate';method:method});\n
