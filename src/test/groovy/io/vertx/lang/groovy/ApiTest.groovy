@@ -81,4 +81,17 @@ public class ApiTest {
     refed.setString("aardvarks");
     obj.methodWithUserTypes(refed);
   }
+
+  @Test
+  public void testObjectParam() {
+    obj.methodWithObjectParam("JsonObject", [foo: "hello", bar: 123]);
+    def hell = "hell";
+    def hello = "${hell}o"
+    assertTrue(hello instanceof GString)
+    obj.methodWithObjectParam("JsonObject", [foo: hello, bar: 123]);
+    def oo = "oo";
+    def foo = "f${oo}"
+    assertTrue(foo instanceof GString)
+    obj.methodWithObjectParam("JsonArray", [foo, "bar", "wib"]);
+  }
 }

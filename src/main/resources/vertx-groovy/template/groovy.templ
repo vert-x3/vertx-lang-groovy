@@ -44,6 +44,8 @@ delegate
 		new @{param.type.name}(new io.vertx.core.json.JsonObject(@{param.name}))
 	@else{param.type.kind.name() == "API"}
 		@{param.name}.delegate
+	@else{param.type.kind.name() == "OBJECT"}
+		io.vertx.lang.groovy.Converter.unwrapObject(@{param.name})
 	@else{param.type.kind.name() == "HANDLER"}
 		@if{param.type.typeArguments[0].kind.name() == "OTHER" || param.type.typeArguments[0].kind.basic}
 			@{param.name}
