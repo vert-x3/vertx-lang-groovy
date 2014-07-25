@@ -111,4 +111,16 @@ public class ApiTest {
     ];
     obj.methodWithOptionsParam(options);
   }
+
+  @Test
+  public void testMethodWithHandlerListAndSet() {
+    AtomicInteger count = new AtomicInteger();
+    obj.methodWithHandlerListAndSet(
+      { assertEquals(["foo", "bar", "wibble"], it); count.incrementAndGet() },
+      { assertEquals([5, 12, 100], it); count.incrementAndGet() },
+      { assertEquals(["foo", "bar", "wibble"] as Set, it); count.incrementAndGet() },
+      { assertEquals([5, 12, 100] as Set, it); count.incrementAndGet() },
+    );
+    assertEquals(4, count.get());
+  }
 }
