@@ -123,4 +123,16 @@ public class ApiTest {
     );
     assertEquals(4, count.get());
   }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultListAndSet() {
+    AtomicInteger count = new AtomicInteger();
+    obj.methodWithHandlerAsyncResultListAndSet(
+      { assertEquals(["foo", "bar", "wibble"], it.result()); count.incrementAndGet() },
+      { assertEquals([5, 12, 100], it.result()); count.incrementAndGet() },
+      { assertEquals(["foo", "bar", "wibble"] as Set, it.result()); count.incrementAndGet() },
+      { assertEquals([5, 12, 100] as Set, it.result()); count.incrementAndGet() },
+    );
+    assertEquals(4, count.get());
+  }
 }

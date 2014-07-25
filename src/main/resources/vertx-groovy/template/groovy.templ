@@ -66,6 +66,14 @@ delegate
 			@code{asyncResultKind=asyncResultType.kind.name()}
 			@if{asyncResultKind == "OTHER" || asyncResultType.kind.basic}
 				@{param.name}
+			@else{asyncResultKind == "LIST" || asyncResultKind == "SET"}
+				@code{elementType=asyncResultType.typeArguments[0]}
+				@code{elementKind=elementType.kind.name()}
+				@if{elementKind=="PRIMITIVE"||elementKind=="BOXED_PRIMITIVE"||elementKind=="STRING"}
+					@{param.name}
+				@else{}
+					null
+				@end{}
 			@else{asyncResultKind == "API"}
 				new AsyncResultHandlerAdapter<>(@{param.name})
 			@else{}
