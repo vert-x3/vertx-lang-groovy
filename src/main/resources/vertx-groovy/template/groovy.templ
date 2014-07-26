@@ -54,9 +54,9 @@ delegate
 		@else{eventKind == LIST || eventKind == SET}
 			@code{elementType=eventType.typeArguments[0]}
 			@code{elementKind=elementType.kind}
-			@if{elementKind==PRIMITIVE||elementKind==BOXED_PRIMITIVE||elementKind==STRING}
+			@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 				@{param.name}
-			@else{elementKind==API}
+			@else{elementKind == API}
 				@code{collectionName=eventType.raw.simpleName}
 				new Handler<@{collectionName}<@{elementType.name}>>() { public void handle(@{collectionName}<@{elementType.name}> event) { @{param.name}.handle(event.collect({new @{elementType.simpleName}(it)}) as @{collectionName}) } }
 			@else{}
@@ -72,7 +72,7 @@ delegate
 			@else{asyncResultKind == LIST || asyncResultKind == SET}
 				@code{elementType=asyncResultType.typeArguments[0]}
 				@code{elementKind=elementType.kind}
-				@if{elementKind==PRIMITIVE||elementKind==BOXED_PRIMITIVE||elementKind==STRING}
+				@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 					@{param.name}
 				@else{}
 					null
