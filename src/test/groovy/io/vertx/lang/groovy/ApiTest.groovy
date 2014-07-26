@@ -140,6 +140,7 @@ public class ApiTest {
       assertEquals(["foo","bar"], it.collect({it.string}))
       count++
     });
+    assertEquals(1, count);
   }
 
   @Test
