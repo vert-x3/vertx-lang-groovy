@@ -207,4 +207,42 @@ public class ApiTest {
     })
     assertEquals(1, checker.count);
   }
+
+  @Test
+  public void testMethodWithHandlerListJsonArray() {
+    def count = 0;
+    obj.methodWithHandlerListJsonArray({
+      assertEquals([["green","blue"],["yellow","purple"]], it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultListJsonArray() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListJsonArray({
+      checker.assertAsyncResult([["green","blue"],["yellow","purple"]], it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerSetJsonArray() {
+    def count = 0;
+    obj.methodWithHandlerSetJsonArray({
+      assertEquals([["green","blue"],["yellow","purple"]] as Set, it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetJsonArray() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetJsonArray({
+      checker.assertAsyncResult([["green","blue"],["yellow","purple"]] as Set, it)
+    });
+    assertEquals(1, checker.count);
+  }
 }

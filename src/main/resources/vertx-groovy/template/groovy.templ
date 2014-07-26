@@ -34,10 +34,20 @@ delegate
 @declare{'paramTemplate'}
 	@if{param.type.kind == OPTIONS}
 		Map<String, Object> @{param.name}
-	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == LIST && param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
-		Handler<List<Map<String, Object>>> @{param.name}
-	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == ASYNC_RESULT && param.type.typeArguments[0].typeArguments[0].kind.collection && param.type.typeArguments[0].typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
-		Handler<AsyncResult<@{param.type.typeArguments[0].typeArguments[0].raw.simpleName}<Map<String, Object>>>> @{param.name}
+	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == LIST && param.type.typeArguments[0].typeArguments[0].kind.json}
+		@if{param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
+			@code{groovyJsonType='Map<String, Object>'}
+		@else{}
+			@code{groovyJsonType='List<Object>'}
+		@end{}
+		Handler<List<@{groovyJsonType}>> @{param.name}
+	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == ASYNC_RESULT && param.type.typeArguments[0].typeArguments[0].kind.collection && param.type.typeArguments[0].typeArguments[0].typeArguments[0].kind.json}
+		@if{param.type.typeArguments[0].typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
+			@code{groovyJsonType='Map<String, Object>'}
+		@else{}
+			@code{groovyJsonType='List<Object>'}
+		@end{}
+		Handler<AsyncResult<@{param.type.typeArguments[0].typeArguments[0].raw.simpleName}<@{groovyJsonType}>>> @{param.name}
 	@else{}
 		@{param.type.simpleName} @{param.name}
 	@end{}
@@ -60,14 +70,17 @@ delegate
 			@code{elementKind=elementType.kind}
 			@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 				@{param.name}
-			@else{elementKind == API || elementKind == JSON_OBJECT}
+			@else{elementKind == API || elementKind.json}
 				@code{collectionName=eventType.raw.simpleName}
 				@if{elementKind == API}
 					@code{toGroovyElement='new ' + elementType.simpleName + '(it)'}
 					@code{elementJavaType=elementType.name}
-				@else{}
+				@else{elementKind == JSON_OBJECT}
 					@code{toGroovyElement='it.toMap()'}
 					@code{elementJavaType='JsonObject'}
+				@else{}
+					@code{toGroovyElement='it.toList()'}
+					@code{elementJavaType='JsonArray'}
 				@end{}
 				new Handler<@{collectionName}<@{elementJavaType}>>() { public void handle(@{collectionName}<@{elementJavaType}> event) { @{param.name}.handle(event.collect({@{toGroovyElement}}) as @{collectionName}) } }
 			@else{}
@@ -85,16 +98,20 @@ delegate
 				@code{elementKind=elementType.kind}
 				@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 					@{param.name}
-				@else{elementKind == API || elementKind == JSON_OBJECT}
+				@else{elementKind == API || elementKind.json}
 					@code{collectionName=asyncResultType.raw.simpleName}
 					@if{elementKind == API}
 						@code{toGroovyElement='new ' + elementType.simpleName + '(element)'}
 						@code{elementJavaType=elementType.name}
 						@code{elementGroovyType=elementType.simpleName}
-					@else{}
+					@else{elementKind == JSON_OBJECT}
 						@code{toGroovyElement='element.toMap()'}
 						@code{elementJavaType='JsonObject'}
 						@code{elementGroovyType='Map<String, Object>'}
+					@else{}
+						@code{toGroovyElement='element.toList()'}
+						@code{elementJavaType='JsonArray'}
+						@code{elementGroovyType='List<Object>'}
 					@end{}
 					new Handler<AsyncResult<@{collectionName}<@{elementJavaType}>>>() { public void handle(AsyncResult<@{collectionName}<@{elementJavaType}>> event) { @{param.name}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementGroovyType}>>(event.result().collect({ @{elementType.name} element -> @{toGroovyElement}}) as @{collectionName}) : new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementGroovyType}>>(event.cause())) } }
 				@else{}
