@@ -36,6 +36,8 @@ delegate
 		Map<String, Object> @{param.name}
 	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == LIST && param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
 		Handler<List<Map<String, Object>>> @{param.name}
+	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == ASYNC_RESULT && param.type.typeArguments[0].typeArguments[0].kind.collection && param.type.typeArguments[0].typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
+		Handler<AsyncResult<@{param.type.typeArguments[0].typeArguments[0].raw.simpleName}<Map<String, Object>>>> @{param.name}
 	@else{}
 		@{param.type.simpleName} @{param.name}
 	@end{}
@@ -83,9 +85,18 @@ delegate
 				@code{elementKind=elementType.kind}
 				@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 					@{param.name}
-				@else{elementKind == API}
+				@else{elementKind == API || elementKind == JSON_OBJECT}
 					@code{collectionName=asyncResultType.raw.simpleName}
-					new Handler<AsyncResult<@{collectionName}<@{elementType.name}>>>() { public void handle(AsyncResult<@{collectionName}<@{elementType.name}>> event) { @{param.name}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementType.simpleName}>>(event.result().collect({ @{elementType.name} element -> new @{elementType.simpleName}(element)}) as @{collectionName}) : new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementType.simpleName}>>(event.cause())) } }
+					@if{elementKind == API}
+						@code{mapping='new ' + elementType.simpleName + '(element)'}
+						@code{targetElementType=elementType.name}
+						@code{biltoType=elementType.simpleName}
+					@else{}
+						@code{mapping='element.toMap()'}
+						@code{targetElementType='JsonObject'}
+						@code{biltoType='Map<String, Object>'}
+					@end{}
+					new Handler<AsyncResult<@{collectionName}<@{targetElementType}>>>() { public void handle(AsyncResult<@{collectionName}<@{targetElementType}>> event) { @{param.name}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{biltoType}>>(event.result().collect({ @{elementType.name} element -> @{mapping}}) as @{collectionName}) : new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{biltoType}>>(event.cause())) } }
 				@else{}
 					null
 				@end{}

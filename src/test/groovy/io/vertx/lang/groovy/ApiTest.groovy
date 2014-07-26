@@ -181,6 +181,15 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerAsyncResultListJsonObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListJsonObject({
+      checker.assertAsyncResult([[cheese:"stilton"],[socks:"tartan"]], it)
+    })
+    assertEquals(1, checker.count);
+  }
+
+  @Test
   public void testMethodWithHandlerSetJsonObject() {
     def count = 0;
     obj.methodWithHandlerSetJsonObject({
@@ -188,5 +197,14 @@ public class ApiTest {
       count++;
     });
     assertEquals(1, count)
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetJsonObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetJsonObject({
+      checker.assertAsyncResult([[cheese:"stilton"],[socks:"tartan"]] as Set, it)
+    })
+    assertEquals(1, checker.count);
   }
 }
