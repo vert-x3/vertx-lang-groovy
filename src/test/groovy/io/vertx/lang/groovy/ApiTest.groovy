@@ -169,4 +169,24 @@ public class ApiTest {
     });
     assertEquals(1, checker.count);
   }
+
+  @Test
+  public void testMethodWithHandlerListJsonObject() {
+    def count = 0;
+    obj.methodWithHandlerListJsonObject({
+      assertEquals([[cheese:"stilton"],[socks:"tartan"]], it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
+  public void testMethodWithHandlerSetJsonObject() {
+    def count = 0;
+    obj.methodWithHandlerSetJsonObject({
+      assertEquals([[cheese:"stilton"],[socks:"tartan"]] as Set, it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
 }

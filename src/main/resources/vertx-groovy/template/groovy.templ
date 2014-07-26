@@ -34,6 +34,8 @@ delegate
 @declare{'paramTemplate'}
 	@if{param.type.kind == OPTIONS}
 		Map<String, Object> @{param.name}
+	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == LIST && param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
+		Handler<List<Map<String, Object>>> @{param.name}
 	@else{}
 		@{param.type.simpleName} @{param.name}
 	@end{}
@@ -56,9 +58,16 @@ delegate
 			@code{elementKind=elementType.kind}
 			@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 				@{param.name}
-			@else{elementKind == API}
+			@else{elementKind == API || elementKind == JSON_OBJECT}
 				@code{collectionName=eventType.raw.simpleName}
-				new Handler<@{collectionName}<@{elementType.name}>>() { public void handle(@{collectionName}<@{elementType.name}> event) { @{param.name}.handle(event.collect({new @{elementType.simpleName}(it)}) as @{collectionName}) } }
+				@if{elementKind == API}
+					@code{mapping='new ' + elementType.simpleName + '(it)'}
+					@code{targetElementType=elementType.name}
+				@else{}
+					@code{mapping='it.toMap()'}
+					@code{targetElementType='JsonObject'}
+				@end{}
+				new Handler<@{collectionName}<@{targetElementType}>>() { public void handle(@{collectionName}<@{targetElementType}> event) { @{param.name}.handle(event.collect({@{mapping}}) as @{collectionName}) } }
 			@else{}
 				null
 			@end{}
