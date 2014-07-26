@@ -63,13 +63,13 @@ delegate
 			@else{elementKind == API || elementKind == JSON_OBJECT}
 				@code{collectionName=eventType.raw.simpleName}
 				@if{elementKind == API}
-					@code{mapping='new ' + elementType.simpleName + '(it)'}
-					@code{targetElementType=elementType.name}
+					@code{toGroovyElement='new ' + elementType.simpleName + '(it)'}
+					@code{elementJavaType=elementType.name}
 				@else{}
-					@code{mapping='it.toMap()'}
-					@code{targetElementType='JsonObject'}
+					@code{toGroovyElement='it.toMap()'}
+					@code{elementJavaType='JsonObject'}
 				@end{}
-				new Handler<@{collectionName}<@{targetElementType}>>() { public void handle(@{collectionName}<@{targetElementType}> event) { @{param.name}.handle(event.collect({@{mapping}}) as @{collectionName}) } }
+				new Handler<@{collectionName}<@{elementJavaType}>>() { public void handle(@{collectionName}<@{elementJavaType}> event) { @{param.name}.handle(event.collect({@{toGroovyElement}}) as @{collectionName}) } }
 			@else{}
 				null
 			@end{}
@@ -88,15 +88,15 @@ delegate
 				@else{elementKind == API || elementKind == JSON_OBJECT}
 					@code{collectionName=asyncResultType.raw.simpleName}
 					@if{elementKind == API}
-						@code{mapping='new ' + elementType.simpleName + '(element)'}
-						@code{targetElementType=elementType.name}
-						@code{biltoType=elementType.simpleName}
+						@code{toGroovyElement='new ' + elementType.simpleName + '(element)'}
+						@code{elementJavaType=elementType.name}
+						@code{elementGroovyType=elementType.simpleName}
 					@else{}
-						@code{mapping='element.toMap()'}
-						@code{targetElementType='JsonObject'}
-						@code{biltoType='Map<String, Object>'}
+						@code{toGroovyElement='element.toMap()'}
+						@code{elementJavaType='JsonObject'}
+						@code{elementGroovyType='Map<String, Object>'}
 					@end{}
-					new Handler<AsyncResult<@{collectionName}<@{targetElementType}>>>() { public void handle(AsyncResult<@{collectionName}<@{targetElementType}>> event) { @{param.name}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{biltoType}>>(event.result().collect({ @{elementType.name} element -> @{mapping}}) as @{collectionName}) : new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{biltoType}>>(event.cause())) } }
+					new Handler<AsyncResult<@{collectionName}<@{elementJavaType}>>>() { public void handle(AsyncResult<@{collectionName}<@{elementJavaType}>> event) { @{param.name}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementGroovyType}>>(event.result().collect({ @{elementType.name} element -> @{toGroovyElement}}) as @{collectionName}) : new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementGroovyType}>>(event.cause())) } }
 				@else{}
 					null
 				@end{}
