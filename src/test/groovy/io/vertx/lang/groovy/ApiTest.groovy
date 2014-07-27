@@ -245,4 +245,23 @@ public class ApiTest {
     });
     assertEquals(1, checker.count);
   }
+
+  @Test
+  public void testMethodWithHandlerUserTypes() {
+    def count = 0;
+    obj.methodWithHandlerUserTypes({
+      assertEquals("echidnas", it.string)
+      count++
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultUserTypes() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultUserTypes({
+      checker.assertAsyncResult("cheetahs", it, { it.string })
+    })
+    assertEquals(1, checker.count);
+  }
 }

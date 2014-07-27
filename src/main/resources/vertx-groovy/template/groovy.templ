@@ -53,6 +53,10 @@ delegate
 	@end{}
 @end{}
 
+@declare{'asyncResultHandlerTemplate'}
+	new Handler<AsyncResult<@{eventJavaType}>>() { public void handle(AsyncResult<@{eventJavaType}> event) { @{callbackName}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(@{callbackObject}) : new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(event.cause())) } }
+@end{}
+
 @declare{'paramArgument'}
 	@if{param.type.kind == OPTIONS}
 		new @{param.type.name}(new io.vertx.core.json.JsonObject(@{param.name}))
@@ -113,12 +117,17 @@ delegate
 						@code{elementJavaType='JsonArray'}
 						@code{elementGroovyType='List<Object>'}
 					@end{}
-					new Handler<AsyncResult<@{collectionName}<@{elementJavaType}>>>() { public void handle(AsyncResult<@{collectionName}<@{elementJavaType}>> event) { @{param.name}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementGroovyType}>>(event.result().collect({ @{elementType.name} element -> @{toGroovyElement}}) as @{collectionName}) : new io.vertx.core.impl.FutureResultImpl<@{collectionName}<@{elementGroovyType}>>(event.cause())) } }
+					@code{eventJavaType=collectionName + '<' + elementJavaType + '>'}
+					@code{eventGroovyType=collectionName + '<' + elementGroovyType + '>'}
+					@code{callbackObject='event.result().collect({ ' + elementType.name + ' element -> ' + toGroovyElement + '}) as ' + collectionName}
+					@includeNamed{'asyncResultHandlerTemplate';eventJavaType=eventJavaType;eventGroovyType=eventGroovyType;callbackObject=callbackObject;callbackName=param.name}
 				@else{}
 					null
 				@end{}
 			@else{asyncResultKind == API}
-				new AsyncResultHandlerAdapter<>(@{param.name})
+				@comment{'Workaround for https://jira.codehaus.org/browse/GROOVY-6977 : Message<R> -> Message'}
+				@code{asyncResultType=asyncResultType.erased}
+				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType=asyncResultType.simpleName;callbackObject='new ' + asyncResultType.simpleName + '(event.result())';callbackName=param.name}
 			@else{}
 				null /* Handler<AsyncResult> not yet handled */
 			@end{}
