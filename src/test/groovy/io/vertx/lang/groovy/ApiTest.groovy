@@ -264,4 +264,14 @@ public class ApiTest {
     })
     assertEquals(1, checker.count);
   }
+
+  @Test
+  public void testMethodWithHandlerVoid() {
+    def count = 0;
+    obj.methodWithHandlerVoid({
+      assertNull(it);
+      count++
+    })
+    assertEquals(1, count);
+  }
 }
