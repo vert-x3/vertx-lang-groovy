@@ -334,4 +334,15 @@ public class ApiTest {
   public void testSetStringReturn() {
     assertEquals(["foo", "bar", "wibble"] as Set, obj.methodWithSetStringReturn())
   }
+
+  @Test
+  public void testOverloadedMethods() {
+    RefedInterface1 refed = new RefedInterface1(new RefedInterface1Impl())
+    refed.setString("dog")
+    assertEquals("meth1", obj.overloadedMethod("cat", refed))
+    assertEquals("meth2", obj.overloadedMethod("cat", refed, 12345))
+    def called = false
+    assertEquals("meth3", obj.overloadedMethod("cat", refed, 12345, { assertEquals("giraffe", it); called = true }))
+    assertTrue(called)
+  }
 }
