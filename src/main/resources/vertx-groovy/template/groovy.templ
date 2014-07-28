@@ -67,7 +67,7 @@ delegate
 	@else{param.type.kind == HANDLER}
 		@code{eventType=param.type.typeArguments[0]}
 		@code{eventKind=eventType.kind}
-		@if{eventKind == OTHER || eventKind.basic || eventKind == VOID}
+		@if{eventKind == OTHER || eventKind.basic || eventKind == VOID || eventKind == THROWABLE}
 			@{param.name}
 		@else{eventKind == LIST || eventKind == SET}
 			@code{elementType=eventType.typeArguments[0]}
