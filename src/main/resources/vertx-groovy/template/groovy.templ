@@ -95,7 +95,7 @@ delegate
 		@else{eventKind == ASYNC_RESULT}
 			@code{asyncResultType=eventType.typeArguments[0]}
 			@code{asyncResultKind=asyncResultType.kind}
-			@if{asyncResultKind == OTHER || asyncResultKind.basic}
+			@if{asyncResultKind == OTHER || asyncResultKind.basic || asyncResultKind == VOID}
 				@{param.name}
 			@else{asyncResultKind == LIST || asyncResultKind == SET}
 				@code{elementType=asyncResultType.typeArguments[0]}

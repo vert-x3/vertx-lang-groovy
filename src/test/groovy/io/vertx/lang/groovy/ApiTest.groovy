@@ -2,6 +2,7 @@ package io.vertx.lang.groovy
 
 import io.vertx.codegen.testmodel.RefedInterface1Impl;
 import io.vertx.codegen.testmodel.TestInterfaceImpl
+import io.vertx.core.AsyncResult
 import io.vertx.groovy.codegen.testmodel.RefedInterface1;
 import io.vertx.groovy.codegen.testmodel.TestInterface;
 import org.junit.Test
@@ -273,5 +274,23 @@ public class ApiTest {
       count++
     })
     assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultVoid() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultVoid(false, {
+      checker.assertAsyncResult(null, it);
+    })
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultVoidFails() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultVoid(true, {
+      checker.assertAsyncFailure("foo!", it);
+    })
+    assertEquals(1, checker.count);
   }
 }
