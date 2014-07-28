@@ -40,36 +40,36 @@ delegate
 		Map<String, Object> @{param.name}
 	@else{param.type.kind == JSON_ARRAY}
 		List<Object> @{param.name}
-	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind.json}
-		@if{param.type.typeArguments[0].kind == JSON_OBJECT}
+	@else{param.type.kind == HANDLER && param.type.args[0].kind.json}
+		@if{param.type.args[0].kind == JSON_OBJECT}
 			@code{groovyJsonType='Map<String, Object>'}
 		@else{}
 			@code{groovyJsonType='List<Object>'}
 		@end{}
 		Handler<@{groovyJsonType}> @{param.name}
-	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == JSON_ARRAY}
+	@else{param.type.kind == HANDLER && param.type.args[0].kind == JSON_ARRAY}
 		Handler<List<Object>> @{param.name}
-	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == LIST && param.type.typeArguments[0].typeArguments[0].kind.json}
-		@if{param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
+	@else{param.type.kind == HANDLER && param.type.args[0].kind == LIST && param.type.args[0].args[0].kind.json}
+		@if{param.type.args[0].args[0].kind == JSON_OBJECT}
 			@code{groovyJsonType='Map<String, Object>'}
 		@else{}
 			@code{groovyJsonType='List<Object>'}
 		@end{}
 		Handler<List<@{groovyJsonType}>> @{param.name}
-	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == ASYNC_RESULT && param.type.typeArguments[0].typeArguments[0].kind.json}
-		@if{param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
+	@else{param.type.kind == HANDLER && param.type.args[0].kind == ASYNC_RESULT && param.type.args[0].args[0].kind.json}
+		@if{param.type.args[0].args[0].kind == JSON_OBJECT}
 			@code{groovyJsonType='Map<String, Object>'}
 		@else{}
 			@code{groovyJsonType='List<Object>'}
 		@end{}
 		Handler<AsyncResult<@{groovyJsonType}>> @{param.name}
-	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == ASYNC_RESULT && param.type.typeArguments[0].typeArguments[0].kind.collection && param.type.typeArguments[0].typeArguments[0].typeArguments[0].kind.json}
-		@if{param.type.typeArguments[0].typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
+	@else{param.type.kind == HANDLER && param.type.args[0].kind == ASYNC_RESULT && param.type.args[0].args[0].kind.collection && param.type.args[0].args[0].args[0].kind.json}
+		@if{param.type.args[0].args[0].args[0].kind == JSON_OBJECT}
 			@code{groovyJsonType='Map<String, Object>'}
 		@else{}
 			@code{groovyJsonType='List<Object>'}
 		@end{}
-		Handler<AsyncResult<@{param.type.typeArguments[0].typeArguments[0].raw.simpleName}<@{groovyJsonType}>>> @{param.name}
+		Handler<AsyncResult<@{param.type.args[0].args[0].raw.simpleName}<@{groovyJsonType}>>> @{param.name}
 	@else{}
 		@{param.type.simpleName} @{param.name}
 	@end{}
@@ -89,7 +89,7 @@ delegate
 	@else{param.type.kind == OBJECT}
 		io.vertx.lang.groovy.Converter.unwrapObject(@{param.name})
 	@else{param.type.kind == HANDLER}
-		@code{eventType=param.type.typeArguments[0]}
+		@code{eventType=param.type.args[0]}
 		@code{eventKind=eventType.kind}
 		@if{eventKind == OTHER || eventKind.basic || eventKind == VOID || eventKind == THROWABLE}
 			@{param.name}
@@ -98,7 +98,7 @@ delegate
 		@else{eventKind == JSON_ARRAY}
 			new Handler<JsonArray>() { public void handle(JsonArray event) { @{param.name}.handle(event.toList()); } }
 		@else{eventKind == LIST || eventKind == SET}
-			@code{elementType=eventType.typeArguments[0]}
+			@code{elementType=eventType.args[0]}
 			@code{elementKind=elementType.kind}
 			@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 				@{param.name}
@@ -121,12 +121,12 @@ delegate
 		@else{eventKind == API}
 			new Handler<@{eventType.erased.name}>() { public void handle(@{eventType.erased.name} event) { @{param.name}.handle(new @{eventType.erased.simpleName}(event)); } }
 		@else{eventKind == ASYNC_RESULT}
-			@code{asyncResultType=eventType.typeArguments[0]}
+			@code{asyncResultType=eventType.args[0]}
 			@code{asyncResultKind=asyncResultType.kind}
 			@if{asyncResultKind == OTHER || asyncResultKind.basic || asyncResultKind == VOID}
 				@{param.name}
 			@else{asyncResultKind == LIST || asyncResultKind == SET}
-				@code{elementType=asyncResultType.typeArguments[0]}
+				@code{elementType=asyncResultType.args[0]}
 				@code{elementKind=elementType.kind}
 				@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 					@{param.name}
