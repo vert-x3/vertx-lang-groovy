@@ -361,4 +361,10 @@ public class ApiTest {
     assertTrue("Was expecting " + ret + " to implement List", ret instanceof List);
     assertEquals(["foo","bar"], ret);
   }
+
+  @Test
+  public void testFluentMethod() {
+    def ret = obj.fluentMethod("bar");
+    assertSame(obj, ret)
+  }
 }
