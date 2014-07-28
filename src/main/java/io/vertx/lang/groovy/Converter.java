@@ -19,4 +19,13 @@ public class Converter {
     }
     return obj;
   }
+
+  public static Object wrapObject(Object obj) {
+    if (obj instanceof JsonObject) {
+      return ((JsonObject) obj).toMap();
+    } else if (obj instanceof JsonArray) {
+      return ((JsonArray) obj).toList();
+    }
+    return obj;
+  }
 }

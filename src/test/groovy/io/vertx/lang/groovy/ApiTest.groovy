@@ -2,7 +2,6 @@ package io.vertx.lang.groovy
 
 import io.vertx.codegen.testmodel.RefedInterface1Impl;
 import io.vertx.codegen.testmodel.TestInterfaceImpl
-import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
 import io.vertx.groovy.codegen.testmodel.RefedInterface1;
 import io.vertx.groovy.codegen.testmodel.TestInterface;
@@ -304,6 +303,31 @@ public class ApiTest {
       count++
     })
     assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithGenericParams() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithGenericParams("String", "foo", {
+      checker.assertResult("handlerFoo", it)
+    }, {
+      checker.assertAsyncResult("asyncResultHandlerFoo", it)
+    })
+    assertEquals(2, checker.count);
+    checker = new AsyncResultChecker();
+    obj.methodWithGenericParams("JsonObject", [foo:"hello","bar":123], {
+      checker.assertResult([foo:"hello","bar":123], it)
+    }, {
+      checker.assertAsyncResult([foo:"hello","bar":123], it)
+    })
+    assertEquals(2, checker.count);
+    checker = new AsyncResultChecker();
+    obj.methodWithGenericParams("JsonArray", ["foo", "bar", "wib"], {
+      checker.assertResult(["foo", "bar", "wib"], it)
+    }, {
+      checker.assertAsyncResult(["foo", "bar", "wib"], it)
+    })
+    assertEquals(2, checker.count);
   }
 
   @Test

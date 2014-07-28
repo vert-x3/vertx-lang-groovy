@@ -16,6 +16,11 @@ public class AsyncResultChecker {
 
   int count = 0;
 
+  void assertResult(Object expected, Object result) {
+    assertEquals(expected, result);
+    count++;
+  }
+
   void assertAsyncResult(Object expected, AsyncResult<?> result) {
     assertAsyncResult(expected, result, e -> e);
   }

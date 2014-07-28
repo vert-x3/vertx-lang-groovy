@@ -156,15 +156,19 @@ delegate
 				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result().toMap()';callbackName=param.name}
 			@else{asyncResultKind == JSON_ARRAY}
 				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType='List<Object>';callbackObject='event.result().toList()';callbackName=param.name}
+			@else{asyncResultKind == OBJECT}
+				@includeNamed{'asyncResultHandlerTemplate';eventJavaType='Object';eventGroovyType='Object';callbackObject='io.vertx.lang.groovy.Converter.wrapObject(event.result())';callbackName=param.name}
 			@else{asyncResultKind == API}
 				@comment{'Workaround for https://jira.codehaus.org/browse/GROOVY-6977 : Message<R> -> Message'}
 				@code{asyncResultType=asyncResultType.erased}
 				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType=asyncResultType.simpleName;callbackObject='new ' + asyncResultType.simpleName + '(event.result())';callbackName=param.name}
 			@else{}
-				null /* Handler<AsyncResult> not yet handled */
+				null /* Handler<AsyncResult<@{asyncResultType.name}>> with kind @{asyncResultKind} not yet implemented */
 			@end{}
+		@else{eventKind == OBJECT}
+			new Handler<Object>() { public void handle(Object event) { @{param.name}.handle(io.vertx.lang.groovy.Converter.wrapObject(event)) } }
 		@else{}
-			null /* Handler not yet handled */
+			null /* Handler<@{eventType.name}> with kind @{eventKind} not yet implemented */
 		@end{}
 	@else{}
 		@{param.name}
@@ -230,7 +234,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	  }\n
 
 	@foreach{method:methods}
-	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@includeNamed{'returnTypeTemplate';type=method.returnType} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param}@end{', '}) {\n
+	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{', '}> @end{}@includeNamed{'returnTypeTemplate';type=method.returnType} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param}@end{', '}) {\n
 	@if{method.fluent}
 	    @includeNamed{'invokeDelegate';method:method};\n
 	    return this;\n
