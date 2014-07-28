@@ -36,8 +36,10 @@ delegate
 @end{}
 
 @declare{'paramTemplate'}
-	@if{param.type.kind == OPTIONS}
+	@if{param.type.kind == OPTIONS || param.type.kind == JSON_OBJECT}
 		Map<String, Object> @{param.name}
+	@else{param.type.kind == JSON_ARRAY}
+		List<Object> @{param.name}
 	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == LIST && param.type.typeArguments[0].typeArguments[0].kind.json}
 		@if{param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
 			@code{groovyJsonType='Map<String, Object>'}
@@ -64,6 +66,8 @@ delegate
 @declare{'paramArgument'}
 	@if{param.type.kind == OPTIONS}
 		new @{param.type.name}(new io.vertx.core.json.JsonObject(@{param.name}))
+	@else{param.type.kind.json}
+		new @{param.type.name}(@{param.name})
 	@else{param.type.kind == API}
 		@{param.name}.delegate
 	@else{param.type.kind == OBJECT}

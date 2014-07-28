@@ -391,4 +391,9 @@ public class ApiTest {
     ret = obj.methodWithJsonArrayReturn();
     assertEquals(["socks", "shoes"], ret);
   }
+
+  @Test
+  public void testJsonParams() {
+    obj.methodWithJsonParams([cat:"lion",cheese:"cheddar"], ["house","spider"]);
+  }
 }
