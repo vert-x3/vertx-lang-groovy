@@ -383,4 +383,12 @@ public class ApiTest {
     def ret3 = obj.methodWithCachedReturn("bar");
     assertSame(ret1, ret3);
   }
+
+  @Test
+  public void testJsonReturns() {
+    def ret = obj.methodwithJsonObjectReturn();
+    assertEquals([cheese:"stilton"], ret);
+    ret = obj.methodWithJsonArrayReturn();
+    assertEquals(["socks", "shoes"], ret);
+  }
 }
