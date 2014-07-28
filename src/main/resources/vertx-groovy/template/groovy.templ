@@ -19,6 +19,10 @@
 
 package @{ifacePackageName.replace("io.vertx.", "io.vertx.groovy.")};\n
 
+@comment{'the current index of the cache'}
+@code{cacheDecls=new java.util.ArrayList()}
+
+
 @declare{'invokeDelegate'}
 @if{method.staticMethod}@{helper.getNonGenericType(ifaceFQCN)}@else{}@includeNamed{'rewriteDelegate';method=method}@end{}.@{method.name}(@foreach{param: method.params}@includeNamed{'paramArgument';param=param}@end{', '})
 @end{}
@@ -204,24 +208,39 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	    return this;\n
 	@else{method.returnType.name.equals('void')}
 	    @includeNamed{'invokeDelegate';method:method};\n
-	@else{method.returnType.kind == OBJECT}
-	    @{method.returnType.simpleName} ret = @includeNamed{'invokeDelegate';method:method};\n
-	    if (ret instanceof io.vertx.core.json.JsonObject) {\n
-	      return (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonObject) ret).toMap();\n
-	    } else if (ret instanceof io.vertx.core.json.JsonArray) {\n
-	      return (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonArray) ret).toList();\n
-	    } else {\n
-	      return ret;\n
-	    }\n
-	@else{method.returnType.kind == JSON_OBJECT}
-	    return @includeNamed{'invokeDelegate';method:method}.toMap();
-	@else{method.returnType.kind == JSON_ARRAY}
-	    return @includeNamed{'invokeDelegate';method:method}.toList();
-	@else{!method.returnType.name.startsWith('io.vertx.')}
-	    return @includeNamed{'invokeDelegate';method:method};\n
 	@else{}
-	    return new @{method.returnType.simpleName}(@includeNamed{'invokeDelegate';method:method});\n
-	@end{}
+		@if{method.cacheReturn}
+		    if (cached_@{cacheDecls.size()} != null) {\n
+		      return cached_@{cacheDecls.size()};\n
+		    }\n
+		@end{}
+		@if{method.returnType.kind == OBJECT}
+			@code{cachedType=method.returnType.simpleName}
+		    def ret = @includeNamed{'invokeDelegate';method:method};\n
+		    if (ret instanceof io.vertx.core.json.JsonObject) {\n
+		      ret = (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonObject) ret).toMap();\n
+		    } else if (ret instanceof io.vertx.core.json.JsonArray) {\n
+		      ret = (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonArray) ret).toList();\n
+		    }\n
+		@else{method.returnType.kind == JSON_OBJECT}
+			@code{cachedType='Map<String, Object>'}
+		    def ret = @includeNamed{'invokeDelegate';method:method}.toMap();\n
+		@else{method.returnType.kind == JSON_ARRAY}
+			@code{cachedType='List<Object>'}
+		    def ret = @includeNamed{'invokeDelegate';method:method}.toList();\n
+		@else{!method.returnType.name.startsWith('io.vertx.')}
+			@code{cachedType=method.returnType.name}
+		    def ret = @includeNamed{'invokeDelegate';method:method};\n
+		@else{}
+			@code{cachedType=method.returnType.simpleName}
+		    def ret= new @{method.returnType.simpleName}(@includeNamed{'invokeDelegate';method:method});\n
+		@end{}
+		@if{method.cacheReturn}
+		    cached_@{cacheDecls.size()} = ret;\n
+			@code{cacheDecls.add('private' + (method.staticMethod ? ' static' : '') + ' ' + cachedType + ' cached_' + cacheDecls.size())}
+		@end{}
+		    return ret;\n
+		@end{}
 	  }\n
 	@end{}
 
@@ -234,4 +253,9 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	@end{}
 
 @end{}
+
+@foreach{cacheDecl:cacheDecls}
+  @{cacheDecl};\n
+@end{}
+
 }\n

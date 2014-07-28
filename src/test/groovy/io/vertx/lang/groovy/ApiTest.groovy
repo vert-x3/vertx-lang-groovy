@@ -373,4 +373,14 @@ public class ApiTest {
     def ret = TestInterface.staticFactoryMethod("bar");
     assertEquals("bar", ret.string);
   }
+
+  @Test
+  public void testMethodWithCachedReturn() {
+    def ret1 = obj.methodWithCachedReturn("bar");
+    assertEquals("bar", ret1.string);
+    def ret2 = obj.methodWithCachedReturn("bar");
+    assertSame(ret1, ret2);
+    def ret3 = obj.methodWithCachedReturn("bar");
+    assertSame(ret1, ret3);
+  }
 }
