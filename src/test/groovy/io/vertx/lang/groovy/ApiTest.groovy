@@ -324,4 +324,9 @@ public class ApiTest {
     RefedInterface1 r = obj.methodWithVertxGenReturn();
     assertEquals("chaffinch", r.string)
   }
+
+  @Test
+  public void testListStringReturn() {
+    assertEquals(["foo", "bar", "wibble"], obj.methodWithListStringReturn())
+  }
 }
