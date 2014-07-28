@@ -345,4 +345,10 @@ public class ApiTest {
     assertEquals("meth3", obj.overloadedMethod("cat", refed, 12345, { assertEquals("giraffe", it); called = true }))
     assertTrue(called)
   }
+
+  @Test
+  public void testSuperInterfaces() {
+    obj.superMethodWithBasicParams((byte) 123, (short) 12345, 1234567, 1265615234l, 12.345f, 12.34566d, true, 'X' as char, 'foobar')
+    obj.otherSuperMethodWithBasicParams((byte) 123, (short) 12345, 1234567, 1265615234l, 12.345f, 12.34566d, true, 'X' as char, 'foobar');
+  }
 }
