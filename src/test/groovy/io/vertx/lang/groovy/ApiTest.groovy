@@ -351,4 +351,14 @@ public class ApiTest {
     obj.superMethodWithBasicParams((byte) 123, (short) 12345, 1234567, 1265615234l, 12.345f, 12.34566d, true, 'X' as char, 'foobar')
     obj.otherSuperMethodWithBasicParams((byte) 123, (short) 12345, 1234567, 1265615234l, 12.345f, 12.34566d, true, 'X' as char, 'foobar');
   }
+
+  @Test
+  public void testMethodWithGenericReturn() {
+    def ret = obj.methodWithGenericReturn(true);
+    assertTrue("Was expecting " + ret + " to implement Map", ret instanceof Map);
+    assertEquals([foo:"bar"], ret);
+    ret = obj.methodWithGenericReturn(false);
+    assertTrue("Was expecting " + ret + " to implement List", ret instanceof List);
+    assertEquals(["foo","bar"], ret);
+  }
 }
