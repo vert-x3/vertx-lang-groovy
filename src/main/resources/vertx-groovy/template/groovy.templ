@@ -75,7 +75,7 @@ delegate
 	@end{}
 @end{}
 
-@declare{'asyncResultHandlerTemplate'}
+@declare{'resultHandlerTemplate'}
 	new Handler<AsyncResult<@{eventJavaType}>>() { public void handle(AsyncResult<@{eventJavaType}> event) { @{callbackName}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(@{callbackObject}) : new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(event.cause())) } }
 @end{}
 
@@ -121,17 +121,17 @@ delegate
 		@else{eventKind == API}
 			new Handler<@{eventType.erased.name}>() { public void handle(@{eventType.erased.name} event) { @{param.name}.handle(new @{eventType.erased.simpleName}(event)); } }
 		@else{eventKind == ASYNC_RESULT}
-			@code{asyncResultType=eventType.args[0]}
-			@code{asyncResultKind=asyncResultType.kind}
-			@if{asyncResultKind == OTHER || asyncResultKind.basic || asyncResultKind == VOID}
+			@code{resultType=eventType.args[0]}
+			@code{resultKind=resultType.kind}
+			@if{resultKind == OTHER || resultKind.basic || resultKind == VOID}
 				@{param.name}
-			@else{asyncResultKind == LIST || asyncResultKind == SET}
-				@code{elementType=asyncResultType.args[0]}
+			@else{resultKind == LIST || resultKind == SET}
+				@code{elementType=resultType.args[0]}
 				@code{elementKind=elementType.kind}
 				@if{elementKind == PRIMITIVE || elementKind == BOXED_PRIMITIVE || elementKind == STRING}
 					@{param.name}
 				@else{elementKind == API || elementKind.json}
-					@code{collectionName=asyncResultType.raw.simpleName}
+					@code{collectionName=resultType.raw.simpleName}
 					@if{elementKind == API}
 						@code{toGroovyElement='new ' + elementType.simpleName + '(element)'}
 						@code{elementJavaType=elementType.name}
@@ -148,22 +148,22 @@ delegate
 					@code{eventJavaType=collectionName + '<' + elementJavaType + '>'}
 					@code{eventGroovyType=collectionName + '<' + elementGroovyType + '>'}
 					@code{callbackObject='event.result().collect({ ' + elementType.name + ' element -> ' + toGroovyElement + '}) as ' + collectionName}
-					@includeNamed{'asyncResultHandlerTemplate';eventJavaType=eventJavaType;eventGroovyType=eventGroovyType;callbackObject=callbackObject;callbackName=param.name}
+					@includeNamed{'resultHandlerTemplate';eventJavaType=eventJavaType;eventGroovyType=eventGroovyType;callbackObject=callbackObject;callbackName=param.name}
 				@else{}
 					null
 				@end{}
-			@else{asyncResultKind == JSON_OBJECT}
-				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result().toMap()';callbackName=param.name}
-			@else{asyncResultKind == JSON_ARRAY}
-				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType='List<Object>';callbackObject='event.result().toList()';callbackName=param.name}
-			@else{asyncResultKind == OBJECT}
-				@includeNamed{'asyncResultHandlerTemplate';eventJavaType='Object';eventGroovyType='Object';callbackObject='io.vertx.lang.groovy.Converter.wrapObject(event.result())';callbackName=param.name}
-			@else{asyncResultKind == API}
+			@else{resultKind == JSON_OBJECT}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result().toMap()';callbackName=param.name}
+			@else{resultKind == JSON_ARRAY}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='List<Object>';callbackObject='event.result().toList()';callbackName=param.name}
+			@else{resultKind == OBJECT}
+				@includeNamed{'resultHandlerTemplate';eventJavaType='Object';eventGroovyType='Object';callbackObject='io.vertx.lang.groovy.Converter.wrapObject(event.result())';callbackName=param.name}
+			@else{resultKind == API}
 				@comment{'Workaround for https://jira.codehaus.org/browse/GROOVY-6977 : Message<R> -> Message'}
-				@code{asyncResultType=asyncResultType.erased}
-				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType=asyncResultType.simpleName;callbackObject='new ' + asyncResultType.simpleName + '(event.result())';callbackName=param.name}
+				@code{resultType=resultType.erased}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType=resultType.simpleName;callbackObject='new ' + resultType.simpleName + '(event.result())';callbackName=param.name}
 			@else{}
-				null /* Handler<AsyncResult<@{asyncResultType.name}>> with kind @{asyncResultKind} not yet implemented */
+				null /* Handler<AsyncResult<@{resultType.name}>> with kind @{resultKind} not yet implemented */
 			@end{}
 		@else{eventKind == OBJECT}
 			new Handler<Object>() { public void handle(Object event) { @{param.name}.handle(io.vertx.lang.groovy.Converter.wrapObject(event)) } }
