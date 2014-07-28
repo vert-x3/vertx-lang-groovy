@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-public class Converter {
+public class InternalHelper {
 
   public static Object unwrapObject(Object obj) {
     if (obj instanceof Map) {

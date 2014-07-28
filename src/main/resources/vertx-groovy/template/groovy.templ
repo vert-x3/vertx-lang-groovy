@@ -97,7 +97,7 @@ delegate
 	@else{param.type.kind == API}
 		@{param.name}.delegate
 	@else{param.type.kind == OBJECT}
-		io.vertx.lang.groovy.Converter.unwrapObject(@{param.name})
+		InternalHelper.unwrapObject(@{param.name})
 	@else{param.type.kind == HANDLER}
 		@code{eventType=param.type.args[0]}
 		@code{eventKind=eventType.kind}
@@ -185,7 +185,7 @@ delegate
 			@else{resultKind == JSON_ARRAY}
 				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='List<Object>';callbackObject='event.result().toList()';callbackName=param.name}
 			@else{resultKind == OBJECT}
-				@includeNamed{'resultHandlerTemplate';eventJavaType='Object';eventGroovyType='Object';callbackObject='io.vertx.lang.groovy.Converter.wrapObject(event.result())';callbackName=param.name}
+				@includeNamed{'resultHandlerTemplate';eventJavaType='Object';eventGroovyType='Object';callbackObject='InternalHelper.wrapObject(event.result())';callbackName=param.name}
 			@else{resultKind == API}
 				@comment{'Workaround for https://jira.codehaus.org/browse/GROOVY-6977 : Message<R> -> Message'}
 				@code{resultType=resultType.erased}
@@ -196,7 +196,7 @@ delegate
 		@else{eventKind == OBJECT}
 			new Handler<Object>() {\n
 			      public void handle(Object event) {\n
-			        @{param.name}.handle(io.vertx.lang.groovy.Converter.wrapObject(event))\n
+			        @{param.name}.handle(InternalHelper.wrapObject(event))\n
 			      }\n
 			    }
 		@else{}
@@ -218,6 +218,7 @@ delegate
 @end{}
 
 import groovy.transform.CompileStatic\n
+import io.vertx.lang.groovy.InternalHelper\n
 @comment{"Generate the imports"}
 @foreach{importedType:importedTypes}
 	@if{importedType.kind == API}
