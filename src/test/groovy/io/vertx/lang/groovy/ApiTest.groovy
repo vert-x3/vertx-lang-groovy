@@ -367,4 +367,10 @@ public class ApiTest {
     def ret = obj.fluentMethod("bar");
     assertSame(obj, ret)
   }
+
+  @Test
+  public void testStaticFactoryMethod() {
+    def ret = TestInterface.staticFactoryMethod("bar");
+    assertEquals("bar", ret.string);
+  }
 }
