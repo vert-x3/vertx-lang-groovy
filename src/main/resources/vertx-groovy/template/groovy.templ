@@ -40,6 +40,10 @@ delegate
 		Map<String, Object> @{param.name}
 	@else{param.type.kind == JSON_ARRAY}
 		List<Object> @{param.name}
+	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == JSON_OBJECT}
+		Handler<Map<String, Object>> @{param.name}
+	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == JSON_ARRAY}
+		Handler<List<Object>> @{param.name}
 	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == LIST && param.type.typeArguments[0].typeArguments[0].kind.json}
 		@if{param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
 			@code{groovyJsonType='Map<String, Object>'}
@@ -77,6 +81,10 @@ delegate
 		@code{eventKind=eventType.kind}
 		@if{eventKind == OTHER || eventKind.basic || eventKind == VOID || eventKind == THROWABLE}
 			@{param.name}
+		@else{eventKind == JSON_OBJECT}
+			new Handler<JsonObject>() { public void handle(JsonObject event) { @{param.name}.handle(event.toMap()); } }
+		@else{eventKind == JSON_ARRAY}
+			new Handler<JsonArray>() { public void handle(JsonArray event) { @{param.name}.handle(event.toList()); } }
 		@else{eventKind == LIST || eventKind == SET}
 			@code{elementType=eventType.typeArguments[0]}
 			@code{elementKind=elementType.kind}

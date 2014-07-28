@@ -396,4 +396,17 @@ public class ApiTest {
   public void testJsonParams() {
     obj.methodWithJsonParams([cat:"lion",cheese:"cheddar"], ["house","spider"]);
   }
+
+  @Test
+  public void testJsonHandlerParams() {
+    def count = 0;
+    obj.methodWithHandlerJson({
+      assertEquals([cheese:"stilton"], it)
+      count++;
+    }, {
+      assertEquals(["socks","shoes"], it)
+      count++;
+    });
+    assertEquals(2, count);
+  }
 }
