@@ -305,4 +305,17 @@ public class ApiTest {
     })
     assertEquals(1, count);
   }
+
+  @Test
+  public void testBasicReturns() {
+    assertEquals(123, obj.methodWithByteReturn())
+    assertEquals(12345, obj.methodWithShortReturn())
+    assertEquals(12345464, obj.methodWithIntReturn())
+    assertEquals(65675123, obj.methodWithLongReturn())
+    assertEquals(1.23f, obj.methodWithFloatReturn(), 0)
+    assertEquals(3.34535, obj.methodWithDoubleReturn(), 0)
+    assertEquals(true, obj.methodWithBooleanReturn())
+    assertEquals('Y' as char, obj.methodWithCharReturn())
+    assertEquals("orangutan", obj.methodWithStringReturn())
+  }
 }
