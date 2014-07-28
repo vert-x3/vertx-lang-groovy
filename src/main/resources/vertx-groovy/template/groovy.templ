@@ -76,7 +76,17 @@ delegate
 @end{}
 
 @declare{'resultHandlerTemplate'}
-	new Handler<AsyncResult<@{eventJavaType}>>() { public void handle(AsyncResult<@{eventJavaType}> event) { @{callbackName}.handle( event.succeeded() ? new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(@{callbackObject}) : new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(event.cause())) } }
+	new Handler<AsyncResult<@{eventJavaType}>>() {\n
+	      public void handle(AsyncResult<@{eventJavaType}> event) {\n
+	        def f\n
+	        if (event.succeeded()) {\n
+	          f = new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(@{callbackObject})\n
+	        } else {\n
+	          f = new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(event.cause())\n
+	        }\n
+	        @{callbackName}.handle(f)\n
+	      }\n
+	    }
 @end{}
 
 @declare{'paramArgument'}
@@ -94,9 +104,17 @@ delegate
 		@if{eventKind == OTHER || eventKind.basic || eventKind == VOID || eventKind == THROWABLE}
 			@{param.name}
 		@else{eventKind == JSON_OBJECT}
-			new Handler<JsonObject>() { public void handle(JsonObject event) { @{param.name}.handle(event.toMap()); } }
+			new Handler<JsonObject>() {\n
+			      public void handle(JsonObject event) {\n
+			        @{param.name}.handle(event.toMap());\n
+			      }\n
+			    }
 		@else{eventKind == JSON_ARRAY}
-			new Handler<JsonArray>() { public void handle(JsonArray event) { @{param.name}.handle(event.toList()); } }
+			new Handler<JsonArray>() {\n
+			      public void handle(JsonArray event) {\n
+			        @{param.name}.handle(event.toList());\n
+			      }\n
+			    }
 		@else{eventKind == LIST || eventKind == SET}
 			@code{elementType=eventType.args[0]}
 			@code{elementKind=elementType.kind}
@@ -114,12 +132,22 @@ delegate
 					@code{toGroovyElement='it.toList()'}
 					@code{elementJavaType='JsonArray'}
 				@end{}
-				new Handler<@{collectionName}<@{elementJavaType}>>() { public void handle(@{collectionName}<@{elementJavaType}> event) { @{param.name}.handle(event.collect({@{toGroovyElement}}) as @{collectionName}) } }
+				new Handler<@{collectionName}<@{elementJavaType}>>() {\n
+				      public void handle(@{collectionName}<@{elementJavaType}> event) {\n
+				        @{param.name}.handle(event.collect({\n
+				          @{toGroovyElement}\n
+				        }) as @{collectionName})\n
+				      }\n
+				    }
 			@else{}
 				null
 			@end{}
 		@else{eventKind == API}
-			new Handler<@{eventType.erased.name}>() { public void handle(@{eventType.erased.name} event) { @{param.name}.handle(new @{eventType.erased.simpleName}(event)); } }
+			new Handler<@{eventType.erased.name}>() {\n
+			      public void handle(@{eventType.erased.name} event) {\n
+			        @{param.name}.handle(new @{eventType.erased.simpleName}(event));\n
+			      }\n
+			    }
 		@else{eventKind == ASYNC_RESULT}
 			@code{resultType=eventType.args[0]}
 			@code{resultKind=resultType.kind}
@@ -147,7 +175,7 @@ delegate
 					@end{}
 					@code{eventJavaType=collectionName + '<' + elementJavaType + '>'}
 					@code{eventGroovyType=collectionName + '<' + elementGroovyType + '>'}
-					@code{callbackObject='event.result().collect({ ' + elementType.name + ' element -> ' + toGroovyElement + '}) as ' + collectionName}
+					@code{callbackObject='event.result().collect({\n            ' + elementType.name + ' element ->\n            ' + toGroovyElement + '\n          }) as ' + collectionName}
 					@includeNamed{'resultHandlerTemplate';eventJavaType=eventJavaType;eventGroovyType=eventGroovyType;callbackObject=callbackObject;callbackName=param.name}
 				@else{}
 					null
@@ -166,7 +194,11 @@ delegate
 				null /* Handler<AsyncResult<@{resultType.name}>> with kind @{resultKind} not yet implemented */
 			@end{}
 		@else{eventKind == OBJECT}
-			new Handler<Object>() { public void handle(Object event) { @{param.name}.handle(io.vertx.lang.groovy.Converter.wrapObject(event)) } }
+			new Handler<Object>() {\n
+			      public void handle(Object event) {\n
+			        @{param.name}.handle(io.vertx.lang.groovy.Converter.wrapObject(event))\n
+			      }\n
+			    }
 		@else{}
 			null /* Handler<@{eventType.name}> with kind @{eventKind} not yet implemented */
 		@end{}
