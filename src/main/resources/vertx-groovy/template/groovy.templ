@@ -51,6 +51,13 @@ delegate
 			@code{groovyJsonType='List<Object>'}
 		@end{}
 		Handler<List<@{groovyJsonType}>> @{param.name}
+	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == ASYNC_RESULT && param.type.typeArguments[0].typeArguments[0].kind.json}
+		@if{param.type.typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
+			@code{groovyJsonType='Map<String, Object>'}
+		@else{}
+			@code{groovyJsonType='List<Object>'}
+		@end{}
+		Handler<AsyncResult<@{groovyJsonType}>> @{param.name}
 	@else{param.type.kind == HANDLER && param.type.typeArguments[0].kind == ASYNC_RESULT && param.type.typeArguments[0].typeArguments[0].kind.collection && param.type.typeArguments[0].typeArguments[0].typeArguments[0].kind.json}
 		@if{param.type.typeArguments[0].typeArguments[0].typeArguments[0].kind == JSON_OBJECT}
 			@code{groovyJsonType='Map<String, Object>'}
@@ -140,6 +147,10 @@ delegate
 				@else{}
 					null
 				@end{}
+			@else{asyncResultKind == JSON_OBJECT}
+				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result().toMap()';callbackName=param.name}
+			@else{asyncResultKind == JSON_ARRAY}
+				@includeNamed{'asyncResultHandlerTemplate';eventJavaType=asyncResultType.name;eventGroovyType='List<Object>';callbackObject='event.result().toList()';callbackName=param.name}
 			@else{asyncResultKind == API}
 				@comment{'Workaround for https://jira.codehaus.org/browse/GROOVY-6977 : Message<R> -> Message'}
 				@code{asyncResultType=asyncResultType.erased}

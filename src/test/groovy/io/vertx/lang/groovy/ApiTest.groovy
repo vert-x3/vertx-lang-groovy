@@ -409,4 +409,15 @@ public class ApiTest {
     });
     assertEquals(2, count);
   }
+
+  @Test
+  public void testJsonHandlerAsyncResultParams() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultJson({
+      checker.assertAsyncResult([cheese:"stilton"], it)
+    },{
+      checker.assertAsyncResult(["socks","shoes"], it)
+    });
+    assertEquals(2, checker.count);
+  }
 }
