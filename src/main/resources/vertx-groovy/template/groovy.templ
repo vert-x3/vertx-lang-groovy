@@ -31,7 +31,7 @@ package @{ifacePackageName.replace("io.vertx.", "io.vertx.groovy.")};\n
 @if{method.ownerTypes.size() > 1}
 ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (@{method.ownerTypes.iterator().next().name}) delegate)
 @else{}
-delegate
+this.delegate
 @end{}
 @end{}
 
