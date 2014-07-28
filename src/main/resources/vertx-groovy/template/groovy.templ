@@ -78,11 +78,11 @@ delegate
 @declare{'resultHandlerTemplate'}
 	new Handler<AsyncResult<@{eventJavaType}>>() {\n
 	      public void handle(AsyncResult<@{eventJavaType}> event) {\n
-	        def f\n
+	        AsyncResult<@{eventGroovyType}> f\n
 	        if (event.succeeded()) {\n
-	          f = new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(@{callbackObject})\n
+	          f = InternalHelper.<@{eventGroovyType}>result(@{callbackObject})\n
 	        } else {\n
-	          f = new io.vertx.core.impl.FutureResultImpl<@{eventGroovyType}>(event.cause())\n
+	          f = InternalHelper.<@{eventGroovyType}>failure(event.cause())\n
 	        }\n
 	        @{callbackName}.handle(f)\n
 	      }\n
