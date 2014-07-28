@@ -318,4 +318,10 @@ public class ApiTest {
     assertEquals('Y' as char, obj.methodWithCharReturn())
     assertEquals("orangutan", obj.methodWithStringReturn())
   }
+
+  @Test
+  public void testVertxGenReturn() {
+    RefedInterface1 r = obj.methodWithVertxGenReturn();
+    assertEquals("chaffinch", r.string)
+  }
 }
