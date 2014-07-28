@@ -329,4 +329,9 @@ public class ApiTest {
   public void testListStringReturn() {
     assertEquals(["foo", "bar", "wibble"], obj.methodWithListStringReturn())
   }
+
+  @Test
+  public void testSetStringReturn() {
+    assertEquals(["foo", "bar", "wibble"] as Set, obj.methodWithSetStringReturn())
+  }
 }
