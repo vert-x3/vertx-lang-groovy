@@ -2,6 +2,7 @@ package io.vertx.lang.groovy
 
 import io.vertx.codegen.testmodel.RefedInterface1Impl;
 import io.vertx.codegen.testmodel.TestInterfaceImpl
+import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
 import io.vertx.groovy.codegen.testmodel.RefedInterface1;
 import io.vertx.groovy.codegen.testmodel.TestInterface;
@@ -306,28 +307,65 @@ public class ApiTest {
   }
 
   @Test
-  public void testMethodWithGenericParams() {
+  public void testMethodWithGenericParam() {
+    obj.methodWithGenericParam("String", "foo")
+    obj.methodWithGenericParam("Ref", new RefedInterface1Impl().setString("foo"))
+    obj.methodWithGenericParam("JsonObject", [foo:"hello","bar":123])
+    obj.methodWithGenericParam("JsonArray", ["foo", "bar", "wib"])
+  }
+
+  @Test
+  public void testMethodWithGenericHandler() {
+    def count = 0;
+    obj.methodWithGenericHandler("String", {
+      assertEquals("handlerFoo", it)
+      count++
+    })
+    assertEquals(1, count);
+    count = 0;
+    obj.methodWithGenericHandler("Ref", {
+      io.vertx.codegen.testmodel.RefedInterface1 ref = (io.vertx.codegen.testmodel.RefedInterface1) it;
+      assertEquals("bar", ref.string)
+      count++
+    })
+    assertEquals(1, count);
+    count = 0;
+    obj.methodWithGenericHandler("JsonObject", {
+      assertEquals([foo:"hello","bar":123], it)
+      count++
+    })
+    assertEquals(1, count);
+    count = 0;
+    obj.methodWithGenericHandler("JsonArray", {
+      assertEquals(["foo", "bar", "wib"], it)
+      count++
+    })
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithGenericHandlerAsyncResult() {
     def checker = new AsyncResultChecker();
-    obj.methodWithGenericParams("String", "foo", {
-      checker.assertResult("handlerFoo", it)
-    }, {
+    obj.methodWithGenericHandlerAsyncResult("String", {
       checker.assertAsyncResult("asyncResultHandlerFoo", it)
     })
-    assertEquals(2, checker.count);
+    assertEquals(1, checker.count);
     checker = new AsyncResultChecker();
-    obj.methodWithGenericParams("JsonObject", [foo:"hello","bar":123], {
-      checker.assertResult([foo:"hello","bar":123], it)
-    }, {
+    obj.methodWithGenericHandlerAsyncResult("Ref", {
+      AsyncResult<io.vertx.codegen.testmodel.RefedInterface1> asyncRef = (AsyncResult<io.vertx.codegen.testmodel.RefedInterface1>) it;
+      checker.assertAsyncResult("bar", asyncRef, { it.string })
+    })
+    assertEquals(1, checker.count);
+    checker = new AsyncResultChecker();
+    obj.methodWithGenericHandlerAsyncResult("JsonObject", {
       checker.assertAsyncResult([foo:"hello","bar":123], it)
     })
-    assertEquals(2, checker.count);
+    assertEquals(1, checker.count);
     checker = new AsyncResultChecker();
-    obj.methodWithGenericParams("JsonArray", ["foo", "bar", "wib"], {
-      checker.assertResult(["foo", "bar", "wib"], it)
-    }, {
+    obj.methodWithGenericHandlerAsyncResult("JsonArray", {
       checker.assertAsyncResult(["foo", "bar", "wib"], it)
     })
-    assertEquals(2, checker.count);
+    assertEquals(1, checker.count);
   }
 
   @Test
