@@ -29,7 +29,7 @@ public class CompileTest extends AsyncTestBase {
     Vertx vertx = Vertx.vertx();
     try {
       BlockingQueue<String> deployed = new ArrayBlockingQueue<>(1);
-      vertx.deployVerticle("groovy:verticles/compile/VerticleClass.groovy", new DeploymentOptions(), id -> deployed.offer(id.result()));
+      vertx.deployVerticle("groovy:verticles/compile/VerticleClass.groovy", DeploymentOptions.options(), id -> deployed.offer(id.result()));
       started.await(10, TimeUnit.SECONDS);
       String id = deployed.poll(10, TimeUnit.SECONDS);
       vertx.undeployVerticle(id, null);

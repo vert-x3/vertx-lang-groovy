@@ -89,7 +89,7 @@ this.delegate
 
 @declare{'paramArgument'}
 	@if{param.type.kind == OPTIONS}
-		new @{param.type.name}(new io.vertx.core.json.JsonObject(@{param.name}))
+		@{param.type.name}.optionsFromJson(new io.vertx.core.json.JsonObject(@{param.name}))
 	@else{param.type.kind.json}
 		new @{param.type.name}(@{param.name})
 	@else{param.type.kind == API}
