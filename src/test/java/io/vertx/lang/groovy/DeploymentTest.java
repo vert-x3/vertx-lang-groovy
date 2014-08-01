@@ -1,5 +1,6 @@
 package io.vertx.lang.groovy;
 
+import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.Script;
 import io.vertx.core.AsyncResult;
@@ -120,6 +121,22 @@ public class DeploymentTest {
         vertx.deployVerticle(
             "groovy:io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
             DeploymentOptions.options().setConfig(new JsonObject()),
+            onDeploy));
+    assertTrue(started.get());
+  }
+
+  @Test
+  public void testReuseBindingInScript() throws Exception {
+    Class clazz = assertScript("ReuseBindingVerticleScript");
+    Script script = (Script) clazz.newInstance();
+    Binding binding = new Binding();
+    binding.setVariable("myobject", new Object());
+    script.setBinding(binding);
+    ScriptVerticle verticle = new ScriptVerticle(script);
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticleInstance(
+            verticle,
+            DeploymentOptions.options(),
             onDeploy));
     assertTrue(started.get());
   }

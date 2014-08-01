@@ -27,11 +27,13 @@ public class ScriptVerticle extends AbstractVerticle {
 
   @Override
   public void start() throws Exception {
-    Binding binding = new Binding();
+    Binding binding = script.getBinding();
+    if (script.getBinding() == null) {
+      script.setBinding(binding = new Binding());
+    }
     binding.setVariable("vertx", new Vertx(vertx));
     binding.setVariable("deploymentID", deploymentID);
     binding.setVariable("config", config != null ? config.toMap() : null);
-    script.setBinding(binding);
     script.run();
   }
 
