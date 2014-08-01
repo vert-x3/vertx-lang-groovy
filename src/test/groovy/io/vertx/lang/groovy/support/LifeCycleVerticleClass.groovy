@@ -6,7 +6,7 @@ import io.vertx.lang.groovy.DeploymentTest;
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-public class VerticleClass extends GroovyVerticle {
+public class LifeCycleVerticleClass extends GroovyVerticle {
 
     @Override
     void start() throws Exception {
