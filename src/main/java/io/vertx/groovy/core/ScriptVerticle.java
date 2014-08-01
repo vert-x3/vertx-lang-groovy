@@ -19,6 +19,9 @@ public class ScriptVerticle extends AbstractVerticle {
   @Override
   public void start() throws Exception {
     Binding binding = new Binding();
+    binding.setVariable("vertx", vertx);
+    binding.setVariable("deploymentID", deploymentID);
+    binding.setVariable("config", config);
     script.setBinding(binding);
     script.run();
   }
