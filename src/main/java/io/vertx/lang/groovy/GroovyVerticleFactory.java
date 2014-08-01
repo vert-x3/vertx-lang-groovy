@@ -17,6 +17,7 @@ import io.vertx.core.logging.impl.LoggerFactory;
 import io.vertx.core.spi.VerticleFactory;
 import io.vertx.groovy.core.Context;
 import io.vertx.groovy.core.GroovyVerticle;
+import io.vertx.groovy.core.ScriptVerticle;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.InputStream;
@@ -138,22 +139,7 @@ public class GroovyVerticleFactory implements VerticleFactory {
       verticle = groovyVerticle.asJavaVerticle();
     } else if (instance instanceof Script) {
       Script script = (Script) instance;
-      Binding binding = new Binding();
-      script.setBinding(binding);
-      verticle = new AbstractVerticle() {
-        @Override
-        public void start() throws Exception {
-          script.run();
-        }
-
-        @Override
-        public void stop() throws Exception {
-          try {
-            script.invokeMethod("vertxStop", null);
-          } catch (MissingMethodException ignore) {
-          }
-        }
-      };
+      verticle = new ScriptVerticle(script);
     } else {
       throw new UnsupportedOperationException("Not yet implemented");
     }

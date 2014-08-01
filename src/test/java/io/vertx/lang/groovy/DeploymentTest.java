@@ -1,11 +1,13 @@
 package io.vertx.lang.groovy;
 
 import groovy.lang.GroovyClassLoader;
+import groovy.lang.Script;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.groovy.core.GroovyVerticle;
+import io.vertx.groovy.core.ScriptVerticle;
 import junit.framework.AssertionFailedError;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,12 +64,24 @@ public class DeploymentTest {
   }
 
   @Test
-  public void testDeployVerticleInstance() throws Exception {
+  public void testDeployVerticleClassInstance() throws Exception {
     Class clazz = assertScript("LifeCycleVerticleClass");
     GroovyVerticle verticle = (GroovyVerticle) clazz.newInstance();
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticleInstance(
             verticle.asJavaVerticle(),
+            DeploymentOptions.options(),
+            onDeploy));
+  }
+
+  @Test
+  public void testDeployVerticleScriptInstance() throws Exception {
+    Class clazz = assertScript("LifeCycleVerticleScript");
+    Script script = (Script) clazz.newInstance();
+    ScriptVerticle verticle = new ScriptVerticle(script);
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticleInstance(
+            verticle,
             DeploymentOptions.options(),
             onDeploy));
   }
