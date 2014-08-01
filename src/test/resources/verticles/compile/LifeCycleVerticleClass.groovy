@@ -10,11 +10,11 @@ public class VerticleClass extends GroovyVerticle {
 
     @Override
     void start() throws Exception {
-        DeploymentTest.started.await()
+        DeploymentTest.started.set(true)
     }
 
     @Override
     void stop() throws Exception {
-        DeploymentTest.stopped.await()
+        DeploymentTest.stopped.set(true)
     }
 }
