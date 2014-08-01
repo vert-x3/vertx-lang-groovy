@@ -80,6 +80,17 @@ public class DeploymentTest {
   }
 
   @Test
+  public void testDeployVerticleScript() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "groovy:io/vertx/lang/groovy/LifeCycleVerticleScript.groovy",
+            DeploymentOptions.options(),
+            onDeploy));
+    assertTrue(started.get());
+    assertTrue(stopped.get());
+  }
+
+  @Test
   public void testDeployVerticleScriptInstance() throws Exception {
     Class clazz = assertScript("LifeCycleVerticleScript");
     Script script = (Script) clazz.newInstance();
@@ -94,28 +105,17 @@ public class DeploymentTest {
   }
 
   @Test
-  public void testDeployVerticleInClass() throws Exception {
+  public void testResolveVertxInClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:io/vertx/lang/groovy/LifeCycleVerticleScript.groovy",
-            DeploymentOptions.options(),
-            onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
-  }
-
-  @Test
-  public void testResolveVertxInScript() throws Exception {
-    assertDeploy((vertx, onDeploy) ->
-        vertx.deployVerticle(
-            "groovy:io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
+            "groovy:io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
             DeploymentOptions.options().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(started.get());
   }
 
   @Test
-  public void testResolveVertxScript() throws Exception {
+  public void testResolveVertxInScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             "groovy:io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
