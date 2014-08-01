@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
@@ -47,10 +48,25 @@ public class DeploymentTest extends AsyncTestBase {
 
   @Test
   public void testDeployVerticleGroovyScript() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "groovy:verticles/compile/VerticleScript.groovy",
+            DeploymentOptions.options(),
+            onDeploy));
+  }
+
+  @Test
+  public void testDeployVerticleGroovyScriptNoStop() throws Exception {
     Vertx vertx = Vertx.vertx();
     try {
-      vertx.deployVerticle("groovy:verticles/compile/VerticleScript.groovy");
-      started.await(10, TimeUnit.SECONDS);
+      BlockingQueue<AsyncResult<String>> deployed = new ArrayBlockingQueue<>(1);
+      vertx.deployVerticle("groovy:verticles/compile/VerticleScriptNoStop.groovy", DeploymentOptions.options(), deployed::add);
+      AsyncResult<String> deployedResult = deployed.poll(10, TimeUnit.SECONDS);
+      assertTrue(deployedResult.succeeded());
+      BlockingQueue<AsyncResult<Void>> undeployed = new ArrayBlockingQueue<>(1);
+      vertx.undeployVerticle(deployedResult.result(), undeployed::add);
+      AsyncResult<?> undeployedResult = undeployed.poll(10, TimeUnit.SECONDS);
+      assertTrue(undeployedResult.succeeded());
     } finally {
       vertx.close();
     }

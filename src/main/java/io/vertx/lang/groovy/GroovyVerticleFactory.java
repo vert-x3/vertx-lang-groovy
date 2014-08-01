@@ -4,6 +4,8 @@ import groovy.lang.Binding;
 import groovy.lang.Closure;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyCodeSource;
+import groovy.lang.MetaMethod;
+import groovy.lang.MissingMethodException;
 import groovy.lang.Script;
 import groovy.util.ConfigObject;
 import groovy.util.ConfigSlurper;
@@ -142,6 +144,14 @@ public class GroovyVerticleFactory implements VerticleFactory {
         @Override
         public void start() throws Exception {
           script.run();
+        }
+
+        @Override
+        public void stop() throws Exception {
+          try {
+            script.invokeMethod("vertxStop", null);
+          } catch (MissingMethodException ignore) {
+          }
         }
       };
     } else {
