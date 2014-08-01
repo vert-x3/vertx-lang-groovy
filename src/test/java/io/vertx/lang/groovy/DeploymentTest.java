@@ -1,10 +1,11 @@
 package io.vertx.lang.groovy;
 
+import groovy.lang.GroovyClassLoader;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.lang.groovy.support.LifeCycleVerticleClass;
+import io.vertx.groovy.core.GroovyVerticle;
 import junit.framework.AssertionFailedError;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,17 @@ public class DeploymentTest {
     }
   }
 
+  private Class assertScript(String script) {
+    GroovyClassLoader loader = new GroovyClassLoader(getClass().getClassLoader());
+    try {
+      return loader.loadClass(getClass().getPackage().getName() + "." + script);
+    } catch (ClassNotFoundException e) {
+      AssertionFailedError afe = new AssertionFailedError();
+      afe.initCause(e);
+      throw afe;
+    }
+  }
+
   @Before
   public void before() {
     started.set(false);
@@ -44,16 +56,18 @@ public class DeploymentTest {
   public void testDeployVerticleGroovyClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:verticles/compile/LifeCycleVerticleClass.groovy",
+            "groovy:io/vertx/lang/groovy/LifeCycleVerticleClass.groovy",
             DeploymentOptions.options(),
             onDeploy));
   }
 
   @Test
   public void testDeployVerticleInstance() throws Exception {
+    Class clazz = assertScript("LifeCycleVerticleClass");
+    GroovyVerticle verticle = (GroovyVerticle) clazz.newInstance();
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticleInstance(
-            new LifeCycleVerticleClass().asJavaVerticle(),
+            verticle.asJavaVerticle(),
             DeploymentOptions.options(),
             onDeploy));
   }
@@ -62,7 +76,7 @@ public class DeploymentTest {
   public void testDeployVerticleGroovyScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:verticles/compile/LifeCycleVerticleScript.groovy",
+            "groovy:io/vertx/lang/groovy/LifeCycleVerticleScript.groovy",
             DeploymentOptions.options(),
             onDeploy));
   }
@@ -72,7 +86,7 @@ public class DeploymentTest {
     Vertx vertx = Vertx.vertx();
     try {
       BlockingQueue<AsyncResult<String>> deployed = new ArrayBlockingQueue<>(1);
-      vertx.deployVerticle("groovy:verticles/compile/NoStopVerticleScript.groovy", DeploymentOptions.options(), deployed::add);
+      vertx.deployVerticle("groovy:io/vertx/lang/groovy//NoStopVerticleScript.groovy", DeploymentOptions.options(), deployed::add);
       AsyncResult<String> deployment = deployed.poll(10, TimeUnit.SECONDS);
       String deploymentId = assertResult(deployment);
       BlockingQueue<AsyncResult<Void>> undeployed = new ArrayBlockingQueue<>(1);

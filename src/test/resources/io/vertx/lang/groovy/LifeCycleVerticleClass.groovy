@@ -1,4 +1,4 @@
-package verticles.compile;
+package io.vertx.lang.groovy;
 
 import io.vertx.groovy.core.GroovyVerticle
 import io.vertx.lang.groovy.DeploymentTest;
