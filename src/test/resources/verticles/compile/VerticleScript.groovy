@@ -1,5 +1,5 @@
 package verticles.compile
 
-import io.vertx.lang.groovy.CompileTest
+import io.vertx.lang.groovy.DeploymentTest
 
-CompileTest.started.await();
+DeploymentTest.started.await();

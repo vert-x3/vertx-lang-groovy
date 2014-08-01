@@ -133,26 +133,7 @@ public class GroovyVerticleFactory implements VerticleFactory {
     Verticle verticle;
     if (instance instanceof GroovyVerticle) {
       GroovyVerticle groovyVerticle = (GroovyVerticle) instance;
-      verticle = new AbstractVerticle() {
-        @Override
-        public void setDeploymentID(String deploymentID) {
-          super.setDeploymentID(deploymentID);
-          groovyVerticle.setDeploymentID(deploymentID);
-        }
-        @Override
-        public void setVertx(Vertx vertx) {
-          super.setVertx(vertx);
-          groovyVerticle.setVertx(new io.vertx.groovy.core.Vertx(vertx));
-        }
-        @Override
-        public void start() throws Exception {
-          groovyVerticle.start();
-        }
-        @Override
-        public void stop() throws Exception {
-          groovyVerticle.stop();
-        }
-      };
+      verticle = groovyVerticle.asJavaVerticle();
     } else if (instance instanceof Script) {
       Script script = (Script) instance;
       Binding binding = new Binding();
