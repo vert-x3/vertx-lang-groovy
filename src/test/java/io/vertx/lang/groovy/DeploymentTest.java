@@ -79,11 +79,12 @@ public class DeploymentTest extends AsyncTestBase {
   private void assertDeploy(Deployer deployer) throws Exception {
     Vertx vertx = Vertx.vertx();
     try {
-      BlockingQueue<String> deployed = new ArrayBlockingQueue<>(1);
-      deployer.deploy(vertx, result -> deployed.offer(result.result()));
+      BlockingQueue<AsyncResult<String>> deployed = new ArrayBlockingQueue<>(1);
+      deployer.deploy(vertx, deployed::add);
       started.await(10, TimeUnit.SECONDS);
-      String id = deployed.poll(10, TimeUnit.SECONDS);
-      vertx.undeployVerticle(id, null);
+      AsyncResult<String> deployment = deployed.poll(10, TimeUnit.SECONDS);
+      assertTrue(deployment.succeeded());
+      vertx.undeployVerticle(deployment.result(), null);
       stopped.await(10, TimeUnit.SECONDS);
     } finally {
       vertx.close();
