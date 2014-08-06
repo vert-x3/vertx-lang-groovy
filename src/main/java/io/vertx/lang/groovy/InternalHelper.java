@@ -17,7 +17,7 @@
 package io.vertx.lang.groovy;
 
 import io.vertx.core.AsyncResult;
-import io.vertx.core.impl.FutureResultImpl;
+import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -48,10 +48,10 @@ public class InternalHelper {
   }
 
   public static <V> AsyncResult<V> result(V value) {
-    return new FutureResultImpl<>(value);
+    return Future.completedFuture(value);
   }
 
   public static <V> AsyncResult<V> failure(Throwable t) {
-    return new FutureResultImpl<>(t);
+    return Future.completedFuture(t);
   }
 }
