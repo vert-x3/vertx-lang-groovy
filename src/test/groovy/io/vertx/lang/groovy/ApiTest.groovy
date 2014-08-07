@@ -63,30 +63,26 @@ public class ApiTest {
   @Test
   public void testMethodWithHandlerAsyncResultBasicTypes() {
     def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultBasicTypes(false,
-      { checker.assertAsyncResult((byte) 123, it); },
-      { checker.assertAsyncResult((short) 12345, it); },
-      { checker.assertAsyncResult(1234567, it); },
-      { checker.assertAsyncResult(1265615234l, it); },
-      { checker.assertAsyncResult(12.345f, it); },
-      { checker.assertAsyncResult(12.34566d, it); },
-      { checker.assertAsyncResult(true, it); },
-      { checker.assertAsyncResult('X' as char, it); },
-      { checker.assertAsyncResult("quux!", it); },
-    );
+    obj.methodWithHandlerAsyncResultByte(false, { checker.assertAsyncResult((byte) 123, it); });
+    obj.methodWithHandlerAsyncResultShort(false, { checker.assertAsyncResult((short) 12345, it); });
+    obj.methodWithHandlerAsyncResultInteger(false, { checker.assertAsyncResult(1234567, it); });
+    obj.methodWithHandlerAsyncResultLong(false, { checker.assertAsyncResult(1265615234l, it); });
+    obj.methodWithHandlerAsyncResultFloat(false, { checker.assertAsyncResult(12.345f, it); });
+    obj.methodWithHandlerAsyncResultDouble(false, { checker.assertAsyncResult(12.34566d, it); });
+    obj.methodWithHandlerAsyncResultBoolean(false, { checker.assertAsyncResult(true, it); });
+    obj.methodWithHandlerAsyncResultCharacter(false, { checker.assertAsyncResult('X' as char, it); });
+    obj.methodWithHandlerAsyncResultString(false, { checker.assertAsyncResult("quux!", it); });
     assertEquals(9, checker.count);
     checker.count = 0;
-    obj.methodWithHandlerAsyncResultBasicTypes(true,
-      { checker.assertAsyncFailure("foobar!", it); },
-      { checker.assertAsyncFailure("foobar!", it); },
-      { checker.assertAsyncFailure("foobar!", it); },
-      { checker.assertAsyncFailure("foobar!", it); },
-      { checker.assertAsyncFailure("foobar!", it); },
-      { checker.assertAsyncFailure("foobar!", it); },
-      { checker.assertAsyncFailure("foobar!", it); },
-      { checker.assertAsyncFailure("foobar!", it); },
-      { checker.assertAsyncFailure("foobar!", it); }
-    );
+    obj.methodWithHandlerAsyncResultByte(true, { checker.assertAsyncFailure("foobar!", it); });
+    obj.methodWithHandlerAsyncResultShort(true, { checker.assertAsyncFailure("foobar!", it); });
+    obj.methodWithHandlerAsyncResultInteger(true, { checker.assertAsyncFailure("foobar!", it); });
+    obj.methodWithHandlerAsyncResultLong(true, { checker.assertAsyncFailure("foobar!", it); });
+    obj.methodWithHandlerAsyncResultFloat(true, { checker.assertAsyncFailure("foobar!", it); });
+    obj.methodWithHandlerAsyncResultDouble(true, { checker.assertAsyncFailure("foobar!", it); });
+    obj.methodWithHandlerAsyncResultBoolean(true, { checker.assertAsyncFailure("foobar!", it); });
+    obj.methodWithHandlerAsyncResultCharacter(true, { checker.assertAsyncFailure("foobar!", it); });
+    obj.methodWithHandlerAsyncResultString(true, { checker.assertAsyncFailure("foobar!", it); });
     assertEquals(9, checker.count);
   }
 
@@ -142,12 +138,10 @@ public class ApiTest {
   @Test
   public void testMethodWithHandlerAsyncResultListAndSet() {
     def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultListAndSet(
-      { checker.assertAsyncResult(["foo", "bar", "wibble"], it) },
-      { checker.assertAsyncResult([5, 12, 100], it) },
-      { checker.assertAsyncResult(["foo", "bar", "wibble"] as Set, it) },
-      { checker.assertAsyncResult([5, 12, 100] as Set, it) }
-    );
+    obj.methodWithHandlerAsyncResultListString({ checker.assertAsyncResult(["foo", "bar", "wibble"], it) });
+    obj.methodWithHandlerAsyncResultListInteger({ checker.assertAsyncResult([5, 12, 100], it) });
+    obj.methodWithHandlerAsyncResultSetString({ checker.assertAsyncResult(["foo", "bar", "wibble"] as Set, it) });
+    obj.methodWithHandlerAsyncResultSetInteger({ checker.assertAsyncResult([5, 12, 100] as Set, it) });
     assertEquals(4, checker.count);
   }
 
@@ -491,9 +485,10 @@ public class ApiTest {
   @Test
   public void testJsonHandlerAsyncResultParams() {
     def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultJson({
+    obj.methodWithHandlerAsyncResultJsonObject({
       checker.assertAsyncResult([cheese:"stilton"], it)
-    },{
+    });
+    obj.methodWithHandlerAsyncResultJsonArray({
       checker.assertAsyncResult(["socks","shoes"], it)
     });
     assertEquals(2, checker.count);
