@@ -261,7 +261,7 @@
       <id>example</id>
       <properties>
         <skipTests>true</skipTests>
-        <example>HelloWorld</example>
+        <example.name>http</example.name>
       </properties>
       <build>
         <plugins>
@@ -275,7 +275,13 @@
                 </goals>
                 <configuration>
                   <classpathScope>test</classpathScope>
-                  <mainClass>io.vertx.lang.groovy.examples.${example}</mainClass>
+                  <mainClass>io.vertx.lang.groovy.examples.Runner</mainClass>
+                  <arguments>
+                    <argument>${example.name}</argument>
+                  </arguments>
+                  <additionalClasspathElements>
+                    <classpathElement>src/examples/raw</classpathElement>
+                  </additionalClasspathElements>
                 </configuration>
                 <phase>test</phase>
               </execution>
