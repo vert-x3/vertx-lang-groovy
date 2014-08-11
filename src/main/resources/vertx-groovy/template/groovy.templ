@@ -288,12 +288,8 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 		@end{}
 		@if{method.returnType.kind == CLASS_OBJECT}
 			@code{cachedType=method.returnType.simpleName}
-		    def ret = @includeNamed{'invokeDelegate';method:method};\n
-		    if (ret instanceof io.vertx.core.json.JsonObject) {\n
-		      ret = (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonObject) ret)?.toMap();\n
-		    } else if (ret instanceof io.vertx.core.json.JsonArray) {\n
-		      ret = (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonArray) ret)?.toList();\n
-		    }\n
+		    // This cast is cleary flawed\n
+		    def ret = (@{method.returnType.simpleName}) InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method:method});\n
 		@else{method.returnType.kind == CLASS_JSON_OBJECT}
 			@code{cachedType='Map<String, Object>'}
 		    def ret = @includeNamed{'invokeDelegate';method:method}?.toMap();\n

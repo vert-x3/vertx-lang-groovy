@@ -20,6 +20,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.groovy.core.buffer.Buffer;
 
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,8 @@ public class InternalHelper {
       return new JsonObject((Map) obj);
     } else if (obj instanceof List) {
       return new JsonArray((List<Object>) obj);
+    } else if (obj instanceof Buffer) {
+      return ((Buffer) obj).getDelegate();
     }
     return obj;
   }
@@ -43,6 +46,8 @@ public class InternalHelper {
       return ((JsonObject) obj).toMap();
     } else if (obj instanceof JsonArray) {
       return ((JsonArray) obj).toList();
+    } else if (obj instanceof io.vertx.core.buffer.Buffer) {
+      return new Buffer((io.vertx.core.buffer.Buffer) obj);
     }
     return obj;
   }
