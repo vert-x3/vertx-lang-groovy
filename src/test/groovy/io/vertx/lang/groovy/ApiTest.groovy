@@ -539,7 +539,7 @@ public class ApiTest {
 
   @Test
   public void testJsonReturns() {
-    def ret = obj.methodwithJsonObjectReturn();
+    def ret = obj.methodWithJsonObjectReturn();
     assertEquals([cheese:"stilton"], ret);
     ret = obj.methodWithJsonArrayReturn();
     assertEquals(["socks", "shoes"], ret);
