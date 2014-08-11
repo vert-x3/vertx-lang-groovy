@@ -89,9 +89,9 @@ this.delegate
 
 @declare{'paramArgument'}
 	@if{param.type.kind == CLASS_OPTIONS}
-		@{param.type.name}.optionsFromJson(new io.vertx.core.json.JsonObject(@{param.name}))
+		@{param.name} != null ? @{param.type.name}.optionsFromJson(new io.vertx.core.json.JsonObject(@{param.name})) : null
 	@else{param.type.kind.json}
-		new @{param.type.name}(@{param.name})
+		@{param.name} != null ? new @{param.type.name}(@{param.name}) : null
 	@else{param.type.kind == CLASS_API}
 		@{param.name}.delegate
 	@else{param.type.kind == CLASS_OBJECT}
@@ -104,13 +104,13 @@ this.delegate
 		@else{eventKind == CLASS_JSON_OBJECT}
 			new Handler<JsonObject>() {\n
 			      public void handle(JsonObject event) {\n
-			        @{param.name}.handle(event.toMap());\n
+			        @{param.name}.handle(event?.toMap());\n
 			      }\n
 			    }
 		@else{eventKind == CLASS_JSON_ARRAY}
 			new Handler<JsonArray>() {\n
 			      public void handle(JsonArray event) {\n
-			        @{param.name}.handle(event.toList());\n
+			        @{param.name}.handle(event?.toList());\n
 			      }\n
 			    }
 		@else{eventKind == CLASS_LIST || eventKind == CLASS_SET}
@@ -124,10 +124,10 @@ this.delegate
 					@code{toGroovyElement='new ' + elementType.simpleName + '(it)'}
 					@code{elementJavaType=elementType.name}
 				@else{elementKind == CLASS_JSON_OBJECT}
-					@code{toGroovyElement='it.toMap()'}
+					@code{toGroovyElement='it?.toMap()'}
 					@code{elementJavaType='JsonObject'}
 				@else{}
-					@code{toGroovyElement='it.toList()'}
+					@code{toGroovyElement='it?.toList()'}
 					@code{elementJavaType='JsonArray'}
 				@end{}
 				new Handler<@{collectionName}<@{elementJavaType}>>() {\n
@@ -163,11 +163,11 @@ this.delegate
 						@code{elementJavaType=elementType.name}
 						@code{elementGroovyType=elementType.simpleName}
 					@else{elementKind == CLASS_JSON_OBJECT}
-						@code{toGroovyElement='element.toMap()'}
+						@code{toGroovyElement='element?.toMap()'}
 						@code{elementJavaType='JsonObject'}
 						@code{elementGroovyType='Map<String, Object>'}
 					@else{}
-						@code{toGroovyElement='element.toList()'}
+						@code{toGroovyElement='element?.toList()'}
 						@code{elementJavaType='JsonArray'}
 						@code{elementGroovyType='List<Object>'}
 					@end{}
@@ -179,9 +179,9 @@ this.delegate
 					null
 				@end{}
 			@else{resultKind == CLASS_JSON_OBJECT}
-				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result().toMap()';callbackName=param.name}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result()?.toMap()';callbackName=param.name}
 			@else{resultKind == CLASS_JSON_ARRAY}
-				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='List<Object>';callbackObject='event.result().toList()';callbackName=param.name}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='List<Object>';callbackObject='event.result()?.toList()';callbackName=param.name}
 			@else{resultKind == CLASS_OBJECT}
 				@includeNamed{'resultHandlerTemplate';eventJavaType='Object';eventGroovyType='Object';callbackObject='InternalHelper.wrapObject(event.result())';callbackName=param.name}
 			@else{resultKind == CLASS_API}
@@ -290,16 +290,16 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 			@code{cachedType=method.returnType.simpleName}
 		    def ret = @includeNamed{'invokeDelegate';method:method};\n
 		    if (ret instanceof io.vertx.core.json.JsonObject) {\n
-		      ret = (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonObject) ret).toMap();\n
+		      ret = (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonObject) ret)?.toMap();\n
 		    } else if (ret instanceof io.vertx.core.json.JsonArray) {\n
-		      ret = (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonArray) ret).toList();\n
+		      ret = (@{method.returnType.simpleName}) ((io.vertx.core.json.JsonArray) ret)?.toList();\n
 		    }\n
 		@else{method.returnType.kind == CLASS_JSON_OBJECT}
 			@code{cachedType='Map<String, Object>'}
-		    def ret = @includeNamed{'invokeDelegate';method:method}.toMap();\n
+		    def ret = @includeNamed{'invokeDelegate';method:method}?.toMap();\n
 		@else{method.returnType.kind == CLASS_JSON_ARRAY}
 			@code{cachedType='List<Object>'}
-		    def ret = @includeNamed{'invokeDelegate';method:method}.toList();\n
+		    def ret = @includeNamed{'invokeDelegate';method:method}?.toList();\n
 		@else{!method.returnType.name.startsWith('io.vertx.')}
 			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method:method};\n

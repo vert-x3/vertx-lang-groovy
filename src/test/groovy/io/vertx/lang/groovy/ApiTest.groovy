@@ -124,6 +124,11 @@ public class ApiTest {
   }
 
   @Test
+  public void testNullOptionsParam() {
+    obj.methodWithNullOptionsParam(null);
+  }
+
+  @Test
   public void testMethodWithHandlerListAndSet() {
     def count = 0;
     obj.methodWithHandlerListAndSet(
@@ -193,10 +198,29 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerListNullJsonObject() {
+    def count = 0;
+    obj.methodWithHandlerListNullJsonObject({
+      assertEquals([null], it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultListJsonObject() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListJsonObject({
       checker.assertAsyncResult([[cheese:"stilton"],[socks:"tartan"]], it)
+    })
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultListNullJsonObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListNullJsonObject({
+      checker.assertAsyncResult([null], it)
     })
     assertEquals(1, checker.count);
   }
@@ -212,10 +236,29 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerSetNullJsonObject() {
+    def count = 0;
+    obj.methodWithHandlerSetNullJsonObject({
+      assertEquals([null] as Set, it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultSetJsonObject() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetJsonObject({
       checker.assertAsyncResult([[cheese:"stilton"],[socks:"tartan"]] as Set, it)
+    })
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetNullJsonObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetNullJsonObject({
+      checker.assertAsyncResult([null] as Set, it)
     })
     assertEquals(1, checker.count);
   }
@@ -231,10 +274,29 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerListNullJsonArray() {
+    def count = 0;
+    obj.methodWithHandlerListNullJsonArray({
+      assertEquals([null], it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultListJsonArray() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListJsonArray({
       checker.assertAsyncResult([["green","blue"],["yellow","purple"]], it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultListNullJsonArray() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListNullJsonArray({
+      checker.assertAsyncResult([null], it)
     });
     assertEquals(1, checker.count);
   }
@@ -250,10 +312,29 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerSetNullJsonArray() {
+    def count = 0;
+    obj.methodWithHandlerSetNullJsonArray({
+      assertEquals([null] as Set, it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultSetJsonArray() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetJsonArray({
       checker.assertAsyncResult([["green","blue"],["yellow","purple"]] as Set, it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultNullSetJsonArray() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetNullJsonArray({
+      checker.assertAsyncResult([null] as Set, it)
     });
     assertEquals(1, checker.count);
   }
@@ -465,8 +546,21 @@ public class ApiTest {
   }
 
   @Test
+  public void testNullJsonReturns() {
+    def ret = obj.methodWithNullJsonObjectReturn();
+    assertEquals(null, ret);
+    ret = obj.methodWithNullJsonArrayReturn();
+    assertEquals(null, ret);
+  }
+
+  @Test
   public void testJsonParams() {
     obj.methodWithJsonParams([cat:"lion",cheese:"cheddar"], ["house","spider"]);
+  }
+
+  @Test
+  public void testNullJsonParams() {
+    obj.methodWithNullJsonParams(null, null);
   }
 
   @Test
@@ -483,6 +577,19 @@ public class ApiTest {
   }
 
   @Test
+  public void testNullJsonHandlerParams() {
+    def count = 0;
+    obj.methodWithHandlerNullJson({
+      assertEquals(null, it)
+      count++;
+    }, {
+      assertEquals(null, it)
+      count++;
+    });
+    assertEquals(2, count);
+  }
+
+  @Test
   public void testJsonHandlerAsyncResultParams() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultJsonObject({
@@ -490,6 +597,18 @@ public class ApiTest {
     });
     obj.methodWithHandlerAsyncResultJsonArray({
       checker.assertAsyncResult(["socks","shoes"], it)
+    });
+    assertEquals(2, checker.count);
+  }
+
+  @Test
+  public void testNullJsonHandlerAsyncResultParams() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultNullJsonObject({
+      checker.assertAsyncResult(null, it)
+    });
+    obj.methodWithHandlerAsyncResultNullJsonArray({
+      checker.assertAsyncResult(null, it)
     });
     assertEquals(2, checker.count);
   }
