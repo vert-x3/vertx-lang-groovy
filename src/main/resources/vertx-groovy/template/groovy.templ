@@ -276,10 +276,10 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	@end{}
 	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{', '}> @end{}@includeNamed{'returnTypeTemplate';type=method.returnType} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param}@end{', '}) {\n
 	@if{method.fluent}
-	    @includeNamed{'invokeDelegate';method:method};\n
+	    @includeNamed{'invokeDelegate';method=method};\n
 	    return this;\n
 	@else{method.returnType.name.equals('void')}
-	    @includeNamed{'invokeDelegate';method:method};\n
+	    @includeNamed{'invokeDelegate';method=method};\n
 	@else{}
 		@if{method.cacheReturn}
 		    if (cached_@{cacheDecls.size()} != null) {\n
@@ -289,19 +289,19 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 		@if{method.returnType.kind == CLASS_OBJECT}
 			@code{cachedType=method.returnType.simpleName}
 		    // This cast is cleary flawed\n
-		    def ret = (@{method.returnType.simpleName}) InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method:method});\n
+		    def ret = (@{method.returnType.simpleName}) InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
 		@else{method.returnType.kind == CLASS_JSON_OBJECT}
 			@code{cachedType='Map<String, Object>'}
-		    def ret = @includeNamed{'invokeDelegate';method:method}?.toMap();\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.toMap();\n
 		@else{method.returnType.kind == CLASS_JSON_ARRAY}
 			@code{cachedType='List<Object>'}
-		    def ret = @includeNamed{'invokeDelegate';method:method}?.toList();\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.toList();\n
 		@else{!method.returnType.name.startsWith('io.vertx.')}
 			@code{cachedType=method.returnType.name}
-		    def ret = @includeNamed{'invokeDelegate';method:method};\n
+		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@else{}
 			@code{cachedType=method.returnType.simpleName}
-		    def ret= new @{method.returnType.simpleName}(@includeNamed{'invokeDelegate';method:method});\n
+		    def ret= new @{method.returnType.simpleName}(@includeNamed{'invokeDelegate';method=method});\n
 		@end{}
 		@if{method.cacheReturn}
 		    cached_@{cacheDecls.size()} = ret;\n
