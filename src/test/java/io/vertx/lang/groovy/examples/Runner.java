@@ -73,7 +73,7 @@ public class Runner {
   public static void deploySequentially(List<String> verticles) {
     if (verticles.size() > 0) {
       String verticle = verticles.get(0);
-      vertx.deployVerticle(verticle, DeploymentOptions.options(), result -> {
+      vertx.deployVerticle(verticle, result -> {
         if (result.succeeded()) {
           System.out.println("Deployed " + verticle);
           deploySequentially(verticles.subList(1, verticles.size()));
