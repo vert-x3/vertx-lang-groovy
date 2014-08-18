@@ -254,43 +254,4 @@
     </plugins>
   </build>
 
-  <profiles>
-
-    <!-- Run with "mvn test -Pexample" -->
-    <profile>
-      <id>example</id>
-      <properties>
-        <skipTests>true</skipTests>
-        <example.name>http</example.name>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>java</goal>
-                </goals>
-                <configuration>
-                  <classpathScope>test</classpathScope>
-                  <mainClass>io.vertx.lang.groovy.examples.Runner</mainClass>
-                  <arguments>
-                    <argument>${example.name}</argument>
-                  </arguments>
-                  <additionalClasspathElements>
-                    <classpathElement>src/examples/raw</classpathElement>
-                  </additionalClasspathElements>
-                </configuration>
-                <phase>test</phase>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
-
 </project>
