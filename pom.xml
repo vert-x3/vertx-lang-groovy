@@ -195,8 +195,8 @@
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
               <optionMap>
-                <nameTemplate>${project.basedir}/src/main/groovy/@{typeFQN.replace("io.vertx.core", "io.vertx.groovy.core").replace(".", "/")}.groovy</nameTemplate>
-                <templateFileName>vertx-groovy/template/groovy.templ</templateFileName>
+                <generators>groovy</generators>
+                <outputDirectory>${project.basedir}/src/main</outputDirectory>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/vertx-core</sourceDirectory>
             </configuration>
@@ -213,8 +213,7 @@
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
               <optionMap>
-                <nameTemplate>${project.basedir}/src/test/groovy/@{typeFQN.replace("io.vertx.codegen", "io.vertx.groovy.codegen").replace(".", "/")}.groovy</nameTemplate>
-                <templateFileName>vertx-groovy/template/groovy.templ</templateFileName>
+                <outputDirectory>${project.basedir}/src/test/</outputDirectory>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/codegen</sourceDirectory>
             </configuration>

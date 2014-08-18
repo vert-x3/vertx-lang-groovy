@@ -1,0 +1,5 @@
+{
+  "name": "Groovy",
+  "nameTemplate": "groovy/@{typeFQN.replace('io.vertx', 'io.vertx.groovy').replace('.', '/')}.groovy",
+  "templateFileName": "vertx-groovy/template/groovy.templ"
+}

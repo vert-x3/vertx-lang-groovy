@@ -20,8 +20,8 @@ import io.vertx.codegen.testmodel.RefedInterface1Impl;
 import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
-import io.vertx.groovy.codegen.testmodel.RefedInterface1;
-import io.vertx.groovy.codegen.testmodel.TestInterface;
+import io.vertx.groovy.codegen.testmodel.RefedInterface1
+import io.vertx.groovy.codegen.testmodel.TestInterface
 import org.junit.Test
 
 import static org.junit.Assert.*;
