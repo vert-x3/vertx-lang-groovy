@@ -48,8 +48,6 @@ public class ScriptVerticle extends AbstractVerticle {
       script.setBinding(binding = new Binding());
     }
     binding.setVariable("vertx", new Vertx(vertx));
-    binding.setVariable("deploymentID", deploymentID);
-    binding.setVariable("config", config != null ? config.toMap() : null);
     script.run();
   }
 
