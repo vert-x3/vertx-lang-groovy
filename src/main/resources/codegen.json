@@ -1,5 +1,7 @@
 {
   "name": "Groovy",
-  "nameTemplate": "groovy/@{type.name.replace('io.vertx', 'io.vertx.groovy').replace('.', '/')}.groovy",
-  "templateFileName": "vertx-groovy/template/groovy.templ"
+  "class": {
+    "nameTemplate": "groovy/@{fqn.replace('io.vertx', 'io.vertx.groovy').replace('.', '/')}.groovy",
+    "templateFileName": "vertx-groovy/template/groovy.templ"
+  }
 }

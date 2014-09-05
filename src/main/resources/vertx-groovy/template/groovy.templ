@@ -29,9 +29,11 @@ package @{ifacePackageName.replace("io.vertx.", "io.vertx.groovy.")};\n
 
 @declare{'rewriteDelegate'}
 @if{method.ownerTypes.size() > 1}
-( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (@{method.ownerTypes.iterator().next().name}) delegate)
-@else{}
+( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (@{method.ownerTypes.iterator().next().name}) this.delegate)
+@else{method.ownerTypes.iterator().next() == type}
 this.delegate
+@else{}
+((@{method.ownerTypes.iterator().next().name}) this.delegate)
 @end{}
 @end{}
 
@@ -208,12 +210,12 @@ this.delegate
 @end{}
 
 @declare{'returnTypeTemplate'}
-	@if{type.kind == CLASS_JSON_OBJECT}
+	@if{returnType.kind == CLASS_JSON_OBJECT}
 		Map<String, Object>
-	@else{type.kind == CLASS_JSON_ARRAY}
+	@else{returnType.kind == CLASS_JSON_ARRAY}
 		List<Object>
 	@else{}
-		@{type.simpleName}
+		@{returnType.simpleName}
 	@end{}
 @end{}
 
@@ -291,7 +293,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	   *@{method.comment.replaceAll('\n(?!$)', '\n   *')}
 	   */\n
 	@end{}
-	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{', '}> @end{}@includeNamed{'returnTypeTemplate';type=method.returnType} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultOptions=defaultOptionsMap[method]}@end{', '}) {\n
+	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{', '}> @end{}@includeNamed{'returnTypeTemplate';returnType=method.returnType} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultOptions=defaultOptionsMap[method]}@end{', '}) {\n
 	@if{method.fluent}
 	    @includeNamed{'invokeDelegate';method=method};\n
 	    return this;\n

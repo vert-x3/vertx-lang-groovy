@@ -400,7 +400,7 @@ public class ApiTest {
   @Test
   public void testMethodWithGenericParam() {
     obj.methodWithGenericParam("String", "foo")
-    obj.methodWithGenericParam("Ref", new RefedInterface1Impl().setString("foo"))
+    obj.methodWithGenericParam("Ref", new RefedInterface1Impl().setString("bar"))
     obj.methodWithGenericParam("JsonObject", [foo:"hello","bar":123])
     obj.methodWithGenericParam("JsonArray", ["foo", "bar", "wib"])
   }
@@ -409,7 +409,7 @@ public class ApiTest {
   public void testMethodWithGenericHandler() {
     def count = 0;
     obj.methodWithGenericHandler("String", {
-      assertEquals("handlerFoo", it)
+      assertEquals("foo", it)
       count++
     })
     assertEquals(1, count);
@@ -438,7 +438,7 @@ public class ApiTest {
   public void testMethodWithGenericHandlerAsyncResult() {
     def checker = new AsyncResultChecker();
     obj.methodWithGenericHandlerAsyncResult("String", {
-      checker.assertAsyncResult("asyncResultHandlerFoo", it)
+      checker.assertAsyncResult("foo", it)
     })
     assertEquals(1, checker.count);
     checker = new AsyncResultChecker();
@@ -507,12 +507,12 @@ public class ApiTest {
 
   @Test
   public void testMethodWithGenericReturn() {
-    def ret = obj.methodWithGenericReturn(true);
+    def ret = obj.methodWithGenericReturn("JsonObject");
     assertTrue("Was expecting " + ret + " to implement Map", ret instanceof Map);
-    assertEquals([foo:"bar"], ret);
-    ret = obj.methodWithGenericReturn(false);
+    assertEquals([foo:"hello",bar:123], ret);
+    ret = obj.methodWithGenericReturn("JsonArray");
     assertTrue("Was expecting " + ret + " to implement List", ret instanceof List);
-    assertEquals(["foo","bar"], ret);
+    assertEquals(["foo","bar","wib"], ret);
   }
 
   @Test
