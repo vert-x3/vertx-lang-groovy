@@ -120,7 +120,7 @@ public class DeploymentTest {
   @Test
   public void testResolveVertxInClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
-        vertx.deployVerticleWithOptions(
+        vertx.deployVerticle(
             "groovy:io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
             DeploymentOptions.options().setConfig(new JsonObject()),
             onDeploy));
@@ -130,7 +130,7 @@ public class DeploymentTest {
   @Test
   public void testResolveVertxInScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
-        vertx.deployVerticleWithOptions(
+        vertx.deployVerticle(
             "groovy:io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
             DeploymentOptions.options().setConfig(new JsonObject()),
             onDeploy));
