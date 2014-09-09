@@ -493,9 +493,14 @@ public class ApiTest {
     RefedInterface1 refed = new RefedInterface1(new RefedInterface1Impl())
     refed.setString("dog")
     assertEquals("meth1", obj.overloadedMethod("cat", refed))
-    assertEquals("meth2", obj.overloadedMethod("cat", refed, 12345))
     def called = false
-    assertEquals("meth3", obj.overloadedMethod("cat", refed, 12345, { assertEquals("giraffe", it); called = true }))
+    assertEquals("meth2", obj.overloadedMethod("cat", refed, 12345) { assertEquals("giraffe", it); called = true })
+    assertTrue(called)
+    called = false
+    assertEquals("meth3", obj.overloadedMethod("cat", { assertEquals("giraffe", it); called = true }))
+    assertTrue(called)
+    called = false
+    assertEquals("meth4", obj.overloadedMethod("cat", refed, { assertEquals("giraffe", it); called = true }))
     assertTrue(called)
   }
 
