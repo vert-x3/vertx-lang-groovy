@@ -30,17 +30,19 @@ import junit.framework.AssertionFailedError;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static org.junit.Assert.*;
+
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
 public class DeploymentTest {
+
+  // TODO - needs some tests to ensure config, deploymentID etc are populated correctly in Verticle
 
   public static final AtomicBoolean started = new AtomicBoolean();
   public static final AtomicBoolean stopped = new AtomicBoolean();
