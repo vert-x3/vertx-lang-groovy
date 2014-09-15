@@ -19,9 +19,6 @@ package io.vertx.groovy.core;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Verticle;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * The base class for Groovy verticles.
  *
@@ -30,9 +27,6 @@ import java.util.Map;
 public class GroovyVerticle {
 
   protected Vertx vertx;
-  protected String deploymentID;
-  protected Map<String, Object> config;
-  protected List<String> processArgs;
 
   public void setVertx(Vertx vertx) {
     this.vertx = vertx;
@@ -42,13 +36,6 @@ public class GroovyVerticle {
   }
 
   public void stop() throws Exception {
-  }
-
-  private void initMembers() {
-    Context ctx = vertx.currentContext();
-    deploymentID = ctx.deploymentID();
-    config = ctx.config();
-    processArgs = ctx.processArgs();
   }
 
   // TODO implement async stop and start!
@@ -67,7 +54,6 @@ public class GroovyVerticle {
 
       @Override
       public void start() throws Exception {
-        GroovyVerticle.this.initMembers();
         GroovyVerticle.this.start();
       }
 
