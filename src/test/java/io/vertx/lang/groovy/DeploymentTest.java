@@ -124,7 +124,7 @@ public class DeploymentTest {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             "groovy:io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
-            DeploymentOptions.options().setConfig(new JsonObject()),
+            new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(started.get());
   }
@@ -134,7 +134,7 @@ public class DeploymentTest {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             "groovy:io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
-            DeploymentOptions.options().setConfig(new JsonObject()),
+            new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(started.get());
   }

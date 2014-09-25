@@ -93,7 +93,7 @@ this.delegate
 
 @declare{'paramArgument'}
 	@if{param.type.kind == CLASS_OPTIONS}
-		@{param.name} != null ? @{param.type.name}.optionsFromJson(new io.vertx.core.json.JsonObject(@{param.name})) : null
+		@{param.name} != null ? new @{param.type.name}(new io.vertx.core.json.JsonObject(@{param.name})) : null
 	@else{param.type.kind.json}
 		@{param.name} != null ? new @{param.type.name}(@{param.name}) : null
 	@else{param.type.kind == CLASS_API}
