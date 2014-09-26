@@ -37,7 +37,7 @@ class EventBusTest {
     try {
       def latch = new CountDownLatch(1)
       def eventBus = vertx.eventBus();
-      eventBus.registerHandler("the_address") { message ->
+      eventBus.consumer("the_address").handler { message ->
         def body = message.body()
         if (body instanceof Buffer && body.toString("UTF-8").equals("the_message")) {
           latch.countDown()
