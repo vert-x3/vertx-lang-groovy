@@ -21,6 +21,7 @@ import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
 import io.vertx.groovy.codegen.testmodel.RefedInterface1
+import io.vertx.groovy.codegen.testmodel.RefedInterface2
 import io.vertx.groovy.codegen.testmodel.TestInterface
 import org.junit.Test
 
@@ -161,10 +162,29 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerListAbstractVertxGen() {
+    def count = 0;
+    obj.methodWithHandlerListAbstractVertxGen({
+      assertEquals(["abstractfoo","abstractbar"], it.collect({it.string}))
+      count++
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultListVertxGen() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListVertxGen({ result ->
       checker.assertAsyncResult(["foo","bar"], result, { list -> list.collect({ RefedInterface1 r -> r.string }) })
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultListAbstractVertxGen() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListAbstractVertxGen({ result ->
+      checker.assertAsyncResult(["abstractfoo","abstractbar"], result, { list -> list.collect({ RefedInterface2 r -> r.string }) })
     });
     assertEquals(1, checker.count);
   }
@@ -179,10 +199,28 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerSetAbstractVertxGen() {
+    def count = 0;
+    obj.methodWithHandlerSetAbstractVertxGen({
+      assertEquals(["abstractbar","abstractfoo"], it.collect({it.string}).sort())
+      count++
+    });
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultSetVertxGen() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetVertxGen({ result ->
       checker.assertAsyncResult(["foo","bar"] as Set, result, { set -> set.collect({ RefedInterface1 r -> r.string }) as Set })
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetAbstractVertxGen() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetAbstractVertxGen({ result ->
+      checker.assertAsyncResult(["abstractfoo","abstractbar"] as Set, result, { set -> set.collect({ RefedInterface2 r -> r.string }) as Set })
     });
     assertEquals(1, checker.count);
   }
@@ -476,6 +514,12 @@ public class ApiTest {
   public void testVertxGenReturn() {
     RefedInterface1 r = obj.methodWithVertxGenReturn();
     assertEquals("chaffinch", r.string)
+  }
+
+  @Test
+  public void testVertxAbstractGenReturn() {
+    RefedInterface2 r = obj.methodWithAbstractVertxGenReturn();
+    assertEquals("abstractchaffinch", r.string)
   }
 
   @Test

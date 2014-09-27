@@ -16,6 +16,7 @@
 
 package io.vertx.lang.groovy;
 
+import groovy.lang.Closure;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -24,6 +25,7 @@ import io.vertx.groovy.core.buffer.Buffer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
@@ -58,5 +60,9 @@ public class InternalHelper {
 
   public static <V> AsyncResult<V> failure(Throwable t) {
     return Future.completedFuture(t);
+  }
+
+  public static <A, V> Function<A, V> bilto(Closure<A> closure) {
+    return a -> (V) closure.call(a);
   }
 }
