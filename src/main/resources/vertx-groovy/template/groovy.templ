@@ -97,7 +97,7 @@ this.delegate
 	@else{param.type.kind.json}
 		@{param.name} != null ? new @{param.type.name}(@{param.name}) : null
 	@else{param.type.kind == CLASS_API}
-		@{param.name}.getDelegate()
+		(@{param.type.name})@{param.name}.getDelegate()
 	@else{param.type.kind == CLASS_OBJECT}
 		InternalHelper.unwrapObject(@{param.name})
 	@else{param.type.kind == CLASS_HANDLER}
@@ -283,7 +283,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	    this.delegate = delegate;\n
 	  }\n
 
-	  public @{ifaceFQCN} getDelegate() {\n
+	  public Object getDelegate() {\n
 	    return delegate;\n
 	  }\n
 
@@ -333,7 +333,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 
 @else{}
 
-	  public <Delegate extends @{ifaceFQCN}> Delegate getDelegate();\n
+	  public Object getDelegate();\n
 
 	@foreach{method:methods}
 	  @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultOptions=defaultOptionsMap[method]}@end{', '});\n
