@@ -14,16 +14,19 @@
  * under the License.
  */
 
-package io.vertx.groovy.core;
+package io.vertx.lang.groovy
 
+import groovy.transform.CompileStatic;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Verticle;
+import io.vertx.groovy.core.Vertx;
 
 /**
  * The base class for Groovy verticles.
  *
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
+@CompileStatic
 public class GroovyVerticle {
 
   protected Vertx vertx;

@@ -19,7 +19,8 @@ package io.vertx.lang.groovy;
 import groovy.lang.Closure;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyCodeSource;
-import groovy.lang.Script;
+import groovy.lang.Script
+import groovy.transform.CompileStatic;
 import groovy.util.ConfigObject;
 import groovy.util.ConfigSlurper;
 import io.vertx.core.Verticle;
@@ -27,8 +28,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.impl.LoggerFactory;
 import io.vertx.core.spi.VerticleFactory;
-import io.vertx.groovy.core.GroovyVerticle;
-import io.vertx.groovy.core.ScriptVerticle;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.InputStream;
@@ -43,6 +42,7 @@ import java.util.Properties;
  * @author Danny Kirchmeier
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
+@CompileStatic
 public class GroovyVerticleFactory implements VerticleFactory {
 
   private static final String CONFIGURATION_PROPERTY = "vertx.groovy.compilerConfiguration";
@@ -113,8 +113,8 @@ public class GroovyVerticleFactory implements VerticleFactory {
           }
           properties.putAll(cObject.toProperties());
         } else {
-          InputStream in = url.openStream();
-          properties.load(in);
+          InputStream stream = url.openStream();
+          properties.load(stream);
         }
       } catch(Exception e) {
         log.error("Error loading Groovy CompilerConfiguration properties from $url", e);

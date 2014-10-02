@@ -14,26 +14,17 @@
  * under the License.
  */
 
-package io.vertx.lang.groovy.verticles;
+package io.vertx.lang.groovy;
 
-import io.vertx.lang.groovy.GroovyVerticle;
+import groovy.lang.Closure;
+
+import java.util.function.Function;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-public class HelloWorldHttpVerticle extends GroovyVerticle {
-
-  @Override
-  public void start() throws Exception {
-    def server = vertx.createHttpServer([port:8080]);
-    server.requestHandler({ request ->
-      println("Got request $request");
-      def response = request.response();
-      response.putHeader("Content-Type", "text/html");
-      response.setChunked(true);
-      response.writeString("<html><body>Hello World</body></html>");
-      response.end();
-    });
-    server.listen();
+public class Factories {
+  public static <A, V> Function<A, V> createFactory(Closure<A> closure) {
+    return a -> (V) closure.call(a);
   }
 }

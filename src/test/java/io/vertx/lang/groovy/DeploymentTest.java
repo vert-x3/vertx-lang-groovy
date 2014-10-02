@@ -24,8 +24,6 @@ import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.groovy.core.GroovyVerticle;
-import io.vertx.groovy.core.ScriptVerticle;
 import junit.framework.AssertionFailedError;
 import org.junit.Before;
 import org.junit.Test;

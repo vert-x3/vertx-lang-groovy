@@ -287,7 +287,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 @end{}
 
 \n
-  static final java.util.function.Function<@{type.raw.name}, @{type.raw.simpleName}> FACTORY = io.vertx.lang.groovy.InternalHelper.bilto() {\n
+  static final java.util.function.Function<@{type.raw.name}, @{type.raw.simpleName}> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {\n
     @{type.raw.name} arg -> new @{type.raw.simpleName + (concrete ? '' : 'Impl')}(arg);\n
   };\n
 

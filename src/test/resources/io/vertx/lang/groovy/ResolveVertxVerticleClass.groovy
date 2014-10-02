@@ -1,7 +1,4 @@
-package io.vertx.lang.groovy;
-
-import io.vertx.groovy.core.GroovyVerticle
-
+package io.vertx.lang.groovy
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
