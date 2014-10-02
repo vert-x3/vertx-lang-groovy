@@ -171,6 +171,9 @@
             </goals>
             <phase>generate-sources</phase>
             <configuration>
+              <systemProperties>
+                <java.util.logging.SimpleFormatter.format>%4$s: %3$s - %5$s %6$s%n</java.util.logging.SimpleFormatter.format>
+              </systemProperties>
               <processors>
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
@@ -189,6 +192,9 @@
             </goals>
             <phase>generate-test-sources</phase>
             <configuration>
+              <systemProperties>
+                <java.util.logging.SimpleFormatter.format>%4$s: %3$s - %5$s %6$s%n</java.util.logging.SimpleFormatter.format>
+              </systemProperties>
               <processors>
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
