@@ -16,7 +16,8 @@
 
 package io.vertx.lang.groovy
 
-import io.vertx.codegen.testmodel.RefedInterface1Impl;
+import io.vertx.codegen.testmodel.RefedInterface1Impl
+import io.vertx.codegen.testmodel.TestEnum;
 import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
@@ -660,5 +661,11 @@ public class ApiTest {
       checker.assertAsyncResult(null, it)
     });
     assertEquals(2, checker.count);
+  }
+
+  @Test
+  public void testEnumMethod() {
+    def ret = obj.methodWithEnumParam("cabbages", TestEnum.JULIEN);
+    assertEquals("cabbagesJULIEN", ret);
   }
 }
