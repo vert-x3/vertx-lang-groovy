@@ -664,8 +664,14 @@ public class ApiTest {
   }
 
   @Test
-  public void testEnumMethod() {
+  public void testMethodWithEnumParam() {
     def ret = obj.methodWithEnumParam("cabbages", TestEnum.JULIEN);
     assertEquals("cabbagesJULIEN", ret);
+  }
+
+  @Test
+  public void testMethodWithEnumReturn() {
+    TestEnum ret = obj.methodWithEnumReturn("JULIEN");
+    assertEquals(TestEnum.JULIEN, ret);
   }
 }

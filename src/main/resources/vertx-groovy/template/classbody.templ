@@ -45,6 +45,9 @@
 		@else{!method.returnType.name.startsWith('io.vertx.')}
 			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
+		@else{method.returnType.kind == CLASS_ENUM}
+			@code{cachedType=method.returnType.name}
+		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@else{}
 			@code{cachedType=method.returnType.simpleName}
 		    def ret= @{method.returnType.raw.simpleName}.FACTORY.apply(@includeNamed{'invokeDelegate';method=method});\n
