@@ -18,9 +18,8 @@ package io.vertx.groovy.core.http;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.http.HttpMethod
-import io.vertx.core.http.WebSocketConnectOptions
 import io.vertx.groovy.core.MultiMap
-import io.vertx.core.http.RequestOptions
+import io.vertx.core.http.WebsocketVersion
 import io.vertx.core.Handler
 /**
  * An HTTP client that maintains a pool of connections to a specific host, at a specific port. The client supports
@@ -53,32 +52,8 @@ public class HttpClient {
     def ret= HttpClient.FACTORY.apply(this.delegate.exceptionHandler(handler));
     return ret;
   }
-  public HttpClient connectWebsocket(Map<String, Object> options = [:], Handler<WebSocket> wsConnect) {
-    def ret= HttpClient.FACTORY.apply(this.delegate.connectWebsocket(options != null ? new io.vertx.core.http.WebSocketConnectOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<io.vertx.core.http.WebSocket>() {
-      public void handle(io.vertx.core.http.WebSocket event) {
-        wsConnect.handle(WebSocket.FACTORY.apply(event));
-      }
-    }));
-    return ret;
-  }
-  public HttpClientRequest request(HttpMethod method, Map<String, Object> options, Handler<HttpClientResponse> responseHandler) {
-    def ret= HttpClientRequest.FACTORY.apply(this.delegate.request(method, options != null ? new io.vertx.core.http.RequestOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
-      }
-    }));
-    return ret;
-  }
   public HttpClientRequest request(HttpMethod method, String absoluteURI, Handler<HttpClientResponse> responseHandler) {
     def ret= HttpClientRequest.FACTORY.apply(this.delegate.request(method, absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
-      }
-    }));
-    return ret;
-  }
-  public HttpClientRequest request(HttpMethod method, String absoluteURI, MultiMap headers, Handler<HttpClientResponse> responseHandler) {
-    def ret= HttpClientRequest.FACTORY.apply(this.delegate.request(method, absoluteURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
       }
@@ -93,50 +68,34 @@ public class HttpClient {
     }));
     return ret;
   }
-  public HttpClientRequest request(HttpMethod method, int port, String host, String requestURI, MultiMap headers, Handler<HttpClientResponse> responseHandler) {
-    def ret= HttpClientRequest.FACTORY.apply(this.delegate.request(method, port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
+  public HttpClient connectWebsocket(int port, String host, String requestURI, Handler<WebSocket> wsConnect) {
+    def ret= HttpClient.FACTORY.apply(this.delegate.connectWebsocket(port, host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(WebSocket.FACTORY.apply(event));
       }
     }));
     return ret;
   }
-  public HttpClient getNow(Map<String, Object> options = [:], Handler<HttpClientResponse> responseHandler) {
-    def ret= HttpClient.FACTORY.apply(this.delegate.getNow(options != null ? new io.vertx.core.http.RequestOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
+  public HttpClient connectWebsocket(int port, String host, String requestURI, MultiMap headers, Handler<WebSocket> wsConnect) {
+    def ret= HttpClient.FACTORY.apply(this.delegate.connectWebsocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(WebSocket.FACTORY.apply(event));
       }
     }));
     return ret;
   }
-  public HttpClient getNow(String absoluteURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= HttpClient.FACTORY.apply(this.delegate.getNow(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
+  public HttpClient connectWebsocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect) {
+    def ret= HttpClient.FACTORY.apply(this.delegate.connectWebsocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(WebSocket.FACTORY.apply(event));
       }
     }));
     return ret;
   }
-  public HttpClient getNow(String absoluteURI, MultiMap headers, Handler<HttpClientResponse> responseHandler) {
-    def ret= HttpClient.FACTORY.apply(this.delegate.getNow(absoluteURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
-      }
-    }));
-    return ret;
-  }
-  public HttpClient getNow(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= HttpClient.FACTORY.apply(this.delegate.getNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
-      }
-    }));
-    return ret;
-  }
-  public HttpClient getNow(int port, String host, String requestURI, MultiMap headers, Handler<HttpClientResponse> responseHandler) {
-    def ret= HttpClient.FACTORY.apply(this.delegate.getNow(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
+  public HttpClient connectWebsocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect) {
+    def ret= HttpClient.FACTORY.apply(this.delegate.connectWebsocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(WebSocket.FACTORY.apply(event));
       }
     }));
     return ret;

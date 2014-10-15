@@ -203,17 +203,20 @@ public class Vertx {
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
   }
-  public void deployVerticle(String verticleName) {
-    this.delegate.deployVerticle(verticleName);
+  public void deployVerticle(String identifier) {
+    this.delegate.deployVerticle(identifier);
   }
-  public void deployVerticle(String verticleName, Handler<AsyncResult<String>> completionHandler) {
-    this.delegate.deployVerticle(verticleName, completionHandler);
+  public void deployVerticle(String identifier, Handler<AsyncResult<String>> completionHandler) {
+    this.delegate.deployVerticle(identifier, completionHandler);
   }
-  public void deployVerticle(String verticleName, Map<String, Object> options) {
-    this.delegate.deployVerticle(verticleName, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
+  public void deployVerticle(String identifier, Map<String, Object> options) {
+    this.delegate.deployVerticle(identifier, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
-  public void deployVerticle(String verticleName, Map<String, Object> options, Handler<AsyncResult<String>> completionHandler) {
-    this.delegate.deployVerticle(verticleName, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler);
+  public void deployVerticle(String identifier, Map<String, Object> options, Handler<AsyncResult<String>> completionHandler) {
+    this.delegate.deployVerticle(identifier, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler);
+  }
+  public void undeployVerticle(String deploymentID) {
+    this.delegate.undeployVerticle(deploymentID);
   }
   public void undeployVerticle(String deploymentID, Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.undeployVerticle(deploymentID, completionHandler);
