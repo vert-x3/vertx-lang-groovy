@@ -108,6 +108,21 @@ public class HttpClientRequest implements WriteStream<Buffer> {
     return ret;
   }
   /**
+   * The HTTP method for the request. One of GET, PUT, POST, DELETE, TRACE, CONNECT, OPTIONS or HEAD
+   */
+  public String method() {
+    def ret = this.delegate.method();
+    return ret;
+  }
+  /**
+   * The uri of the request. For example
+   * http://www.somedomain.com/somepath/somemorepath/someresource.foo?someparam=32&amp;someotherparam=x
+   */
+  public String uri() {
+    def ret = this.delegate.uri();
+    return ret;
+  }
+  /**
    * @return The HTTP headers
    */
   public MultiMap headers() {

@@ -123,6 +123,16 @@ public class Message<T> {
   public void forward(String address, Map<String, Object> options) {
     ((io.vertx.core.eventbus.Message) this.delegate).forward(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
+  /**
+   * Indicates whether or not this message has been received as a result of a forward operation
+   * versus a send or publish.
+   * 
+   * @return whether or not the message has been fowarded
+   */
+  public boolean isForward() {
+    def ret = ((io.vertx.core.eventbus.Message) this.delegate).isForward();
+    return ret;
+  }
   private T cached_0;
 
   static final java.util.function.Function<io.vertx.core.eventbus.Message, Message> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {

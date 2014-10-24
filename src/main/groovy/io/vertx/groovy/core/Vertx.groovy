@@ -19,22 +19,26 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.datagram.DatagramSocket
 import io.vertx.groovy.core.http.HttpServer
+import io.vertx.groovy.core.shareddata.SharedData
+import io.vertx.groovy.core.eventbus.EventBus
+import java.util.Map
+import io.vertx.groovy.core.streams.ReadStream
+import io.vertx.core.json.JsonObject
+import io.vertx.core.AsyncResult
+import io.vertx.core.http.HttpClientOptions
+import io.vertx.core.datagram.DatagramSocketOptions
+import io.vertx.groovy.core.net.NetClient
 import io.vertx.core.VertxOptions
 import java.util.Set
-import io.vertx.groovy.core.shareddata.SharedData
 import io.vertx.core.net.NetClientOptions
 import io.vertx.groovy.core.dns.DnsClient
 import io.vertx.core.net.NetServerOptions
-import io.vertx.groovy.core.eventbus.EventBus
+import io.vertx.groovy.core.metrics.Measured
 import io.vertx.groovy.core.net.NetServer
 import io.vertx.core.DeploymentOptions
 import io.vertx.groovy.core.file.FileSystem
 import io.vertx.core.http.HttpServerOptions
-import io.vertx.core.AsyncResult
-import io.vertx.core.http.HttpClientOptions
-import io.vertx.core.datagram.DatagramSocketOptions
 import io.vertx.core.Handler
-import io.vertx.groovy.core.net.NetClient
 import io.vertx.groovy.core.http.HttpClient
 /**
  * The control centre of the Vert.x Core API.<p>
@@ -50,13 +54,32 @@ import io.vertx.groovy.core.http.HttpClient
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
-public class Vertx {
+public class Vertx implements Measured {
   final def io.vertx.core.Vertx delegate;
   public Vertx(io.vertx.core.Vertx delegate) {
     this.delegate = delegate;
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * The metric base name
+   *
+   * @return the metric base name
+   */
+  public String metricBaseName() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
+    return ret;
+  }
+  /**
+   * Will return the metrics that correspond with this measured object.
+   *
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
+   * the json data representing that metric
+   */
+  public Map<String,JsonObject> metrics() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics();
+    return ret;
   }
   public static Vertx vertx() {
     def ret= Vertx.FACTORY.apply(io.vertx.core.Vertx.vertx());
@@ -154,10 +177,23 @@ public class Vertx {
   /**
    * Set a one-shot timer to fire after {@code delay} milliseconds, at which point {@code handler} will be called with
    * the id of the timer.
+   *
    * @return the unique ID of the timer
    */
   public long setTimer(long delay, Handler<Long> handler) {
     def ret = this.delegate.setTimer(delay, handler);
+    return ret;
+  }
+  /**
+   * Returns a one-shot timer as a read stream. The timer will be fired after {@code delay} milliseconds after
+   * the {@link ReadStream#handler} has been called. The {@link ReadStream#endHandler(Handler)} will be called
+   * after the timer handler has been called. Setting a null handler before the timer handler callback will
+   * cancel the timer. Pausing the timer inhibits the timer shot and does not delay it.
+   *
+   * @return the timer stream
+   */
+  public ReadStream<Long> timerStream(long delay) {
+    def ret= ReadStream.FACTORY.apply(this.delegate.timerStream(delay));
     return ret;
   }
   /**
@@ -167,6 +203,18 @@ public class Vertx {
    */
   public long setPeriodic(long delay, Handler<Long> handler) {
     def ret = this.delegate.setPeriodic(delay, handler);
+    return ret;
+  }
+  /**
+   * Returns a periodic timer as a read stream. The timer will be fired every {@code delay} milliseconds after
+   * the {@link ReadStream#handler} has been called. The {@link ReadStream#endHandler(Handler)} will be called
+   * after the timer handler has been called. Setting a null handler callback cancels the timer. Pausing
+   * the timer inhibits the timer shots until the stream is resumed.
+   *
+   * @return the periodic stream
+   */
+  public ReadStream<Long> periodicStream(long delay) {
+    def ret= ReadStream.FACTORY.apply(this.delegate.periodicStream(delay));
     return ret;
   }
   /**

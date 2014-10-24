@@ -17,7 +17,10 @@
 package io.vertx.groovy.core.http;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.groovy.core.metrics.Measured
+import java.util.Map
 import io.vertx.groovy.core.streams.ReadStream
+import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
@@ -32,13 +35,32 @@ import io.vertx.core.Handler
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
-public class HttpServer {
+public class HttpServer implements Measured {
   final def io.vertx.core.http.HttpServer delegate;
   public HttpServer(io.vertx.core.http.HttpServer delegate) {
     this.delegate = delegate;
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * The metric base name
+   *
+   * @return the metric base name
+   */
+  public String metricBaseName() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
+    return ret;
+  }
+  /**
+   * Will return the metrics that correspond with this measured object.
+   *
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
+   * the json data representing that metric
+   */
+  public Map<String,JsonObject> metrics() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics();
+    return ret;
   }
   /**
    * Return the request stream for the server. As HTTP requests are received by the server,

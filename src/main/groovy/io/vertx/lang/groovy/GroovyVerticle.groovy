@@ -17,9 +17,10 @@
 package io.vertx.lang.groovy
 
 import groovy.transform.CompileStatic;
-import io.vertx.core.AbstractVerticle;
+import io.vertx.core.AbstractVerticle
 import io.vertx.core.Verticle;
 import io.vertx.groovy.core.Vertx;
+import io.vertx.groovy.core.Context;
 
 /**
  * The base class for Groovy verticles.
@@ -30,10 +31,7 @@ import io.vertx.groovy.core.Vertx;
 public class GroovyVerticle {
 
   protected Vertx vertx;
-
-  public void setVertx(Vertx vertx) {
-    this.vertx = vertx;
-  }
+  protected Context context
 
   public void start() throws Exception {
   }
@@ -50,13 +48,9 @@ public class GroovyVerticle {
     return new AbstractVerticle() {
 
       @Override
-      public void setVertx(io.vertx.core.Vertx vertx) {
-        super.setVertx(vertx);
-        GroovyVerticle.this.setVertx(new io.vertx.groovy.core.Vertx(vertx));
-      }
-
-      @Override
       public void start() throws Exception {
+        GroovyVerticle.this.vertx = new Vertx(super.vertx);
+        GroovyVerticle.this.context = new Context(super.context);
         GroovyVerticle.this.start();
       }
 

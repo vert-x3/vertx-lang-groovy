@@ -17,6 +17,9 @@
 package io.vertx.groovy.core.net;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.groovy.core.metrics.Measured
+import java.util.Map
+import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
@@ -34,13 +37,32 @@ import io.vertx.core.Handler
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
-public class NetClient {
+public class NetClient implements Measured {
   final def io.vertx.core.net.NetClient delegate;
   public NetClient(io.vertx.core.net.NetClient delegate) {
     this.delegate = delegate;
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * The metric base name
+   *
+   * @return the metric base name
+   */
+  public String metricBaseName() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
+    return ret;
+  }
+  /**
+   * Will return the metrics that correspond with this measured object.
+   *
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
+   * the json data representing that metric
+   */
+  public Map<String,JsonObject> metrics() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics();
+    return ret;
   }
   /**
    * Attempt to open a connection to a server at the specific {@code port} and {@code host}.

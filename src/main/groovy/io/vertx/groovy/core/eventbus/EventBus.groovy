@@ -18,7 +18,10 @@ package io.vertx.groovy.core.eventbus;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.eventbus.DeliveryOptions
+import io.vertx.groovy.core.metrics.Measured
 import io.vertx.groovy.core.streams.WriteStream
+import java.util.Map
+import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
@@ -51,13 +54,32 @@ import io.vertx.core.Handler
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
-public class EventBus {
+public class EventBus implements Measured {
   final def io.vertx.core.eventbus.EventBus delegate;
   public EventBus(io.vertx.core.eventbus.EventBus delegate) {
     this.delegate = delegate;
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * The metric base name
+   *
+   * @return the metric base name
+   */
+  public String metricBaseName() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
+    return ret;
+  }
+  /**
+   * Will return the metrics that correspond with this measured object.
+   *
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
+   * the json data representing that metric
+   */
+  public Map<String,JsonObject> metrics() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics();
+    return ret;
   }
   /**
    * Close the EventBus and release all resources. 

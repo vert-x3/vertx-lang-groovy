@@ -17,9 +17,12 @@
 package io.vertx.groovy.core.http;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
-import io.vertx.core.http.HttpMethod
 import io.vertx.groovy.core.MultiMap
 import io.vertx.core.http.WebsocketVersion
+import io.vertx.groovy.core.metrics.Measured
+import io.vertx.core.http.HttpMethod
+import java.util.Map
+import io.vertx.core.json.JsonObject
 import io.vertx.core.Handler
 /**
  * An HTTP client that maintains a pool of connections to a specific host, at a specific port. The client supports
@@ -35,13 +38,32 @@ import io.vertx.core.Handler
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
-public class HttpClient {
+public class HttpClient implements Measured {
   final def io.vertx.core.http.HttpClient delegate;
   public HttpClient(io.vertx.core.http.HttpClient delegate) {
     this.delegate = delegate;
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * The metric base name
+   *
+   * @return the metric base name
+   */
+  public String metricBaseName() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
+    return ret;
+  }
+  /**
+   * Will return the metrics that correspond with this measured object.
+   *
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
+   * the json data representing that metric
+   */
+  public Map<String,JsonObject> metrics() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics();
+    return ret;
   }
   /**
    * Set an exception handler

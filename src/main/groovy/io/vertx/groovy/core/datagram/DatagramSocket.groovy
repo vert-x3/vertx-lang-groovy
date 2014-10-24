@@ -18,6 +18,11 @@ package io.vertx.groovy.core.datagram;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.groovy.core.metrics.Measured
+import io.vertx.groovy.core.streams.WriteStream
+import java.util.Map
+import io.vertx.groovy.core.streams.ReadStream
+import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 import io.vertx.groovy.core.net.SocketAddress
@@ -34,13 +39,32 @@ import io.vertx.groovy.core.net.SocketAddress
  * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
  */
 @CompileStatic
-public class DatagramSocket {
+public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
   final def io.vertx.core.datagram.DatagramSocket delegate;
   public DatagramSocket(io.vertx.core.datagram.DatagramSocket delegate) {
     this.delegate = delegate;
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * The metric base name
+   *
+   * @return the metric base name
+   */
+  public String metricBaseName() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
+    return ret;
+  }
+  /**
+   * Will return the metrics that correspond with this measured object.
+   *
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
+   * the json data representing that metric
+   */
+  public Map<String,JsonObject> metrics() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics();
+    return ret;
   }
   /**
    * Write the given {@link io.vertx.core.buffer.Buffer} to the {@link io.vertx.core.net.SocketAddress}. The {@link io.vertx.core.Handler} will be notified once the
@@ -66,6 +90,18 @@ public class DatagramSocket {
       }
     });
     return this;
+  }
+  /**
+   * Returns a {@link WriteStream} able to write {@link Buffer} to the {@link io.vertx.core.net.SocketAddress}. The
+   * stream {@link WriteStream#exceptionHandler} is called when the write fails.
+   *
+   * @param port the host port of the remote peer
+   * @param host the host address of the remote peer
+   * @return the write stream for sending packets
+   */
+  public WriteStream<Buffer> sender(int port, String host) {
+    def ret= WriteStream.FACTORY.apply(this.delegate.sender(port, host));
+    return ret;
   }
   /**
    * Write the given {@link String} to the {@link io.vertx.core.net.SocketAddress} using UTF8 encoding. The {@link Handler} will be notified once the
@@ -301,8 +337,20 @@ public class DatagramSocket {
     });
     return this;
   }
-  public DatagramSocket packetHandler(Handler<DatagramPacket> handler) {
-    this.delegate.packetHandler(new Handler<io.vertx.core.datagram.DatagramPacket>() {
+  public DatagramSocket pause() {
+    this.delegate.pause();
+    return this;
+  }
+  public DatagramSocket resume() {
+    this.delegate.resume();
+    return this;
+  }
+  public DatagramSocket endHandler(Handler<Void> endHandler) {
+    this.delegate.endHandler(endHandler);
+    return this;
+  }
+  public DatagramSocket handler(Handler<DatagramPacket> handler) {
+    this.delegate.handler(new Handler<io.vertx.core.datagram.DatagramPacket>() {
       public void handle(io.vertx.core.datagram.DatagramPacket event) {
         handler.handle(DatagramPacket.FACTORY.apply(event));
       }
