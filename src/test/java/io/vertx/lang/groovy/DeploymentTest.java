@@ -83,6 +83,16 @@ public class DeploymentTest {
   }
 
   @Test
+  public void testAsyncDeployVerticleClass() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "groovy:io/vertx/lang/groovy/LifeCycleAsyncVerticleClass.groovy",
+            onDeploy));
+    assertTrue(started.get());
+    assertTrue(stopped.get());
+  }
+
+  @Test
   public void testDeployVerticleClassInstance() throws Exception {
     Class clazz = assertScript("LifeCycleVerticleClass");
     GroovyVerticle verticle = (GroovyVerticle) clazz.newInstance();

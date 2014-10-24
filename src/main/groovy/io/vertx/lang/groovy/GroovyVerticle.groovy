@@ -18,6 +18,7 @@ package io.vertx.lang.groovy
 
 import groovy.transform.CompileStatic;
 import io.vertx.core.AbstractVerticle
+import io.vertx.core.Future
 import io.vertx.core.Verticle;
 import io.vertx.groovy.core.Vertx;
 import io.vertx.groovy.core.Context;
@@ -41,6 +42,16 @@ public class GroovyVerticle {
 
   // TODO implement async stop and start!
 
+  public void start(Future<Void> startFuture) throws Exception {
+    start();
+    startFuture.complete();
+  }
+
+  public void stop(Future<Void> stopFuture) throws Exception {
+    stop();
+    stopFuture.complete();
+  }
+
   /**
    * @return the Java {@link Verticle} adapter for this Groovy Verticle
    */
@@ -48,15 +59,15 @@ public class GroovyVerticle {
     return new AbstractVerticle() {
 
       @Override
-      public void start() throws Exception {
+      void start(Future<Void> startFuture) throws Exception {
         GroovyVerticle.this.vertx = new Vertx(super.vertx);
         GroovyVerticle.this.context = new Context(super.context);
-        GroovyVerticle.this.start();
+        GroovyVerticle.this.start(startFuture);
       }
 
       @Override
-      public void stop() throws Exception {
-        GroovyVerticle.this.stop();
+      void stop(Future<Void> stopFuture) throws Exception {
+        GroovyVerticle.this.stop(stopFuture)
       }
     };
   }
