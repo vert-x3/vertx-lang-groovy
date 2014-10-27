@@ -33,6 +33,7 @@ public interface StreamBase {
   };
 }
 
+@CompileStatic
 class StreamBaseImpl implements StreamBase {
   final def io.vertx.core.streams.StreamBase delegate;
   public StreamBaseImpl(io.vertx.core.streams.StreamBase delegate) {

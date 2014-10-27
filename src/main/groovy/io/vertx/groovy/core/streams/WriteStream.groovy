@@ -42,6 +42,7 @@ public interface WriteStream<T> extends StreamBase {
   };
 }
 
+@CompileStatic
 class WriteStreamImpl<T> implements WriteStream<T> {
   final def io.vertx.core.streams.WriteStream delegate;
   public WriteStreamImpl(io.vertx.core.streams.WriteStream delegate) {

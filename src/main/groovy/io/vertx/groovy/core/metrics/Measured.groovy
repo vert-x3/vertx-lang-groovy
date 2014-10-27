@@ -33,6 +33,7 @@ public interface Measured {
   };
 }
 
+@CompileStatic
 class MeasuredImpl implements Measured {
   final def io.vertx.core.metrics.Measured delegate;
   public MeasuredImpl(io.vertx.core.metrics.Measured delegate) {

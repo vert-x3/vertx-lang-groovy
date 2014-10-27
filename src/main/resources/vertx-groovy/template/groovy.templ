@@ -295,6 +295,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 
 @if{!concrete}
 \n
+@CompileStatic\n
 class @{type.raw.simpleName}Impl@if{typeParams.size() > 0}<@foreach{typeParam:typeParams}@{typeParam.name}@end{','}>@end{} implements @{helper.getSimpleName(ifaceFQCN)} {\n
 @includeNamed{'classbody.templ';constructor=(type.raw.simpleName + 'Impl')}
 }\n

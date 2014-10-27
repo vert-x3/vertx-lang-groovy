@@ -60,6 +60,7 @@ public interface WebSocketBase extends ReadStream<Buffer>,  WriteStream<Buffer> 
   };
 }
 
+@CompileStatic
 class WebSocketBaseImpl implements WebSocketBase {
   final def io.vertx.core.http.WebSocketBase delegate;
   public WebSocketBaseImpl(io.vertx.core.http.WebSocketBase delegate) {

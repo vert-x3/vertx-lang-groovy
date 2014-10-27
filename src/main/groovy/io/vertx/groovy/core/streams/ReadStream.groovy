@@ -41,6 +41,7 @@ public interface ReadStream<T> extends StreamBase {
   };
 }
 
+@CompileStatic
 class ReadStreamImpl<T> implements ReadStream<T> {
   final def io.vertx.core.streams.ReadStream delegate;
   public ReadStreamImpl(io.vertx.core.streams.ReadStream delegate) {
