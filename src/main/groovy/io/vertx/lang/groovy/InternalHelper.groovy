@@ -42,7 +42,7 @@ public class InternalHelper {
 
   public static Object wrapObject(Object obj) {
     if (obj instanceof JsonObject) {
-      return ((JsonObject) obj).toMap();
+      return ((JsonObject) obj).getMap();
     } else if (obj instanceof JsonArray) {
       return ((JsonArray) obj).toList();
     } else if (obj instanceof io.vertx.core.buffer.Buffer) {

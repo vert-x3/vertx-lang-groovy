@@ -38,10 +38,10 @@
 		    def ret = (@{method.returnType.simpleName}) InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
 		@else{method.returnType.kind == CLASS_JSON_OBJECT}
 			@code{cachedType='Map<String, Object>'}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.toMap();\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.getMap();\n
 		@else{method.returnType.kind == CLASS_JSON_ARRAY}
 			@code{cachedType='List<Object>'}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.toList();\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.getList();\n
 		@else{!method.returnType.name.startsWith('io.vertx.')}
 			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n

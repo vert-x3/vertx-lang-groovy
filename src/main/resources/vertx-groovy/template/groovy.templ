@@ -107,7 +107,7 @@ this.delegate
 		@else{eventKind == CLASS_JSON_OBJECT}
 			new Handler<JsonObject>() {\n
 			      public void handle(JsonObject event) {\n
-			        @{param.name}.handle(event?.toMap());\n
+			        @{param.name}.handle(event?.getMap());\n
 			      }\n
 			    }
 		@else{eventKind == CLASS_JSON_ARRAY}
@@ -127,7 +127,7 @@ this.delegate
 					@code{toGroovyElement='' + elementType.simpleName + '.FACTORY.apply(it)'}
 					@code{elementJavaType=elementType.name}
 				@else{elementKind == CLASS_JSON_OBJECT}
-					@code{toGroovyElement='it?.toMap()'}
+					@code{toGroovyElement='it?.getMap()'}
 					@code{elementJavaType='JsonObject'}
 				@else{}
 					@code{toGroovyElement='it?.toList()'}
@@ -166,7 +166,7 @@ this.delegate
 						@code{elementJavaType=elementType.name}
 						@code{elementGroovyType=elementType.simpleName}
 					@else{elementKind == CLASS_JSON_OBJECT}
-						@code{toGroovyElement='element?.toMap()'}
+						@code{toGroovyElement='element?.getMap()'}
 						@code{elementJavaType='JsonObject'}
 						@code{elementGroovyType='Map<String, Object>'}
 					@else{}
@@ -182,7 +182,7 @@ this.delegate
 					null
 				@end{}
 			@else{resultKind == CLASS_JSON_OBJECT}
-				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result()?.toMap()';callbackName=param.name}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result()?.getMap()';callbackName=param.name}
 			@else{resultKind == CLASS_JSON_ARRAY}
 				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='List<Object>';callbackObject='event.result()?.toList()';callbackName=param.name}
 			@else{resultKind == CLASS_OBJECT}
