@@ -19,7 +19,6 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.metrics.Measured
 import java.util.Map
-import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
@@ -69,8 +68,8 @@ public class NetServer implements Measured {
    *
    * @return the connect stream
    */
-  public ReadStream<NetSocket> connectStream() {
-    def ret= ReadStream.FACTORY.apply(this.delegate.connectStream());
+  public NetSocketStream connectStream() {
+    def ret= NetSocketStream.FACTORY.apply(this.delegate.connectStream());
     return ret;
   }
   /**

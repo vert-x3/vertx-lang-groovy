@@ -22,7 +22,6 @@ import io.vertx.groovy.core.http.HttpServer
 import io.vertx.groovy.core.shareddata.SharedData
 import io.vertx.groovy.core.eventbus.EventBus
 import java.util.Map
-import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.http.HttpClientOptions
@@ -186,14 +185,12 @@ public class Vertx implements Measured {
   }
   /**
    * Returns a one-shot timer as a read stream. The timer will be fired after {@code delay} milliseconds after
-   * the {@link ReadStream#handler} has been called. The {@link ReadStream#endHandler(Handler)} will be called
-   * after the timer handler has been called. Setting a null handler before the timer handler callback will
-   * cancel the timer. Pausing the timer inhibits the timer shot and does not delay it.
+   * the {@link ReadStream#handler} has been called.
    *
    * @return the timer stream
    */
-  public ReadStream<Long> timerStream(long delay) {
-    def ret= ReadStream.FACTORY.apply(this.delegate.timerStream(delay));
+  public TimeoutStream timerStream(long delay) {
+    def ret= TimeoutStream.FACTORY.apply(this.delegate.timerStream(delay));
     return ret;
   }
   /**
@@ -207,14 +204,12 @@ public class Vertx implements Measured {
   }
   /**
    * Returns a periodic timer as a read stream. The timer will be fired every {@code delay} milliseconds after
-   * the {@link ReadStream#handler} has been called. The {@link ReadStream#endHandler(Handler)} will be called
-   * after the timer handler has been called. Setting a null handler callback cancels the timer. Pausing
-   * the timer inhibits the timer shots until the stream is resumed.
+   * the {@link ReadStream#handler} has been called.
    *
    * @return the periodic stream
    */
-  public ReadStream<Long> periodicStream(long delay) {
-    def ret= ReadStream.FACTORY.apply(this.delegate.periodicStream(delay));
+  public TimeoutStream periodicStream(long delay) {
+    def ret= TimeoutStream.FACTORY.apply(this.delegate.periodicStream(delay));
     return ret;
   }
   /**

@@ -19,7 +19,6 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.metrics.Measured
 import java.util.Map
-import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
@@ -68,8 +67,8 @@ public class HttpServer implements Measured {
    *
    * @return the request stream
    */
-  public ReadStream<HttpServerRequest> requestStream() {
-    def ret= ReadStream.FACTORY.apply(this.delegate.requestStream());
+  public HttpServerRequestStream requestStream() {
+    def ret= HttpServerRequestStream.FACTORY.apply(this.delegate.requestStream());
     return ret;
   }
   /**
@@ -92,8 +91,8 @@ public class HttpServer implements Measured {
    *
    * @return the websocket stream
    */
-  public ReadStream<ServerWebSocket> websocketStream() {
-    def ret= ReadStream.FACTORY.apply(this.delegate.websocketStream());
+  public ServerWebSocketStream websocketStream() {
+    def ret= ServerWebSocketStream.FACTORY.apply(this.delegate.websocketStream());
     return ret;
   }
   /**

@@ -21,6 +21,7 @@ import io.vertx.codegen.testmodel.TestEnum;
 import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
+import io.vertx.groovy.codegen.testmodel.GenericRefedInterface
 import io.vertx.groovy.codegen.testmodel.RefedInterface1
 import io.vertx.groovy.codegen.testmodel.RefedInterface2
 import io.vertx.groovy.codegen.testmodel.TestInterface
@@ -434,6 +435,25 @@ public class ApiTest {
       count++
     })
     assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerGenericUserType() {
+    def count = 0;
+    obj.methodWithHandlerGenericUserType("string_value", { s ->
+      assertTrue(s instanceof GenericRefedInterface);
+      assertEquals("string_value", s.value); count++;
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultGenericUserType() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultGenericUserType("string_value_2", {
+      checker.assertAsyncResult("string_value_2", it, { r -> ((GenericRefedInterface)r).value });
+    });
+    assertEquals(1, checker.count);
   }
 
   @Test

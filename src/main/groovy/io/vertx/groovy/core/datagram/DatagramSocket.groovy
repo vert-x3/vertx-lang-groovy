@@ -19,7 +19,6 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.metrics.Measured
-import io.vertx.groovy.core.streams.WriteStream
 import java.util.Map
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.json.JsonObject
@@ -92,15 +91,14 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Returns a {@link WriteStream} able to write {@link Buffer} to the {@link io.vertx.core.net.SocketAddress}. The
-   * stream {@link WriteStream#exceptionHandler} is called when the write fails.
+   * Returns a {@link io.vertx.core.datagram.PacketWritestream} able to send {@link Buffer} to the {@link io.vertx.core.net.SocketAddress}.
    *
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer
    * @return the write stream for sending packets
    */
-  public WriteStream<Buffer> sender(int port, String host) {
-    def ret= WriteStream.FACTORY.apply(this.delegate.sender(port, host));
+  public PacketWritestream sender(int port, String host) {
+    def ret= PacketWritestream.FACTORY.apply(this.delegate.sender(port, host));
     return ret;
   }
   /**
