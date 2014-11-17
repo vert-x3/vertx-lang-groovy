@@ -34,14 +34,14 @@ public class DatagramPacket {
     return delegate;
   }
   /**
-   * Returns the {@link io.vertx.core.net.SocketAddress} of the sender that send this {@link DatagramPacket}.
+   * Returns the {@link io.vertx.core.net.SocketAddress} of the sender that send this {@link io.vertx.core.datagram.DatagramPacket}.
    */
   public SocketAddress sender() {
     def ret= SocketAddress.FACTORY.apply(this.delegate.sender());
     return ret;
   }
   /**
-   * Returns the data of the {@link DatagramPacket}
+   * Returns the data of the {@link io.vertx.core.datagram.DatagramPacket}
    */
   public Buffer data() {
     def ret= Buffer.FACTORY.apply(this.delegate.data());

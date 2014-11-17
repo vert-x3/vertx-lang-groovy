@@ -83,8 +83,8 @@ public class EventBus implements Measured {
   }
   /**
    * Close the EventBus and release all resources. 
-   * 
-   * @param completionHandler
+   *
+   * @param completionHandler may be {@code null}
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
@@ -92,7 +92,7 @@ public class EventBus implements Measured {
   /**
    * Send a message
    * @param address The address to send it to
-   * @param message The message
+   * @param message The message, may be {@code null}
    */
   public EventBus send(String address, Object message) {
     this.delegate.send(address, InternalHelper.unwrapObject(message));
@@ -101,8 +101,8 @@ public class EventBus implements Measured {
   /**
    * Send a message
    * @param address The address to send it to
-   * @param message The message
-   * @param replyHandler Reply handler will be called when any reply from the recipient is received
+   * @param message The message, may be {@code null}
+   * @param replyHandler Reply handler will be called when any reply from the recipient is received, may be {@code null}
    */
   public <T> EventBus send(String address, Object message, Handler<AsyncResult<Message<T>>> replyHandler) {
     this.delegate.send(address, InternalHelper.unwrapObject(message), new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
@@ -139,7 +139,7 @@ public class EventBus implements Measured {
   /**
    * Publish a message
    * @param address The address to publish it to
-   * @param message The message
+   * @param message The message, may be {@code null}
    */
   public EventBus publish(String address, Object message) {
     this.delegate.publish(address, InternalHelper.unwrapObject(message));

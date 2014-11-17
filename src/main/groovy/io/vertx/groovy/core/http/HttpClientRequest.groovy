@@ -19,6 +19,7 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.streams.WriteStream
+import io.vertx.core.http.HttpMethod
 import io.vertx.groovy.core.MultiMap
 import io.vertx.core.Handler
 /**
@@ -110,7 +111,7 @@ public class HttpClientRequest implements WriteStream<Buffer> {
   /**
    * The HTTP method for the request. One of GET, PUT, POST, DELETE, TRACE, CONNECT, OPTIONS or HEAD
    */
-  public String method() {
+  public HttpMethod method() {
     def ret = this.delegate.method();
     return ret;
   }

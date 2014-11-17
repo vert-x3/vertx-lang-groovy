@@ -257,6 +257,14 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   public void close() {
     this.delegate.close();
   }
+  public boolean ended() {
+    def ret = this.delegate.ended();
+    return ret;
+  }
+  public boolean headWritten() {
+    def ret = this.delegate.headWritten();
+    return ret;
+  }
   private MultiMap cached_0;
   private MultiMap cached_1;
 

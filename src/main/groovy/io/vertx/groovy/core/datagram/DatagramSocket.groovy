@@ -153,19 +153,19 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Close the {@link DatagramSocket} implementation asynchronous and notifies the handler once done.
+   * Close the {@link io.vertx.core.datagram.DatagramSocket} implementation asynchronous and notifies the handler once done.
    */
   public void close(Handler<AsyncResult<Void>> handler) {
     this.delegate.close(handler);
   }
   /**
-   * Close the {@link DatagramSocket} implementation asynchronous.
+   * Close the {@link io.vertx.core.datagram.DatagramSocket} implementation asynchronous.
    */
   public void close() {
     this.delegate.close();
   }
   /**
-   * Return the {@link io.vertx.core.net.SocketAddress} to which this {@link DatagramSocket} is bound too.
+   * Return the {@link io.vertx.core.net.SocketAddress} to which this {@link io.vertx.core.datagram.DatagramSocket} is bound too.
    */
   public SocketAddress localAddress() {
     if (cached_0 != null) {

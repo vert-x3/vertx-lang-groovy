@@ -27,7 +27,7 @@ import io.vertx.core.shareddata.impl.ClusterSerializable
  * to be written. All positions are measured in bytes and start with zero.<p>
  * The second method involves methods that take the form {@code appendXXX}; these methods append data
  * at the end of the buffer.<p>
- * Methods exist to both {@code set} and {@code append} all primitive types, {@link java.lang.String}, {@link java.nio.ByteBuffer} and
+ * Methods exist to both {@code set} and {@code append} all primitive types, {@link String}, {@link java.nio.ByteBuffer} and
  * other instances of Buffer.<p>
  * Data can be read from a buffer by invoking methods which take the form {@code getXXX}. These methods take a parameter
  * representing the position in the Buffer from where to read data.<p>
@@ -123,7 +123,7 @@ public class Buffer {
     return ret;
   }
   /**
-   * Returns a copy of a sub-sequence the Buffer as a {@link Buffer} starting at position {@code start}
+   * Returns a copy of a sub-sequence the Buffer as a {@link io.vertx.core.buffer.Buffer} starting at position {@code start}
    * and ending at position {@code end - 1}
    */
   public Buffer getBuffer(int start, int end) {

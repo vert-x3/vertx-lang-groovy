@@ -147,6 +147,14 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     this.delegate.flush(handler);
     return this;
   }
+  public AsyncFile setReadPos(long readPos) {
+    this.delegate.setReadPos(readPos);
+    return this;
+  }
+  public AsyncFile setWritePos(long readPos) {
+    this.delegate.setWritePos(readPos);
+    return this;
+  }
 
   static final java.util.function.Function<io.vertx.core.file.AsyncFile, AsyncFile> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
     io.vertx.core.file.AsyncFile arg -> new AsyncFile(arg);

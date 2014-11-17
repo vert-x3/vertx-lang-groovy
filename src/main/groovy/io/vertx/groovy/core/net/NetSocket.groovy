@@ -173,7 +173,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   /**
-   * Returns {@code true} if this {@link NetSocket} is encrypted via SSL/TLS.
+   * Returns {@code true} if this {@link io.vertx.core.net.NetSocket} is encrypted via SSL/TLS.
    */
   public boolean isSsl() {
     def ret = this.delegate.isSsl();

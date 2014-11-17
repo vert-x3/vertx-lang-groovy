@@ -48,7 +48,7 @@ public class MultiMap {
    * Returns the values with the specified name
    *
    * @param name The name to search
-   * @return A immutable {@link List} of values which will be empty if no values
+   * @return A immutable {@link java.util.List} of values which will be empty if no values
    *         are found
    */
   public List<String> getAll(String name) {
@@ -73,9 +73,9 @@ public class MultiMap {
     return ret;
   }
   /**
-   * Gets a immutable {@link Set} of all names
+   * Gets a immutable {@link java.util.Set} of all names
    *
-   * @return A {@link Set} of all names
+   * @return A {@link java.util.Set} of all names
    */
   public Set<String> names() {
     def ret = this.delegate.names();

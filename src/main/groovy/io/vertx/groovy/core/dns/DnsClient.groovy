@@ -53,7 +53,7 @@ public class DnsClient {
    *
    * @param name      The name to resolve
    * @param handler   the {@link Handler} to notify with the {@link io.vertx.core.AsyncResult}. The {@link io.vertx.core.AsyncResult} will get
-   *                  notified with the resolved {@link Inet4Address} if a record was found. If non was found it will
+   *                  notified with the resolved {@link java.net.Inet4Address} if a record was found. If non was found it will
    *                  get notifed with {@code null}.
    *                  If an error accours it will get failed.
    * @return          itself for method-chaining.
@@ -67,7 +67,7 @@ public class DnsClient {
    *
    * @param name      The name to resolve
    * @param handler   the {@link Handler} to notify with the {@link AsyncResult}. The {@link AsyncResult} will get
-   *                  notified with the resolved {@link Inet6Address} if a record was found. If non was found it will
+   *                  notified with the resolved {@link java.net.Inet6Address} if a record was found. If non was found it will
    *                  get notifed with {@code null}.
    *                  If an error accours it will get failed.
    * @return          itself for method-chaining.
@@ -155,7 +155,7 @@ public class DnsClient {
    * @param name      The name for which the TXT records should be resolved
    * @param handler   the {@link Handler} to notify with the {@link AsyncResult}. The {@link AsyncResult} will get
    *                  notified with a List that contains all resolved {@link String}s. If non was found it will
-   *                  get notified with an empty {@link List}
+   *                  get notified with an empty {@link java.util.List}
    *                  If an error accours it will get failed.
    * @return          itself for method-chaining.
    */
@@ -183,7 +183,7 @@ public class DnsClient {
    * @param name      The name for which the NS records should be resolved
    * @param handler   the {@link Handler} to notify with the {@link AsyncResult}. The {@link AsyncResult} will get
    *                  notified with a List that contains all resolved {@link String}s. If non was found it will
-   *                  get notified with an empty {@link List}
+   *                  get notified with an empty {@link java.util.List}
    *                  If an error accours it will get failed.
    * @return          itself for method-chaining.
    */
@@ -197,7 +197,7 @@ public class DnsClient {
    * @param name      The name for which the SRV records should be resolved
    * @param handler   the {@link Handler} to notify with the {@link AsyncResult}. The {@link AsyncResult} will get
    *                  notified with a List that contains all resolved {@link SrvRecord}s. If non was found it will
-   *                  get notified with an empty {@link List}
+   *                  get notified with an empty {@link java.util.List}
    *                  If an error accours it will get failed.
    * @return          itself for method-chaining.
    */

@@ -694,4 +694,10 @@ public class ApiTest {
     TestEnum ret = obj.methodWithEnumReturn("JULIEN");
     assertEquals(TestEnum.JULIEN, ret);
   }
+
+  @Test
+  public void testMethodWithThrowableReturn() {
+    Throwable ret = obj.methodWithThrowableReturn("bogies");
+    assertEquals("bogies", ret.getMessage());
+  }
 }
