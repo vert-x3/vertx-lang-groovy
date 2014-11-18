@@ -265,6 +265,14 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     def ret = this.delegate.headWritten();
     return ret;
   }
+  public HttpServerResponse headersEndHandler(Handler<Void> handler) {
+    this.delegate.headersEndHandler(handler);
+    return this;
+  }
+  public HttpServerResponse bodyEndHandler(Handler<Void> handler) {
+    this.delegate.bodyEndHandler(handler);
+    return this;
+  }
   private MultiMap cached_0;
   private MultiMap cached_1;
 

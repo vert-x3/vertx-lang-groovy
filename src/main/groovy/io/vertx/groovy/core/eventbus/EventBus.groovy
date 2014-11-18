@@ -19,7 +19,6 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.eventbus.DeliveryOptions
 import io.vertx.groovy.core.metrics.Measured
-import io.vertx.groovy.core.streams.WriteStream
 import java.util.Map
 import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
@@ -162,6 +161,21 @@ public class EventBus implements Measured {
     return ret;
   }
   /**
+   * Register a message consumer against the specified address.
+   *
+   * @param address The address that will register it at
+   * @param handler The handler that will process the received messages
+   * @return the event bus message consumer
+   */
+  public <T> MessageConsumer<T> consumer(String address, Handler<Message<T>> handler) {
+    def ret= MessageConsumer.FACTORY.apply(this.delegate.consumer(address, new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
+      public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
+        handler.handle(Message.FACTORY.apply(event));
+      }
+    }));
+    return ret;
+  }
+  /**
    * Create a local message consumer against the specified address. The handler info won't
    * be propagated across the cluster. The returned consumer is not yet registered at the
    * address, registration will be effective when {@link MessageConsumer#handler(io.vertx.core.Handler)}
@@ -175,6 +189,22 @@ public class EventBus implements Measured {
     return ret;
   }
   /**
+   * Register a local message consumer against the specified address. The handler info won't be propagated
+   * across the cluster.
+   *
+   * @param address The address that will register it at
+   * @param handler The handler that will process the received messages
+   * @return the event bus message consumer
+   */
+  public <T> MessageConsumer<T> localConsumer(String address, Handler<Message<T>> handler) {
+    def ret= MessageConsumer.FACTORY.apply(this.delegate.localConsumer(address, new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
+      public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
+        handler.handle(Message.FACTORY.apply(event));
+      }
+    }));
+    return ret;
+  }
+  /**
    * Create a message sender against the specified address. The returned sender will invoke the {@link #send(String, Object)}
    * method when the stream {@link io.vertx.core.streams.WriteStream#write(Object)} method is called with the sender
    * address and the provided data.
@@ -182,8 +212,8 @@ public class EventBus implements Measured {
    * @param address The address to send it to
    * @return The sender
    */
-  public <T> WriteStream<T> sender(String address) {
-    def ret= WriteStream.FACTORY.apply(this.delegate.sender(address));
+  public <T> MessageProducer<T> sender(String address) {
+    def ret= MessageProducer.FACTORY.apply(this.delegate.sender(address));
     return ret;
   }
   /**
@@ -194,8 +224,8 @@ public class EventBus implements Measured {
    * @param address The address to send it to
    * @return The sender
    */
-  public <T> WriteStream<T> sender(String address, Map<String, Object> options) {
-    def ret= WriteStream.FACTORY.apply(this.delegate.sender(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null));
+  public <T> MessageProducer<T> sender(String address, Map<String, Object> options) {
+    def ret= MessageProducer.FACTORY.apply(this.delegate.sender(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
@@ -206,8 +236,8 @@ public class EventBus implements Measured {
    * @param address The address to publish it to
    * @return The publisher
    */
-  public <T> WriteStream<T> publisher(String address) {
-    def ret= WriteStream.FACTORY.apply(this.delegate.publisher(address));
+  public <T> MessageProducer<T> publisher(String address) {
+    def ret= MessageProducer.FACTORY.apply(this.delegate.publisher(address));
     return ret;
   }
   /**
@@ -218,8 +248,8 @@ public class EventBus implements Measured {
    * @param address The address to publish it to
    * @return The publisher
    */
-  public <T> WriteStream<T> publisher(String address, Map<String, Object> options) {
-    def ret= WriteStream.FACTORY.apply(this.delegate.publisher(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null));
+  public <T> MessageProducer<T> publisher(String address, Map<String, Object> options) {
+    def ret= MessageProducer.FACTORY.apply(this.delegate.publisher(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
 

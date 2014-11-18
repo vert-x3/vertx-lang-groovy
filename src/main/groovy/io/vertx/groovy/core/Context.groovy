@@ -61,6 +61,18 @@ public class Context {
     def ret = this.delegate.isMultiThreaded();
     return ret;
   }
+  public <T> T get(String key) {
+    // This cast is cleary flawed
+    def ret = (T) InternalHelper.wrapObject(this.delegate.get(key));
+    return ret;
+  }
+  public void put(String key, Object value) {
+    this.delegate.put(key, InternalHelper.unwrapObject(value));
+  }
+  public boolean remove(String key) {
+    def ret = this.delegate.remove(key);
+    return ret;
+  }
 
   static final java.util.function.Function<io.vertx.core.Context, Context> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
     io.vertx.core.Context arg -> new Context(arg);

@@ -102,6 +102,22 @@ public class Vertx implements Measured {
     });
   }
   /**
+   * Gets the current context
+   * @return The current context or null if no current context
+   */
+  public static Context currentContext() {
+    def ret= Context.FACTORY.apply(io.vertx.core.Vertx.currentContext());
+    return ret;
+  }
+  /**
+   * Gets the current context, or creates one if there isn't one
+   * @return The current context (created if didn't exist)
+   */
+  public Context getOrCreateContext() {
+    def ret= Context.FACTORY.apply(this.delegate.getOrCreateContext());
+    return ret;
+  }
+  /**
    * Create a TCP/SSL server
    */
   public NetServer createNetServer(Map<String, Object> options = [:]) {
@@ -218,13 +234,6 @@ public class Vertx implements Measured {
    */
   public boolean cancelTimer(long id) {
     def ret = this.delegate.cancelTimer(id);
-    return ret;
-  }
-  /**
-   * @return The current context
-   */
-  public Context context() {
-    def ret= Context.FACTORY.apply(this.delegate.context());
     return ret;
   }
   /**
