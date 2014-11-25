@@ -24,10 +24,10 @@ import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
  * Contains a broad set of operations for manipulating files.<p>
- * An asynchronous and a synchronous version of each operation is provided.<p>
- * The asynchronous versions take a handler which is called when the operation completes or an error occurs.<p>
- * The synchronous versions return the results, or throw exceptions directly.<p>
- * It is highly recommended the asynchronous versions are used unless you are sure the operation
+ * A blocking and non blocking version of each operation is provided.<p>
+ * The non blocking versions take a handler which is called when the operation completes or an error occurs.<p>
+ * The blocking versions return the results, or throw exceptions directly.<p>
+ * It is highly recommended the non blocking versions are used unless you are sure the operation
  * will not block for a significant period of time.<p>
  * Instances of FileSystem are thread-safe.<p>
  * @author <a href="http://tfox.org">Tim Fox</a>
@@ -50,10 +50,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #copy(String, String, Handler)}
+   * Blocking version of {@link #copy(String, String, Handler)}
    */
-  public FileSystem copySync(String from, String to) {
-    this.delegate.copySync(from, to);
+  public FileSystem copyBlocking(String from, String to) {
+    this.delegate.copyBlocking(from, to);
     return this;
   }
   /**
@@ -67,10 +67,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #copyRecursive(String, String, boolean, Handler)}
+   * Blocking version of {@link #copyRecursive(String, String, boolean, Handler)}
    */
-  public FileSystem copyRecursiveSync(String from, String to, boolean recursive) {
-    this.delegate.copyRecursiveSync(from, to, recursive);
+  public FileSystem copyRecursiveBlocking(String from, String to, boolean recursive) {
+    this.delegate.copyRecursiveBlocking(from, to, recursive);
     return this;
   }
   /**
@@ -82,10 +82,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #move(String, String, Handler)}
+   * Blocking version of {@link #move(String, String, Handler)}
    */
-  public FileSystem moveSync(String from, String to) {
-    this.delegate.moveSync(from, to);
+  public FileSystem moveBlocking(String from, String to) {
+    this.delegate.moveBlocking(from, to);
     return this;
   }
   /**
@@ -97,10 +97,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #truncate(String, long, Handler)}
+   * Blocking version of {@link #truncate(String, long, Handler)}
    */
-  public FileSystem truncateSync(String path, long len) {
-    this.delegate.truncateSync(path, len);
+  public FileSystem truncateBlocking(String path, long len) {
+    this.delegate.truncateBlocking(path, len);
     return this;
   }
   /**
@@ -113,10 +113,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #chmod(String, String, Handler) }
+   * Blocking version of {@link #chmod(String, String, Handler) }
    */
-  public FileSystem chmodSync(String path, String perms) {
-    this.delegate.chmodSync(path, perms);
+  public FileSystem chmodBlocking(String path, String perms) {
+    this.delegate.chmodBlocking(path, perms);
     return this;
   }
   /**
@@ -131,10 +131,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #chmodRecursive(String, String, String, Handler)}
+   * Blocking version of {@link #chmodRecursive(String, String, String, Handler)}
    */
-  public FileSystem chmodRecursiveSync(String path, String perms, String dirPerms) {
-    this.delegate.chmodRecursiveSync(path, perms, dirPerms);
+  public FileSystem chmodRecursiveBlocking(String path, String perms, String dirPerms) {
+    this.delegate.chmodRecursiveBlocking(path, perms, dirPerms);
     return this;
   }
   /**
@@ -146,11 +146,11 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #chown(String, String, String, Handler)}
+   * Blocking version of {@link #chown(String, String, String, Handler)}
 
    */
-  public FileSystem chownSync(String path, String user, String group) {
-    this.delegate.chownSync(path, user, group);
+  public FileSystem chownBlocking(String path, String user, String group) {
+    this.delegate.chownBlocking(path, user, group);
     return this;
   }
   /**
@@ -172,10 +172,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #props(String, Handler)}
+   * Blocking version of {@link #props(String, Handler)}
    */
-  public FileProps propsSync(String path) {
-    def ret= FileProps.FACTORY.apply(this.delegate.propsSync(path));
+  public FileProps propsBlocking(String path) {
+    def ret= FileProps.FACTORY.apply(this.delegate.propsBlocking(path));
     return ret;
   }
   /**
@@ -197,10 +197,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #lprops(String, Handler)}
+   * Blocking version of {@link #lprops(String, Handler)}
    */
-  public FileProps lpropsSync(String path) {
-    def ret= FileProps.FACTORY.apply(this.delegate.lpropsSync(path));
+  public FileProps lpropsBlocking(String path) {
+    def ret= FileProps.FACTORY.apply(this.delegate.lpropsBlocking(path));
     return ret;
   }
   /**
@@ -211,10 +211,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #link(String, String, Handler)}
+   * Blocking version of {@link #link(String, String, Handler)}
    */
-  public FileSystem linkSync(String link, String existing) {
-    this.delegate.linkSync(link, existing);
+  public FileSystem linkBlocking(String link, String existing) {
+    this.delegate.linkBlocking(link, existing);
     return this;
   }
   /**
@@ -225,10 +225,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #link(String, String, Handler)}
+   * Blocking version of {@link #link(String, String, Handler)}
    */
-  public FileSystem symlinkSync(String link, String existing) {
-    this.delegate.symlinkSync(link, existing);
+  public FileSystem symlinkBlocking(String link, String existing) {
+    this.delegate.symlinkBlocking(link, existing);
     return this;
   }
   /**
@@ -239,10 +239,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #unlink(String, Handler)}
+   * Blocking version of {@link #unlink(String, Handler)}
    */
-  public FileSystem unlinkSync(String link) {
-    this.delegate.unlinkSync(link);
+  public FileSystem unlinkBlocking(String link) {
+    this.delegate.unlinkBlocking(link);
     return this;
   }
   /**
@@ -253,10 +253,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #readSymlink(String, Handler)}
+   * Blocking version of {@link #readSymlink(String, Handler)}
    */
-  public String readSymlinkSync(String link) {
-    def ret = this.delegate.readSymlinkSync(link);
+  public String readSymlinkBlocking(String link) {
+    def ret = this.delegate.readSymlinkBlocking(link);
     return ret;
   }
   /**
@@ -267,10 +267,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #delete(String, Handler)}
+   * Blocking version of {@link #delete(String, Handler)}
    */
-  public FileSystem deleteSync(String path) {
-    this.delegate.deleteSync(path);
+  public FileSystem deleteBlocking(String path) {
+    this.delegate.deleteBlocking(path);
     return this;
   }
   /**
@@ -283,10 +283,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #deleteRecursive(String, boolean, Handler)}
+   * Blocking version of {@link #deleteRecursive(String, boolean, Handler)}
    */
-  public FileSystem deleteSyncRecursive(String path, boolean recursive) {
-    this.delegate.deleteSyncRecursive(path, recursive);
+  public FileSystem deleteRecursiveBlocking(String path, boolean recursive) {
+    this.delegate.deleteRecursiveBlocking(path, recursive);
     return this;
   }
   /**
@@ -298,10 +298,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #mkdir(String, Handler)}
+   * Blocking version of {@link #mkdir(String, Handler)}
    */
-  public FileSystem mkdirSync(String path) {
-    this.delegate.mkdirSync(path);
+  public FileSystem mkdirBlocking(String path) {
+    this.delegate.mkdirBlocking(path);
     return this;
   }
   /**
@@ -316,10 +316,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #mkdir(String, String, Handler)}
+   * Blocking version of {@link #mkdir(String, String, Handler)}
    */
-  public FileSystem mkdirSync(String path, String perms) {
-    this.delegate.mkdirSync(path, perms);
+  public FileSystem mkdirBlocking(String path, String perms) {
+    this.delegate.mkdirBlocking(path, perms);
     return this;
   }
   /**
@@ -333,10 +333,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #mkdirs(String, Handler)}
+   * Blocking version of {@link #mkdirs(String, Handler)}
    */
-  public FileSystem mkdirsSync(String path) {
-    this.delegate.mkdirsSync(path);
+  public FileSystem mkdirsBlocking(String path) {
+    this.delegate.mkdirsBlocking(path);
     return this;
   }
   /**
@@ -353,10 +353,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #mkdirs(String, String, Handler)}
+   * Blocking version of {@link #mkdirs(String, String, Handler)}
    */
-  public FileSystem mkdirsSync(String path, String perms) {
-    this.delegate.mkdirsSync(path, perms);
+  public FileSystem mkdirsBlocking(String path, String perms) {
+    this.delegate.mkdirsBlocking(path, perms);
     return this;
   }
   /**
@@ -368,10 +368,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #readDir(String, Handler)}
+   * Blocking version of {@link #readDir(String, Handler)}
    */
-  public List<String> readDirSync(String path) {
-    def ret = this.delegate.readDirSync(path);
+  public List<String> readDirBlocking(String path) {
+    def ret = this.delegate.readDirBlocking(path);
     return ret;
   }
   /**
@@ -385,10 +385,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #readDir(String, String, Handler)}
+   * Blocking version of {@link #readDir(String, String, Handler)}
    */
-  public List<String> readDirSync(String path, String filter) {
-    def ret = this.delegate.readDirSync(path, filter);
+  public List<String> readDirBlocking(String path, String filter) {
+    def ret = this.delegate.readDirBlocking(path, filter);
     return ret;
   }
   /**
@@ -410,10 +410,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #readFile(String, Handler)}
+   * Blocking version of {@link #readFile(String, Handler)}
    */
-  public Buffer readFileSync(String path) {
-    def ret= Buffer.FACTORY.apply(this.delegate.readFileSync(path));
+  public Buffer readFileBlocking(String path) {
+    def ret= Buffer.FACTORY.apply(this.delegate.readFileBlocking(path));
     return ret;
   }
   /**
@@ -425,10 +425,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #writeFile(String, Buffer, Handler)}
+   * Blocking version of {@link #writeFile(String, Buffer, Handler)}
    */
-  public FileSystem writeFileSync(String path, Buffer data) {
-    this.delegate.writeFileSync(path, (io.vertx.core.buffer.Buffer)data.getDelegate());
+  public FileSystem writeFileBlocking(String path, Buffer data) {
+    this.delegate.writeFileBlocking(path, (io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   /**
@@ -451,10 +451,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #open(String, io.vertx.core.file.OpenOptions, Handler)}
+   * Blocking version of {@link #open(String, io.vertx.core.file.OpenOptions, Handler)}
    */
-  public AsyncFile openSync(String path, Map<String, Object> options) {
-    def ret= AsyncFile.FACTORY.apply(this.delegate.openSync(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null));
+  public AsyncFile openBlocking(String path, Map<String, Object> options) {
+    def ret= AsyncFile.FACTORY.apply(this.delegate.openBlocking(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
@@ -465,10 +465,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #createFile(String, Handler)}
+   * Blocking version of {@link #createFile(String, Handler)}
    */
-  public FileSystem createFileSync(String path) {
-    this.delegate.createFileSync(path);
+  public FileSystem createFileBlocking(String path) {
+    this.delegate.createFileBlocking(path);
     return this;
   }
   /**
@@ -479,10 +479,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #createFile(String, String, Handler)}
+   * Blocking version of {@link #createFile(String, String, Handler)}
    */
-  public FileSystem createFileSync(String path, String perms) {
-    this.delegate.createFileSync(path, perms);
+  public FileSystem createFileBlocking(String path, String perms) {
+    this.delegate.createFileBlocking(path, perms);
     return this;
   }
   /**
@@ -493,10 +493,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #exists(String, Handler)}
+   * Blocking version of {@link #exists(String, Handler)}
    */
-  public boolean existsSync(String path) {
-    def ret = this.delegate.existsSync(path);
+  public boolean existsBlocking(String path) {
+    def ret = this.delegate.existsBlocking(path);
     return ret;
   }
   /**
@@ -517,10 +517,10 @@ public class FileSystem {
     return this;
   }
   /**
-   * Synchronous version of {@link #fsProps(String, Handler)}
+   * Blocking version of {@link #fsProps(String, Handler)}
    */
-  public FileSystemProps fsPropsSync(String path) {
-    def ret= FileSystemProps.FACTORY.apply(this.delegate.fsPropsSync(path));
+  public FileSystemProps fsPropsBlocking(String path) {
+    def ret= FileSystemProps.FACTORY.apply(this.delegate.fsPropsBlocking(path));
     return ret;
   }
 

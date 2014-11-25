@@ -88,8 +88,8 @@ public class Vertx implements Measured {
     def ret= Vertx.FACTORY.apply(io.vertx.core.Vertx.vertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
-  public static void vertxAsync(Map<String, Object> options = [:], Handler<AsyncResult<Vertx>> resultHandler) {
-    io.vertx.core.Vertx.vertxAsync(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.Vertx>>() {
+  public static void clusteredVertx(Map<String, Object> options = [:], Handler<AsyncResult<Vertx>> resultHandler) {
+    io.vertx.core.Vertx.clusteredVertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.Vertx>>() {
       public void handle(AsyncResult<io.vertx.core.Vertx> event) {
         AsyncResult<Vertx> f
         if (event.succeeded()) {
@@ -276,6 +276,23 @@ public class Vertx implements Measured {
   public Set<String> deployments() {
     def ret = this.delegate.deployments();
     return ret;
+  }
+  public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, Handler<AsyncResult<T>> resultHandler) {
+    this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {
+      public void handle(io.vertx.core.Future<java.lang.Object> event) {
+        blockingCodeHandler.handle(Future.FACTORY.apply(event));
+      }
+    }, new Handler<AsyncResult<Object>>() {
+      public void handle(AsyncResult<Object> event) {
+        AsyncResult<Object> f
+        if (event.succeeded()) {
+          f = InternalHelper.<Object>result(InternalHelper.wrapObject(event.result()))
+        } else {
+          f = InternalHelper.<Object>failure(event.cause())
+        }
+        resultHandler.handle(f)
+      }
+    });
   }
   private FileSystem cached_0;
   private EventBus cached_1;

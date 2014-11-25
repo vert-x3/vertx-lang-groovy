@@ -216,7 +216,7 @@ public class HttpClientRequest implements WriteStream<Buffer> {
   /**
    * Set's the amount of time after which if a response is not received TimeoutException()
    * will be sent to the exception handler of this request. Calling this method more than once
-   * has the effect of canceling any existing timeout and starting the timeout from scratch.
+   * has the effect of canceling any existing timeout and starting the timeout from scratchpad.
    *
    * @param timeoutMs The quantity of time in milliseconds.
    * @return A reference to this, so multiple method calls can be chained.

@@ -232,23 +232,8 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     this.delegate.sendFile(filename);
     return this;
   }
-  /**
-   * Same as {@link #sendFile(String)} but also takes the path to a resource to serve if the resource is not found
-   */
-  public HttpServerResponse sendFile(String filename, String notFoundFile) {
-    this.delegate.sendFile(filename, notFoundFile);
-    return this;
-  }
   public HttpServerResponse sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
     this.delegate.sendFile(filename, resultHandler);
-    return this;
-  }
-  /**
-   * Same as {@link #sendFile(String, String)} but also takes a handler that will be called when the send has completed or
-   * a failure has occurred
-   */
-  public HttpServerResponse sendFile(String filename, String notFoundFile, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename, notFoundFile, resultHandler);
     return this;
   }
   /**

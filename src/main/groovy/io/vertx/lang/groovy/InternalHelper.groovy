@@ -52,10 +52,10 @@ public class InternalHelper {
   }
 
   public static <V> AsyncResult<V> result(V value) {
-    return Future.completedFuture(value);
+    return Future.succeededFuture(value);
   }
 
   public static <V> AsyncResult<V> failure(Throwable t) {
-    return Future.completedFuture(t);
+    return Future.failedFuture(t);
   }
 }
