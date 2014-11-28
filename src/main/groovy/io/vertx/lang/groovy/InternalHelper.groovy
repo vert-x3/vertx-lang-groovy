@@ -58,4 +58,5 @@ public class InternalHelper {
   public static <V> AsyncResult<V> failure(Throwable t) {
     return Future.failedFuture(t);
   }
+
 }

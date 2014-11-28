@@ -23,7 +23,7 @@ package @{ifacePackageName.replace("io.vertx.", "io.vertx.groovy.")};\n
 @code{cacheDecls=new java.util.ArrayList()}
 
 @declare{'invokeDelegate'}
-@if{method.staticMethod}@{helper.getNonGenericType(ifaceFQCN)}@else{}@includeNamed{'rewriteDelegate';method=method}@end{}.@{method.name}(@foreach{param: method.params}@includeNamed{'paramArgument';param=param}@end{', '})
+@if{method.staticMethod}@{type.raw}@else{}@includeNamed{'rewriteDelegate';method=method}@end{}.@{method.name}(@foreach{param: method.params}@includeNamed{'paramArgument';param=param}@end{', '})
 @end{}
 
 @declare{'rewriteDelegate'}
@@ -71,6 +71,30 @@ this.delegate
 			@code{groovyJsonType='List<Object>'}
 		@end{}
 		Handler<AsyncResult<@{param.type.args[0].args[0].raw.simpleName}<@{groovyJsonType}>>> @{param.name}
+	@else{param.type.kind == CLASS_LIST}
+		@if{param.type.args[0].kind == CLASS_JSON_OBJECT}
+			List<Map<String, Object>> @{param.name}
+		@else{param.type.args[0].kind == CLASS_JSON_ARRAY}
+			List<List<Object>> @{param.name}
+		@else{}
+			@{param.type.simpleName} @{param.name}
+		@end{}
+	@else{param.type.kind == CLASS_SET}
+		@if{param.type.args[0].kind == CLASS_JSON_OBJECT}
+			Set<Map<String, Object>> @{param.name}
+		@else{param.type.args[0].kind == CLASS_JSON_ARRAY}
+			Set<List<Object>> @{param.name}
+		@else{}
+			@{param.type.simpleName} @{param.name}
+		@end{}
+	@else{param.type.kind == CLASS_MAP}
+		@if{param.type.args[1].kind == CLASS_JSON_OBJECT}
+			Map<String, Map<String, Object>> @{param.name}
+		@else{param.type.args[1].kind == CLASS_JSON_ARRAY}
+			Map<String, List<Object>> @{param.name}
+		@else{}
+			@{param.type.simpleName} @{param.name}
+		@end{}
 	@else{}
 		@{param.type.simpleName} @{param.name}
 	@end{}
@@ -99,6 +123,39 @@ this.delegate
 		(@{param.type.name})@{param.name}.getDelegate()
 	@else{param.type.kind == CLASS_OBJECT}
 		InternalHelper.unwrapObject(@{param.name})
+	@else{param.type.kind == CLASS_LIST}
+		@code{listType=param.type.args[0]}
+		@if{listType.kind == CLASS_API}
+			(List<@{listType.name}>)(@{param.name}.collect({underpants -> underpants.getDelegate()}))
+		@else{listType.kind == CLASS_JSON_OBJECT}
+			@{param.name}.collect({underpants -> new JsonObject(underpants)})
+		@else{listType.kind == CLASS_JSON_ARRAY}
+			@{param.name}.collect({underpants -> new JsonArray(underpants)})
+		@else{}
+			@{param.name}
+		@end{}
+	@else{param.type.kind == CLASS_SET}
+		@code{setType=param.type.args[0]}
+		@if{setType.kind == CLASS_API}
+			(Set<@{setType.name}>)(@{param.name}.collect({underpants -> underpants.getDelegate()}) as Set)
+		@else{setType.kind == CLASS_JSON_OBJECT}
+			@{param.name}.collect({underpants -> new JsonObject(underpants)}) as Set
+		@else{setType.kind == CLASS_JSON_ARRAY}
+			@{param.name}.collect({underpants -> new JsonArray(underpants)}) as Set
+		@else{}
+			@{param.name}
+		@end{}
+	@else{param.type.kind == CLASS_MAP}
+		@code{mapType=param.type.args[1]}
+		@if{mapType.kind == CLASS_API}
+			(Map<String, @{mapType.name}>)(@{param.name}.collectEntries({k, v -> [k, v.getDelegate()]}))
+		@else{mapType.kind == CLASS_JSON_OBJECT}
+			(Map<String, @{mapType.name}>)(@{param.name}.collectEntries({k, v -> [k, new JsonObject(v)]}))
+		@else{mapType.kind == CLASS_JSON_ARRAY}
+			(Map<String, @{mapType.name}>)(@{param.name}.collectEntries({k, v -> [k, new JsonArray(v)]}))
+		@else{}
+			@{param.name}
+		@end{}
 	@else{param.type.kind == CLASS_HANDLER}
 		@code{eventType=param.type.args[0]}
 		@code{eventKind=eventType.kind}
@@ -213,6 +270,30 @@ this.delegate
 		Map<String, Object>
 	@else{returnType.kind == CLASS_JSON_ARRAY}
 		List<Object>
+	@else{returnType.kind == CLASS_LIST}
+		@if{returnType.args[0].kind == CLASS_JSON_OBJECT}
+			List<Map<String, Object>>
+		@else{returnType.args[0].kind == CLASS_JSON_ARRAY}
+			List<List<Object>>
+		@else{}
+			@{returnType.simpleName}
+		@end{}
+	@else{returnType.kind == CLASS_SET}
+		@if{returnType.args[0].kind == CLASS_JSON_OBJECT}
+			Set<Map<String, Object>>
+		@else{returnType.args[0].kind == CLASS_JSON_ARRAY}
+			Set<List<Object>>
+		@else{}
+			@{returnType.simpleName}
+		@end{}
+	@else{returnType.kind == CLASS_MAP}
+		@if{returnType.args[1].kind == CLASS_JSON_OBJECT}
+			Map<String, Map<String, Object>>
+		@else{returnType.args[1].kind == CLASS_JSON_ARRAY}
+			Map<String, List<Object>>
+		@else{}
+			@{returnType.simpleName}
+		@end{}
 	@else{}
 		@{returnType.simpleName}
 	@end{}

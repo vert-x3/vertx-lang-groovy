@@ -1,5 +1,5 @@
-	  final def @{helper.getNonGenericType(ifaceFQCN)} delegate;\n
-	  public @{constructor}(@{helper.getNonGenericType(ifaceFQCN)} delegate) {\n
+	  final def @{type.raw} delegate;\n
+	  public @{constructor}(@{type.raw} delegate) {\n
 	@if{concrete && concreteSuperTypes.size() > 0}
 	    super(delegate);\n
 	@end{}
@@ -42,15 +42,48 @@
 		@else{method.returnType.kind == CLASS_JSON_ARRAY}
 			@code{cachedType='List<Object>'}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.getList();\n
-		@else{!method.returnType.name.startsWith('io.vertx.')}
+		@else{method.returnType.kind == CLASS_LIST}
 			@code{cachedType=method.returnType.name}
+			@if{method.returnType.args[0].kind == CLASS_JSON_OBJECT}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getMap()});\n
+			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getList()});\n
+			@else{method.returnType.args[0].kind == CLASS_API}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{method.returnType.args[0].simpleName}.FACTORY.apply(underpants)});\n
+		  @else{}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
+			@end{}
+		@else{method.returnType.kind == CLASS_SET}
+			@code{cachedType=method.returnType.name}
+			@if{method.returnType.args[0].kind == CLASS_JSON_OBJECT}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getMap()}) as Set;\n
+			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getList()}) as Set;\n
+			@else{method.returnType.args[0].kind == CLASS_API}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{method.returnType.args[0].simpleName}.FACTORY.apply(underpants)}) as Set;\n
+			@else{}
+		    def ret = @includeNamed{'invokeDelegate';method=method};\n
+			@end{}
+		@else{method.returnType.kind == CLASS_MAP}
+			@code{cachedType=method.returnType.name}
+			@if{method.returnType.args[1].kind == CLASS_JSON_OBJECT}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, v.getMap()]});\n
+			@else{method.returnType.args[1].kind == CLASS_JSON_ARRAY}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, v.getList()]});\n
+			@else{method.returnType.args[1].kind == CLASS_API}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, @{method.returnType.args[0].simpleName}.FACTORY.apply(v)]});\n
+			@else{}
+		    def ret = @includeNamed{'invokeDelegate';method=method};\n
+			@end{}
 		@else{method.returnType.kind == CLASS_ENUM}
 			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
-		@else{}
+		@else{method.returnType.kind == CLASS_API}
 			@code{cachedType=method.returnType.simpleName}
 		    def ret= @{method.returnType.raw.simpleName}.FACTORY.apply(@includeNamed{'invokeDelegate';method=method});\n
+		@else{}
+			@code{cachedType=method.returnType.name}
+		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@end{}
 		@if{method.cacheReturn}
 		    cached_@{cacheDecls.size()} = ret;\n

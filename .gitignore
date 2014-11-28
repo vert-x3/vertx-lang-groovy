@@ -21,3 +21,4 @@ test-tmp
 *.class
 src/gen
 src/test/groovy/io/vertx/groovy/codegen/**/*.groovy
+src/scratchpad
