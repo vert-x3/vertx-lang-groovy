@@ -57,8 +57,8 @@ public class NetServer implements Measured {
    * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
    * the json data representing that metric
    */
-  public Map<String,JsonObject> metrics() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics();
+  public Map<String, Map<String, Object>> metrics() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
     return ret;
   }
   /**

@@ -15,9 +15,8 @@
  */
 
 package io.vertx.lang.groovy
-
 import io.vertx.codegen.testmodel.RefedInterface1Impl
-import io.vertx.codegen.testmodel.TestEnum;
+import io.vertx.codegen.testmodel.TestEnum
 import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
@@ -27,8 +26,7 @@ import io.vertx.groovy.codegen.testmodel.RefedInterface2
 import io.vertx.groovy.codegen.testmodel.TestInterface
 import org.junit.Test
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.*
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
@@ -519,6 +517,44 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodListParams() {
+    RefedInterface1 refed1 = new RefedInterface1(new RefedInterface1Impl())
+    refed1.setString("foo")
+    RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl())
+    refed2.setString("bar")
+    obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
+      (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
+      (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2])
+  }
+
+  @Test
+  public void testMethodSetParams() {
+    RefedInterface1 refed1 = new RefedInterface1(new RefedInterface1Impl())
+    refed1.setString("foo")
+    RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl())
+    refed2.setString("bar")
+    obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
+      (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
+      (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2])
+  }
+
+  @Test
+  public void testMethodMapParams() {
+    RefedInterface1 refed1 = new RefedInterface1(new RefedInterface1Impl())
+    refed1.setString("foo")
+    RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl())
+    refed2.setString("bar")
+    obj.methodWithMapParams((Map<String, String>)[foo: "bar", eek: "wibble"], (Map<String, Byte>)[foo: (byte)2, eek: (byte)3],
+      (Map<String, Short>)[foo: (short)12, eek: (short)13],
+      (Map<String, Integer>)[foo: 1234, eek: 1345], (Map<String, Long>)[foo: 123l, eek: 456l], (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
+      (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]], (Map<String, RefedInterface1>)[foo: refed1, eek: refed2])
+  }
+
+  // Returns
+
+  // FIXME - currently missing tests for returns of all List<T>, Set<T>, Map<T> types
+
+  @Test
   public void testBasicReturns() {
     assertEquals(123, obj.methodWithByteReturn())
     assertEquals(12345, obj.methodWithShortReturn())
@@ -549,8 +585,111 @@ public class ApiTest {
   }
 
   @Test
+  public void testListLongReturn() {
+    assertEquals([123l, 456l], obj.methodWithListLongReturn())
+  }
+
+  @Test
+  public void testListJsonObjectReturn() {
+    List<Map<String, Object>> list = obj.methodWithListJsonObjectReturn();
+    assertEquals(2, list.size());
+    Map<String, Object> json1 = list.get(0);
+    assertEquals("bar", json1.get("foo"));
+    Map<String, Object> json2 = list.get(1);
+    assertEquals("eek", json2.get("blah"));
+  }
+
+  @Test
+  public void testListJsonArrayReturn() {
+    List<List<Object>> list = obj.methodWithListJsonArrayReturn();
+    assertEquals(2, list.size());
+    List<Object> json1 = list.get(0);
+    assertEquals("foo", json1.get(0));
+    List<Object> json2 = list.get(1);
+    assertEquals("blah", json2.get(0));
+  }
+
+  @Test
+  public void testListVertxGenReturn() {
+    List<io.vertx.groovy.codegen.testmodel.RefedInterface1> list = obj.methodWithListVertxGenReturn();
+    assertEquals(2, list.size());
+    RefedInterface1 refed1 = list.get(0);
+    assertTrue(refed1 instanceof io.vertx.groovy.codegen.testmodel.RefedInterface1);
+    RefedInterface1 refed2 = list.get(1);
+    assertEquals("foo", refed1.getString());
+    assertEquals("bar", refed2.getString());
+  }
+
+  @Test
   public void testSetStringReturn() {
     assertEquals(["foo", "bar", "wibble"] as Set, obj.methodWithSetStringReturn())
+  }
+
+  @Test
+  public void testSetLongReturn() {
+    assertEquals([123l, 456l] as Set, obj.methodWithSetLongReturn())
+  }
+
+  @Test
+  public void testSetJsonObjectReturn() {
+    Set<Map<String, Object>> set = obj.methodWithSetJsonObjectReturn();
+    assertEquals(2, set.size());
+    Map<String, Object> json1 = new HashMap<>();
+    json1.put("foo", "bar");
+    assertTrue(set.contains(json1));
+    Map<String, Object> json2 = new HashMap<>();
+    json2.put("blah", "eek");
+    assertTrue(set.contains(json2));
+  }
+
+  @Test
+  public void testSetJsonArrayReturn() {
+    Set<List<Object>> set = obj.methodWithSetJsonArrayReturn();
+    assertEquals(2, set.size());
+    List<Object> json1 = new ArrayList<>();
+    json1.add("foo");
+    assertTrue(set.contains(json1));
+    List<Object> json2 = new ArrayList<>();
+    json2.add("blah");
+    assertTrue(set.contains(json2));
+  }
+
+  @Test
+  public void testSetVertxGenReturn() {
+    Set<io.vertx.groovy.codegen.testmodel.RefedInterface1> set = obj.methodWithSetVertxGenReturn();
+    assertEquals(2, set.size());
+    RefedInterface1 refed1 = new RefedInterface1(new RefedInterface1Impl());
+    refed1.setString("foo");
+    RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl());
+    refed2.setString("bar");
+    List<RefedInterface1> list = new ArrayList<>(set);
+    assertTrue((list.get(0).getString().equals("foo") && list.get(1).getString().equals("bar")) || (list.get(0).getString().equals("bar") && list.get(1).getString().equals("foo")))
+  }
+
+  @Test
+  public void testMapStringReturn() {
+    Map<String, String> map = obj.methodWithMapStringReturn({});
+    assertEquals("bar", map.get("foo"));
+  }
+
+  @Test
+  public void testMapLongReturn() {
+    Map<String, Long> map = obj.methodWithMapLongReturn({});
+    assertEquals(123l, map.get("foo"));
+  }
+
+  @Test
+  public void testMapJsonObjectReturn() {
+    Map<String, Map<String, Object>> map = obj.methodWithMapJsonObjectReturn({});
+    Map<String, Object> m = map.get("foo");
+    assertEquals("eek", m.get("wibble"));
+  }
+
+  @Test
+  public void testMapJsonArrayReturn() {
+    Map<String, List<Object>> map = obj.methodWithMapJsonArrayReturn({});
+    List<Object> m = map.get("foo");
+    assertEquals("wibble", m.get(0));
   }
 
   @Test
