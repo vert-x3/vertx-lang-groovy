@@ -65,13 +65,24 @@ public class HttpClient implements Measured {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
     return ret;
   }
+  public HttpClientRequest request(HttpMethod method, String absoluteURI) {
+    def ret= HttpClientRequest.FACTORY.apply(this.delegate.request(method, absoluteURI));
+    return ret;
+  }
   /**
-   * Set an exception handler
+   * Create a new http client request.
    *
-   * @return A reference to this, so multiple invocations can be chained together.
+   * The returned request does not have yet a response handler and one should be set before sending
+   * any data to the remote server.
+   *
+   * @param method the http method
+   * @param port the remote server port
+   * @param host the remote server host
+   * @param requestURI the request uri
+   * @return the http client request
    */
-  public HttpClient exceptionHandler(Handler<Throwable> handler) {
-    def ret= HttpClient.FACTORY.apply(this.delegate.exceptionHandler(handler));
+  public HttpClientRequest request(HttpMethod method, int port, String host, String requestURI) {
+    def ret= HttpClientRequest.FACTORY.apply(this.delegate.request(method, port, host, requestURI));
     return ret;
   }
   public HttpClientRequest request(HttpMethod method, String absoluteURI, Handler<HttpClientResponse> responseHandler) {
@@ -88,6 +99,25 @@ public class HttpClient implements Measured {
         responseHandler.handle(HttpClientResponse.FACTORY.apply(event));
       }
     }));
+    return ret;
+  }
+  public WebSocketStream websocket(int port, String host, String requestURI) {
+    def ret= WebSocketStream.FACTORY.apply(this.delegate.websocket(port, host, requestURI));
+    return ret;
+  }
+  public WebSocketStream websocket(int port, String host, String requestURI, MultiMap headers) {
+    def ret= WebSocketStream.FACTORY.apply(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate()));
+    return ret;
+  }
+  public WebSocketStream websocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version) {
+    def ret= WebSocketStream.FACTORY.apply(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version));
+    return ret;
+  }
+  /**
+   * @return a {@link io.vertx.core.http.WebSocketStream} configured with the specified arguments
+   */
+  public WebSocketStream websocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols) {
+    def ret= WebSocketStream.FACTORY.apply(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols));
     return ret;
   }
   public HttpClient connectWebsocket(int port, String host, String requestURI, Handler<WebSocket> wsConnect) {

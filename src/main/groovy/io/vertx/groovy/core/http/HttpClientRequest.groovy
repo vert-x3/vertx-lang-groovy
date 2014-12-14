@@ -20,6 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.streams.WriteStream
 import io.vertx.core.http.HttpMethod
+import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.groovy.core.MultiMap
 import io.vertx.core.Handler
 /**
@@ -59,7 +60,7 @@ import io.vertx.core.Handler
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
-public class HttpClientRequest implements WriteStream<Buffer> {
+public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpClientResponse> {
   final def io.vertx.core.http.HttpClientRequest delegate;
   public HttpClientRequest(io.vertx.core.http.HttpClientRequest delegate) {
     this.delegate = delegate;
@@ -79,6 +80,9 @@ public class HttpClientRequest implements WriteStream<Buffer> {
     this.delegate.exceptionHandler(handler);
     return this;
   }
+  /**
+   * @throws java.lang.IllegalStateException when no response handler is set
+   */
   public HttpClientRequest write(Buffer data) {
     this.delegate.write((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
@@ -89,6 +93,26 @@ public class HttpClientRequest implements WriteStream<Buffer> {
   }
   public HttpClientRequest drainHandler(Handler<Void> handler) {
     this.delegate.drainHandler(handler);
+    return this;
+  }
+  public HttpClientRequest handler(Handler<HttpClientResponse> handler) {
+    this.delegate.handler(new Handler<io.vertx.core.http.HttpClientResponse>() {
+      public void handle(io.vertx.core.http.HttpClientResponse event) {
+        handler.handle(HttpClientResponse.FACTORY.apply(event));
+      }
+    });
+    return this;
+  }
+  public HttpClientRequest pause() {
+    this.delegate.pause();
+    return this;
+  }
+  public HttpClientRequest resume() {
+    this.delegate.resume();
+    return this;
+  }
+  public HttpClientRequest endHandler(Handler<Void> endHandler) {
+    this.delegate.endHandler(endHandler);
     return this;
   }
   /**
@@ -148,6 +172,7 @@ public class HttpClientRequest implements WriteStream<Buffer> {
    * Write a {@link String} to the request body, encoded in UTF-8.
    *
    * @return A reference to this, so multiple method calls can be chained.
+   * @throws java.lang.IllegalStateException when no response handler is set
    */
   public HttpClientRequest write(String chunk) {
     this.delegate.write(chunk);
@@ -157,6 +182,7 @@ public class HttpClientRequest implements WriteStream<Buffer> {
    * Write a {@link String} to the request body, encoded using the encoding {@code enc}.
    *
    * @return A reference to this, so multiple method calls can be chained.
+   * @throws java.lang.IllegalStateException when no response handler is set
    */
   public HttpClientRequest write(String chunk, String enc) {
     this.delegate.write(chunk, enc);
@@ -180,6 +206,7 @@ public class HttpClientRequest implements WriteStream<Buffer> {
    * to implement HTTP 100-continue handling, see {@link #continueHandler(io.vertx.core.Handler)} for more information.
    *
    * @return A reference to this, so multiple method calls can be chained.
+   * @throws java.lang.IllegalStateException when no response handler is set
    */
   public HttpClientRequest sendHead() {
     this.delegate.sendHead();
@@ -187,12 +214,16 @@ public class HttpClientRequest implements WriteStream<Buffer> {
   }
   /**
    * Same as {@link #end(Buffer)} but writes a String with the default encoding
+   *
+   * @throws java.lang.IllegalStateException when no response handler is set
    */
   public void end(String chunk) {
     this.delegate.end(chunk);
   }
   /**
    * Same as {@link #end(Buffer)} but writes a String with the specified encoding
+   *
+   * @throws java.lang.IllegalStateException when no response handler is set
    */
   public void end(String chunk, String enc) {
     this.delegate.end(chunk, enc);
@@ -200,6 +231,8 @@ public class HttpClientRequest implements WriteStream<Buffer> {
   /**
    * Same as {@link #end()} but writes some data to the request body before ending. If the request is not chunked and
    * no other data has been written then the Content-Length header will be automatically set
+   *
+   * @throws java.lang.IllegalStateException when no response handler is set
    */
   public void end(Buffer chunk) {
     this.delegate.end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
@@ -209,6 +242,8 @@ public class HttpClientRequest implements WriteStream<Buffer> {
    * the actual request won't get written until this method gets called.<p>
    * Once the request has ended, it cannot be used any more, and if keep alive is true the underlying connection will
    * be returned to the {@link HttpClient} pool so it can be assigned to another request.
+   *
+   * @throws java.lang.IllegalStateException when no response handler is set
    */
   public void end() {
     this.delegate.end();
