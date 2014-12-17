@@ -62,8 +62,24 @@ public class AsyncMap<K,V> {
   public void put(K k, V v, Handler<AsyncResult<Void>> completionHandler) {
     ((io.vertx.core.shareddata.AsyncMap) this.delegate).put(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), completionHandler);
   }
+  public void put(K k, V v, long timeout, Handler<AsyncResult<Void>> completionHandler) {
+    ((io.vertx.core.shareddata.AsyncMap) this.delegate).put(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), timeout, completionHandler);
+  }
   public void putIfAbsent(K k, V v, Handler<AsyncResult<V>> completionHandler) {
     ((io.vertx.core.shareddata.AsyncMap) this.delegate).putIfAbsent(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), new Handler<AsyncResult<Object>>() {
+      public void handle(AsyncResult<Object> event) {
+        AsyncResult<Object> f
+        if (event.succeeded()) {
+          f = InternalHelper.<Object>result(InternalHelper.wrapObject(event.result()))
+        } else {
+          f = InternalHelper.<Object>failure(event.cause())
+        }
+        completionHandler.handle(f)
+      }
+    });
+  }
+  public void putIfAbsent(K k, V v, long timeout, Handler<AsyncResult<V>> completionHandler) {
+    ((io.vertx.core.shareddata.AsyncMap) this.delegate).putIfAbsent(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), timeout, new Handler<AsyncResult<Object>>() {
       public void handle(AsyncResult<Object> event) {
         AsyncResult<Object> f
         if (event.succeeded()) {
@@ -114,6 +130,9 @@ public class AsyncMap<K,V> {
   }
   public void clear(Handler<AsyncResult<Void>> resultHandler) {
     ((io.vertx.core.shareddata.AsyncMap) this.delegate).clear(resultHandler);
+  }
+  public void size(Handler<AsyncResult<Integer>> resultHandler) {
+    ((io.vertx.core.shareddata.AsyncMap) this.delegate).size(resultHandler);
   }
 
   static final java.util.function.Function<io.vertx.core.shareddata.AsyncMap, AsyncMap> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
