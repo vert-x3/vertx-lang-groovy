@@ -240,6 +240,10 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     cached_6 = ret;
     return ret;
   }
+  public ServerWebSocket upgrade() {
+    def ret= ServerWebSocket.FACTORY.apply(this.delegate.upgrade());
+    return ret;
+  }
   private HttpServerResponse cached_0;
   private MultiMap cached_1;
   private MultiMap cached_2;
