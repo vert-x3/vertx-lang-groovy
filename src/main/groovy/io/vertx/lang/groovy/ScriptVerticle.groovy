@@ -14,13 +14,11 @@
  * under the License.
  */
 
-package io.vertx.lang.groovy;
+package io.vertx.lang.groovy
 
-import groovy.lang.Binding;
-import groovy.lang.MissingMethodException;
-import groovy.lang.Script
 import groovy.transform.CompileStatic;
-import io.vertx.core.AbstractVerticle;
+import io.vertx.core.AbstractVerticle
+import io.vertx.core.Future;
 import io.vertx.groovy.core.Vertx;
 
 /**
@@ -44,21 +42,36 @@ public class ScriptVerticle extends AbstractVerticle {
     this.script = script;
   }
 
+  private static final Class[] EMPTY_PARAMS = [];
+  private static final Class[] FUTURE_PARAMS = [io.vertx.groovy.core.Future.class];
+
   @Override
-  public void start() throws Exception {
+  void start(Future<Void> startFuture) throws Exception {
     Binding binding = script.getBinding();
     if (script.getBinding() == null) {
       script.setBinding(binding = new Binding());
     }
     binding.setVariable("vertx", new Vertx(vertx));
     script.run();
+    handleLifecycle("vertxStart", startFuture);
   }
 
   @Override
-  public void stop() throws Exception {
-    try {
-      script.invokeMethod("vertxStop", null);
-    } catch (MissingMethodException ignore) {
+  void stop(Future<Void> stopFuture) throws Exception {
+    handleLifecycle("vertxStop", stopFuture);
+  }
+
+  private void handleLifecycle(String methodName, Future<Void> future) {
+    MetaMethod method = script.getMetaClass().getMetaMethod(methodName);
+    if (method != null) {
+      if (method.isValidMethod(FUTURE_PARAMS)) {
+        method.invoke(script, [new io.vertx.groovy.core.Future(future)] as Object[]);
+      } else if (method.isValidMethod(EMPTY_PARAMS)) {
+        method.invoke(script);
+        future.complete();
+      }
+    } else {
+      future.complete();
     }
   }
 }
