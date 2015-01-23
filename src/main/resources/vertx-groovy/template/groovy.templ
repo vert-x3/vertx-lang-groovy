@@ -37,8 +37,8 @@ this.delegate
 @end{}
 
 @declare{'paramTemplate'}
-	@if{param.type.kind == CLASS_OPTIONS}
-		Map<String, Object> @{param.name}@if{defaultOptions} = [:]@end{}
+	@if{param.type.kind == CLASS_DATA_OBJECT}
+		Map<String, Object> @{param.name}@if{defaultDataObject} = [:]@end{}
 	@else{param.type.kind == CLASS_JSON_OBJECT}
 		Map<String, Object> @{param.name}
 	@else{param.type.kind == CLASS_JSON_ARRAY}
@@ -115,7 +115,7 @@ this.delegate
 @end{}
 
 @declare{'paramArgument'}
-	@if{param.type.kind == CLASS_OPTIONS}
+	@if{param.type.kind == CLASS_DATA_OBJECT}
 		@{param.name} != null ? new @{param.type.name}(new io.vertx.core.json.JsonObject(@{param.name})) : null
 	@else{param.type.kind.json}
 		@{param.name} != null ? new @{param.type.name}(@{param.name}) : null
@@ -159,7 +159,7 @@ this.delegate
 	@else{param.type.kind == CLASS_HANDLER}
 		@code{eventType=param.type.args[0]}
 		@code{eventKind=eventType.kind}
-		@if{eventKind == CLASS_OTHER || eventKind.basic || eventKind == CLASS_VOID || eventKind == CLASS_THROWABLE || eventKind == CLASS_OPTIONS}
+		@if{eventKind == CLASS_OTHER || eventKind.basic || eventKind == CLASS_VOID || eventKind == CLASS_THROWABLE || eventKind == CLASS_DATA_OBJECT}
 			@{param.name}
 		@else{eventKind == CLASS_JSON_OBJECT}
 			new Handler<JsonObject>() {\n
@@ -209,7 +209,7 @@ this.delegate
 		@else{eventKind == CLASS_ASYNC_RESULT}
 			@code{resultType=eventType.args[0]}
 			@code{resultKind=resultType.kind}
-			@if{resultKind == CLASS_OTHER || resultKind.basic || resultKind == CLASS_VOID || resultKind == CLASS_OPTIONS}
+			@if{resultKind == CLASS_OTHER || resultKind.basic || resultKind == CLASS_VOID || resultKind == CLASS_DATA_OBJECT}
 				@{param.name}
 			@else{resultKind == CLASS_LIST || resultKind == CLASS_SET}
 				@code{elementType=resultType.args[0]}
@@ -338,19 +338,19 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	@end{', '}
 @end{} {\n
 
-@comment{'Compute the defaultOptions map that store if we need a default options value or not per method'}
-@code{defaultOptionsMap=new java.util.IdentityHashMap()}
+@comment{'Compute the defaultDataObject map that store if we need a default data object value or not per method'}
+@code{defaultDataObjectMap=new java.util.IdentityHashMap()}
 @foreach{method:methods}
-	@code{defaultOptions=false}
-	@if{method.params.size() > 0 && method.params[0].type.kind == CLASS_OPTIONS}
-		@code{defaultOptions=true}
+	@code{defaultDataObject=false}
+	@if{method.params.size() > 0 && method.params[0].type.kind == CLASS_DATA_OBJECT}
+		@code{defaultDataObject=true}
 		@foreach{m:methods}
 			@if{m.name == method.name && m.params == method.params.subList(1, method.params.size())}
-				@code{defaultOptions=false}
+				@code{defaultDataObject=false}
 			@end{}
 		@end{}
 	@end{}
-	@code{defaultOptionsMap.put(method, defaultOptions)}
+	@code{defaultDataObjectMap.put(method, defaultDataObject)}
 @end{}
 
 @if{concrete}
@@ -362,7 +362,7 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	  public Object getDelegate();\n
 
 	@foreach{method:methods}
-	  @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultOptions=defaultOptionsMap[method]}@end{', '});\n
+	  @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeVar:method.typeParams}@{typeVar}@end{}> @end{}@{method.returnType.simpleName} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultDataObject=defaultDataObjectMap[method]}@end{', '});\n
 	@end{}
 
 @end{}

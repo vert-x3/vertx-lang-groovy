@@ -18,7 +18,7 @@ package io.vertx.lang.groovy
 import io.vertx.codegen.testmodel.RefedInterface1Impl
 import io.vertx.codegen.testmodel.TestEnum
 import io.vertx.codegen.testmodel.TestInterfaceImpl
-import io.vertx.codegen.testmodel.TestOptions
+import io.vertx.codegen.testmodel.TestDataObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
 import io.vertx.groovy.codegen.testmodel.GenericRefedInterface
@@ -109,36 +109,36 @@ public class ApiTest {
   }
 
   @Test
-  public void testOptionsParam() {
-    def options = [
+  public void testDataObjectParam() {
+    def dataObject = [
       foo: "hello",
       bar: 123,
       wibble: 1.23
     ];
-    obj.methodWithOptionsParam(options);
+    obj.methodWithDataObjectParam(dataObject);
     def hell = "hell"
-    options = [
+    dataObject = [
         foo: "${hell}o",
         bar: 123,
         wibble: 1.23
     ];
-    obj.methodWithOptionsParam(options);
+    obj.methodWithDataObjectParam(dataObject);
   }
 
   @Test
-  public void testNullOptionsParam() {
-    obj.methodWithNullOptionsParam(null);
+  public void testNullDataObjectParam() {
+    obj.methodWithNullDataObjectParam(null);
   }
 
   @Test
-  public void testMethodWithHandlerOptions() {
-    def options = new TestOptions()
-    options.foo = "foo"
-    options.bar = 123
+  public void testMethodWithHandlerDataObject() {
+    def dataObject = new TestDataObject()
+    dataObject.foo = "foo"
+    dataObject.bar = 123
     def count = 0
-    obj.methodWithHandlerOptions({
-      assertEquals(options.foo, it.foo)
-      assertEquals(options.bar, it.bar)
+    obj.methodWithHandlerDataObject({
+      assertEquals(dataObject.foo, it.foo)
+      assertEquals(dataObject.bar, it.bar)
       //assertNull(it.wibble)
       count++
     })
@@ -146,21 +146,21 @@ public class ApiTest {
   }
 
   @Test
-  public void testMethodWithHandlerAsyncResultOptions() {
-    def options = new TestOptions()
-    options.foo = "foo"
-    options.bar = 123
+  public void testMethodWithHandlerAsyncResultDataObject() {
+    def dataObject = new TestDataObject()
+    dataObject.foo = "foo"
+    dataObject.bar = 123
     def checker = new AsyncResultChecker()
-    obj.methodWithHandlerAsyncResultOptions(false, { result ->
+    obj.methodWithHandlerAsyncResultDataObject(false, { result ->
       assertTrue(result.succeeded())
       assertFalse(result.failed())
       def res = result.result()
-      assertEquals(options.foo, res.foo)
-      assertEquals(options.bar, res.bar)
+      assertEquals(dataObject.foo, res.foo)
+      assertEquals(dataObject.bar, res.bar)
       assertNull(result.cause())
       checker.count++
     })
-    obj.methodWithHandlerAsyncResultOptions(true, { checker.assertAsyncFailure("foobar!", it) })
+    obj.methodWithHandlerAsyncResultDataObject(true, { checker.assertAsyncFailure("foobar!", it) })
     assertEquals(2, checker.count);
   }
 
