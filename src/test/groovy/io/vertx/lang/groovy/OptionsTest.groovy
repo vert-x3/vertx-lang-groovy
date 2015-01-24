@@ -34,7 +34,7 @@ class OptionsTest {
         // Expected
       }
       vertx.createHttpServer();
-      vertx.createHttpServer(port: 80opt80);
+      vertx.createHttpServer(port: 8080);
       vertx.createHttpServer([:]);
       vertx.createHttpServer([port:8080]);
     } finally {
