@@ -40,15 +40,27 @@ import io.vertx.core.http.HttpServerOptions
 import io.vertx.core.Handler
 import io.vertx.groovy.core.http.HttpClient
 /**
- * The control centre of the Vert.x Core API.<p>
- * You should normally only use a single instance of this class throughout your application. If you are running in the
- * Vert.x container an instance will be provided to you.<p>
- * If you are using Vert.x embedded, you can create an instance using one of the static {@code VertxFactory.newVertx}
- * methods.<p>
- * This class acts as a factory for TCP/SSL and HTTP/HTTPS servers and clients, SockJS servers, and provides an
- * instance of the event bus, file system and shared data classes, as well as methods for setting and cancelling
- * timers.<p>
- * Instances of this class are thread-safe.<p>
+ * The entry point into the Vert.x Core API.
+ * <p>
+ * You use an instance of this class for functionality including:
+ * <ul>
+ *   <li>Creating TCP clients and servers</li>
+ *   <li>Creating HTTP clients and servers</li>
+ *   <li>Creating DNS clients</li>
+ *   <li>Creating Datagram sockets</li>
+ *   <li>Setting and cancelling periodic and one-shot timers</li>
+ *   <li>Getting a reference to the event bus API</li>
+ *   <li>Getting a reference to the file system API</li>
+ *   <li>Getting a reference to the shared data API</li>
+ *   <li>Deploying and undeploying verticles</li>
+ * </ul>
+ * <p>
+ * Most functionality in Vert.x core is fairly low level.
+ * <p>
+ * To create an instance of this class you can use the static factory methods: {@link #vertx},
+ * {@link #vertx(io.vertx.core.VertxOptions)} and {@link #clusteredVertx(io.vertx.core.VertxOptions, Handler)}.
+ * <p>
+ * Please see the user manual for more detailed usage information.
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -80,14 +92,33 @@ public class Vertx implements Measured {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
     return ret;
   }
+  /**
+   * Creates a non clustered instance using default options.
+   *
+   * @return the instance
+   */
   public static Vertx vertx() {
     def ret= Vertx.FACTORY.apply(io.vertx.core.Vertx.vertx());
     return ret;
   }
+  /**
+   * Creates a non clustered instance using the specified options
+   *
+   * @param options  the options to use
+   * @return the instance
+   */
   public static Vertx vertx(Map<String, Object> options) {
     def ret= Vertx.FACTORY.apply(io.vertx.core.Vertx.vertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
+  /**
+   * Creates a clustered instance using the specified options.
+   * <p>
+   * The instance is created asynchronously and the resultHandler is called with the result when it is ready.
+   *
+   * @param options  the options to use
+   * @param resultHandler  the result handler that will receive the result
+   */
   public static void clusteredVertx(Map<String, Object> options = [:], Handler<AsyncResult<Vertx>> resultHandler) {
     io.vertx.core.Vertx.clusteredVertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.Vertx>>() {
       public void handle(AsyncResult<io.vertx.core.Vertx> event) {
@@ -103,6 +134,7 @@ public class Vertx implements Measured {
   }
   /**
    * Gets the current context
+   *
    * @return The current context or null if no current context
    */
   public static Context currentContext() {
@@ -111,6 +143,7 @@ public class Vertx implements Measured {
   }
   /**
    * Gets the current context, or creates one if there isn't one
+   *
    * @return The current context (created if didn't exist)
    */
   public Context getOrCreateContext() {
@@ -118,39 +151,104 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * Create a TCP/SSL server
+   * Create a TCP/SSL server using the specified options
+   *
+   * @param options  the options to use
+   * @return the server
    */
-  public NetServer createNetServer(Map<String, Object> options = [:]) {
+  public NetServer createNetServer(Map<String, Object> options) {
     def ret= NetServer.FACTORY.apply(this.delegate.createNetServer(options != null ? new io.vertx.core.net.NetServerOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
-   * Create a TCP/SSL client
+   * Create a TCP/SSL server using default options
+   *
+   * @return the server
    */
-  public NetClient createNetClient(Map<String, Object> options = [:]) {
+  public NetServer createNetServer() {
+    def ret= NetServer.FACTORY.apply(this.delegate.createNetServer());
+    return ret;
+  }
+  /**
+   * Create a TCP/SSL client using the specified options
+   *
+   * @param options  the options to use
+   * @return the client
+   */
+  public NetClient createNetClient(Map<String, Object> options) {
     def ret= NetClient.FACTORY.apply(this.delegate.createNetClient(options != null ? new io.vertx.core.net.NetClientOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
-   * Create an HTTP/HTTPS server
+   * Create a TCP/SSL client using default options
+   *
+   * @return the client
    */
-  public HttpServer createHttpServer(Map<String, Object> options = [:]) {
+  public NetClient createNetClient() {
+    def ret= NetClient.FACTORY.apply(this.delegate.createNetClient());
+    return ret;
+  }
+  /**
+   * Create an HTTP/HTTPS server using the specified options
+   *
+   * @param options  the options to use
+   * @return the server
+   */
+  public HttpServer createHttpServer(Map<String, Object> options) {
     def ret= HttpServer.FACTORY.apply(this.delegate.createHttpServer(options != null ? new io.vertx.core.http.HttpServerOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
-   * Create a HTTP/HTTPS client
+   * Create an HTTP/HTTPS server using default options
+   *
+   * @return the server
    */
-  public HttpClient createHttpClient(Map<String, Object> options = [:]) {
+  public HttpServer createHttpServer() {
+    def ret= HttpServer.FACTORY.apply(this.delegate.createHttpServer());
+    return ret;
+  }
+  /**
+   * Create a HTTP/HTTPS client using the specified options
+   *
+   * @param options  the options to use
+   * @return the client
+   */
+  public HttpClient createHttpClient(Map<String, Object> options) {
     def ret= HttpClient.FACTORY.apply(this.delegate.createHttpClient(options != null ? new io.vertx.core.http.HttpClientOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
-  public DatagramSocket createDatagramSocket(Map<String, Object> options = [:]) {
+  /**
+   * Create a HTTP/HTTPS client using default options
+   *
+   * @return the client
+   */
+  public HttpClient createHttpClient() {
+    def ret= HttpClient.FACTORY.apply(this.delegate.createHttpClient());
+    return ret;
+  }
+  /**
+   * Create a datagram socket using the specified options
+   *
+   * @param options  the options to use
+   * @return the socket
+   */
+  public DatagramSocket createDatagramSocket(Map<String, Object> options) {
     def ret= DatagramSocket.FACTORY.apply(this.delegate.createDatagramSocket(options != null ? new io.vertx.core.datagram.DatagramSocketOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
-   * The File system object
+   * Create a datagram socket using default options
+   *
+   * @return the socket
+   */
+  public DatagramSocket createDatagramSocket() {
+    def ret= DatagramSocket.FACTORY.apply(this.delegate.createDatagramSocket());
+    return ret;
+  }
+  /**
+   * Get the filesystem object. There is a single instance of FileSystem per Vertx instance.
+   *
+   * @return the filesystem object
    */
   public FileSystem fileSystem() {
     if (cached_0 != null) {
@@ -161,7 +259,9 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * The event bus
+   * Get the event bus object. There is a single instance of EventBus per Vertx instance.
+   *
+   * @return the event bus object
    */
   public EventBus eventBus() {
     if (cached_1 != null) {
@@ -172,14 +272,20 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * Return the {@link DnsClient}
+   * Create a DNS client to connect to a DNS server at the specified host and port
+   *
+   * @param port  the port
+   * @param host  the host
+   * @return the DNS client
    */
   public DnsClient createDnsClient(int port, String host) {
     def ret= DnsClient.FACTORY.apply(this.delegate.createDnsClient(port, host));
     return ret;
   }
   /**
-   * The shared data object
+   * Get the shared data object. There is a single instance of SharedData per Vertx instance.
+   *
+   * @return the shared data object
    */
   public SharedData sharedData() {
     if (cached_2 != null) {
@@ -193,6 +299,8 @@ public class Vertx implements Measured {
    * Set a one-shot timer to fire after {@code delay} milliseconds, at which point {@code handler} will be called with
    * the id of the timer.
    *
+   * @param delay  the delay in milliseconds, after which the timer will fire
+   * @param handler  the handler that will be called with the timer ID when the timer fires
    * @return the unique ID of the timer
    */
   public long setTimer(long delay, Handler<Long> handler) {
@@ -203,6 +311,7 @@ public class Vertx implements Measured {
    * Returns a one-shot timer as a read stream. The timer will be fired after {@code delay} milliseconds after
    * the {@link ReadStream#handler} has been called.
    *
+   * @param delay  the delay in milliseconds, after which the timer will fire
    * @return the timer stream
    */
   public TimeoutStream timerStream(long delay) {
@@ -212,6 +321,10 @@ public class Vertx implements Measured {
   /**
    * Set a periodic timer to fire every {@code delay} milliseconds, at which point {@code handler} will be called with
    * the id of the timer.
+   *
+   *
+   * @param delay  the delay in milliseconds, after which the timer will fire
+   * @param handler  the handler that will be called with the timer ID when the timer fires
    * @return the unique ID of the timer
    */
   public long setPeriodic(long delay, Handler<Long> handler) {
@@ -222,6 +335,7 @@ public class Vertx implements Measured {
    * Returns a periodic timer as a read stream. The timer will be fired every {@code delay} milliseconds after
    * the {@link ReadStream#handler} has been called.
    *
+   * @param delay  the delay in milliseconds, after which the timer will fire
    * @return the periodic stream
    */
   public TimeoutStream periodicStream(long delay) {
@@ -229,54 +343,122 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * Cancel the timer with the specified {@code id}. Returns {@code} true if the timer was successfully cancelled, or
-   * {@code false} if the timer does not exist.
+   * Cancels the timer with the specified {@code id}.
+   *
+   * @param id  The id of the timer to cancel
+   * @return true if the timer was successfully cancelled, or false if the timer does not exist.
    */
   public boolean cancelTimer(long id) {
     def ret = this.delegate.cancelTimer(id);
     return ret;
   }
   /**
-   * Put the handler on the event queue for the current loop (or worker context) so it will be run asynchronously ASAP after this event has
-   * been processed
+   * Puts the handler on the event queue for the current context so it will be run asynchronously ASAP after all
+   * preceeding events have been handled.
+   *
+   * @param action - a handler representing the action to execute
    */
   public void runOnContext(Handler<Void> action) {
     this.delegate.runOnContext(action);
   }
   /**
-   * Stop the eventbus and any resource managed by the eventbus.
+   * Stop the the Vertx instance and release any resources held by it.
+   * <p>
+   * The instance cannot be used after it has been closed.
+   * <p>
+   * The actual close is asynchronous and may not complete until after the call has returned.
    */
   public void close() {
     this.delegate.close();
   }
   /**
-   * Stop the eventbus and any resource managed by the eventbus.
+   * Like {@link #close} but the completionHandler will be called when the close is complete
+   *
+   * @param completionHandler  The handler will be notified when the close is complete.
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
   }
-  public void deployVerticle(String identifier) {
-    this.delegate.deployVerticle(identifier);
+  /**
+   * Deploy a verticle instance given a name.
+   * <p>
+   * Given the name, Vert.x selects a {@link VerticleFactory} instance to use to instantiate the verticle.
+   * <p>
+   * For the rules on how factories are selected please consult the user manual.
+   *
+   * @param name  the name.
+   */
+  public void deployVerticle(String name) {
+    this.delegate.deployVerticle(name);
   }
-  public void deployVerticle(String identifier, Handler<AsyncResult<String>> completionHandler) {
-    this.delegate.deployVerticle(identifier, completionHandler);
+  /**
+   * Like {@link #deployVerticle(String)} but the completionHandler will be notified when the deployment is complete.
+   * <p>
+   * If the deployment is successful the result will contain a String representing the unique deployment ID of the
+   * deployment.
+   * <p>
+   * This deployment ID can subsequently be used to undeploy the verticle.
+   *
+   * @param name  The identifier
+   * @param completionHandler  a handler which will be notified when the deployment is complete
+   */
+  public void deployVerticle(String name, Handler<AsyncResult<String>> completionHandler) {
+    this.delegate.deployVerticle(name, completionHandler);
   }
-  public void deployVerticle(String identifier, Map<String, Object> options) {
-    this.delegate.deployVerticle(identifier, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
+  /**
+   * Like {@link #deployVerticle(Verticle)} but {@link io.vertx.core.DeploymentOptions} are provided to configure the
+   * deployment.
+   *
+   * @param name  the name
+   * @param options  the deployment options.
+   */
+  public void deployVerticle(String name, Map<String, Object> options) {
+    this.delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
-  public void deployVerticle(String identifier, Map<String, Object> options, Handler<AsyncResult<String>> completionHandler) {
-    this.delegate.deployVerticle(identifier, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler);
+  /**
+   * Undeploy a verticle deployment.
+   * <p>
+   * The actual undeployment happens asynchronously and may not complete until after the method has returned.
+   *
+   * @param deploymentID  the deployment ID
+   */
+  public void undeploy(String deploymentID) {
+    this.delegate.undeploy(deploymentID);
   }
-  public void undeployVerticle(String deploymentID) {
-    this.delegate.undeployVerticle(deploymentID);
+  /**
+   * Like {@link #undeploy(String) } but the completionHandler will be notified when the undeployment is complete.
+   *
+   * @param deploymentID  the deployment ID
+   * @param completionHandler  a handler which will be notified when the undeployment is complete
+   */
+  public void undeploy(String deploymentID, Handler<AsyncResult<Void>> completionHandler) {
+    this.delegate.undeploy(deploymentID, completionHandler);
   }
-  public void undeployVerticle(String deploymentID, Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.undeployVerticle(deploymentID, completionHandler);
-  }
-  public Set<String> deployments() {
-    def ret = this.delegate.deployments();
+  /**
+   * Return a Set of deployment IDs for the currently deployed deploymentIDs.
+   *
+   * @return Set of deployment IDs
+   */
+  public Set<String> deploymentIDs() {
+    def ret = this.delegate.deploymentIDs();
     return ret;
   }
+  /**
+   * Safely execute some blocking code.
+   * <p>
+   * Executes the blocking code in the handler {@code blockingCodeHandler} using a thread from the worker pool.
+   * <p>
+   * When the code is complete the handler {@code resultHandler} will be called with the result on the original context
+   * (e.g. on the original event loop of the caller).
+   * <p>
+   * A {@code Future} instance is passed into {@code blockingCodeHandler}. When the blocking code successfully completes,
+   * the handler should call the {@link Future#complete} or {@link Future#complete(T)} method, or the {@link Future#fail}
+   * method if it failed.
+   *
+   * @param blockingCodeHandler  handler representing the blocking code to run
+   * @param resultHandler  handler that will be called when the blocking code is complete
+   * @param <T> the type of the result
+   */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, Handler<AsyncResult<T>> resultHandler) {
     this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {
       public void handle(io.vertx.core.Future<java.lang.Object> event) {

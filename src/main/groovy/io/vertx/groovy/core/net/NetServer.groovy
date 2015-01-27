@@ -23,13 +23,7 @@ import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * Represents a TCP or SSL server<p>
- * If an instance is instantiated from an event loop then the handlers
- * of the instance will always be called on that same event loop.
- * If an instance is instantiated from some other arbitrary Java thread (i.e. when running embedded) then
- * and event loop will be assigned to the instance and used when any of its handlers
- * are called.<p>
- * Instances of this class are thread-safe.<p>
+ * Represents a TCP server
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -76,7 +70,8 @@ public class NetServer implements Measured {
    * Supply a connect handler for this server. The server can only have at most one connect handler at any one time.
    * As the server accepts TCP or SSL connections it creates an instance of {@link NetSocket} and passes it to the
    * connect handler.
-   * @return a reference to this so multiple method calls can be chained together
+   *
+   * @return a reference to this, so the API can be used fluently
    */
   public NetServer connectHandler(Handler<NetSocket> handler) {
     def ret= NetServer.FACTORY.apply(this.delegate.connectHandler(new Handler<io.vertx.core.net.NetSocket>() {
@@ -86,12 +81,23 @@ public class NetServer implements Measured {
     }));
     return ret;
   }
+  /**
+   * Start listening on the port and host as configured in the {@link io.vertx.core.net.NetServerOptions} used when
+   * creating the server.
+   * <p>
+   * The server may not be listening until some time after the call to listen has returned.
+   *
+   * @return a reference to this, so the API can be used fluently
+   */
   public NetServer listen() {
     this.delegate.listen();
     return this;
   }
   /**
-   * Instruct the server to listen for incoming connections on the specified {@code port} and all available interfaces.
+   * Like {@link #listen} but providing a handler that will be notified when the server is listening, or fails.
+   *
+   * @param listenHandler  handler that will be notified when listening or failed
+   * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(Handler<AsyncResult<NetServer>> listenHandler) {
     this.delegate.listen(new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
@@ -108,14 +114,89 @@ public class NetServer implements Measured {
     return this;
   }
   /**
-   * Close the server. This will close any currently open connections.
+   * Start listening on the specified port and host, ignoring post and host configured in the {@link io.vertx.core.net.NetServerOptions} used when
+   * creating the server.
+   * <p>
+   * Port {@code 0} can be specified meaning "choose an random port".
+   * <p>
+   * Host {@code 0.0.0.0} can be specified meaning "listen on all available interfaces".
+   * <p>
+   * The server may not be listening until some time after the call to listen has returned.
+   *
+   * @return a reference to this, so the API can be used fluently
+   */
+  public NetServer listen(int port, String host) {
+    this.delegate.listen(port, host);
+    return this;
+  }
+  /**
+   * Like {@link #listen(int, String)} but providing a handler that will be notified when the server is listening, or fails.
+   *
+   * @param port  the port to listen on
+   * @param host  the host to listen on
+   * @param listenHandler handler that will be notified when listening or failed
+   * @return a reference to this, so the API can be used fluently
+   */
+  public NetServer listen(int port, String host, Handler<AsyncResult<NetServer>> listenHandler) {
+    this.delegate.listen(port, host, new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
+      public void handle(AsyncResult<io.vertx.core.net.NetServer> event) {
+        AsyncResult<NetServer> f
+        if (event.succeeded()) {
+          f = InternalHelper.<NetServer>result(new NetServer(event.result()))
+        } else {
+          f = InternalHelper.<NetServer>failure(event.cause())
+        }
+        listenHandler.handle(f)
+      }
+    });
+    return this;
+  }
+  /**
+   * Start listening on the specified port and host "0.0.0.0", ignoring post and host configured in the
+   * {@link io.vertx.core.net.NetServerOptions} used when creating the server.
+   * <p>
+   * Port {@code 0} can be specified meaning "choose an random port".
+   * <p>
+   * The server may not be listening until some time after the call to listen has returned.
+   *
+   * @return a reference to this, so the API can be used fluently
+   */
+  public NetServer listen(int port) {
+    this.delegate.listen(port);
+    return this;
+  }
+  /**
+   * Like {@link #listen(int)} but providing a handler that will be notified when the server is listening, or fails.
+   *
+   * @param port  the port to listen on
+   * @param listenHandler handler that will be notified when listening or failed
+   * @return a reference to this, so the API can be used fluently
+   */
+  public NetServer listen(int port, Handler<AsyncResult<NetServer>> listenHandler) {
+    this.delegate.listen(port, new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
+      public void handle(AsyncResult<io.vertx.core.net.NetServer> event) {
+        AsyncResult<NetServer> f
+        if (event.succeeded()) {
+          f = InternalHelper.<NetServer>result(new NetServer(event.result()))
+        } else {
+          f = InternalHelper.<NetServer>failure(event.cause())
+        }
+        listenHandler.handle(f)
+      }
+    });
+    return this;
+  }
+  /**
+   * Close the server. This will close any currently open connections. The close may not complete until after this
+   * method has returned.
    */
   public void close() {
     this.delegate.close();
   }
   /**
-   * Close the server. This will close any currently open connections. The event handler {@code done} will be called
-   * when the close is complete.
+   * Like {@link #close} but supplying a handler that will be notified when close is complete.
+   *
+   * @param completionHandler  the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
@@ -123,6 +204,8 @@ public class NetServer implements Measured {
   /**
    * The actual port the server is listening on. This is useful if you bound the server specifying 0 as port number
    * signifying an ephemeral port
+   *
+   * @return the actual port the server is listening on.
    */
   public int actualPort() {
     def ret = this.delegate.actualPort();

@@ -26,15 +26,15 @@ import io.vertx.core.Handler
 import io.vertx.groovy.core.net.SocketAddress
 import io.vertx.groovy.core.net.NetSocket
 /**
- * Represents a server-side HTTP request.<p>
- * Instances are created for each request that is handled by the server
- * and is passed to the user via the {@link io.vertx.core.Handler} instance
- * registered with the {@link HttpServer} using the request stream {@link io.vertx.core.http.HttpServer#requestStream()}.<p>
+ * Represents a server-side HTTP request.
+ * <p>
+ * Instances are created for each request and passed to the user via a handler.
+ * <p>
  * Each instance of this class is associated with a corresponding {@link HttpServerResponse} instance via
- * the {@code response} field.<p>
+ * {@link #response}.<p>
  * It implements {@link io.vertx.core.streams.ReadStream} so it can be used with
- * {@link io.vertx.core.streams.Pump} to pump data with flow control.<p>
- * Instances of this class are not thread-safe<p>
+ * {@link io.vertx.core.streams.Pump} to pump data with flow control.
+ * <p>
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -72,43 +72,42 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return this;
   }
   /**
-   * The HTTP version of the request
+   * @return the HTTP version of the request
    */
   public HttpVersion version() {
     def ret = this.delegate.version();
     return ret;
   }
   /**
-   * The HTTP method for the request. One of GET, PUT, POST, DELETE, TRACE, CONNECT, OPTIONS or HEAD
+   * @return the HTTP method for the request.
    */
   public HttpMethod method() {
     def ret = this.delegate.method();
     return ret;
   }
   /**
-   * The uri of the request. For example
-   * http://www.somedomain.com/somepath/somemorepath/someresource.foo?someparam=32&amp;someotherparam=x
+   * @return the URI of the request. This is usually a relative URI
    */
   public String uri() {
     def ret = this.delegate.uri();
     return ret;
   }
   /**
-   * The path part of the uri. For example /somepath/somemorepath/someresource.foo
+   * @return The path part of the uri. For example /somepath/somemorepath/someresource.foo
    */
   public String path() {
     def ret = this.delegate.path();
     return ret;
   }
   /**
-   * The query part of the uri. For example someparam=32&amp;someotherparam=x
+   * @return the query part of the uri. For example someparam=32&amp;someotherparam=x
    */
   public String query() {
     def ret = this.delegate.query();
     return ret;
   }
   /**
-   * The response. Each instance of this class has an {@link HttpServerResponse} instance attached to it. This is used
+   * @return the response. Each instance of this class has an {@link HttpServerResponse} instance attached to it. This is used
    * to send the response back to the client.
    */
   public HttpServerResponse response() {
@@ -120,10 +119,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * A map of all headers in the request, If the request contains multiple headers with the same key, the values
-   * will be concatenated together into a single header with the same key value, with each value separated by a comma,
-   * as specified <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">here</a>.
-   * The headers will be automatically lower-cased when they reach the server
+   * @return the headers in the request.
    */
   public MultiMap headers() {
     if (cached_1 != null) {
@@ -134,7 +130,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * Returns a map of all the parameters in the request
+   * @return the query parameters in the request
    */
   public MultiMap params() {
     if (cached_2 != null) {
@@ -145,7 +141,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * Return the remote (client side) address of the request
+   * @return the remote (client side) address of the request
    */
   public SocketAddress remoteAddress() {
     if (cached_3 != null) {
@@ -156,7 +152,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * Return the local (server side) address of the server that handles the request
+   * @return the local (server side) address of the server that handles the request
    */
   public SocketAddress localAddress() {
     if (cached_4 != null) {
@@ -167,17 +163,17 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * Get the absolute URI corresponding to the the HTTP request
-   * @return the URI
+   * @return the absolute URI corresponding to the the HTTP request
    */
   public String absoluteURI() {
     def ret = this.delegate.absoluteURI();
     return ret;
   }
   /**
-   * Convenience method for receiving the entire request body in one piece. This saves the user having to manually
-   * set a data and end handler and append the chunks of the body until the whole body received.
-   * Don't use this if your request body is large - you could potentially run out of RAM.
+   * Convenience method for receiving the entire request body in one piece.
+   * <p>
+   * This saves the user having to manually setting a data and end handler and append the chunks of the body until
+   * the whole body received. Don't use this if your request body is large - you could potentially run out of RAM.
    *
    * @param bodyHandler This handler will be called after all the body has been received
    */
@@ -190,8 +186,12 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return this;
   }
   /**
-   * Get a net socket for the underlying connection of this request. USE THIS WITH CAUTION!
+   * Get a net socket for the underlying connection of this request.
+   * <p>
+   * USE THIS WITH CAUTION!
+   * <p>
    * Writing to the socket directly if you don't know what you're doing can easily break the HTTP protocol
+   *
    * @return the net socket
    */
   public NetSocket netSocket() {
@@ -203,21 +203,28 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * Call this with true if you are expecting a multi-part form to be submitted in the request
+   * Call this with true if you are expecting a multi-part body to be submitted in the request.
    * This must be called before the body of the request has been received
-   * @param expect
+   *
+   * @param expect  true - if you are expecting a multi-part body
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest setExpectMultipart(boolean expect) {
     this.delegate.setExpectMultipart(expect);
     return this;
   }
+  /**
+   * @return  true if we are expecting a multi-part body for this request. See {@link #setExpectMultipart}.
+   */
   public boolean isExpectMultipart() {
     def ret = this.delegate.isExpectMultipart();
     return ret;
   }
   /**
-   * Set the upload handler. The handler will get notified once a new file upload was received and so allow to
-   * get notified by the upload in progress.
+   * Set an upload handler. The handler will get notified once a new file upload was received to allow you to deal
+   * with the file upload.
+   *
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest uploadHandler(Handler<HttpServerFileUpload> uploadHandler) {
     this.delegate.uploadHandler(new Handler<io.vertx.core.http.HttpServerFileUpload>() {
@@ -228,9 +235,14 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return this;
   }
   /**
-   * Returns a map of all form attributes which was found in the request. Be aware that this message should only get
-   * called after the endHandler was notified as the map will be filled on-the-fly.
-   * {@link #setExpectMultipart(boolean)} must be called first before trying to get the formAttributes
+   * Returns a map of all form attributes in the request.
+   * <p>
+   * Be aware that the attributes will only be available after the whole body has been received, i.e. after
+   * the request end handler has been called.
+   * <p>
+   * {@link #setExpectMultipart(boolean)} must be called first before trying to get the form attributes.
+   *
+   * @return the form attributes
    */
   public MultiMap formAttributes() {
     if (cached_6 != null) {
@@ -240,6 +252,14 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     cached_6 = ret;
     return ret;
   }
+  /**
+   * Upgrade the connection to a WebSocket connection.
+   * <p>
+   * This is an alternative way of handling WebSockets and can only be used if no websocket handlers are set on the
+   * Http server, and can only be used during the upgrade request during the WebSocket handshake.
+   *
+   * @return  the WebSocket
+   */
   public ServerWebSocket upgrade() {
     def ret= ServerWebSocket.FACTORY.apply(this.delegate.upgrade());
     return ret;

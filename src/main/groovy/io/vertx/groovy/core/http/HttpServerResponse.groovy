@@ -23,20 +23,25 @@ import io.vertx.groovy.core.MultiMap
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * Represents a server-side HTTP response.<p>
- * Instances of this class are created and associated to every instance of
- * {@link HttpServerRequest} that is created.<p>
+ * Represents a server-side HTTP response.
+ * <p>
+ * An instance of this is created and associated to every instance of
+ * {@link HttpServerRequest} that.
+ * <p>
  * It allows the developer to control the HTTP response that is sent back to the
- * client for a particular HTTP request. It contains methods that allow HTTP
- * headers and trailers to be set, and for a body to be written out to the response.<p>
+ * client for a particular HTTP request.
+ * <p>
+ * It contains methods that allow HTTP headers and trailers to be set, and for a body to be written out to the response.
+ * <p>
  * It also allows files to be streamed by the kernel directly from disk to the
  * outgoing HTTP connection, bypassing user space altogether (where supported by
  * the underlying operating system). This is a very efficient way of
  * serving files from the server since buffers do not have to be read one by one
- * from the file and written to the outgoing socket.<p>
+ * from the file and written to the outgoing socket.
+ * <p>
  * It implements {@link io.vertx.core.streams.WriteStream} so it can be used with
- * {@link io.vertx.core.streams.Pump} to pump data with flow control.<p>
- * Instances of this class are not thread-safe<p>
+ * {@link io.vertx.core.streams.Pump} to pump data with flow control.
+ *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
@@ -51,6 +56,8 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
    * #setWriteQueueMaxSize}
+   *
+   * @return true if write queue is full
    */
   public boolean writeQueueFull() {
     def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
@@ -73,22 +80,24 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * The HTTP status code of the response. The default is {@code 200} representing {@code OK}.
+   * @return the HTTP status code of the response. The default is {@code 200} representing {@code OK}.
    */
   public int getStatusCode() {
     def ret = this.delegate.getStatusCode();
     return ret;
   }
   /**
-   * Set the status code
-   * @return A reference to this, so multiple method calls can be chained.
+   * Set the status code. If the status message hasn't been explicitly set, a default status message corresponding
+   * to the code will be looked-up and used.
+   *
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setStatusCode(int statusCode) {
     this.delegate.setStatusCode(statusCode);
     return this;
   }
   /**
-   * The HTTP status message of the response. If this is not specified a default value will be used depending on what
+   * @return the HTTP status message of the response. If this is not specified a default value will be used depending on what
    * {@link #setStatusCode} has been set to.
    */
   public String getStatusMessage() {
@@ -97,7 +106,8 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * Set the status message
-   * @return A reference to this, so multiple method calls can be chained.
+   *
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setStatusMessage(String statusMessage) {
     this.delegate.setStatusMessage(statusMessage);
@@ -105,22 +115,25 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * If {@code chunked} is {@code true}, this response will use HTTP chunked encoding, and each call to write to the body
-   * will correspond to a new HTTP chunk sent on the wire.<p>
+   * will correspond to a new HTTP chunk sent on the wire.
+   * <p>
    * If chunked encoding is used the HTTP header {@code Transfer-Encoding} with a value of {@code Chunked} will be
-   * automatically inserted in the response.<p>
-   * If {@code chunked} is {@code false}, this response will not use HTTP chunked encoding, and therefore if any data is written the
-   * body of the response, the total size of that data must be set in the {@code Content-Length} header <b>before</b> any
-   * data is written to the response body.<p>
+   * automatically inserted in the response.
+   * <p>
+   * If {@code chunked} is {@code false}, this response will not use HTTP chunked encoding, and therefore the total size
+   * of any data that is written in the respone body must be set in the {@code Content-Length} header <b>before</b> any
+   * data is written out.
+   * <p>
    * An HTTP chunked response is typically used when you do not know the total size of the request body up front.
    *
-   * @return A reference to this, so multiple method calls can be chained.
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setChunked(boolean chunked) {
     this.delegate.setChunked(chunked);
     return this;
   }
   /**
-   * Is the response chunked?
+   * @return is the response chunked?
    */
   public boolean isChunked() {
     def ret = this.delegate.isChunked();
@@ -138,10 +151,11 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return ret;
   }
   /**
-   * Put an HTTP header - fluent API
-   * @param name The header name
-   * @param value The header value.
-   * @return A reference to this, so multiple method calls can be chained.
+   * Put an HTTP header
+   *
+   * @param name  the header name
+   * @param value  the header value.
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse putHeader(String name, String value) {
     this.delegate.putHeader(name, value);
@@ -159,10 +173,11 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return ret;
   }
   /**
-   * Put an HTTP trailer - fluent API
-   * @param name The trailer name
-   * @param value The trailer value
-   * @return A reference to this, so multiple method calls can be chained.
+   * Put an HTTP trailer
+   *
+   * @param name  the trailer name
+   * @param value  the trailer value
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse putTrailer(String name, String value) {
     this.delegate.putTrailer(name, value);
@@ -171,7 +186,9 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * Set a close handler for the response. This will be called if the underlying connection closes before the response
    * is complete.
-   * @param handler
+   *
+   * @param handler  the handler
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse closeHandler(Handler<Void> handler) {
     this.delegate.closeHandler(handler);
@@ -180,7 +197,9 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * Write a {@link String} to the response body, encoded using the encoding {@code enc}.
    *
-   * @return A reference to this, so multiple method calls can be chained.
+   * @param chunk  the string to write
+   * @enc  the encoding to use
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse write(String chunk, String enc) {
     this.delegate.write(chunk, enc);
@@ -189,71 +208,113 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * Write a {@link String} to the response body, encoded in UTF-8.
    *
-   * @return A reference to this, so multiple method calls can be chained.
+   * @param chunk  the string to write
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse write(String chunk) {
     this.delegate.write(chunk);
     return this;
   }
   /**
-   * Same as {@link #end(Buffer)} but writes a String with the default encoding before ending the response.
+   * Same as {@link #end(Buffer)} but writes a String in UTF-8 encoding before ending the response.
+   *
+   * @param chunk  the string to write before ending the response
    */
   public void end(String chunk) {
     this.delegate.end(chunk);
   }
   /**
    * Same as {@link #end(Buffer)} but writes a String with the specified encoding before ending the response.
+   *
+   * @param chunk  the string to write before ending the response
+   * @param enc  the encoding to use
    */
   public void end(String chunk, String enc) {
     this.delegate.end(chunk, enc);
   }
   /**
    * Same as {@link #end()} but writes some data to the response body before ending. If the response is not chunked and
-   * no other data has been written then the Content-Length header will be automatically set
+   * no other data has been written then the @code{Content-Length} header will be automatically set.
+   *
+   * @param chunk  the buffer to write before ending the response
    */
   public void end(Buffer chunk) {
     this.delegate.end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
   }
   /**
    * Ends the response. If no data has been written to the response body,
-   * the actual response won't get written until this method gets called.<p>
+   * the actual response won't get written until this method gets called.
+   * <p>
    * Once the response has ended, it cannot be used any more.
    */
   public void end() {
     this.delegate.end();
   }
   /**
-   * Tell the kernel to stream a file as specified by {@code filename} directly
+   * Ask the OS to stream a file as specified by {@code filename} directly
    * from disk to the outgoing connection, bypassing userspace altogether
    * (where supported by the underlying operating system.
    * This is a very efficient way to serve files.<p>
+   * The actual serve is asynchronous and may not complete until some time after this method has returned.
+   *
+   * @param filename  path to the file to serve
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename) {
     this.delegate.sendFile(filename);
     return this;
   }
+  /**
+   * Like {@link #sendFile(String)} but providing a handler which will be notified once the file has been completely
+   * written to the wire.
+   *
+   * @param filename path to the file to serve
+   * @param resultHandler  handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
+   */
   public HttpServerResponse sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
     this.delegate.sendFile(filename, resultHandler);
     return this;
   }
   /**
-   * Close the underlying TCP connection
+   * Close the underlying TCP connection corresponding to the request.
    */
   public void close() {
     this.delegate.close();
   }
+  /**
+   * @return has the response already ended?
+   */
   public boolean ended() {
     def ret = this.delegate.ended();
     return ret;
   }
+  /**
+   * @return have the headers for the response already been written?
+   */
   public boolean headWritten() {
     def ret = this.delegate.headWritten();
     return ret;
   }
+  /**
+   * Provide a handler that will be called just before the headers are written to the wire.<p>
+   * This provides a hook allowing you to add any more headers or do any more operations before this occurs.
+   *
+   * @param handler  the handler
+   * @return a reference to this, so the API can be used fluently
+   */
   public HttpServerResponse headersEndHandler(Handler<Void> handler) {
     this.delegate.headersEndHandler(handler);
     return this;
   }
+  /**
+   * Provide a handler that will be called just before the last part of the body is written to the wire
+   * and the response is ended.<p>
+   * This provides a hook allowing you to do any more operations before this occurs.
+   *
+   * @param handler  the handler
+   * @return a reference to this, so the API can be used fluently
+   */
   public HttpServerResponse bodyEndHandler(Handler<Void> handler) {
     this.delegate.bodyEndHandler(handler);
     return this;

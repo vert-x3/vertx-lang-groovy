@@ -26,14 +26,16 @@ import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 import io.vertx.groovy.core.net.SocketAddress
 /**
- * A Datagram socket which can be used to send {@link DatagramPacket}'s to remote Datagram servers and receive {@link DatagramPacket}s .
- *
- * Usually you use a Datragram Client to send UDP over the wire. UDP is connection-less which means you are not connected
+ * A datagram socket can be used to send {@link DatagramPacket}'s to remote datagram servers
+ * and receive {@link DatagramPacket}s .
+ * <p>
+ * Usually you use a datagram socket to send UDP over the wire. UDP is connection-less which means you are not connected
  * to the remote peer in a persistent way. Because of this you have to supply the address and port of the remote peer
  * when sending data.
- *
+ * <p>
  * You can send data to ipv4 or ipv6 addresses, which also include multicast addresses.
- *
+ * <p>
+ * Please consult the documentation for more information on datagram sockets.
  *
  * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
  */
@@ -66,15 +68,14 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return ret;
   }
   /**
-   * Write the given {@link io.vertx.core.buffer.Buffer} to the {@link io.vertx.core.net.SocketAddress}. The {@link io.vertx.core.Handler} will be notified once the
-   * write completes.
+   * Write the given {@link io.vertx.core.buffer.Buffer} to the {@link io.vertx.core.net.SocketAddress}.
+   * The {@link io.vertx.core.Handler} will be notified once the write completes.
    *
-   *
-   * @param packet    the {@link io.vertx.core.buffer.Buffer} to write
-   * @param host      the host address of the remote peer
-   * @param port      the host port of the remote peer
-   * @param handler   the {@link io.vertx.core.Handler} to notify once the write completes.
-   * @return self     itself for method chaining
+   * @param packet  the {@link io.vertx.core.buffer.Buffer} to write
+   * @param port  the host port of the remote peer
+   * @param host  the host address of the remote peer
+   * @param handler  the {@link io.vertx.core.Handler} to notify once the write completes.
+   * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(Buffer packet, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.send((io.vertx.core.buffer.Buffer)packet.getDelegate(), port, host, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -91,9 +92,10 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Returns a {@link io.vertx.core.datagram.PacketWritestream} able to send {@link Buffer} to the {@link io.vertx.core.net.SocketAddress}.
+   * Returns a {@link io.vertx.core.datagram.PacketWritestream} able to send {@link Buffer} to the
+   * {@link io.vertx.core.net.SocketAddress}.
    *
-   * @param port the host port of the remote peer
+   * @param port the port of the remote peer
    * @param host the host address of the remote peer
    * @return the write stream for sending packets
    */
@@ -102,15 +104,14 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return ret;
   }
   /**
-   * Write the given {@link String} to the {@link io.vertx.core.net.SocketAddress} using UTF8 encoding. The {@link Handler} will be notified once the
-   * write completes.
+   * Write the given {@link String} to the {@link io.vertx.core.net.SocketAddress} using UTF8 encoding.
+   * The {@link Handler} will be notified once the write completes.
    *
-   *
-   * @param str       the {@link String} to write
-   * @param host      the host address of the remote peer
-   * @param port      the host port of the remote peer
-   * @param handler   the {@link io.vertx.core.Handler} to notify once the write completes.
-   * @return self     itself for method chaining
+   * @param str   the {@link String} to write
+   * @param port  the host port of the remote peer
+   * @param host  the host address of the remote peer
+   * @param handler  the {@link io.vertx.core.Handler} to notify once the write completes.
+   * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(String str, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.send(str, port, host, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -127,16 +128,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Write the given {@link String} to the {@link io.vertx.core.net.SocketAddress} using the given encoding. The {@link Handler} will be notified once the
-   * write completes.
+   * Write the given {@link String} to the {@link io.vertx.core.net.SocketAddress} using the given encoding.
+   * The {@link Handler} will be notified once the write completes.
    *
-   *
-   * @param str       the {@link String} to write
-   * @param enc       the charset used for encoding
-   * @param host      the host address of the remote peer
-   * @param port      the host port of the remote peer
-   * @param handler   the {@link io.vertx.core.Handler} to notify once the write completes.
-   * @return self     itself for method chaining
+   * @param str  the {@link String} to write
+   * @param enc  the charset used for encoding
+   * @param port  the host port of the remote peer
+   * @param host  the host address of the remote peer
+   * @param handler  the {@link io.vertx.core.Handler} to notify once the write completes.
+   * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(String str, String enc, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.send(str, enc, port, host, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -153,19 +153,25 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Close the {@link io.vertx.core.datagram.DatagramSocket} implementation asynchronous and notifies the handler once done.
+   * Closes the {@link io.vertx.core.datagram.DatagramSocket} implementation asynchronous
+   * and notifies the handler once done.
+   *
+   * @param handler  the handler to notify once complete
    */
   public void close(Handler<AsyncResult<Void>> handler) {
     this.delegate.close(handler);
   }
   /**
-   * Close the {@link io.vertx.core.datagram.DatagramSocket} implementation asynchronous.
+   * Closes the {@link io.vertx.core.datagram.DatagramSocket}. The close itself is asynchronous.
    */
   public void close() {
     this.delegate.close();
   }
   /**
-   * Return the {@link io.vertx.core.net.SocketAddress} to which this {@link io.vertx.core.datagram.DatagramSocket} is bound too.
+   * Return the {@link io.vertx.core.net.SocketAddress} to which
+   * this {@link io.vertx.core.datagram.DatagramSocket} is bound.
+   *
+   * @return the socket address
    */
   public SocketAddress localAddress() {
     if (cached_0 != null) {
@@ -176,12 +182,12 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return ret;
   }
   /**
-   * Joins a multicast group and so start listen for packets send to it. The {@link Handler} is notified once the operation completes.
+   * Joins a multicast group and listens for packets send to it.
+   * The {@link Handler} is notified once the operation completes.
    *
-   *
-   * @param   multicastAddress  the address of the multicast group to join
-   * @param   handler           then handler to notify once the operation completes
-   * @return  this              returns itself for method-chaining
+   * @param multicastAddress  the address of the multicast group to join
+   * @param  handler  then handler to notify once the operation completes
+   * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket listenMulticastGroup(String multicastAddress, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.listenMulticastGroup(multicastAddress, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -198,15 +204,14 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Joins a multicast group and so start listen for packets send to it on the given network interface.
+   * Joins a multicast group and listens for packets send to it on the given network interface.
    * The {@link Handler} is notified once the operation completes.
    *
-   *
-   * @param   multicastAddress  the address of the multicast group to join
-   * @param   networkInterface  the network interface on which to listen for packets.
-   * @param   source            the address of the source for which we will listen for mulicast packets
-   * @param   handler           then handler to notify once the operation completes
-   * @return  this              returns itself for method-chaining
+   * @param  multicastAddress  the address of the multicast group to join
+   * @param  networkInterface  the network interface on which to listen for packets.
+   * @param  source  the address of the source for which we will listen for multicast packets
+   * @param  handler  then handler to notify once the operation completes
+   * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket listenMulticastGroup(String multicastAddress, String networkInterface, String source, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.listenMulticastGroup(multicastAddress, networkInterface, source, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -223,13 +228,12 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Leaves a multicast group and so stop listen for packets send to it.
+   * Leaves a multicast group and stops listening for packets send to it.
    * The {@link Handler} is notified once the operation completes.
    *
-   *
-   * @param   multicastAddress  the address of the multicast group to leave
-   * @param   handler           then handler to notify once the operation completes
-   * @return  this              returns itself for method-chaining
+   * @param multicastAddress  the address of the multicast group to leave
+   * @param handler  then handler to notify once the operation completes
+   * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket unlistenMulticastGroup(String multicastAddress, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.unlistenMulticastGroup(multicastAddress, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -246,15 +250,14 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Leaves a multicast group and so stop listen for packets send to it on the given network interface.
+   * Leaves a multicast group and stops listening for packets send to it on the given network interface.
    * The {@link Handler} is notified once the operation completes.
    *
-   *
-   * @param   multicastAddress  the address of the multicast group to join
-   * @param   networkInterface  the network interface on which to listen for packets.
-   * @param   source            the address of the source for which we will listen for mulicast packets
-   * @param   handler           then handler to notify once the operation completes
-   * @return  this              returns itself for method-chaining
+   * @param  multicastAddress  the address of the multicast group to join
+   * @param  networkInterface  the network interface on which to listen for packets.
+   * @param  source  the address of the source for which we will listen for multicast packets
+   * @param  handler the handler to notify once the operation completes
+   * @return  a reference to this, so the API can be used fluently
    */
   public DatagramSocket unlistenMulticastGroup(String multicastAddress, String networkInterface, String source, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.unlistenMulticastGroup(multicastAddress, networkInterface, source, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -271,15 +274,14 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Block the given sourceToBlock address for the given multicastAddress and notifies the {@link Handler} once
+   * Block the given address for the given multicast address and notifies the {@link Handler} once
    * the operation completes.
    *
-   *
-   * @param   multicastAddress  the address for which you want to block the sourceToBlock
-   * @param   sourceToBlock     the source address which should be blocked. You will not receive an multicast packets
-   *                            for it anymore.
-   * @param   handler           then handler to notify once the operation completes
-   * @return  this              returns itself for method-chaining
+   * @param multicastAddress  the address for which you want to block the source address
+   * @param sourceToBlock  the source address which should be blocked. You will not receive an multicast packets
+   *                       for it anymore.
+   * @param handler  the handler to notify once the operation completes
+   * @return  a reference to this, so the API can be used fluently
    */
   public DatagramSocket blockMulticastGroup(String multicastAddress, String sourceToBlock, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.blockMulticastGroup(multicastAddress, sourceToBlock, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -296,16 +298,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Block the given sourceToBlock address for the given multicastAddress on the given network interface and notifies
+   * Block the given address for the given multicast address on the given network interface and notifies
    * the {@link Handler} once the operation completes.
    *
-   *
-   * @param   multicastAddress  the address for which you want to block the sourceToBlock
-   * @param   networkInterface  the network interface on which the blocking should accour.
-   * @param   sourceToBlock     the source address which should be blocked. You will not receive an multicast packets
-   *                            for it anymore.
-   * @param   handler           then handler to notify once the operation completes
-   * @return  this              returns itself for method-chaining
+   * @param  multicastAddress  the address for which you want to block the source address
+   * @param  networkInterface  the network interface on which the blocking should occur.
+   * @param  sourceToBlock  the source address which should be blocked. You will not receive an multicast packets
+   *                        for it anymore.
+   * @param  handler  the handler to notify once the operation completes
+   * @return  a reference to this, so the API can be used fluently
    */
   public DatagramSocket blockMulticastGroup(String multicastAddress, String networkInterface, String sourceToBlock, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.blockMulticastGroup(multicastAddress, networkInterface, sourceToBlock, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
@@ -321,6 +322,14 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     });
     return this;
   }
+  /**
+   * Start listening on the given port and host. The handler will be called when the socket is listening.
+   *
+   * @param port  the port to listen on
+   * @param host  the host to listen on
+   * @param handler  the handler will be called when listening
+   * @return  a reference to this, so the API can be used fluently
+   */
   public DatagramSocket listen(int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
     this.delegate.listen(port, host, new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
       public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> event) {

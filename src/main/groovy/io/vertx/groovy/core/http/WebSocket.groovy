@@ -20,6 +20,11 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.core.Handler
 import io.vertx.groovy.core.net.SocketAddress
+/**
+ * Represents a client-side WebSocket.
+ *
+ * @author <a href="http://tfox.org">Tim Fox</a>
+ */
 @CompileStatic
 public class WebSocket implements WebSocketBase {
   final def io.vertx.core.http.WebSocket delegate;
@@ -32,17 +37,22 @@ public class WebSocket implements WebSocketBase {
   /**
    * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
    * #setWriteQueueMaxSize}
+   *
+   * @return true if write queue is full
    */
   public boolean writeQueueFull() {
     def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
     return ret;
   }
   /**
-   * When a {@code Websocket} is created it automatically registers an event handler with the eventbus, the ID of that
-   * handler is given by {@code binaryHandlerID}.<p>
+   * When a {@code Websocket} is created it automatically registers an event handler with the event bus - the ID of that
+   * handler is given by this method.
+   * <p>
    * Given this ID, a different event loop can send a binary frame to that event handler using the event bus and
    * that buffer will be received by this instance in its own event loop and written to the underlying connection. This
-   * allows you to write data to other websockets which are owned by different event loops.
+   * allows you to write data to other WebSockets which are owned by different event loops.
+   *
+   * @return the binary handler id
    */
   public String binaryHandlerID() {
     def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).binaryHandlerID();
@@ -50,23 +60,24 @@ public class WebSocket implements WebSocketBase {
   }
   /**
    * When a {@code Websocket} is created it automatically registers an event handler with the eventbus, the ID of that
-   * handler is given by {@code textHandlerID}.<p>
+   * handler is given by {@code textHandlerID}.
+   * <p>
    * Given this ID, a different event loop can send a text frame to that event handler using the event bus and
    * that buffer will be received by this instance in its own event loop and written to the underlying connection. This
-   * allows you to write data to other websockets which are owned by different event loops.
+   * allows you to write data to other WebSockets which are owned by different event loops.
    */
   public String textHandlerID() {
     def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).textHandlerID();
     return ret;
   }
   /**
-   * Close the websocket
+   * Close the WebSocket.
    */
   public void close() {
     ((io.vertx.core.http.WebSocketBase) this.delegate).close();
   }
   /**
-   * Return the remote address for this socket
+   * @return the remote address for this socket
    */
   public SocketAddress remoteAddress() {
     if (cached_0 != null) {
@@ -77,7 +88,7 @@ public class WebSocket implements WebSocketBase {
     return ret;
   }
   /**
-   * Return the local address for this socket
+   * @return the local address for this socket
    */
   public SocketAddress localAddress() {
     if (cached_1 != null) {

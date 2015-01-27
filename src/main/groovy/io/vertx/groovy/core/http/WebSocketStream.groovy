@@ -20,11 +20,11 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A stream for {@link HttpClient} websocket connection.
- *
+ * A stream for {@link HttpClient} WebSocket connection.
+ * <p>
  * When the connection attempt is successful, the stream handler is called back with the {@link io.vertx.core.http.WebSocket}
  * argument, immediatly followed by a call to the end handler. When the connection attempt fails, the exception handler is invoked.
- *
+ * <p>
  * The connection occurs when the {@link #handler} method is called with a non null handler, the other handlers should be
  * set before setting the handler.
  *

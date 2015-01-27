@@ -23,16 +23,12 @@ import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * A TCP/SSL client.<p>
- * Multiple connections to different servers can be made using the same instance.<p>
+ * A TCP client.
+ * <p>
+ * Multiple connections to different servers can be made using the same instance.
+ * <p>
  * This client supports a configurable number of connection attempts and a configurable
- * delay between attempts.<p>
- * If an instance is instantiated from an event loop then the handlers
- * of the instance will always be called on that same event loop.
- * If an instance is instantiated from some other arbitrary Java thread (i.e. when using embedded) then
- * an event loop will be assigned to the instance and used when any of its handlers
- * are called.<p>
- * Instances of this class are thread-safe.<p>
+ * delay between attempts.
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -65,10 +61,14 @@ public class NetClient implements Measured {
     return ret;
   }
   /**
-   * Attempt to open a connection to a server at the specific {@code port} and {@code host}.
+   * Open a connection to a server at the specific {@code port} and {@code host}.
+   * <p>
    * {@code host} can be a valid host name or IP address. The connect is done asynchronously and on success, a
    * {@link NetSocket} instance is supplied via the {@code connectHandler} instance
-   * @return a reference to this so multiple method calls can be chained together
+   *
+   * @param port  the port
+   * @param host  the host
+   * @return a reference to this, so the API can be used fluently
    */
   public NetClient connect(int port, String host, Handler<AsyncResult<NetSocket>> connectHandler) {
     this.delegate.connect(port, host, new Handler<AsyncResult<io.vertx.core.net.NetSocket>>() {
@@ -85,7 +85,10 @@ public class NetClient implements Measured {
     return this;
   }
   /**
-   * Close the client. Any sockets which have not been closed manually will be closed here.
+   * Close the client.
+   * <p>
+   * Any sockets which have not been closed manually will be closed here. The close is asynchronous and may not
+   * complete until some time after the method has returned.
    */
   public void close() {
     this.delegate.close();

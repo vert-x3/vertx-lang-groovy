@@ -19,7 +19,14 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.buffer.Buffer
 /**
- * A Web Socket frame that represents either text or binary data.
+ * A WebSocket frame that represents either text or binary data.
+ * <p>
+ * A WebSocket message is composed of one or more WebSocket frames.
+ * <p>
+ * If there is a just a single frame in the message then a single text or binary frame should be created with final = true.
+ * <p>
+ * If there are more than one frames in the message, then the first frame should be a text or binary frame with
+ * final = false, followed by one or more continuation frames. The last continuation frame should have final = true.
  *
  * @author <a href="http://www.jboss.org/netty/">The Netty Project</a>
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
@@ -35,41 +42,63 @@ public class WebSocketFrame {
   public Object getDelegate() {
     return delegate;
   }
+  /**
+   * Create a binary WebSocket frame.
+   *
+   * @param data  the data for the frame
+   * @param isFinal  true if it's the final frame in the WebSocket message
+   * @return the frame
+   */
   public static WebSocketFrame binaryFrame(Buffer data, boolean isFinal) {
     def ret= WebSocketFrame.FACTORY.apply(io.vertx.core.http.WebSocketFrame.binaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal));
     return ret;
   }
+  /**
+   * Create a text WebSocket frame.
+   *
+   * @param str  the string for the frame
+   * @param isFinal  true if it's the final frame in the WebSocket message
+   * @return the frame
+   */
   public static WebSocketFrame textFrame(String str, boolean isFinal) {
     def ret= WebSocketFrame.FACTORY.apply(io.vertx.core.http.WebSocketFrame.textFrame(str, isFinal));
     return ret;
   }
+  /**
+   * Create a continuation frame
+   *
+   * @param data  the data for the frame
+   * @param isFinal true if it's the final frame in the WebSocket message
+   * @return the frame
+   */
   public static WebSocketFrame continuationFrame(Buffer data, boolean isFinal) {
     def ret= WebSocketFrame.FACTORY.apply(io.vertx.core.http.WebSocketFrame.continuationFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal));
     return ret;
   }
   /**
-   * Returns {@code true} if and only if the content of this frame is a string
-   * encoded in UTF-8.
+   * @return true if it's a text frame
    */
   public boolean isText() {
     def ret = this.delegate.isText();
     return ret;
   }
   /**
-   * Returns {@code true} if and only if the content of this frame is an
-   * arbitrary binary data.
+   * @eturn true if it's a binary frame
    */
   public boolean isBinary() {
     def ret = this.delegate.isBinary();
     return ret;
   }
+  /**
+   * @return true if it's a continuation frame
+   */
   public boolean isContinuation() {
     def ret = this.delegate.isContinuation();
     return ret;
   }
   /**
-   * Converts the content of this frame into a UTF-8 string and returns the
-   * converted string.
+   * @return the content of this frame as a UTF-8 string and returns the
+   * converted string. Only use this for text frames.
    */
   public String textData() {
     if (cached_0 != null) {
@@ -79,6 +108,9 @@ public class WebSocketFrame {
     cached_0 = ret;
     return ret;
   }
+  /**
+   * @return the data of the frame
+   */
   public Buffer binaryData() {
     if (cached_1 != null) {
       return cached_1;
@@ -88,8 +120,7 @@ public class WebSocketFrame {
     return ret;
   }
   /**
-   * Returns {@code true} if this is the final frame.  This should be {@code true} unless a number of 
-   * coninuation frames are expected to follow this frame.
+   * @return true if this is the final frame.
    */
   public boolean isFinal() {
     def ret = this.delegate.isFinal();

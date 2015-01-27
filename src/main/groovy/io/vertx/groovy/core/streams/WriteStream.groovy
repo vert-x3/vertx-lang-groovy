@@ -20,11 +20,10 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.Handler
 /**
  *
- * Represents a stream of data that can be written to<p>
+ * Represents a stream of data that can be written to.
+ * <p>
  * Any class that implements this interface can be used by a {@link Pump} to pump data from a {@code ReadStream}
- * to it.<p>
- * This interface exposes a fluent api and the type T represents the type of the object that implements
- * the interface to allow method chaining
+ * to it.
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -51,6 +50,12 @@ class WriteStreamImpl<T> implements WriteStream<T> {
   public Object getDelegate() {
     return delegate;
   }
+  /**
+   * Set an exception handler on the write stream.
+   *
+   * @param handler  the exception handler
+   * @return a reference to this, so the API can be used fluently
+   */
   public WriteStream<T> exceptionHandler(Handler<Throwable> handler) {
     ((io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler);
     return this;
@@ -59,6 +64,9 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * Write some data to the stream. The data is put on an internal write queue, and the write actually happens
    * asynchronously. To avoid running out of memory by putting too much on the write queue,
    * check the {@link #writeQueueFull} method before writing. This is done automatically if using a {@link Pump}.
+   *
+   * @param data  the data to write
+   * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> write(T data) {
     ((io.vertx.core.streams.WriteStream) this.delegate).write(InternalHelper.unwrapObject(data));
@@ -68,6 +76,9 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * Set the maximum size of the write queue to {@code maxSize}. You will still be able to write to the stream even
    * if there is more than {@code maxSize} bytes in the write queue. This is used as an indicator by classes such as
    * {@code Pump} to provide flow control.
+   *
+   * @param maxSize  the max size of the write stream
+   * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> setWriteQueueMaxSize(int maxSize) {
     ((io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize);
@@ -76,6 +87,8 @@ class WriteStreamImpl<T> implements WriteStream<T> {
   /**
    * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
    * #setWriteQueueMaxSize}
+   *
+   * @return true if write queue is full
    */
   public boolean writeQueueFull() {
     def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
@@ -84,6 +97,9 @@ class WriteStreamImpl<T> implements WriteStream<T> {
   /**
    * Set a drain handler on the stream. If the write queue is full, then the handler will be called when the write
    * queue has been reduced to maxSize / 2. See {@link Pump} for an example of this being used.
+   *
+   * @param handler  the handler
+   * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> drainHandler(Handler<Void> handler) {
     ((io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler);

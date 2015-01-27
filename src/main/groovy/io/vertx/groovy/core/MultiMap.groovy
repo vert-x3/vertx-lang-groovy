@@ -21,6 +21,11 @@ import java.util.List
 import java.util.Map.Entry
 import java.util.Set
 /**
+ * This class represents a MultiMap of String keys to a List of String values.
+ * <p>
+ * It's useful in Vert.x to represent things in Vert.x like HTTP headers and HTTP parameters which allow
+ * multiple values for keys.
+ *
  * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -59,7 +64,7 @@ public class MultiMap {
    * Checks to see if there is a value with the specified name
    *
    * @param name The name to search for
-   * @return True if at least one entry is found
+   * @return true if at least one entry is found
    */
   public boolean contains(String name) {
     def ret = this.delegate.contains(name);
@@ -84,11 +89,9 @@ public class MultiMap {
   /**
    * Adds a new value with the specified name and value.
    *
-   *
    * @param name The name
    * @param value The value being added
-   *
-   * @return {@code this}
+   * @return a reference to this, so the API can be used fluently
    */
   public MultiMap add(String name, String value) {
     this.delegate.add(name, value);
@@ -97,7 +100,7 @@ public class MultiMap {
   /**
    * Adds all the entries from another MultiMap to this one
    *
-   * @return {@code this}
+   * @return a reference to this, so the API can be used fluently
    */
   public MultiMap addAll(MultiMap map) {
     this.delegate.addAll((io.vertx.core.MultiMap)map.getDelegate());
@@ -105,12 +108,12 @@ public class MultiMap {
   }
   /**
    * Sets a value under the specified name.
-   *
+   * <p>
    * If there is an existing header with the same name, it is removed.
    *
    * @param name The name
    * @param value The value
-   * @return {@code this}
+   * @return a reference to this, so the API can be used fluently
    */
   public MultiMap set(String name, String value) {
     this.delegate.set(name, value);
@@ -119,7 +122,7 @@ public class MultiMap {
   /**
    * Cleans this instance.
    *
-   * @return {@code this}
+   * @return a reference to this, so the API can be used fluently
    */
   public MultiMap setAll(MultiMap map) {
     this.delegate.setAll((io.vertx.core.MultiMap)map.getDelegate());
@@ -129,7 +132,7 @@ public class MultiMap {
    * Removes the value with the given name
    *
    * @param name The name  of the value to remove
-   * @return {@code this}
+   * @return a reference to this, so the API can be used fluently
    */
   public MultiMap remove(String name) {
     this.delegate.remove(name);
@@ -138,14 +141,14 @@ public class MultiMap {
   /**
    * Removes all
    *
-   * @return {@code this}
+   * @return a reference to this, so the API can be used fluently
    */
   public MultiMap clear() {
     this.delegate.clear();
     return this;
   }
   /**
-   * Return the number of names.
+   * Return the number of keys.
    */
   public int size() {
     def ret = this.delegate.size();

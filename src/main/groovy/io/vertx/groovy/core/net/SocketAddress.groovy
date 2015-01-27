@@ -18,6 +18,8 @@ package io.vertx.groovy.core.net;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
+ * The address of a socket
+ *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
@@ -29,12 +31,12 @@ public class SocketAddress {
   public Object getDelegate() {
     return delegate;
   }
-  public String hostAddress() {
-    def ret = this.delegate.hostAddress();
+  public String host() {
+    def ret = this.delegate.host();
     return ret;
   }
-  public int hostPort() {
-    def ret = this.delegate.hostPort();
+  public int port() {
+    def ret = this.delegate.port();
     return ret;
   }
 

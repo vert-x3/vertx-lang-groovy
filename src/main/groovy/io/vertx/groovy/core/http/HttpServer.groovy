@@ -23,13 +23,13 @@ import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * An HTTP and WebSockets server<p>
- * If an instance is instantiated from an event loop then the handlers
- * of the instance will always be called on that same event loop.
- * If an instance is instantiated from some other arbitrary Java thread then
- * an event loop will be assigned to the instance and used when any of its handlers
- * are called.<p>
- * Instances of HttpServer are thread-safe.<p>
+ * An HTTP and WebSockets server.
+ * <p>
+ * You receive HTTP requests by providing a {@link #requestHandler}. As requests arrive on the server the handler
+ * will be called with the requests.
+ * <p>
+ * You receive WebSockets by providing a {@link #websocketHandler}. As WebSocket connections arrive on the server, the
+ * WebSocket is passed to the handler.
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -63,7 +63,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Return the request stream for the server. As HTTP requests are received by the server,
-   * instances of {@link HttpServerRequest} will be created and passed to this stream {@link io.vertx.core.streams.ReadStream#handler(io.vertx.core.Handler)}.
+   * instances of {@link HttpServerRequest} will be created and passed to the stream {@link io.vertx.core.streams.ReadStream#handler(io.vertx.core.Handler)}.
    *
    * @return the request stream
    */
@@ -75,7 +75,7 @@ public class HttpServer implements Measured {
    * Set the request handler for the server to {@code requestHandler}. As HTTP requests are received by the server,
    * instances of {@link HttpServerRequest} will be created and passed to this handler.
    *
-   * @return a reference to this, so methods can be chained.
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServer requestHandler(Handler<HttpServerRequest> handler) {
     def ret= HttpServer.FACTORY.apply(this.delegate.requestHandler(new Handler<io.vertx.core.http.HttpServerRequest>() {
@@ -87,7 +87,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Return the websocket stream for the server. If a websocket connect handshake is successful a
-   * new {@link ServerWebSocket} instance will be created and passed to this stream {@link io.vertx.core.streams.ReadStream#handler(io.vertx.core.Handler)}.
+   * new {@link ServerWebSocket} instance will be created and passed to the stream {@link io.vertx.core.streams.ReadStream#handler(io.vertx.core.Handler)}.
    *
    * @return the websocket stream
    */
@@ -99,7 +99,7 @@ public class HttpServer implements Measured {
    * Set the websocket handler for the server to {@code wsHandler}. If a websocket connect handshake is successful a
    * new {@link ServerWebSocket} instance will be created and passed to the handler.
    *
-   * @return a reference to this, so methods can be chained.
+   * @return a reference to this, so the API can be used fluently
    */
   public HttpServer websocketHandler(Handler<ServerWebSocket> handler) {
     def ret= HttpServer.FACTORY.apply(this.delegate.websocketHandler(new Handler<io.vertx.core.http.ServerWebSocket>() {
@@ -109,10 +109,92 @@ public class HttpServer implements Measured {
     }));
     return ret;
   }
+  /**
+   * Tell the server to start listening. The server will listen on the port and host specified in the
+   * {@link io.vertx.core.http.HttpServerOptions} that was used when creating the server.
+   * <p>
+   * The listen happens asynchronously and the server may not be listening until some time after the call has returned.
+   *
+   * @return a reference to this, so the API can be used fluently
+   */
   public HttpServer listen() {
     this.delegate.listen();
     return this;
   }
+  /**
+   * Tell the server to start listening. The server will listen on the port and host specified here,
+   * ignoring any value set in the {@link io.vertx.core.http.HttpServerOptions} that was used when creating the server.
+   * <p>
+   * The listen happens asynchronously and the server may not be listening until some time after the call has returned.
+   *
+   * @param port  the port to listen on
+   * @param host  the host to listen on
+   *
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServer listen(int port, String host) {
+    this.delegate.listen(port, host);
+    return this;
+  }
+  /**
+   * Like {@link #listen(int, String)} but supplying a handler that will be called when the server is actually
+   * listening (or has failed).
+   *
+   * @param port  the port to listen on
+   * @param host  the host to listen on
+   * @param listenHandler  the listen handler
+   */
+  public HttpServer listen(int port, String host, Handler<AsyncResult<HttpServer>> listenHandler) {
+    this.delegate.listen(port, host, new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServer> event) {
+        AsyncResult<HttpServer> f
+        if (event.succeeded()) {
+          f = InternalHelper.<HttpServer>result(new HttpServer(event.result()))
+        } else {
+          f = InternalHelper.<HttpServer>failure(event.cause())
+        }
+        listenHandler.handle(f)
+      }
+    });
+    return this;
+  }
+  /**
+   * Like {@link #listen(int, String)} but the server will listen on host "0.0.0.0" and port specified here ignoring
+   * any value in the {@link io.vertx.core.http.HttpServerOptions} that was used when creating the server.
+   *
+   * @param port  the port to listen on
+   *
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServer listen(int port) {
+    this.delegate.listen(port);
+    return this;
+  }
+  /**
+   * Like {@link #listen(int)} but supplying a handler that will be called when the server is actually listening (or has failed).
+   *
+   * @param port  the port to listen on
+   * @param listenHandler  the listen handler
+   */
+  public HttpServer listen(int port, Handler<AsyncResult<HttpServer>> listenHandler) {
+    this.delegate.listen(port, new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServer> event) {
+        AsyncResult<HttpServer> f
+        if (event.succeeded()) {
+          f = InternalHelper.<HttpServer>result(new HttpServer(event.result()))
+        } else {
+          f = InternalHelper.<HttpServer>failure(event.cause())
+        }
+        listenHandler.handle(f)
+      }
+    });
+    return this;
+  }
+  /**
+   * Like {@link #listen} but supplying a handler that will be called when the server is actually listening (or has failed).
+   *
+   * @param listenHandler  the listen handler
+   */
   public HttpServer listen(Handler<AsyncResult<HttpServer>> listenHandler) {
     this.delegate.listen(new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
       public void handle(AsyncResult<io.vertx.core.http.HttpServer> event) {
@@ -129,13 +211,16 @@ public class HttpServer implements Measured {
   }
   /**
    * Close the server. Any open HTTP connections will be closed.
+   * <p>
+   * The close happens asynchronously and the server may not be closed until some time after the call has returned.
    */
   public void close() {
     this.delegate.close();
   }
   /**
-   * Close the server. Any open HTTP connections will be closed. The {@code completionHandler} will be called when the close
-   * is complete.
+   * Like {@link #close} but supplying a handler that will be called when the server is actually closed (or has failed).
+   *
+   * @param completionHandler  the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);

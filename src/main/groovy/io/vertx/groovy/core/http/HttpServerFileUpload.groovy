@@ -21,7 +21,7 @@ import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * Represents an upload from an HTML form.<p>
+ * Represents an file upload from an HTML FORM.
  *
  * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
  */
@@ -59,56 +59,61 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
     return this;
   }
   /**
-   * Stream the content of this upload to the given filename.
+   * Stream the content of this upload to the given file on storage.
+   *
+   * @param filename  the name of the file
    */
   public HttpServerFileUpload streamToFileSystem(String filename) {
     this.delegate.streamToFileSystem(filename);
     return this;
   }
   /**
-   * Returns the filename which was used when upload the file.
+   * @return the filename which was used when upload the file.
    */
   public String filename() {
     def ret = this.delegate.filename();
     return ret;
   }
   /**
-   * Returns the name of the attribute
+   * @return the name of the attribute
    */
   public String name() {
     def ret = this.delegate.name();
     return ret;
   }
   /**
-   * Returns the contentType for the upload
+   * @return  the content type for the upload
    */
   public String contentType() {
     def ret = this.delegate.contentType();
     return ret;
   }
   /**
-   * Returns the contentTransferEncoding for the upload
+   * @return the contentTransferEncoding for the upload
    */
   public String contentTransferEncoding() {
     def ret = this.delegate.contentTransferEncoding();
     return ret;
   }
   /**
-   * Returns the charset for the upload
+   * @return the charset for the upload
    */
   public String charset() {
     def ret = this.delegate.charset();
     return ret;
   }
   /**
-   * Returns the size of the upload (in bytes)
+   * The size of the upload may not be available until it is all read.
+   * Check {@link #isSizeAvailable} to determine this
+   *
+   * @return the size of the upload (in bytes)
    */
   public long size() {
     def ret = this.delegate.size();
     return ret;
   }
   /**
-   * Returns {@code true} if the size of the upload can be retrieved via {@link #size()}.
+   * @return true if the size of the upload can be retrieved via {@link #size()}.
    */
   public boolean isSizeAvailable() {
     def ret = this.delegate.isSizeAvailable();

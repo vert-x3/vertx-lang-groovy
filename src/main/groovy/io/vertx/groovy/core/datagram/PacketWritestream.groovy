@@ -38,6 +38,8 @@ public class PacketWritestream implements WriteStream<Buffer> {
   /**
    * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
    * #setWriteQueueMaxSize}
+   *
+   * @return true if write queue is full
    */
   public boolean writeQueueFull() {
     def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();

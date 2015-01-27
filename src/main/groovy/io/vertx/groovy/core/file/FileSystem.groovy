@@ -23,13 +23,20 @@ import io.vertx.core.file.OpenOptions
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * Contains a broad set of operations for manipulating files.<p>
- * A blocking and non blocking version of each operation is provided.<p>
- * The non blocking versions take a handler which is called when the operation completes or an error occurs.<p>
- * The blocking versions return the results, or throw exceptions directly.<p>
- * It is highly recommended the non blocking versions are used unless you are sure the operation
- * will not block for a significant period of time.<p>
- * Instances of FileSystem are thread-safe.<p>
+ * Contains a broad set of operations for manipulating files on the file system.
+ * <p>
+ * A (potential) blocking and non blocking version of each operation is provided.
+ * <p>
+ * The non blocking versions take a handler which is called when the operation completes or an error occurs.
+ * <p>
+ * The blocking versions are named {@code xxxBlocking} and return the results, or throw exceptions directly.
+ * In many cases, depending on the operating system and file system some of the potentially blocking operations
+ * can return quickly, which is why we provide them, but it's highly recommended that you test how long they take to
+ * return in your particular application before using them on an event loop.
+ * <p>
+ * Please consult the documentation for more information on file system support.
+ *
+ *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 @CompileStatic
@@ -42,8 +49,14 @@ public class FileSystem {
     return delegate;
   }
   /**
-   * Copy a file from the path {@code from} to path {@code to}, asynchronously.<p>
-   * The copy will fail if the destination already exists.<p>
+   * Copy a file from the path {@code from} to path {@code to}, asynchronously.
+   * <p>
+   * The copy will fail if the destination already exists.
+   *
+   * @param from  the path to copy from
+   * @param to  the path to copy to
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem copy(String from, String to, Handler<AsyncResult<Void>> handler) {
     this.delegate.copy(from, to, handler);
@@ -57,10 +70,18 @@ public class FileSystem {
     return this;
   }
   /**
-   * Copy a file from the path {@code from} to path {@code to}, asynchronously.<p>
+   * Copy a file from the path {@code from} to path {@code to}, asynchronously.
+   * <p>
    * If {@code recursive} is {@code true} and {@code from} represents a directory, then the directory and its contents
-   * will be copied recursively to the destination {@code to}.<p>
-   * The copy will fail if the destination if the destination already exists.<p>
+   * will be copied recursively to the destination {@code to}.
+   * <p>
+   * The copy will fail if the destination if the destination already exists.
+   *
+   * @param from  the path to copy from
+   * @param to  the path to copy to
+   * @param recursive
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem copyRecursive(String from, String to, boolean recursive, Handler<AsyncResult<Void>> handler) {
     this.delegate.copyRecursive(from, to, recursive, handler);
@@ -74,8 +95,14 @@ public class FileSystem {
     return this;
   }
   /**
-   * Move a file from the path {@code from} to path {@code to}, asynchronously.<p>
-   * The move will fail if the destination already exists.<p>
+   * Move a file from the path {@code from} to path {@code to}, asynchronously.
+   * <p>
+   * The move will fail if the destination already exists.
+   *
+   * @param from  the path to copy from
+   * @param to  the path to copy to
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem move(String from, String to, Handler<AsyncResult<Void>> handler) {
     this.delegate.move(from, to, handler);
@@ -89,8 +116,14 @@ public class FileSystem {
     return this;
   }
   /**
-   * Truncate the file represented by {@code path} to length {@code len} in bytes, asynchronously.<p>
+   * Truncate the file represented by {@code path} to length {@code len} in bytes, asynchronously.
+   * <p>
    * The operation will fail if the file does not exist or {@code len} is less than {@code zero}.
+   *
+   * @param path  the path to the file
+   * @param len  the length to truncate it to
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem truncate(String path, long len, Handler<AsyncResult<Void>> handler) {
     this.delegate.truncate(path, len, handler);
@@ -105,8 +138,14 @@ public class FileSystem {
   }
   /**
    * Change the permissions on the file represented by {@code path} to {@code perms}, asynchronously.
+   * <p>
    * The permission String takes the form rwxr-x--- as
-   * specified <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.<p>
+   * specified <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
+   *
+   * @param path  the path to the file
+   * @param perms  the permissions string
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chmod(String path, String perms, Handler<AsyncResult<Void>> handler) {
     this.delegate.chmod(path, perms, handler);
@@ -120,11 +159,18 @@ public class FileSystem {
     return this;
   }
   /**
-   * Change the permissions on the file represented by {@code path} to {@code perms}, asynchronously.
+   * Change the permissions on the file represented by {@code path} to {@code perms}, asynchronously.<p>
    * The permission String takes the form rwxr-x--- as
-   * specified in {<a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>}.<p>
+   * specified in {<a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>}.
+   * <p>
    * If the file is directory then all contents will also have their permissions changed recursively. Any directory permissions will
-   * be set to {@code dirPerms}, whilst any normal file permissions will be set to {@code perms}.<p>
+   * be set to {@code dirPerms}, whilst any normal file permissions will be set to {@code perms}.
+   *
+   * @param path  the path to the file
+   * @param perms  the permissions string
+   * @param dirPerms  the directory permissions
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chmodRecursive(String path, String perms, String dirPerms, Handler<AsyncResult<Void>> handler) {
     this.delegate.chmodRecursive(path, perms, dirPerms, handler);
@@ -139,7 +185,12 @@ public class FileSystem {
   }
   /**
    * Change the ownership on the file represented by {@code path} to {@code user} and {code group}, asynchronously.
-
+   *
+   * @param path  the path to the file
+   * @param user  the user name
+   * @param group  the user group
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chown(String path, String user, String group, Handler<AsyncResult<Void>> handler) {
     this.delegate.chown(path, user, group, handler);
@@ -155,7 +206,12 @@ public class FileSystem {
   }
   /**
    * Obtain properties for the file represented by {@code path}, asynchronously.
+   * <p>
    * If the file is a link, the link will be followed.
+   *
+   * @param path  the path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem props(String path, Handler<AsyncResult<FileProps>> handler) {
     this.delegate.props(path, new Handler<AsyncResult<io.vertx.core.file.FileProps>>() {
@@ -180,7 +236,12 @@ public class FileSystem {
   }
   /**
    * Obtain properties for the link represented by {@code path}, asynchronously.
+   * <p>
    * The link will not be followed.
+   *
+   * @param path  the path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem lprops(String path, Handler<AsyncResult<FileProps>> handler) {
     this.delegate.lprops(path, new Handler<AsyncResult<io.vertx.core.file.FileProps>>() {
@@ -205,6 +266,11 @@ public class FileSystem {
   }
   /**
    * Create a hard link on the file system from {@code link} to {@code existing}, asynchronously.
+   *
+   * @param link  the link
+   * @param existing  the link destination
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem link(String link, String existing, Handler<AsyncResult<Void>> handler) {
     this.delegate.link(link, existing, handler);
@@ -219,6 +285,11 @@ public class FileSystem {
   }
   /**
    * Create a symbolic link on the file system from {@code link} to {@code existing}, asynchronously.
+   *
+   * @param link  the link
+   * @param existing  the link destination
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem symlink(String link, String existing, Handler<AsyncResult<Void>> handler) {
     this.delegate.symlink(link, existing, handler);
@@ -233,6 +304,10 @@ public class FileSystem {
   }
   /**
    * Unlinks the link on the file system represented by the path {@code link}, asynchronously.
+   *
+   * @param link  the link
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem unlink(String link, Handler<AsyncResult<Void>> handler) {
     this.delegate.unlink(link, handler);
@@ -247,6 +322,10 @@ public class FileSystem {
   }
   /**
    * Returns the path representing the file that the symbolic link specified by {@code link} points to, asynchronously.
+   *
+   * @param link  the link
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readSymlink(String link, Handler<AsyncResult<String>> handler) {
     this.delegate.readSymlink(link, handler);
@@ -261,6 +340,10 @@ public class FileSystem {
   }
   /**
    * Deletes the file represented by the specified {@code path}, asynchronously.
+   *
+   * @param path  path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem delete(String path, Handler<AsyncResult<Void>> handler) {
     this.delegate.delete(path, handler);
@@ -274,9 +357,15 @@ public class FileSystem {
     return this;
   }
   /**
-   * Deletes the file represented by the specified {@code path}, asynchronously.<p>
+   * Deletes the file represented by the specified {@code path}, asynchronously.
+   * <p>
    * If the path represents a directory and {@code recursive = true} then the directory and its contents will be
    * deleted recursively.
+   *
+   * @param path  path to the file
+   * @param recursive  delete recursively?
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem deleteRecursive(String path, boolean recursive, Handler<AsyncResult<Void>> handler) {
     this.delegate.deleteRecursive(path, recursive, handler);
@@ -290,8 +379,13 @@ public class FileSystem {
     return this;
   }
   /**
-   * Create the directory represented by {@code path}, asynchronously.<p>
+   * Create the directory represented by {@code path}, asynchronously.
+   * <p>
    * The operation will fail if the directory already exists.
+   *
+   * @param path  path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdir(String path, Handler<AsyncResult<Void>> handler) {
     this.delegate.mkdir(path, handler);
@@ -305,11 +399,19 @@ public class FileSystem {
     return this;
   }
   /**
-   * Create the directory represented by {@code path}, asynchronously.<p>
+   * Create the directory represented by {@code path}, asynchronously.
+   * <p>
    * The new directory will be created with permissions as specified by {@code perms}.
+   * <p>
    * The permission String takes the form rwxr-x--- as specified
-   * in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.<p>
+   * in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
+   * <p>
    * The operation will fail if the directory already exists.
+   *
+   * @param path  path to the file
+   * @param perms  the permissions string
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdir(String path, String perms, Handler<AsyncResult<Void>> handler) {
     this.delegate.mkdir(path, perms, handler);
@@ -323,10 +425,16 @@ public class FileSystem {
     return this;
   }
   /**
-   * Create the directory represented by {@code path}, asynchronously.<p>
+   * Create the directory represented by {@code path}, asynchronously.
+   * <p>
    * If {@code createParents} is set to {@code true} then any non-existent parent directories of the directory
-   * will also be created.<p>
+   * will also be created.
+   * <p>
    * The operation will fail if the directory already exists.
+   *
+   * @param path  path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdirs(String path, Handler<AsyncResult<Void>> handler) {
     this.delegate.mkdirs(path, handler);
@@ -340,13 +448,22 @@ public class FileSystem {
     return this;
   }
   /**
-   * Create the directory represented by {@code path}, asynchronously.<p>
+   * Create the directory represented by {@code path}, asynchronously.
+   * <p>
    * The new directory will be created with permissions as specified by {@code perms}.
+   * <p>
    * The permission String takes the form rwxr-x--- as specified
-   * in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.<p>
+   * in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
+   * <p>
    * If {@code createParents} is set to {@code true} then any non-existent parent directories of the directory
-   * will also be created.<p>
+   * will also be created.
+   * <p>
    * The operation will fail if the directory already exists.<p>
+   *
+   * @param path  path to the file
+   * @param perms  the permissions string
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdirs(String path, String perms, Handler<AsyncResult<Void>> handler) {
     this.delegate.mkdirs(path, perms, handler);
@@ -360,8 +477,13 @@ public class FileSystem {
     return this;
   }
   /**
-   * Read the contents of the directory specified by {@code path}, asynchronously.<p>
+   * Read the contents of the directory specified by {@code path}, asynchronously.
+   * <p>
    * The result is an array of String representing the paths of the files inside the directory.
+   *
+   * @param path  path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readDir(String path, Handler<AsyncResult<List<String>>> handler) {
     this.delegate.readDir(path, handler);
@@ -375,10 +497,17 @@ public class FileSystem {
     return ret;
   }
   /**
-   * Read the contents of the directory specified by {@code path}, asynchronously.<p>
+   * Read the contents of the directory specified by {@code path}, asynchronously.
+   * <p>
    * The parameter {@code filter} is a regular expression. If {@code filter} is specified then only the paths that
-   * match  @{filter}will be returned.<p>
+   * match  @{filter}will be returned.
+   * <p>
    * The result is an array of String representing the paths of the files inside the directory.
+   *
+   * @param path  path to the directory
+   * @param filter  the filter expression
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readDir(String path, String filter, Handler<AsyncResult<List<String>>> handler) {
     this.delegate.readDir(path, filter, handler);
@@ -392,8 +521,13 @@ public class FileSystem {
     return ret;
   }
   /**
-   * Reads the entire file as represented by the path {@code path} as a {@link Buffer}, asynchronously.<p>
+   * Reads the entire file as represented by the path {@code path} as a {@link Buffer}, asynchronously.
+   * <p>
    * Do not user this method to read very large files or you risk running out of available RAM.
+   *
+   * @param path  path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readFile(String path, Handler<AsyncResult<Buffer>> handler) {
     this.delegate.readFile(path, new Handler<AsyncResult<io.vertx.core.buffer.Buffer>>() {
@@ -419,6 +553,10 @@ public class FileSystem {
   /**
    * Creates the file, and writes the specified {@code Buffer data} to the file represented by the path {@code path},
    * asynchronously.
+   *
+   * @param path  path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem writeFile(String path, Buffer data, Handler<AsyncResult<Void>> handler) {
     this.delegate.writeFile(path, (io.vertx.core.buffer.Buffer)data.getDelegate(), handler);
@@ -432,9 +570,14 @@ public class FileSystem {
     return this;
   }
   /**
-   * Open the file represented by {@code path}, asynchronously.<p>
+   * Open the file represented by {@code path}, asynchronously.
+   * <p>
    * The file is opened for both reading and writing. If the file does not already exist it will be created.
-   * Write operations will not automatically flush to storage.
+   *
+   * @param path  path to the file
+   * @param options options describing how the file should be opened
+   * @return a reference to this, so the API can be used fluently
+
    */
   public FileSystem open(String path, Map<String, Object> options, Handler<AsyncResult<AsyncFile>> handler) {
     this.delegate.open(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.file.AsyncFile>>() {
@@ -459,6 +602,10 @@ public class FileSystem {
   }
   /**
    * Creates an empty file with the specified {@code path}, asynchronously.
+   *
+   * @param path  path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem createFile(String path, Handler<AsyncResult<Void>> handler) {
     this.delegate.createFile(path, handler);
@@ -473,6 +620,11 @@ public class FileSystem {
   }
   /**
    * Creates an empty file with the specified {@code path} and permissions {@code perms}, asynchronously.
+   *
+   * @param path  path to the file
+   * @param perms  the permissions string
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem createFile(String path, String perms, Handler<AsyncResult<Void>> handler) {
     this.delegate.createFile(path, perms, handler);
@@ -487,6 +639,10 @@ public class FileSystem {
   }
   /**
    * Determines whether the file as specified by the path {@code path} exists, asynchronously.
+   *
+   * @param path  path to the file
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem exists(String path, Handler<AsyncResult<Boolean>> handler) {
     this.delegate.exists(path, handler);
@@ -501,6 +657,10 @@ public class FileSystem {
   }
   /**
    * Returns properties of the file-system being used by the specified {@code path}, asynchronously.
+   *
+   * @param path  path to anywhere on the filesystem
+   * @param handler  the handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
    */
   public FileSystem fsProps(String path, Handler<AsyncResult<FileSystemProps>> handler) {
     this.delegate.fsProps(path, new Handler<AsyncResult<io.vertx.core.file.FileSystemProps>>() {

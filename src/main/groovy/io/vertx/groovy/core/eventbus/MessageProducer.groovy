@@ -21,7 +21,8 @@ import io.vertx.core.eventbus.DeliveryOptions
 import io.vertx.groovy.core.streams.WriteStream
 import io.vertx.core.Handler
 /**
- * Represents a stream of message that can be written to<p>
+ * Represents a stream of message that can be written to.
+ * <p>
  *
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
@@ -37,6 +38,8 @@ public class MessageProducer<T> implements WriteStream<T> {
   /**
    * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
    * #setWriteQueueMaxSize}
+   *
+   * @return true if write queue is full
    */
   public boolean writeQueueFull() {
     def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();

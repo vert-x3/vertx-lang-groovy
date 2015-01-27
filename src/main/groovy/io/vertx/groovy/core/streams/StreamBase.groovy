@@ -19,7 +19,7 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.Handler
 /**
- * Represents a stream of data.<p>
+ * Base interface for a stream.
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -44,6 +44,9 @@ class StreamBaseImpl implements StreamBase {
   }
   /**
    * Set an exception handler.
+   *
+   * @param handler the handler
+   * @return a reference to this, so the API can be used fluently
    */
   public StreamBase exceptionHandler(Handler<Throwable> handler) {
     ((io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler);

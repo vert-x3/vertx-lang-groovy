@@ -18,8 +18,8 @@ package io.vertx.groovy.core.file;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
- * Represents properties of a file on the file system<p>
- * Instances of FileProps are thread-safe<p>
+ * Represents properties of a file on the file system.
+ * <p>
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */

@@ -22,10 +22,10 @@ import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
  * An event bus consumer object representing a stream of message to an {@link EventBus} address that can
- * be read from.<p>
- *
+ * be read from.
+ * <p>
  * The {@link EventBus#consumer(String)} or {@link EventBus#localConsumer(String)}
- * create a new consumer, the returned consumer is not yet registered against the event bus. Registration
+ * creates a new consumer, the returned consumer is not yet registered against the event bus. Registration
  * is effective after the {@link #handler(io.vertx.core.Handler)} method is invoked.<p>
  *
  * The consumer is unregistered from the event bus using the {@link #unregister()} method or by calling the

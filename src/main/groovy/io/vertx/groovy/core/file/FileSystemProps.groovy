@@ -18,8 +18,8 @@ package io.vertx.groovy.core.file;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
- * Represents properties of the file system.<p>
- * Instances of FileSystemProps are thread-safe.<p>
+ * Represents properties of the file system.
+ *
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -33,21 +33,21 @@ public class FileSystemProps {
     return delegate;
   }
   /**
-   * The total space on the file system, in bytes
+   * @return The total space on the file system, in bytes
    */
   public long totalSpace() {
     def ret = this.delegate.totalSpace();
     return ret;
   }
   /**
-   * The total un-allocated space on the file system, in bytes
+   * @return The total un-allocated space on the file system, in bytes
    */
   public long unallocatedSpace() {
     def ret = this.delegate.unallocatedSpace();
     return ret;
   }
   /**
-   * The total usable space on the file system, in bytes
+   * @return The total usable space on the file system, in bytes
    */
   public long usableSpace() {
     def ret = this.delegate.usableSpace();

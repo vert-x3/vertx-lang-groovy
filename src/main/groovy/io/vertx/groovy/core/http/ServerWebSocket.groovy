@@ -22,8 +22,10 @@ import io.vertx.groovy.core.MultiMap
 import io.vertx.core.Handler
 import io.vertx.groovy.core.net.SocketAddress
 /**
- * Represents a server side WebSocket that is passed into a the websocketHandler of an {@link HttpServer}<p>
- * Instances of this class are not thread-safe<p>
+ * Represents a server side WebSocket.
+ * <p>
+ * Instances of this class are passed into a {@link io.vertx.core.http.HttpServer#websocketHandler} or provided
+ * when a WebSocket handshake is manually {@link HttpServerRequest#upgrade}ed.
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -39,17 +41,22 @@ public class ServerWebSocket implements WebSocketBase {
   /**
    * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
    * #setWriteQueueMaxSize}
+   *
+   * @return true if write queue is full
    */
   public boolean writeQueueFull() {
     def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
     return ret;
   }
   /**
-   * When a {@code Websocket} is created it automatically registers an event handler with the eventbus, the ID of that
-   * handler is given by {@code binaryHandlerID}.<p>
+   * When a {@code Websocket} is created it automatically registers an event handler with the event bus - the ID of that
+   * handler is given by this method.
+   * <p>
    * Given this ID, a different event loop can send a binary frame to that event handler using the event bus and
    * that buffer will be received by this instance in its own event loop and written to the underlying connection. This
-   * allows you to write data to other websockets which are owned by different event loops.
+   * allows you to write data to other WebSockets which are owned by different event loops.
+   *
+   * @return the binary handler id
    */
   public String binaryHandlerID() {
     def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).binaryHandlerID();
@@ -57,23 +64,24 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * When a {@code Websocket} is created it automatically registers an event handler with the eventbus, the ID of that
-   * handler is given by {@code textHandlerID}.<p>
+   * handler is given by {@code textHandlerID}.
+   * <p>
    * Given this ID, a different event loop can send a text frame to that event handler using the event bus and
    * that buffer will be received by this instance in its own event loop and written to the underlying connection. This
-   * allows you to write data to other websockets which are owned by different event loops.
+   * allows you to write data to other WebSockets which are owned by different event loops.
    */
   public String textHandlerID() {
     def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).textHandlerID();
     return ret;
   }
   /**
-   * Close the websocket
+   * Close the WebSocket.
    */
   public void close() {
     ((io.vertx.core.http.WebSocketBase) this.delegate).close();
   }
   /**
-   * Return the remote address for this socket
+   * @return the remote address for this socket
    */
   public SocketAddress remoteAddress() {
     if (cached_0 != null) {
@@ -84,7 +92,7 @@ public class ServerWebSocket implements WebSocketBase {
     return ret;
   }
   /**
-   * Return the local address for this socket
+   * @return the local address for this socket
    */
   public SocketAddress localAddress() {
     if (cached_1 != null) {
@@ -155,21 +163,21 @@ public class ServerWebSocket implements WebSocketBase {
     return ret;
   }
   /**
-   * The path the websocket is attempting to connect at
+   * @return the WebSocket handshake path.
    */
   public String path() {
     def ret = this.delegate.path();
     return ret;
   }
   /**
-   * The query string passed on the websocket uri
+   * @return the WebSocket handshake query string.
    */
   public String query() {
     def ret = this.delegate.query();
     return ret;
   }
   /**
-   * A map of all headers in the request to upgrade to websocket
+   * @return the headers in the WebSocket handshake
    */
   public MultiMap headers() {
     if (cached_2 != null) {
@@ -180,16 +188,16 @@ public class ServerWebSocket implements WebSocketBase {
     return ret;
   }
   /**
-   * Reject the WebSocket<p>
-   * Calling this method from the websocketHandler gives you the opportunity to reject
+   * Reject the WebSocket.
+   * <p>
+   * Calling this method from the websocket handler when it is first passed to you gives you the opportunity to reject
    * the websocket, which will cause the websocket handshake to fail by returning
-   * a 404 response code.<p>
-   * You might use this method, if for example you only want to accept websockets
-   * with a particular path.
+   * a 404 response code.
+   * <p>
+   * You might use this method, if for example you only want to accept WebSockets with a particular path.
    */
-  public ServerWebSocket reject() {
+  public void reject() {
     this.delegate.reject();
-    return this;
   }
   private SocketAddress cached_0;
   private SocketAddress cached_1;

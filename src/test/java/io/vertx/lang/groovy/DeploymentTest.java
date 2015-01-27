@@ -179,7 +179,7 @@ public class DeploymentTest {
       AsyncResult<String> deployment = deployed.poll(10, TimeUnit.SECONDS);
       String deploymentId = assertResult(deployment);
       BlockingQueue<AsyncResult<Void>> undeployed = new ArrayBlockingQueue<>(1);
-      vertx.undeployVerticle(deploymentId, undeployed::add);
+      vertx.undeploy(deploymentId, undeployed::add);
       AsyncResult<?> undeployment = undeployed.poll(10, TimeUnit.SECONDS);
       assertResult(undeployment);
     } finally {
@@ -200,7 +200,7 @@ public class DeploymentTest {
       AsyncResult<String> deployment = deployed.poll(10, TimeUnit.SECONDS);
       String deploymentId = assertResult(deployment);
       BlockingQueue<AsyncResult<Void>> undeployed = new ArrayBlockingQueue<>(1);
-      vertx.undeployVerticle(deploymentId, undeployed::add);
+      vertx.undeploy(deploymentId, undeployed::add);
       AsyncResult<?> undeployment = undeployed.poll(10, TimeUnit.SECONDS);
       assertResult(undeployment);
     } finally {

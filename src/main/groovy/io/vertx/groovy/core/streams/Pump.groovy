@@ -19,19 +19,24 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
  * Pumps data from a {@link ReadStream} to a {@link WriteStream} and performs flow control where necessary to
- * prevent the write stream buffer from getting overfull.<p>
- * Instances of this class read bytes from a {@link ReadStream} and write them to a {@link WriteStream}. If data
+ * prevent the write stream buffer from getting overfull.
+ * <p>
+ * Instances of this class read items from a {@link ReadStream} and write them to a {@link WriteStream}. If data
  * can be read faster than it can be written this could result in the write queue of the {@link WriteStream} growing
- * without bound, eventually causing it to exhaust all available RAM.<p>
+ * without bound, eventually causing it to exhaust all available RAM.
+ * <p>
  * To prevent this, after each write, instances of this class check whether the write queue of the {@link
  * WriteStream} is full, and if so, the {@link ReadStream} is paused, and a {@code drainHandler} is set on the
- * {@link WriteStream}. When the {@link WriteStream} has processed half of its backlog, the {@code drainHandler} will be
- * called, which results in the pump resuming the {@link ReadStream}.<p>
+ * {@link WriteStream}.
+ * <p>
+ * When the {@link WriteStream} has processed half of its backlog, the {@code drainHandler} will be
+ * called, which results in the pump resuming the {@link ReadStream}.
+ * <p>
  * This class can be used to pump from any {@link ReadStream} to any {@link WriteStream},
  * e.g. from an {@link io.vertx.core.http.HttpServerRequest} to an {@link io.vertx.core.file.AsyncFile},
- * or from {@link io.vertx.core.net.NetSocket} to a {@link io.vertx.core.http.WebSocket}.<p>
- *
- * Instances of this class are not thread-safe.<p>
+ * or from {@link io.vertx.core.net.NetSocket} to a {@link io.vertx.core.http.WebSocket}.
+ * <p>
+ * Please see the documentation for more information.
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
@@ -46,6 +51,10 @@ public class Pump {
   }
   /**
    * Create a new {@code Pump} with the given {@code ReadStream} and {@code WriteStream}
+   *
+   * @param rs  the read stream
+   * @param ws  the write stream
+   * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws) {
     def ret= Pump.FACTORY.apply(io.vertx.core.streams.Pump.pump((io.vertx.core.streams.ReadStream<T>)rs.getDelegate(), (io.vertx.core.streams.WriteStream<T>)ws.getDelegate()));
@@ -54,6 +63,11 @@ public class Pump {
   /**
    * Create a new {@code Pump} with the given {@code ReadStream} and {@code WriteStream} and
    * {@code writeQueueMaxSize}
+   *
+   * @param rs  the read stream
+   * @param ws  the write stream
+   * @paran writeQueueMaxSize  the max size of the write queue
+   * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws, int writeQueueMaxSize) {
     def ret= Pump.FACTORY.apply(io.vertx.core.streams.Pump.pump((io.vertx.core.streams.ReadStream<T>)rs.getDelegate(), (io.vertx.core.streams.WriteStream<T>)ws.getDelegate(), writeQueueMaxSize));
@@ -61,6 +75,9 @@ public class Pump {
   }
   /**
    * Set the write queue max size to {@code maxSize}
+   *
+   * @param maxSize  the max size
+   * @return a reference to this, so the API can be used fluently
    */
   public Pump setWriteQueueMaxSize(int maxSize) {
     this.delegate.setWriteQueueMaxSize(maxSize);
@@ -68,6 +85,8 @@ public class Pump {
   }
   /**
    * Start the Pump. The Pump can be started and stopped multiple times.
+   *
+   * @return a reference to this, so the API can be used fluently
    */
   public Pump start() {
     this.delegate.start();
@@ -75,6 +94,8 @@ public class Pump {
   }
   /**
    * Stop the Pump. The Pump can be started and stopped multiple times.
+   *
+   * @return a reference to this, so the API can be used fluently
    */
   public Pump stop() {
     this.delegate.stop();
