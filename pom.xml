@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>vertx-lang-groovy</artifactId>
-  <version>1</version>
+  <version>3.0.0-docs-SNAPSHOT</version>
 
   <name>Vert.x Groovy Language Support</name>
 
@@ -38,6 +38,7 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
+      <version>3.0.0-docs-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
@@ -72,6 +73,7 @@
       <artifactId>vertx-core</artifactId>
       <scope>provided</scope>
       <classifier>sources</classifier>
+      <version>3.0.0-docs-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
@@ -98,6 +100,7 @@
       <artifactId>vertx-core</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
+      <version>3.0.0-docs-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
