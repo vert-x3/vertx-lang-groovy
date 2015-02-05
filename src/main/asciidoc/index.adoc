@@ -66,7 +66,11 @@ When creating a Vertx object you can also specify options if the defaults aren't
 
 [source,java]
 ----
-todo
+import io.vertx.groovy.core.Vertx
+def vertx = Vertx.vertx([
+  workerPoolSize:40
+]);
+
 ----
 
 The link:groovydoc/io/vertx/groovy/core/VertxOptions.html[`VertxOptions`] object has many settings and allows you to configure things like clustering,
@@ -304,7 +308,7 @@ You can think of a verticle as a bit like an actor in the http://en.wikipedia.or
 An application would typically be composed of many verticle instances running in the same Vert.x instance at the same
 time. The different verticle instances communicate with each other by sending messages on the <<event_bus, event bus>>.
 
-include::verticles.adoc[]
+include::override/verticles.adoc[]
 
 === Verticle Types
 
@@ -345,7 +349,11 @@ If you want to deploy a verticle as a worker verticle you do that with link:groo
 
 [source,java]
 ----
-todo
+def options = [
+  worker:true
+];
+vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
+
 ----
 
 Worker verticle instances are never executed concurrently by Vert.x by more than one thread, but can executed by
@@ -465,7 +473,11 @@ want to deploy:
 
 [source,java]
 ----
-todo
+def options = [
+  instances:16
+];
+vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
+
 ----
 
 This is useful for scaling easily across multiple cores. For example you might have a web-server verticle to deploy
@@ -477,7 +489,15 @@ Configuration in the form of JSON can be passed to a verticle at deployment time
 
 [source,java]
 ----
-todo
+def config = [
+  name:"tim",
+  directory:"/blah"
+];
+def options = [
+  config:config
+];
+vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
+
 ----
 
 This configuration is then available via the link:groovydoc/io/vertx/groovy/core/Context.html[`Context`] object.
@@ -507,7 +527,12 @@ Here's an example of using an isolation group to isolate a verticle deployment.
 
 [source,java]
 ----
-todo
+def options = [
+  isolationGroup:"mygroup"
+];
+options.extraClasspath = java.util.Arrays.asList("lib/jars/some-library.jar");
+vertx.deployVerticle("com.mycompany.MyIsolatedVerticle", options);
+
 ----
 
 Isolation groups are identified by a name, and the name can be used between different deployments if you want them
@@ -632,7 +657,7 @@ when the verticle is undeployed.
 [[event_bus]]
 include::eventbus.adoc[]
 
-include::json.adoc[]
+include::override/json.adoc[]
 
 include::buffers.adoc[]
 

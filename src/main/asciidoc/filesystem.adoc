@@ -49,7 +49,14 @@ You open an link:groovydoc/io/vertx/groovy/core/file/AsyncFile.html[`AsyncFile`]
 
 [source,java]
 ----
-todo
+def options = [:];
+fileSystem.open("myfile.txt", options, { res ->
+  if (res.succeeded()) {
+    def file = res.result();
+  } else {
+  };
+});
+
 ----
 
 

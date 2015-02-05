@@ -92,8 +92,6 @@ public class Context {
   }
   /**
    * The process args
-   *
-   * @return
    */
   public List<String> processArgs() {
     def ret = this.delegate.processArgs();

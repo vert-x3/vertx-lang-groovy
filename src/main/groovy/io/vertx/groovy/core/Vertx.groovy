@@ -452,7 +452,7 @@ public class Vertx implements Measured {
    * (e.g. on the original event loop of the caller).
    * <p>
    * A {@code Future} instance is passed into {@code blockingCodeHandler}. When the blocking code successfully completes,
-   * the handler should call the {@link Future#complete} or {@link Future#complete(T)} method, or the {@link Future#fail}
+   * the handler should call the {@link Future#complete} or {@link Future#complete(Object)} method, or the {@link Future#fail}
    * method if it failed.
    *
    * @param blockingCodeHandler  handler representing the blocking code to run

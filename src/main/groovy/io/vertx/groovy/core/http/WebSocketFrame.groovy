@@ -83,7 +83,7 @@ public class WebSocketFrame {
     return ret;
   }
   /**
-   * @eturn true if it's a binary frame
+   * @return true if it's a binary frame
    */
   public boolean isBinary() {
     def ret = this.delegate.isBinary();

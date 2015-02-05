@@ -19,7 +19,11 @@ instance when creating it:
 
 [source,java]
 ----
-todo
+def options = [
+  maxWebsocketFrameSize:1000000
+];
+def server = vertx.createHttpServer(options);
+
 ----
 
 === Start the Server Listening
@@ -552,7 +556,19 @@ at any one time:
 
 [source,java]
 ----
-todo
+import io.vertx.groovy.core.streams.Pump
+vertx.createHttpServer().requestHandler({ request ->
+  def response = request.response();
+  if (request.method() == io.vertx.core.http.HttpMethod.PUT) {
+    response.setChunked(true);
+    Pump.pump(request, response).start();
+    request.endHandler({ v ->
+      response.end()});
+  } else {
+    response.setStatusCode(400).end();
+  };
+}).listen(8080);
+
 ----
 
 === HTTP Compression
@@ -591,7 +607,11 @@ If you want to configure options for the client, you create it as follows:
 
 [source,java]
 ----
-todo
+def options = [
+  keepAlive:false
+];
+def client = vertx.createHttpClient();
+
 ----
 
 === Making requests
@@ -604,7 +624,14 @@ every time you make a request you can configure the client with a default host/p
 
 [source,java]
 ----
-todo
+def options = [
+  defaultHost:"wibble.com"
+];
+def client = vertx.createHttpClient(options);
+client.getNow("/some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}");
+});
+
 ----
 
 Alternatively if you find yourself making lots of requests to different host/ports with the same client you can
@@ -630,7 +657,7 @@ Often, you'll want to make HTTP requests with no request body. This is usually t
 HEAD requests.
 
 The simplest way to do this with the Vert.x http client is using the methods prefixed with `Now`. For example
-{@link io.vertx.core.http.HttpClient#getNow)}.
+link:groovydoc/io/vertx/groovy/core/http/HttpClient.html#getNow(int,%20java.lang.String,%20java.lang.String,%20io.vertx.core.Handler)[`getNow`].
 
 These methods create the http request and send it in a single method call and allow you to provide a handler that will be
 called with the http response when it comes back.
@@ -655,7 +682,14 @@ the HTTP method at run-time:
 
 [source,java]
 ----
-todo
+def client = vertx.createHttpClient();
+client.request(io.vertx.core.http.HttpMethod.GET, "some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}");
+}).end();
+client.request(io.vertx.core.http.HttpMethod.POST, "foo-uri", { response ->
+  println("Received response with status code ${response.statusCode()}");
+}).end("some-data");
+
 ----
 
 ==== Writing request bodies
@@ -694,7 +728,13 @@ Methods exist to write strings in UTF-8 encoding and in any specific encoding an
 
 [source,java]
 ----
-todo
+import io.vertx.groovy.core.buffer.Buffer
+request.write("some data");
+request.write("some other data", "UTF-16");
+def buffer = Buffer.buffer();
+buffer.appendInt(123).appendLong(245L);
+request.write(buffer);
+
 ----
 
 If you are just writing a single string or buffer to the HTTP request you can write it and end the request in a
@@ -702,7 +742,11 @@ single call to the `end` function.
 
 [source,java]
 ----
-todo
+import io.vertx.groovy.core.buffer.Buffer
+request.end("some simple data");
+def buffer = Buffer.buffer().appendDouble(12.34d).appendLong(432L);
+request.end(buffer);
+
 ----
 
 When you're writing to a request, the first call to `write` will result in the request headers being written
@@ -766,7 +810,11 @@ before calling `end` with no arguments
 
 [source,java]
 ----
-todo
+import io.vertx.groovy.core.buffer.Buffer
+request.end("some-data");
+def buffer = Buffer.buffer().appendFloat(12.3f).appendInt(321);
+request.end(buffer);
+
 ----
 
 ==== Chunked HTTP requests
@@ -1156,7 +1204,10 @@ common case) the simplest way to do this is to use link:groovydoc/io/vertx/groov
 
 [source,java]
 ----
-todo
+import io.vertx.groovy.core.buffer.Buffer
+def buffer = Buffer.buffer().appendInt(123).appendFloat(1.23f);
+websocket.writeMessage(buffer);
+
 ----
 
 If the websocket message is larger than the maximum websocket frame size as configured with

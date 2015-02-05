@@ -198,7 +198,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * Write a {@link String} to the response body, encoded using the encoding {@code enc}.
    *
    * @param chunk  the string to write
-   * @enc  the encoding to use
+   * @param enc  the encoding to use
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse write(String chunk, String enc) {

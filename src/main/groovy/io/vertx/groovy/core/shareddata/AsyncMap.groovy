@@ -65,7 +65,7 @@ public class AsyncMap<K,V> {
     ((io.vertx.core.shareddata.AsyncMap) this.delegate).put(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), completionHandler);
   }
   /**
-   * Like {@link #put(K, V, Handler)} but specifying a timeout. If the value cannot be put within the timeout a
+   * Like {@link #put} but specifying a timeout. If the value cannot be put within the timeout a
    * failure will be passed to the handler
    *
    * @param k  the key
@@ -98,7 +98,7 @@ public class AsyncMap<K,V> {
     });
   }
   /**
-   * Link {@link #putIfAbsent(K, V, Handler)} but specifying a timeout. If the value cannot be put within the timeout a
+   * Link {@link #putIfAbsent} but specifying a timeout. If the value cannot be put within the timeout a
    * failure will be passed to the handler
    *
    * @param k  the key
@@ -142,7 +142,7 @@ public class AsyncMap<K,V> {
    * Remove a value from the map, only if entry already exists with same value.
    *
    * @param k  the key
-   * @paran v  the value
+   * @param v  the value
    * @param resultHandler - this will be called some time later to signify the value has been removed
    */
   public void removeIfPresent(K k, V v, Handler<AsyncResult<Boolean>> resultHandler) {

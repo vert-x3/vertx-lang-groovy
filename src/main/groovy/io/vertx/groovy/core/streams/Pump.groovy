@@ -66,7 +66,7 @@ public class Pump {
    *
    * @param rs  the read stream
    * @param ws  the write stream
-   * @paran writeQueueMaxSize  the max size of the write queue
+   * @param writeQueueMaxSize  the max size of the write queue
    * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws, int writeQueueMaxSize) {
