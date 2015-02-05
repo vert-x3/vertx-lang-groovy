@@ -225,6 +225,27 @@
               <sourceDirectory>${project.build.directory}/sources/codegen</sourceDirectory>
             </configuration>
           </execution>
+          <!-- We have to run the annotation processor again to process doc overrides -->
+          <execution>
+            <id>docgen-docoverrides</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <systemProperties>
+                <java.util.logging.SimpleFormatter.format>%4$s: %3$s - %5$s %6$s%n</java.util.logging.SimpleFormatter.format>
+              </systemProperties>
+              <processors>
+                <processor>io.vertx.docgen.DocGenProcessor</processor>
+              </processors>
+              <optionMap>
+                <outputDirectory>${project.basedir}/src/main</outputDirectory>
+                <docgen.output>${asciidoc.dir}</docgen.output>
+              </optionMap>
+              <sourceDirectory>src/main/docoverride</sourceDirectory>
+            </configuration>
+          </execution>
         </executions>
         <dependencies>
           <dependency>
