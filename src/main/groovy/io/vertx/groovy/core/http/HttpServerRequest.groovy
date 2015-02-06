@@ -130,6 +130,16 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
+   * Return the first header value with the specified name
+   *
+   * @param headerName  the header name
+   * @return the header value
+   */
+  public String getHeader(String headerName) {
+    def ret = this.delegate.getHeader(headerName);
+    return ret;
+  }
+  /**
    * @return the query parameters in the request
    */
   public MultiMap params() {
@@ -138,6 +148,16 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     }
     def ret= MultiMap.FACTORY.apply(this.delegate.params());
     cached_2 = ret;
+    return ret;
+  }
+  /**
+   * Return the first param value with the specified name
+   *
+   * @param paramName  the param name
+   * @return the param value
+   */
+  public String getParam(String paramName) {
+    def ret = this.delegate.getParam(paramName);
     return ret;
   }
   /**
@@ -250,6 +270,16 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     }
     def ret= MultiMap.FACTORY.apply(this.delegate.formAttributes());
     cached_6 = ret;
+    return ret;
+  }
+  /**
+   * Return the first form attribute value with the specified name
+   *
+   * @param attributeName  the attribute name
+   * @return the attribute value
+   */
+  public String getFormAttribute(String attributeName) {
+    def ret = this.delegate.getFormAttribute(attributeName);
     return ret;
   }
   /**

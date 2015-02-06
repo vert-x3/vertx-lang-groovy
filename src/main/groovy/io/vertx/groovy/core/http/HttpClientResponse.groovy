@@ -93,6 +93,26 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     return ret;
   }
   /**
+   * Return the first header value with the specified name
+   *
+   * @param headerName  the header name
+   * @return the header value
+   */
+  public String getHeader(String headerName) {
+    def ret = this.delegate.getHeader(headerName);
+    return ret;
+  }
+  /**
+   * Return the first trailer value with the specified name
+   *
+   * @param trailerName  the trailer name
+   * @return the trailer value
+   */
+  public String getTrailer(String trailerName) {
+    def ret = this.delegate.getTrailer(trailerName);
+    return ret;
+  }
+  /**
    * @return the trailers
    */
   public MultiMap trailers() {

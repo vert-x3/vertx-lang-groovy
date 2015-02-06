@@ -331,7 +331,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <executions>
           <execution>
-            <id>assemble-html</id>
+            <id>assemble-docs</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
@@ -339,7 +339,7 @@
             <configuration>
               <attach>true</attach>
               <descriptors>
-                <descriptor>src/main/assembly/html.xml</descriptor>
+                <descriptor>src/main/assembly/docs.xml</descriptor>
               </descriptors>
             </configuration>
           </execution>
