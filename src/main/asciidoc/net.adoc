@@ -8,7 +8,8 @@ The simplest way to create a TCP server, using all default options is as follows
 
 [source,java]
 ----
-def server = vertx.createNetServer();
+
+def server = vertx.createNetServer()
 
 ----
 
@@ -19,10 +20,11 @@ instance when creating it:
 
 [source,java]
 ----
+
 def options = [
   port:4321
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -35,8 +37,9 @@ To tell the server to listen at the host and port as specified in the options:
 
 [source,java]
 ----
-def server = vertx.createNetServer();
-server.listen();
+
+def server = vertx.createNetServer()
+server.listen()
 
 ----
 
@@ -44,8 +47,9 @@ Or to specify the host and port in the call to listen, ignoring what is configur
 
 [source,java]
 ----
-def server = vertx.createNetServer();
-server.listen(1234, "localhost");
+
+def server = vertx.createNetServer()
+server.listen(1234, "localhost")
 
 ----
 
@@ -60,14 +64,15 @@ For example:
 
 [source,java]
 ----
-def server = vertx.createNetServer();
+
+def server = vertx.createNetServer()
 server.listen(1234, "localhost", { res ->
   if (res.succeeded()) {
-    println("Server is now listening!");
+    println("Server is now listening!")
   } else {
-    println("Failed to bind!");
-  };
-});
+    println("Failed to bind!")
+  }
+})
 
 ----
 
@@ -79,14 +84,15 @@ To find out the real port the server is listening on you can call `link:groovydo
 
 [source,java]
 ----
-def server = vertx.createNetServer();
+
+def server = vertx.createNetServer()
 server.listen(0, "localhost", { res ->
   if (res.succeeded()) {
-    println("Server is now listening on actual port: ${server.actualPort()}");
+    println("Server is now listening on actual port: ${server.actualPort()}")
   } else {
-    println("Failed to bind!");
-  };
-});
+    println("Failed to bind!")
+  }
+})
 
 ----
 
@@ -96,9 +102,10 @@ To be notified when a connection is made you need to set a `link:groovydoc/io/ve
 
 [source,java]
 ----
-def server = vertx.createNetServer();
+
+def server = vertx.createNetServer()
 server.connectHandler({ socket ->
-});
+})
 
 ----
 
@@ -117,12 +124,13 @@ the socket.
 
 [source,java]
 ----
-def server = vertx.createNetServer();
+
+def server = vertx.createNetServer()
 server.connectHandler({ socket ->
   socket.handler({ buffer ->
-    println("I received some bytes: ${buffer.length()}");
-  });
-});
+    println("I received some bytes: ${buffer.length()}")
+  })
+})
 
 ----
 
@@ -133,10 +141,18 @@ You write to a socket using one of `link:groovydoc/io/vertx/groovy/core/net/NetS
 [source,java]
 ----
 import io.vertx.groovy.core.buffer.Buffer
-def buffer = Buffer.buffer().appendFloat(12.34f).appendInt(123);
-socket.write(buffer);
-socket.write("some data");
-socket.write("some data", "UTF-16");
+
+// Write a buffer
+def buffer = Buffer.buffer().appendFloat(12.34f).appendInt(123)
+socket.write(buffer)
+
+// Write a string in UTF-8 encoding
+socket.write("some data")
+
+// Write a string using the specified encoding
+socket.write("some data", "UTF-16")
+
+
 
 ----
 
@@ -149,9 +165,10 @@ on it:
 
 [source,java]
 ----
+
 socket.closeHandler({ v ->
-  println("The socket has been closed");
-});
+  println("The socket has been closed")
+})
 
 ----
 
@@ -184,7 +201,8 @@ efficient way to send files, as it can be handled by the OS kernel directly wher
 
 [source,java]
 ----
-socket.sendFile("myfile.dat");
+
+socket.sendFile("myfile.dat")
 
 ----
 
@@ -215,13 +233,14 @@ This handler will then be called when the close has fully completed.
 
 [source,java]
 ----
+
 server.close({ res ->
   if (res.succeeded()) {
-    println("Server is now closed");
+    println("Server is now closed")
   } else {
-    println("close failed");
-  };
-});
+    println("close failed")
+  }
+})
 
 ----
 
@@ -243,15 +262,19 @@ You can instantiate more instances programmatically in your code:
 
 [source,java]
 ----
+
+// Create a few instances so we can utilise cores
+
 for (def i = 0;i < 10;i++) {
-  def server = vertx.createNetServer();
+  def server = vertx.createNetServer()
   server.connectHandler({ socket ->
     socket.handler({ buffer ->
-      socket.write(buffer);
-    });
-  });
-  server.listen(1234, "localhost");
-};
+      // Just echo back the data
+      socket.write(buffer)
+    })
+  })
+  server.listen(1234, "localhost")
+}
 
 ----
 
@@ -264,10 +287,11 @@ or when programmatically deploying your verticle
 
 [source,java]
 ----
+
 def options = [
   instances:10
-];
-vertx.deployVerticle("com.mycompany.MyVerticle", options);
+]
+vertx.deployVerticle("com.mycompany.MyVerticle", options)
 
 ----
 
@@ -293,7 +317,8 @@ The simplest way to create a TCP client, using all default options is as follows
 
 [source,java]
 ----
-def client = vertx.createNetClient();
+
+def client = vertx.createNetClient()
 
 ----
 
@@ -304,10 +329,11 @@ instance when creating it:
 
 [source,java]
 ----
+
 def options = [
   connectTimeout:10000
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -319,18 +345,19 @@ specifying the port and host of the server and a handler that will be called wit
 
 [source,java]
 ----
+
 def options = [
   connectTimeout:10000
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 client.connect(4321, "localhost", { res ->
   if (res.succeeded()) {
-    println("Connected!");
-    def socket = res.result();
+    println("Connected!")
+    def socket = res.result()
   } else {
-    println("Failed to connect: ${res.cause().getMessage()}");
-  };
-});
+    println("Failed to connect: ${res.cause().getMessage()}")
+  }
+})
 
 ----
 
@@ -345,9 +372,11 @@ only apply to creating initial connections.
 
 [source,java]
 ----
-def options = [:];
-options.reconnectAttempts = 10.reconnectInterval = 500;
-def client = vertx.createNetClient(options);
+
+def options = [:]
+options.reconnectAttempts = 10.reconnectInterval = 500
+
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -390,8 +419,8 @@ def options = [
     path:"/path/to/your/server-keystore.jks",
     password:"password-of-your-keystore"
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -399,16 +428,16 @@ Alternatively you can read the key store yourself as a buffer and provide that d
 
 [source,java]
 ----
-def myKeyStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-keystore.jks");
+def myKeyStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-keystore.jks")
 def jksOptions = [
   value:myKeyStoreAsABuffer,
   password:"password-of-your-keystore"
-];
+]
 def options = [
   ssl:true,
   keyStoreOptions:jksOptions
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -423,8 +452,8 @@ def options = [
     path:"/path/to/your/server-keystore.pfx",
     password:"password-of-your-keystore"
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -432,16 +461,16 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myKeyStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-keystore.pfx");
+def myKeyStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-keystore.pfx")
 def pfxOptions = [
   value:myKeyStoreAsABuffer,
   password:"password-of-your-keystore"
-];
+]
 def options = [
   ssl:true,
   pfxKeyCertOptions:pfxOptions
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -455,8 +484,8 @@ def options = [
     keyPath:"/path/to/your/server-key.pem",
     certPath:"/path/to/your/server-cert.pem"
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -464,17 +493,17 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myKeyAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-key.pem");
-def myCertAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-cert.pem");
+def myKeyAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-key.pem")
+def myCertAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-cert.pem")
 def pemOptions = [
   keyValue:myKeyAsABuffer,
   certValue:myCertAsABuffer
-];
+]
 def options = [
   ssl:true,
   pemKeyCertOptions:pemOptions
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -500,8 +529,8 @@ def options = [
     path:"/path/to/your/truststore.jks",
     password:"password-of-your-truststore"
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -509,7 +538,7 @@ Alternatively you can read the trust store yourself as a buffer and provide that
 
 [source,java]
 ----
-def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.jks");
+def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.jks")
 def options = [
   ssl:true,
   clientAuthRequired:true,
@@ -517,8 +546,8 @@ def options = [
     value:myTrustStoreAsABuffer,
     password:"password-of-your-truststore"
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -534,8 +563,8 @@ def options = [
     path:"/path/to/your/truststore.pfx",
     password:"password-of-your-truststore"
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -543,7 +572,7 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.pfx");
+def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.pfx")
 def options = [
   ssl:true,
   clientAuthRequired:true,
@@ -551,8 +580,8 @@ def options = [
     value:myTrustStoreAsABuffer,
     password:"password-of-your-truststore"
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -568,8 +597,8 @@ def options = [
       "/path/to/your/server-ca.pem"
     ]
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -577,7 +606,7 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myCaAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-ca.pfx");
+def myCaAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-ca.pfx")
 def options = [
   ssl:true,
   clientAuthRequired:true,
@@ -586,8 +615,8 @@ def options = [
       myCaAsABuffer
     ]
   ]
-];
-def server = vertx.createNetServer(options);
+]
+def server = vertx.createNetServer(options)
 
 ----
 
@@ -608,8 +637,8 @@ be sure who you are connecting to. Use this with caution. Default value is false
 def options = [
   ssl:true,
   trustAll:true
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -633,8 +662,8 @@ def options = [
     path:"/path/to/your/truststore.jks",
     password:"password-of-your-truststore"
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -642,15 +671,15 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.jks");
+def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.jks")
 def options = [
   ssl:true,
   trustStoreOptions:[
     value:myTrustStoreAsABuffer,
     password:"password-of-your-truststore"
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -665,8 +694,8 @@ def options = [
     path:"/path/to/your/truststore.pfx",
     password:"password-of-your-truststore"
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -674,15 +703,15 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.pfx");
+def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.pfx")
 def options = [
   ssl:true,
   pfxTrustOptions:[
     value:myTrustStoreAsABuffer,
     password:"password-of-your-truststore"
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -697,8 +726,8 @@ def options = [
       "/path/to/your/ca-cert.pem"
     ]
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -706,7 +735,7 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/ca-cert.pem");
+def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/ca-cert.pem")
 def options = [
   ssl:true,
   pemTrustOptions:[
@@ -714,8 +743,8 @@ def options = [
       myTrustStoreAsABuffer
     ]
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -737,8 +766,8 @@ def options = [
     path:"/path/to/your/client-keystore.jks",
     password:"password-of-your-keystore"
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -746,16 +775,16 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myKeyStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/client-keystore.jks");
+def myKeyStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/client-keystore.jks")
 def jksOptions = [
   value:myKeyStoreAsABuffer,
   password:"password-of-your-keystore"
-];
+]
 def options = [
   ssl:true,
   keyStoreOptions:jksOptions
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -770,8 +799,8 @@ def options = [
     path:"/path/to/your/client-keystore.pfx",
     password:"password-of-your-keystore"
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -779,16 +808,16 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myKeyStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/client-keystore.pfx");
+def myKeyStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/client-keystore.pfx")
 def pfxOptions = [
   value:myKeyStoreAsABuffer,
   password:"password-of-your-keystore"
-];
+]
 def options = [
   ssl:true,
   pfxKeyCertOptions:pfxOptions
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -802,8 +831,8 @@ def options = [
     keyPath:"/path/to/your/client-key.pem",
     certPath:"/path/to/your/client-cert.pem"
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -811,17 +840,17 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myKeyAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/client-key.pem");
-def myCertAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/client-cert.pem");
+def myKeyAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/client-key.pem")
+def myCertAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/client-cert.pem")
 def pemOptions = [
   keyValue:myKeyAsABuffer,
   certValue:myCertAsABuffer
-];
+]
 def options = [
   ssl:true,
   pemKeyCertOptions:pemOptions
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -841,8 +870,8 @@ def options = [
   crlPaths:[
     "/path/to/your/crl.pem"
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----
 
@@ -850,14 +879,14 @@ Buffer configuration is also supported:
 
 [source,java]
 ----
-def myCrlAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/crl.pem");
+def myCrlAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/crl.pem")
 def options = [
   ssl:true,
   trustStoreOptions:trustOptions,
   crlValues:[
     myCrlAsABuffer
   ]
-];
-def client = vertx.createNetClient(options);
+]
+def client = vertx.createNetClient(options)
 
 ----

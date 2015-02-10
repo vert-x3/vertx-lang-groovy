@@ -13,7 +13,7 @@ def vertx = Vertx.vertx([
   metricsOptions:[
     enabled:true
   ]
-]);
+])
 
 ----
 
@@ -22,10 +22,10 @@ a map of the metric name to the data, represented by a `link:groovydoc/io/vertx/
 out all metrics for a particular Vert.x instance:
 [source,java]
 ----
-def metrics = vertx.metrics();
+def metrics = vertx.metrics()
 metrics.each { name, metric ->
-  println("${name} : ${metric.toString()}");
-};
+  println("${name} : ${metric.toString()}")
+}
 
 ----
 
@@ -39,8 +39,9 @@ Since `link:groovydoc/io/vertx/groovy/core/http/HttpServer.html[HttpServer]` imp
 that are specific for that particular http server.
 [source,java]
 ----
-def server = vertx.createHttpServer();
-def metrics = server.metrics();
+def server = vertx.createHttpServer()
+// set up server
+def metrics = server.metrics()
 
 ----
 

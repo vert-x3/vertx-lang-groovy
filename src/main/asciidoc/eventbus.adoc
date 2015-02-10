@@ -100,7 +100,7 @@ You get a reference to the event bus as follows:
 
 [source,java]
 ----
-def eb = vertx.eventBus();
+def eb = vertx.eventBus()
 
 ----
 
@@ -113,10 +113,11 @@ Here's an example:
 
 [source,java]
 ----
-def eb = vertx.eventBus();
+def eb = vertx.eventBus()
+
 eb.consumer("news.uk.sport", { message ->
-  println("I have received a message: ${message.body()}");
-});
+  println("I have received a message: ${message.body()}")
+})
 
 ----
 
@@ -131,11 +132,12 @@ to return a +MessageConsumer+ with no handler set, and then set the handler on t
 
 [source,java]
 ----
-def eb = vertx.eventBus();
-def consumer = eb.consumer("news.uk.sport");
+def eb = vertx.eventBus()
+
+def consumer = eb.consumer("news.uk.sport")
 consumer.handler({ message ->
-  println("I have received a message: ${message.body()}");
-});
+  println("I have received a message: ${message.body()}")
+})
 
 ----
 
@@ -149,11 +151,11 @@ on the +MessageConsumer+ object.
 ----
 consumer.completionHandler({ res ->
   if (res.succeeded()) {
-    println("The handler registration has reached all nodes");
+    println("The handler registration has reached all nodes")
   } else {
-    println("Registration failed!");
-  };
-});
+    println("Registration failed!")
+  }
+})
 
 ----
 
@@ -168,11 +170,11 @@ be notified when this is complete use `link:groovydoc/io/vertx/groovy/core/event
 ----
 consumer.unregister({ res ->
   if (res.succeeded()) {
-    println("The handler un-registration has reached all nodes");
+    println("The handler un-registration has reached all nodes")
   } else {
-    println("Un-registration failed!");
-  };
-});
+    println("Un-registration failed!")
+  }
+})
 
 ----
 
@@ -183,7 +185,7 @@ address to publish it to.
 
 [source,java]
 ----
-eventBus.publish("news.uk.sport", "Yay! Someone kicked a ball");
+eventBus.publish("news.uk.sport", "Yay! Someone kicked a ball")
 
 ----
 
@@ -198,7 +200,7 @@ You can send a message with `link:groovydoc/io/vertx/groovy/core/eventbus/EventB
 
 [source,java]
 ----
-eventBus.send("news.uk.sport", "Yay! Someone kicked a ball");
+eventBus.send("news.uk.sport", "Yay! Someone kicked a ball")
 
 ----
 
@@ -237,11 +239,11 @@ The receiver:
 
 [source,java]
 ----
-def consumer = eventBus.consumer("news.uk.sport");
+def consumer = eventBus.consumer("news.uk.sport")
 consumer.handler({ message ->
-  println("I have received a message: ${message.body()}");
-  message.reply("how interesting!");
-});
+  println("I have received a message: ${message.body()}")
+  message.reply("how interesting!")
+})
 
 ----
 
@@ -251,9 +253,9 @@ The sender:
 ----
 eventBus.send("news.uk.sport", "Yay! Someone kicked a ball across a patch of grass", { ar ->
   if (ar.succeeded()) {
-    println("Received reply: ${ar.result().body()}");
-  };
-});
+    println("Received reply: ${ar.result().body()}")
+  }
+})
 
 ----
 
@@ -292,16 +294,16 @@ instance as clustered;
 [source,java]
 ----
 import io.vertx.groovy.core.Vertx
-def options = [:];
+def options = [:]
 Vertx.clusteredVertx(options, { res ->
   if (res.succeeded()) {
-    def vertx = res.result();
-    def eventBus = vertx.eventBus();
-    println("We now have a clustered event bus: ${eventBus}");
+    def vertx = res.result()
+    def eventBus = vertx.eventBus()
+    println("We now have a clustered event bus: ${eventBus}")
   } else {
-    println("Failed: ${res.cause()}");
-  };
-});
+    println("Failed: ${res.cause()}")
+  }
+})
 
 ----
 

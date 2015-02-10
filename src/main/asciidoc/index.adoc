@@ -51,7 +51,7 @@ If you're embedding Vert.x then you simply create an instance as follows:
 [source,java]
 ----
 import io.vertx.groovy.core.Vertx
-def vertx = Vertx.vertx();
+def vertx = Vertx.vertx()
 
 ----
 
@@ -69,7 +69,7 @@ When creating a Vertx object you can also specify options if the defaults aren't
 import io.vertx.groovy.core.Vertx
 def vertx = Vertx.vertx([
   workerPoolSize:40
-]);
+])
 
 ----
 
@@ -92,7 +92,7 @@ A fluent API is where multiple methods calls can be chained together. For exampl
 
 [source,java]
 ----
-request.response().putHeader("Content-Type", "text/plain").write("some text").end();
+request.response().putHeader("Content-Type", "text/plain").write("some text").end()
 
 ----
 
@@ -104,10 +104,10 @@ your code like this:
 
 [source,java]
 ----
-def response = request.response();
-response.putHeader("Content-Type", "text/plain");
-response.write("some text");
-response.end();
+def response = request.response()
+response.putHeader("Content-Type", "text/plain")
+response.write("some text")
+response.end()
 
 ----
 
@@ -130,8 +130,9 @@ would do:
 [source,java]
 ----
 vertx.setTimer(1000, { id ->
-  println("timer fired!");
-});
+  // This handler will get called every second
+  println("timer fired!")
+})
 
 ----
 
@@ -139,9 +140,11 @@ Or to receive an HTTP request:
 
 [source,java]
 ----
+// Respond to each http request with "Hello World"
 server.requestHandler({ request ->
-  request.response().end("hello world!");
-});
+  // This handler will be called every time an HTTP request is received at the server
+  request.response().end("hello world!")
+})
 
 ----
 
@@ -276,11 +279,12 @@ result handler to be called back asynchronous when the blocking code has been ex
 [source,java]
 ----
 vertx.executeBlocking({ future ->
-  def result = someAPI.blockingMethod("hello");
-  future.complete(result);
+  // Call some blocking API that takes a significant amount of time to return
+  def result = someAPI.blockingMethod("hello")
+  future.complete(result)
 }, { res ->
-  println("The result is: ${res.result()}");
-});
+  println("The result is: ${res.result()}")
+})
 
 ----
 
@@ -351,8 +355,8 @@ If you want to deploy a verticle as a worker verticle you do that with `link:gro
 ----
 def options = [
   worker:true
-];
-vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
+]
+vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options)
 
 ----
 
@@ -394,9 +398,16 @@ Here's an example of deploying some different types of verticles:
 
 [source,java]
 ----
-vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle");
-vertx.deployVerticle("verticles/myverticle.js");
-vertx.deployVerticle("verticles/my_verticle.rb");
+
+// Deploy a Java verticle - the name is the fully qualified class name of the verticle class
+vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle")
+
+// Deploy a JavaScript verticle
+vertx.deployVerticle("verticles/myverticle.js")
+
+// Deploy a Ruby verticle verticle
+vertx.deployVerticle("verticles/my_verticle.rb")
+
 
 ----
 
@@ -436,11 +447,11 @@ If you want to be notified when deployment is complete you can deploy specifying
 ----
 vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", { res ->
   if (res.succeeded()) {
-    println("Deployment id is: ${res.result()}");
+    println("Deployment id is: ${res.result()}")
   } else {
-    println("Deployment failed!");
-  };
-});
+    println("Deployment failed!")
+  }
+})
 
 ----
 
@@ -458,11 +469,11 @@ Un-deployment is itself asynchronous so if you want to be notified when un-deplo
 ----
 vertx.undeploy(deploymentID, { res ->
   if (res.succeeded()) {
-    println("Undeployed ok");
+    println("Undeployed ok")
   } else {
-    println("Undeploy failed!");
-  };
-});
+    println("Undeploy failed!")
+  }
+})
 
 ----
 
@@ -475,8 +486,8 @@ want to deploy:
 ----
 def options = [
   instances:16
-];
-vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
+]
+vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options)
 
 ----
 
@@ -492,11 +503,11 @@ Configuration in the form of JSON can be passed to a verticle at deployment time
 def config = [
   name:"tim",
   directory:"/blah"
-];
+]
 def options = [
   config:config
-];
-vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
+]
+vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options)
 
 ----
 
@@ -529,9 +540,9 @@ Here's an example of using an isolation group to isolate a verticle deployment.
 ----
 def options = [
   isolationGroup:"mygroup"
-];
-options.extraClasspath = java.util.Arrays.asList("lib/jars/some-library.jar");
-vertx.deployVerticle("com.mycompany.MyIsolatedVerticle", options);
+]
+options.extraClasspath = java.util.Arrays.asList("lib/jars/some-library.jar")
+vertx.deployVerticle("com.mycompany.MyIsolatedVerticle", options)
 
 ----
 
@@ -612,9 +623,10 @@ To set a timer to fire once you use `link:groovydoc/io/vertx/groovy/core/Vertx.h
 [source,java]
 ----
 def timerID = vertx.setTimer(1000, { id ->
-  println("And one second later this is printed");
-});
-println("First this is printed");
+  println("And one second later this is printed")
+})
+
+println("First this is printed")
 
 ----
 
@@ -633,9 +645,10 @@ The argument passed into the timer event handler is also the unique timer id:
 [source,java]
 ----
 def timerID = vertx.setPeriodic(1000, { id ->
-  println("And every second this is printed");
-});
-println("First this is printed");
+  println("And every second this is printed")
+})
+
+println("First this is printed")
 
 ----
 
@@ -645,7 +658,7 @@ To cancel a periodic timer, call `link:groovydoc/io/vertx/groovy/core/Vertx.html
 
 [source,java]
 ----
-vertx.cancelTimer(timerID);
+vertx.cancelTimer(timerID)
 
 ----
 

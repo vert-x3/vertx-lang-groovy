@@ -425,10 +425,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Create the directory represented by {@code path}, asynchronously.
-   * <p>
-   * If {@code createParents} is set to {@code true} then any non-existent parent directories of the directory
-   * will also be created.
+   * Create the directory represented by {@code path} and any non existent parents, asynchronously.
    * <p>
    * The operation will fail if the directory already exists.
    *
@@ -448,15 +445,12 @@ public class FileSystem {
     return this;
   }
   /**
-   * Create the directory represented by {@code path}, asynchronously.
+   * Create the directory represented by {@code path} and any non existent parents, asynchronously.
    * <p>
    * The new directory will be created with permissions as specified by {@code perms}.
    * <p>
    * The permission String takes the form rwxr-x--- as specified
    * in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
-   * <p>
-   * If {@code createParents} is set to {@code true} then any non-existent parent directories of the directory
-   * will also be created.
    * <p>
    * The operation will fail if the directory already exists.<p>
    *

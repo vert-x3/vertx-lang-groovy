@@ -31,7 +31,7 @@ and receive.
 
 [source,java]
 ----
-def socket = vertx.createDatagramSocket([:]);
+def socket = vertx.createDatagramSocket([:])
 
 ----
 
@@ -50,14 +50,16 @@ Sending packets is as easy as shown here:
 [source,java]
 ----
 import io.vertx.groovy.core.buffer.Buffer
-def socket = vertx.createDatagramSocket([:]);
-def buffer = Buffer.buffer("content");
+def socket = vertx.createDatagramSocket([:])
+def buffer = Buffer.buffer("content")
+// Send a Buffer
 socket.send(buffer, 1234, "10.0.0.1", { asyncResult ->
-  println("Send succeeded? ${asyncResult.succeeded()}");
-});
+  println("Send succeeded? ${asyncResult.succeeded()}")
+})
+// Send a String
 socket.send("A string used as content", 1234, "10.0.0.1", { asyncResult ->
-  println("Send succeeded? ${asyncResult.succeeded()}");
-});
+  println("Send succeeded? ${asyncResult.succeeded()}")
+})
 
 ----
 
@@ -80,15 +82,15 @@ So to listen on a specific address and port you would do something like shown he
 
 [source,java]
 ----
-def socket = vertx.createDatagramSocket([:]);
+def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
   if (asyncResult.succeeded()) {
     socket.handler({ packet ->
-    });
+    })
   } else {
-    println("Listen failed${asyncResult.cause()}");
-  };
-});
+    println("Listen failed${asyncResult.cause()}")
+  }
+})
 
 ----
 
@@ -115,11 +117,12 @@ This is show here:
 [source,java]
 ----
 import io.vertx.groovy.core.buffer.Buffer
-def socket = vertx.createDatagramSocket([:]);
-def buffer = Buffer.buffer("content");
+def socket = vertx.createDatagramSocket([:])
+def buffer = Buffer.buffer("content")
+// Send a Buffer to a multicast address
 socket.send(buffer, 1234, "230.0.0.1", { asyncResult ->
-  println("Send succeeded? ${asyncResult.succeeded()}");
-});
+  println("Send succeeded? ${asyncResult.succeeded()}")
+})
 
 ----
 
@@ -145,18 +148,20 @@ would do something like shown here:
 
 [source,java]
 ----
-def socket = vertx.createDatagramSocket([:]);
+def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
   if (asyncResult.succeeded()) {
     socket.handler({ packet ->
-    });
+    })
+
+    // join the multicast group
     socket.listenMulticastGroup("230.0.0.1", { asyncResult2 ->
-      println("Listen succeeded? ${asyncResult2.succeeded()}");
-    });
+      println("Listen succeeded? ${asyncResult2.succeeded()}")
+    })
   } else {
-    println("Listen failed${asyncResult.cause()}");
-  };
-});
+    println("Listen failed${asyncResult.cause()}")
+  }
+})
 
 ----
 
@@ -170,24 +175,30 @@ This is shown here:
 
 [source,java]
 ----
-def socket = vertx.createDatagramSocket([:]);
+def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
   if (asyncResult.succeeded()) {
     socket.handler({ packet ->
-    });
+    })
+
+    // join the multicast group
     socket.listenMulticastGroup("230.0.0.1", { asyncResult2 ->
       if (asyncResult2.succeeded()) {
+        // will now receive packets for group
+
+        // do some work
+
         socket.unlistenMulticastGroup("230.0.0.1", { asyncResult3 ->
-          println("Unlisten succeeded? ${asyncResult3.succeeded()}");
-        });
+          println("Unlisten succeeded? ${asyncResult3.succeeded()}")
+        })
       } else {
-        println("Listen failed${asyncResult2.cause()}");
-      };
-    });
+        println("Listen failed${asyncResult2.cause()}")
+      }
+    })
   } else {
-    println("Listen failed${asyncResult.cause()}");
-  };
-});
+    println("Listen failed${asyncResult.cause()}")
+  }
+})
 
 ----
 
@@ -205,10 +216,14 @@ like shown here:
 
 [source,java]
 ----
-def socket = vertx.createDatagramSocket([:]);
+def socket = vertx.createDatagramSocket([:])
+
+// Some code
+
+// This would block packets which are send from 10.0.0.2
 socket.blockMulticastGroup("230.0.0.1", "10.0.0.2", { asyncResult ->
-  println("block succeeded? ${asyncResult.succeeded()}");
-});
+  println("block succeeded? ${asyncResult.succeeded()}")
+})
 
 ----
 

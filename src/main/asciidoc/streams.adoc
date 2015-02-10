@@ -31,12 +31,13 @@ to the `NetSocket`, for example:
 def server = vertx.createNetServer([
   port:1234,
   host:"localhost"
-]);
+])
 server.connectHandler({ sock ->
   sock.handler({ buffer ->
-    sock.write(buffer);
-  });
-}).listen();
+    // Write the data straight back
+    sock.write(buffer)
+  })
+}).listen()
 
 ----
 
@@ -53,14 +54,15 @@ writing to it:
 def server = vertx.createNetServer([
   port:1234,
   host:"localhost"
-]);
+])
 server.connectHandler({ sock ->
   sock.handler({ buffer ->
     if (!sock.writeQueueFull()) {
-      sock.write(buffer);
-    };
-  });
-}).listen();
+      sock.write(buffer)
+    }
+  })
+
+}).listen()
 
 ----
 
@@ -72,15 +74,15 @@ really want to do is pause the `NetSocket` when the write queue is full. Let's d
 def server = vertx.createNetServer([
   port:1234,
   host:"localhost"
-]);
+])
 server.connectHandler({ sock ->
   sock.handler({ buffer ->
-    sock.write(buffer);
+    sock.write(buffer)
     if (sock.writeQueueFull()) {
-      sock.pause();
-    };
-  });
-}).listen();
+      sock.pause()
+    }
+  })
+}).listen()
 
 ----
 
@@ -92,18 +94,18 @@ it when the write queue has processed its backlog:
 def server = vertx.createNetServer([
   port:1234,
   host:"localhost"
-]);
+])
 server.connectHandler({ sock ->
   sock.handler({ buffer ->
-    sock.write(buffer);
+    sock.write(buffer)
     if (sock.writeQueueFull()) {
-      sock.pause();
+      sock.pause()
       sock.drainHandler({ done ->
-        sock.resume();
-      });
-    };
-  });
-}).listen();
+        sock.resume()
+      })
+    }
+  })
+}).listen()
 
 ----
 
@@ -121,10 +123,10 @@ import io.vertx.groovy.core.streams.Pump
 def server = vertx.createNetServer([
   port:1234,
   host:"localhost"
-]);
+])
 server.connectHandler({ sock ->
-  Pump.pump(sock, sock).start();
-}).listen();
+  Pump.pump(sock, sock).start()
+}).listen()
 
 ----
 

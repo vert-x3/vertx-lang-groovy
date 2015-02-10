@@ -12,12 +12,14 @@ Here's an example of asynchronously copying a file:
 
 [source,java]
 ----
-def fs = vertx.fileSystem();
+def fs = vertx.fileSystem()
+
+// Copy file from foo.txt to bar.txt
 fs.copy("foo.txt", "bar.txt", { res ->
   if (res.succeeded()) {
   } else {
-  };
-});
+  }
+})
 
 ----
 
@@ -32,8 +34,10 @@ Here's the copy using the blocking API:
 
 [source,java]
 ----
-def fs = vertx.fileSystem();
-fs.copyBlocking("foo.txt", "bar.txt");
+def fs = vertx.fileSystem()
+
+// Copy file from foo.txt to bar.txt synchronously
+fs.copyBlocking("foo.txt", "bar.txt")
 
 ----
 
@@ -49,13 +53,13 @@ You open an `link:groovydoc/io/vertx/groovy/core/file/AsyncFile.html[AsyncFile]`
 
 [source,java]
 ----
-def options = [:];
+def options = [:]
 fileSystem.open("myfile.txt", options, { res ->
   if (res.succeeded()) {
-    def file = res.result();
+    def file = res.result()
   } else {
-  };
-});
+  }
+})
 
 ----
 
