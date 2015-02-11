@@ -29,7 +29,7 @@ and NetClient (see above).
 To use UDP you first need t create a `link:groovydoc/io/vertx/groovy/core/datagram/DatagramSocket.html[DatagramSocket]`. It does not matter here if you only want to send data or send
 and receive.
 
-[source,java]
+[source,groovy]
 ----
 def socket = vertx.createDatagramSocket([:])
 
@@ -47,7 +47,7 @@ This means each packet can be sent to a different remote peer.
 
 Sending packets is as easy as shown here:
 
-[source,java]
+[source,groovy]
 ----
 import io.vertx.groovy.core.buffer.Buffer
 def socket = vertx.createDatagramSocket([:])
@@ -80,7 +80,7 @@ The `link:groovydoc/io/vertx/groovy/core/datagram/DatagramPacket.html[DatagramPa
 
 So to listen on a specific address and port you would do something like shown here:
 
-[source,java]
+[source,groovy]
 ----
 def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
@@ -114,7 +114,7 @@ The only difference is that you would pass in a multicast group address to the s
 
 This is show here:
 
-[source,java]
+[source,groovy]
 ----
 import io.vertx.groovy.core.buffer.Buffer
 def socket = vertx.createDatagramSocket([:])
@@ -146,7 +146,7 @@ The `link:groovydoc/io/vertx/groovy/core/datagram/DatagramPacket.html[DatagramPa
 So to listen on a specific address and port and also receive packets for the Multicast group 230.0.0.1 you
 would do something like shown here:
 
-[source,java]
+[source,groovy]
 ----
 def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
@@ -173,7 +173,7 @@ In this situations you can first start to listen for them and then later unliste
 
 This is shown here:
 
-[source,java]
+[source,groovy]
 ----
 def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
@@ -214,7 +214,7 @@ This an expert feature.
 To block multicast from a specific address you can call `blockMulticastGroup(...)` on the DatagramSocket
 like shown here:
 
-[source,java]
+[source,groovy]
 ----
 def socket = vertx.createDatagramSocket([:])
 

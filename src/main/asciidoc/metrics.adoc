@@ -6,7 +6,7 @@ and even `link:groovydoc/io/vertx/groovy/core/Vertx.html[Vertx]` itself.
 
 By default Vert.x does not record any metrics. Instead it provides an SPI for others to implement like https://github.com/vert-x3/vertx-metrics[vertx-metrics]
 which can be added to the classpath. Once added, you can enable metrics by doing the following:
-[source,java]
+[source,groovy]
 ----
 import io.vertx.groovy.core.Vertx
 def vertx = Vertx.vertx([
@@ -20,7 +20,7 @@ def vertx = Vertx.vertx([
 Once enabled, you can retrieve metrics from any `link:groovydoc/io/vertx/groovy/core/metrics/Measured.html[Measured]` object which provides
 a map of the metric name to the data, represented by a `link:groovydoc/io/vertx/groovy/core/json/JsonObject.html[JsonObject]`. So for example if we were to print
 out all metrics for a particular Vert.x instance:
-[source,java]
+[source,groovy]
 ----
 def metrics = vertx.metrics()
 metrics.each { name, metric ->
@@ -37,7 +37,7 @@ without having to know the details of the naming scheme of every metric (somethi
 
 Since `link:groovydoc/io/vertx/groovy/core/http/HttpServer.html[HttpServer]` implements `link:groovydoc/io/vertx/groovy/core/metrics/Measured.html[Measured]`, you can easily grab all metrics
 that are specific for that particular http server.
-[source,java]
+[source,groovy]
 ----
 def server = vertx.createHttpServer()
 // set up server

@@ -87,7 +87,7 @@ _lingua franca_ for Vert.x.
 
 However you are not forced to use JSON if you don't want to.
 
-The event bus is very flexible and also supports supports sending arbitrary objects over the event bus.
+The event bus is very flexible and also supports sending arbitrary objects over the event bus.
 You do this by defining a `link:groovydoc/io/vertx/groovy/core/eventbus/MessageCodec.html[codec]` for the objects you want to send.
 
 === The Event Bus API
@@ -98,7 +98,7 @@ Let's jump into the API
 
 You get a reference to the event bus as follows:
 
-[source,java]
+[source,groovy]
 ----
 def eb = vertx.eventBus()
 
@@ -111,7 +111,7 @@ There is a single instance of the event bus per Vert.x instance.
 This simplest way to register a handler is using `link:groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#consumer(java.lang.String,%20io.vertx.core.Handler)[consumer]`.
 Here's an example:
 
-[source,java]
+[source,groovy]
 ----
 def eb = vertx.eventBus()
 
@@ -130,7 +130,7 @@ This object can subsequently be used to unregister the handler, or use the handl
 Alternatively you can use `link:groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#consumer(java.lang.String,%20io.vertx.core.Handler)[consumer]` to
 to return a +MessageConsumer+ with no handler set, and then set the handler on that. For example:
 
-[source,java]
+[source,groovy]
 ----
 def eb = vertx.eventBus()
 
@@ -147,7 +147,7 @@ nodes of the cluster.
 If you want to be notified when this has completed, you can register a `link:groovydoc/io/vertx/groovy/core/eventbus/MessageConsumer.html#completionHandler(io.vertx.core.Handler)[completion handler]`
 on the +MessageConsumer+ object.
 
-[source,java]
+[source,groovy]
 ----
 consumer.completionHandler({ res ->
   if (res.succeeded()) {
@@ -166,7 +166,7 @@ To unregister a handler, call `link:groovydoc/io/vertx/groovy/core/eventbus/Mess
 If you are on a clustered event bus, un-registering can take some time to propagate across the nodes, if you want to
 be notified when this is complete use `link:groovydoc/io/vertx/groovy/core/eventbus/MessageConsumer.html#unregister(io.vertx.core.Handler)[unregister]`.
 
-[source,java]
+[source,groovy]
 ----
 consumer.unregister({ res ->
   if (res.succeeded()) {
@@ -183,7 +183,7 @@ consumer.unregister({ res ->
 Publishing a message is simple. Just use `link:groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#publish(java.lang.String,%20java.lang.Object)[publish]` specifying the
 address to publish it to.
 
-[source,java]
+[source,groovy]
 ----
 eventBus.publish("news.uk.sport", "Yay! Someone kicked a ball")
 
@@ -198,7 +198,7 @@ This is the point to point messaging pattern. The handler is chosen in a non-str
 
 You can send a message with `link:groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#send(java.lang.String,%20java.lang.Object)[send]`
 
-[source,java]
+[source,groovy]
 ----
 eventBus.send("news.uk.sport", "Yay! Someone kicked a ball")
 
@@ -209,7 +209,7 @@ eventBus.send("news.uk.sport", "Yay! Someone kicked a ball")
 Messages sent over the event bus can also contain headers. This can be specified by providing a
 `link:groovydoc/io/vertx/groovy/core/eventbus/DeliveryOptions.html[DeliveryOptions]` when sending or publishing:
 
-[source,java]
+[source,groovy]
 ----
 todo
 ----
@@ -237,7 +237,7 @@ An example will make this clear:
 
 The receiver:
 
-[source,java]
+[source,groovy]
 ----
 def consumer = eventBus.consumer("news.uk.sport")
 consumer.handler({ message ->
@@ -249,7 +249,7 @@ consumer.handler({ message ->
 
 The sender:
 
-[source,java]
+[source,groovy]
 ----
 eventBus.send("news.uk.sport", "Yay! Someone kicked a ball across a patch of grass", { ar ->
   if (ar.succeeded()) {
@@ -291,7 +291,7 @@ your network they can form a single, distributed, event bus.
 If you're creating your Vert.x instance programmatically you get a clustered event bus by configuring the Vert.x
 instance as clustered;
 
-[source,java]
+[source,groovy]
 ----
 import io.vertx.groovy.core.Vertx
 def options = [:]

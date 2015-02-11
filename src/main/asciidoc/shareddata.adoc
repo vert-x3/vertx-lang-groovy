@@ -20,7 +20,7 @@ so you don't have to worry about protecting that state by synchronising access t
 
 Here's an example of using a shared local map:
 
-[source,java]
+[source,groovy]
 ----
 import io.vertx.groovy.core.buffer.Buffer
 
@@ -59,7 +59,7 @@ You get an instance of `link:groovydoc/io/vertx/groovy/core/shareddata/AsyncMap.
 
 Getting the map is asynchronous and the result is returned to you in the handler that you specify. Here's an example:
 
-[source,java]
+[source,groovy]
 ----
 
 def sd = vertx.sharedData()
@@ -80,7 +80,7 @@ You put data in a map with `link:groovydoc/io/vertx/groovy/core/shareddata/Async
 
 The actual put is asynchronous and the handler is notified once it is complete:
 
-[source,java]
+[source,groovy]
 ----
 
 map.put("foo", "bar", { resPut ->
@@ -98,7 +98,7 @@ You get data from a map with `link:groovydoc/io/vertx/groovy/core/shareddata/Asy
 
 The actual get is asynchronous and the handler is notified with the result some time later
 
-[source,java]
+[source,groovy]
 ----
 
 map.get("foo", { resGet ->
@@ -136,7 +136,7 @@ While you own the lock no other caller, anywhere on the cluster will be able to 
 When you've finished with the lock, you call `link:groovydoc/io/vertx/groovy/core/shareddata/Lock.html#release()[release]` to release it, so
 another caller can obtain it.
 
-[source,java]
+[source,groovy]
 ----
 sd.getLock("mylock", { res ->
   if (res.succeeded()) {
@@ -157,7 +157,7 @@ sd.getLock("mylock", { res ->
 You can also get a lock with a timeout. If it fails to obtain the lock within the timeout the handler will be called
 with a failure:
 
-[source,java]
+[source,groovy]
 ----
 sd.getLockWithTimeout("mylock", 10000, { res ->
   if (res.succeeded()) {
@@ -178,7 +178,7 @@ You can do this with `link:groovydoc/io/vertx/groovy/core/shareddata/Counter.htm
 
 You obtain an instance with `link:groovydoc/io/vertx/groovy/core/shareddata/SharedData.html#getCounter(java.lang.String,%20io.vertx.core.Handler)[getCounter]`:
 
-[source,java]
+[source,groovy]
 ----
 sd.getCounter("mycounter", { res ->
   if (res.succeeded()) {
