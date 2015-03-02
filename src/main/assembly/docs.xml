@@ -9,11 +9,11 @@
     <fileSets>
         <fileSet>
             <directory>${asciidoc.dir}</directory>
-            <outputDirectory>/asciidoc</outputDirectory>
+            <outputDirectory>/</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>${project.build.directory}/docs/groovydoc</directory>
-            <outputDirectory>/groovydoc</outputDirectory>
+            <directory>${project.build.directory}/docs/groovy/groovydoc</directory>
+            <outputDirectory>/groovy/groovydoc</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>

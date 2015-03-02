@@ -105,6 +105,7 @@ To be notified when a connection is made you need to set a `link:groovydoc/io/ve
 
 def server = vertx.createNetServer()
 server.connectHandler({ socket ->
+  // Handle the connection in here
 })
 
 ----

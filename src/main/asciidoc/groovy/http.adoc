@@ -85,6 +85,7 @@ To be notified when a request arrives you need to set a `link:groovydoc/io/vertx
 
 def server = vertx.createHttpServer()
 server.requestHandler({ request ->
+  // Handle the request in here
 })
 
 ----
@@ -1258,6 +1259,7 @@ server.websocketHandler({ websocket ->
   if (websocket.path() == "/myapi") {
     websocket.reject()
   } else {
+    // Do something
   }
 })
 

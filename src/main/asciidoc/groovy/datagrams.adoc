@@ -86,6 +86,7 @@ def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
   if (asyncResult.succeeded()) {
     socket.handler({ packet ->
+      // Do something with the packet
     })
   } else {
     println("Listen failed${asyncResult.cause()}")
@@ -152,6 +153,7 @@ def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
   if (asyncResult.succeeded()) {
     socket.handler({ packet ->
+      // Do something with the packet
     })
 
     // join the multicast group
@@ -179,6 +181,7 @@ def socket = vertx.createDatagramSocket([:])
 socket.listen(1234, "0.0.0.0", { asyncResult ->
   if (asyncResult.succeeded()) {
     socket.handler({ packet ->
+      // Do something with the packet
     })
 
     // join the multicast group

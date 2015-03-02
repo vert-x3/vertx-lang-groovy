@@ -68,6 +68,7 @@ sd.getClusterWideMap("mymap", { res ->
   if (res.succeeded()) {
     def map = res.result()
   } else {
+    // Something went wrong!
   }
 })
 
@@ -85,7 +86,9 @@ The actual put is asynchronous and the handler is notified once it is complete:
 
 map.put("foo", "bar", { resPut ->
   if (resPut.succeeded()) {
+    // Successfully put the value
   } else {
+    // Something went wrong!
   }
 })
 
@@ -106,6 +109,7 @@ map.get("foo", { resGet ->
     // Successfully got the value
     def val = resGet.result()
   } else {
+    // Something went wrong!
   }
 })
 
@@ -149,6 +153,7 @@ sd.getLock("mylock", { res ->
       lock.release()})
 
   } else {
+    // Something went wrong
   }
 })
 
@@ -165,6 +170,7 @@ sd.getLockWithTimeout("mylock", 10000, { res ->
     def lock = res.result()
 
   } else {
+    // Failed to get lock
   }
 })
 
@@ -184,6 +190,7 @@ sd.getCounter("mycounter", { res ->
   if (res.succeeded()) {
     def counter = res.result()
   } else {
+    // Something went wrong!
   }
 })
 

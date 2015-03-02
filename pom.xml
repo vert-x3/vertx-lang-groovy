@@ -200,7 +200,7 @@
               <optionMap>
                 <generators>groovy</generators>
                 <outputDirectory>${project.basedir}/src/main</outputDirectory>
-                <docgen.output>${asciidoc.dir}</docgen.output>
+                <docgen.output>${asciidoc.dir}/groovy</docgen.output>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/vertx-core</sourceDirectory>
             </configuration>
@@ -221,7 +221,7 @@
               </processors>
               <optionMap>
                 <outputDirectory>${project.basedir}/src/main</outputDirectory>
-                <docgen.output>${asciidoc.dir}</docgen.output>
+                <docgen.output>${asciidoc.dir}/groovy</docgen.output>
               </optionMap>
               <sourceDirectory>src/main/docoverride</sourceDirectory>
             </configuration>
@@ -282,7 +282,7 @@
               <goal>attach-docs</goal>
             </goals>
             <configuration>
-              <destinationDirectory>${project.build.directory}/docs/groovydoc</destinationDirectory>
+              <destinationDirectory>${project.build.directory}/docs/groovy/groovydoc</destinationDirectory>
               <scope>public</scope>
               <skipJavadoc>true</skipJavadoc>
             </configuration>
@@ -305,6 +305,7 @@
               <backend>html</backend>
               <doctype>book</doctype>
               <preserveDirectories>true</preserveDirectories>
+              <relativeBaseDir>true</relativeBaseDir>
             </configuration>
           </execution>
         </executions>

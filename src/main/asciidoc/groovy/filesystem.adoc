@@ -17,7 +17,9 @@ def fs = vertx.fileSystem()
 // Copy file from foo.txt to bar.txt
 fs.copy("foo.txt", "bar.txt", { res ->
   if (res.succeeded()) {
+    // Copied ok!
   } else {
+    // Something went wrong
   }
 })
 
@@ -58,6 +60,7 @@ fileSystem.open("myfile.txt", options, { res ->
   if (res.succeeded()) {
     def file = res.result()
   } else {
+    // Something went wrong!
   }
 })
 
