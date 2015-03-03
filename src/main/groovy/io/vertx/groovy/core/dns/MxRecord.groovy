@@ -19,9 +19,7 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
  * Represent a Mail-Exchange-Record (MX) which was resolved for a domain.
- *
- * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
- */
+*/
 @CompileStatic
 public class MxRecord {
   final def io.vertx.core.dns.MxRecord delegate;
@@ -33,6 +31,7 @@ public class MxRecord {
   }
   /**
    * The priority of the MX record.
+   * @return 
    */
   public int priority() {
     def ret = this.delegate.priority();
@@ -40,6 +39,7 @@ public class MxRecord {
   }
   /**
    * The name of the MX record
+   * @return 
    */
   public String name() {
     def ret = this.delegate.name();

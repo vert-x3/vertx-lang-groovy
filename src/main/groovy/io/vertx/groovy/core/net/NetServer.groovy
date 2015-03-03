@@ -24,9 +24,7 @@ import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
  * Represents a TCP server
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class NetServer implements Measured {
   final def io.vertx.core.net.NetServer delegate;
@@ -38,7 +36,6 @@ public class NetServer implements Measured {
   }
   /**
    * The metric base name
-   *
    * @return the metric base name
    */
   public String metricBaseName() {
@@ -47,9 +44,7 @@ public class NetServer implements Measured {
   }
   /**
    * Will return the metrics that correspond with this measured object.
-   *
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
-   * the json data representing that metric
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
    */
   public Map<String, Map<String, Object>> metrics() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
@@ -57,9 +52,8 @@ public class NetServer implements Measured {
   }
   /**
    * Return the connect stream for this server. The server can only have at most one handler at any one time.
-   * As the server accepts TCP or SSL connections it creates an instance of {@link NetSocket} and passes it to the
-   * connect stream {@link ReadStream#handler(io.vertx.core.Handler)}.
-   *
+   * As the server accepts TCP or SSL connections it creates an instance of {@link io.vertx.groovy.core.net.NetSocket} and passes it to the
+   * connect stream .
    * @return the connect stream
    */
   public NetSocketStream connectStream() {
@@ -68,9 +62,9 @@ public class NetServer implements Measured {
   }
   /**
    * Supply a connect handler for this server. The server can only have at most one connect handler at any one time.
-   * As the server accepts TCP or SSL connections it creates an instance of {@link NetSocket} and passes it to the
+   * As the server accepts TCP or SSL connections it creates an instance of {@link io.vertx.groovy.core.net.NetSocket} and passes it to the
    * connect handler.
-   *
+   * @param handler 
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer connectHandler(Handler<NetSocket> handler) {
@@ -82,11 +76,10 @@ public class NetServer implements Measured {
     return ret;
   }
   /**
-   * Start listening on the port and host as configured in the {@link io.vertx.core.net.NetServerOptions} used when
+   * Start listening on the port and host as configured in the <a href="../../../../../../../cheatsheet/NetServerOptions.html">NetServerOptions</a> used when
    * creating the server.
    * <p>
    * The server may not be listening until some time after the call to listen has returned.
-   *
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen() {
@@ -94,9 +87,8 @@ public class NetServer implements Measured {
     return this;
   }
   /**
-   * Like {@link #listen} but providing a handler that will be notified when the server is listening, or fails.
-   *
-   * @param listenHandler  handler that will be notified when listening or failed
+   * Like {@link io.vertx.groovy.core.net.NetServer#listen} but providing a handler that will be notified when the server is listening, or fails.
+   * @param listenHandler handler that will be notified when listening or failed
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(Handler<AsyncResult<NetServer>> listenHandler) {
@@ -114,15 +106,16 @@ public class NetServer implements Measured {
     return this;
   }
   /**
-   * Start listening on the specified port and host, ignoring post and host configured in the {@link io.vertx.core.net.NetServerOptions} used when
+   * Start listening on the specified port and host, ignoring post and host configured in the <a href="../../../../../../../cheatsheet/NetServerOptions.html">NetServerOptions</a> used when
    * creating the server.
    * <p>
-   * Port {@code 0} can be specified meaning "choose an random port".
+   * Port <code>0</code> can be specified meaning "choose an random port".
    * <p>
-   * Host {@code 0.0.0.0} can be specified meaning "listen on all available interfaces".
+   * Host <code>0.0.0.0</code> can be specified meaning "listen on all available interfaces".
    * <p>
    * The server may not be listening until some time after the call to listen has returned.
-   *
+   * @param port 
+   * @param host 
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, String host) {
@@ -130,10 +123,9 @@ public class NetServer implements Measured {
     return this;
   }
   /**
-   * Like {@link #listen(int, String)} but providing a handler that will be notified when the server is listening, or fails.
-   *
-   * @param port  the port to listen on
-   * @param host  the host to listen on
+   * Like {@link io.vertx.groovy.core.net.NetServer#listen} but providing a handler that will be notified when the server is listening, or fails.
+   * @param port the port to listen on
+   * @param host the host to listen on
    * @param listenHandler handler that will be notified when listening or failed
    * @return a reference to this, so the API can be used fluently
    */
@@ -153,12 +145,12 @@ public class NetServer implements Measured {
   }
   /**
    * Start listening on the specified port and host "0.0.0.0", ignoring post and host configured in the
-   * {@link io.vertx.core.net.NetServerOptions} used when creating the server.
+   * <a href="../../../../../../../cheatsheet/NetServerOptions.html">NetServerOptions</a> used when creating the server.
    * <p>
-   * Port {@code 0} can be specified meaning "choose an random port".
+   * Port <code>0</code> can be specified meaning "choose an random port".
    * <p>
    * The server may not be listening until some time after the call to listen has returned.
-   *
+   * @param port 
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port) {
@@ -166,9 +158,8 @@ public class NetServer implements Measured {
     return this;
   }
   /**
-   * Like {@link #listen(int)} but providing a handler that will be notified when the server is listening, or fails.
-   *
-   * @param port  the port to listen on
+   * Like {@link io.vertx.groovy.core.net.NetServer#listen} but providing a handler that will be notified when the server is listening, or fails.
+   * @param port the port to listen on
    * @param listenHandler handler that will be notified when listening or failed
    * @return a reference to this, so the API can be used fluently
    */
@@ -194,9 +185,8 @@ public class NetServer implements Measured {
     this.delegate.close();
   }
   /**
-   * Like {@link #close} but supplying a handler that will be notified when close is complete.
-   *
-   * @param completionHandler  the handler
+   * Like {@link io.vertx.groovy.core.net.NetServer#close} but supplying a handler that will be notified when close is complete.
+   * @param completionHandler the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
@@ -204,7 +194,6 @@ public class NetServer implements Measured {
   /**
    * The actual port the server is listening on. This is useful if you bound the server specifying 0 as port number
    * signifying an ephemeral port
-   *
    * @return the actual port the server is listening on.
    */
   public int actualPort() {

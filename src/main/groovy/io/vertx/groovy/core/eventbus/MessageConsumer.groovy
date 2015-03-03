@@ -21,18 +21,16 @@ import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * An event bus consumer object representing a stream of message to an {@link EventBus} address that can
+ * An event bus consumer object representing a stream of message to an {@link io.vertx.groovy.core.eventbus.EventBus} address that can
  * be read from.
  * <p>
- * The {@link EventBus#consumer(String)} or {@link EventBus#localConsumer(String)}
+ * The {@link io.vertx.groovy.core.eventbus.EventBus#consumer} or {@link io.vertx.groovy.core.eventbus.EventBus#localConsumer}
  * creates a new consumer, the returned consumer is not yet registered against the event bus. Registration
- * is effective after the {@link #handler(io.vertx.core.Handler)} method is invoked.<p>
+ * is effective after the {@link io.vertx.groovy.core.eventbus.MessageConsumer#handler} method is invoked.<p>
  *
- * The consumer is unregistered from the event bus using the {@link #unregister()} method or by calling the
- * {@link #handler(io.vertx.core.Handler)} with a null value..
- *
- * @author <a href="mailto:nscavell@redhat.com">Nick Scavelli</a>
- */
+ * The consumer is unregistered from the event bus using the {@link io.vertx.groovy.core.eventbus.MessageConsumer#unregister} method or by calling the
+ * {@link io.vertx.groovy.core.eventbus.MessageConsumer#handler} with a null value..
+*/
 @CompileStatic
 public class MessageConsumer<T> implements ReadStream<Message<T>> {
   final def io.vertx.core.eventbus.MessageConsumer delegate;
@@ -68,6 +66,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * @return a read stream for the body of the message stream.
+   * @return 
    */
   public ReadStream<T> bodyStream() {
     def ret= ReadStream.FACTORY.apply(((io.vertx.core.eventbus.MessageConsumer) this.delegate).bodyStream());
@@ -75,6 +74,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * @return true if the current consumer is registered
+   * @return 
    */
   public boolean isRegistered() {
     def ret = ((io.vertx.core.eventbus.MessageConsumer) this.delegate).isRegistered();
@@ -82,6 +82,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * @return The address the handler was registered with.
+   * @return 
    */
   public String address() {
     def ret = ((io.vertx.core.eventbus.MessageConsumer) this.delegate).address();
@@ -91,7 +92,6 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * Set the number of messages this registration will buffer when this stream is paused. The default
    * value is <code>0</code>. When a new value is set, buffered messages may be discarded to reach
    * the new value.
-   *
    * @param maxBufferedMessages the maximum number of messages that can be buffered
    * @return this registration
    */
@@ -101,6 +101,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * @return the maximum number of messages that can be buffered when this stream is paused
+   * @return 
    */
   public int getMaxBufferedMessages() {
     def ret = ((io.vertx.core.eventbus.MessageConsumer) this.delegate).getMaxBufferedMessages();
@@ -108,7 +109,6 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * Optional method which can be called to indicate when the registration has been propagated across the cluster.
-   *
    * @param completionHandler the completion handler
    */
   public void completionHandler(Handler<AsyncResult<Void>> completionHandler) {
@@ -122,9 +122,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * Unregisters the handler which created this registration
-   *
-   * @param completionHandler the handler called when the unregister is done. For example in a cluster when all nodes of the
-   * event bus have been unregistered.
+   * @param completionHandler the handler called when the unregister is done. For example in a cluster when all nodes of the event bus have been unregistered.
    */
   public void unregister(Handler<AsyncResult<Void>> completionHandler) {
     ((io.vertx.core.eventbus.MessageConsumer) this.delegate).unregister(completionHandler);

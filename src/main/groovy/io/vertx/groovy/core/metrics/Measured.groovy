@@ -21,7 +21,7 @@ import java.util.Map
 import io.vertx.core.json.JsonObject
 /**
  * @author <a href="mailto:nscavell@redhat.com">Nick Scavelli</a>
- */
+*/
 @CompileStatic
 public interface Measured {
   public Object getDelegate();
@@ -44,7 +44,6 @@ class MeasuredImpl implements Measured {
   }
   /**
    * The metric base name
-   *
    * @return the metric base name
    */
   public String metricBaseName() {
@@ -53,9 +52,7 @@ class MeasuredImpl implements Measured {
   }
   /**
    * Will return the metrics that correspond with this measured object.
-   *
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
-   * the json data representing that metric
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
    */
   public Map<String, Map<String, Object>> metrics() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});

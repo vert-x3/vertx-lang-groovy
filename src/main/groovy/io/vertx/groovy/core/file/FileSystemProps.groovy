@@ -19,10 +19,7 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
  * Represents properties of the file system.
- *
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class FileSystemProps {
   final def io.vertx.core.file.FileSystemProps delegate;
@@ -34,6 +31,7 @@ public class FileSystemProps {
   }
   /**
    * @return The total space on the file system, in bytes
+   * @return 
    */
   public long totalSpace() {
     def ret = this.delegate.totalSpace();
@@ -41,6 +39,7 @@ public class FileSystemProps {
   }
   /**
    * @return The total un-allocated space on the file system, in bytes
+   * @return 
    */
   public long unallocatedSpace() {
     def ret = this.delegate.unallocatedSpace();
@@ -48,6 +47,7 @@ public class FileSystemProps {
   }
   /**
    * @return The total usable space on the file system, in bytes
+   * @return 
    */
   public long usableSpace() {
     def ret = this.delegate.usableSpace();

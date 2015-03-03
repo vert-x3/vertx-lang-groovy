@@ -20,11 +20,9 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A {@link io.vertx.core.streams.ReadStream} of {@link io.vertx.core.net.NetSocket}, used for notifying
- * socket connections to a {@link io.vertx.core.net.NetServer}.
- *
- * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
- */
+ * A {@link io.vertx.groovy.core.streams.ReadStream} of {@link io.vertx.groovy.core.net.NetSocket}, used for notifying
+ * socket connections to a {@link io.vertx.groovy.core.net.NetServer}.
+*/
 @CompileStatic
 public class NetSocketStream implements ReadStream<NetSocket> {
   final def io.vertx.core.net.NetSocketStream delegate;

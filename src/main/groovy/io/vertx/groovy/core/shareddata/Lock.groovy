@@ -22,9 +22,7 @@ import io.vertx.lang.groovy.InternalHelper
  * <p>
  * When the lock is obtained, no-one else in the cluster can obtain the lock with the same name until the lock
  * is released.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class Lock {
   final def io.vertx.core.shareddata.Lock delegate;

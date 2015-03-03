@@ -20,14 +20,12 @@ import io.vertx.lang.groovy.InternalHelper
 /**
  * Local maps can be used to share data safely in a single Vert.x instance.
  * <p>
- * The map only allows immutable keys and values in the map, OR certain mutable objects such as {@link io.vertx.core.buffer.Buffer}
+ * The map only allows immutable keys and values in the map, OR certain mutable objects such as {@link io.vertx.groovy.core.buffer.Buffer}
  * instances which will be copied when they are added to the map.
  * <p>
  * This ensures there is no shared access to mutable state from different threads (e.g. different event loops) in the
  * Vert.x instance, and means you don't have to protect access to that state using synchronization or locks.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class LocalMap<K,V> {
   final def io.vertx.core.shareddata.LocalMap delegate;
@@ -39,9 +37,8 @@ public class LocalMap<K,V> {
   }
   /**
    * Get a value from the map
-   *
-   * @param key  the key
-   * @return  the value, or null if none
+   * @param key the key
+   * @return the value, or null if none
    */
   public V get(K key) {
     // This cast is cleary flawed
@@ -50,10 +47,9 @@ public class LocalMap<K,V> {
   }
   /**
    * Put an entry in the map
-   *
-   * @param key  the key
-   * @param value  the value
-   * @return  return the old value, or null if none
+   * @param key the key
+   * @param value the value
+   * @return return the old value, or null if none
    */
   public V put(K key, V value) {
     // This cast is cleary flawed
@@ -62,9 +58,8 @@ public class LocalMap<K,V> {
   }
   /**
    * Remove an entry from the map
-   *
-   * @param key  the key
-   * @return  the old value
+   * @param key the key
+   * @return the old value
    */
   public V remove(K key) {
     // This cast is cleary flawed
@@ -79,8 +74,7 @@ public class LocalMap<K,V> {
   }
   /**
    * Get the size of the map
-   *
-   * @return  the number of entries in the map
+   * @return the number of entries in the map
    */
   public int size() {
     def ret = ((io.vertx.core.shareddata.LocalMap) this.delegate).size();
@@ -88,6 +82,7 @@ public class LocalMap<K,V> {
   }
   /**
    * @return true if there are zero entries in the map
+   * @return 
    */
   public boolean isEmpty() {
     def ret = ((io.vertx.core.shareddata.LocalMap) this.delegate).isEmpty();
@@ -95,10 +90,9 @@ public class LocalMap<K,V> {
   }
   /**
    * Put the entry only if there is no existing entry for that key
-   *
-   * @param key  the key
-   * @param value  the value
-   * @return  the old value or null, if none
+   * @param key the key
+   * @param value the value
+   * @return the old value or null, if none
    */
   public V putIfAbsent(K key, V value) {
     // This cast is cleary flawed
@@ -107,9 +101,8 @@ public class LocalMap<K,V> {
   }
   /**
    * Remove the entry only if there is an entry with the specified key and value
-   *
-   * @param key  the key
-   * @param value  the value
+   * @param key the key
+   * @param value the value
    * @return true if removed
    */
   public boolean removeIfPresent(K key, V value) {
@@ -118,10 +111,9 @@ public class LocalMap<K,V> {
   }
   /**
    * Replace the entry only if there is an existing entry with the specified key and value
-   *
-   * @param key  the key
-   * @param oldValue  the old value
-   * @param newValue  the new value
+   * @param key the key
+   * @param oldValue the old value
+   * @param newValue the new value
    * @return true if removed
    */
   public boolean replaceIfPresent(K key, V oldValue, V newValue) {
@@ -130,10 +122,9 @@ public class LocalMap<K,V> {
   }
   /**
    * Replace the entry only if there is an existing entry with the key
-   *
-   * @param key  the key
-   * @param value  the new value
-   * @return  the old value
+   * @param key the key
+   * @param value the new value
+   * @return the old value
    */
   public V replace(K key, V value) {
     // This cast is cleary flawed

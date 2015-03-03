@@ -25,11 +25,9 @@ import io.vertx.groovy.core.net.SocketAddress
 /**
  * Base WebSocket implementation.
  * <p>
- * It implements both {@link ReadStream} and {@link WriteStream} so it can be used with
- * {@link io.vertx.core.streams.Pump} to pump data with flow control.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+ * It implements both  and  so it can be used with
+ * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
+*/
 @CompileStatic
 public interface WebSocketBase extends ReadStream<Buffer>,  WriteStream<Buffer> {
   public Object getDelegate();
@@ -67,9 +65,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     return delegate;
   }
   /**
-   * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
-   * #setWriteQueueMaxSize}
-   *
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.WebSocketBase#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
@@ -113,13 +109,12 @@ class WebSocketBaseImpl implements WebSocketBase {
     return this;
   }
   /**
-   * When a {@code Websocket} is created it automatically registers an event handler with the event bus - the ID of that
+   * When a <code>Websocket</code> is created it automatically registers an event handler with the event bus - the ID of that
    * handler is given by this method.
    * <p>
    * Given this ID, a different event loop can send a binary frame to that event handler using the event bus and
    * that buffer will be received by this instance in its own event loop and written to the underlying connection. This
    * allows you to write data to other WebSockets which are owned by different event loops.
-   *
    * @return the binary handler id
    */
   public String binaryHandlerID() {
@@ -127,12 +122,13 @@ class WebSocketBaseImpl implements WebSocketBase {
     return ret;
   }
   /**
-   * When a {@code Websocket} is created it automatically registers an event handler with the eventbus, the ID of that
-   * handler is given by {@code textHandlerID}.
+   * When a <code>Websocket</code> is created it automatically registers an event handler with the eventbus, the ID of that
+   * handler is given by <code>textHandlerID</code>.
    * <p>
    * Given this ID, a different event loop can send a text frame to that event handler using the event bus and
    * that buffer will be received by this instance in its own event loop and written to the underlying connection. This
    * allows you to write data to other WebSockets which are owned by different event loops.
+   * @return 
    */
   public String textHandlerID() {
     def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).textHandlerID();
@@ -140,8 +136,7 @@ class WebSocketBaseImpl implements WebSocketBase {
   }
   /**
    * Write a WebSocket frame to the connection
-   *
-   * @param frame  the frame to write
+   * @param frame the frame to write
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase writeFrame(WebSocketFrame frame) {
@@ -151,8 +146,7 @@ class WebSocketBaseImpl implements WebSocketBase {
   /**
    * Writes a (potentially large) piece of data to the connection. This data might be written as multiple frames
    * if it exceeds the maximum WebSocket frame size.
-   *
-   * @param data  the data to write
+   * @param data the data to write
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase writeMessage(Buffer data) {
@@ -161,8 +155,7 @@ class WebSocketBaseImpl implements WebSocketBase {
   }
   /**
    * Set a close handler. This will be called when the WebSocket is closed.
-   *
-   * @param handler  the handler
+   * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase closeHandler(Handler<Void> handler) {
@@ -171,8 +164,7 @@ class WebSocketBaseImpl implements WebSocketBase {
   }
   /**
    * Set a frame handler on the connection. This handler will be called when frames are read on the connection.
-   *
-   * @param handler  the handler
+   * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase frameHandler(Handler<WebSocketFrame> handler) {
@@ -191,6 +183,7 @@ class WebSocketBaseImpl implements WebSocketBase {
   }
   /**
    * @return the remote address for this socket
+   * @return 
    */
   public SocketAddress remoteAddress() {
     if (cached_0 != null) {
@@ -202,6 +195,7 @@ class WebSocketBaseImpl implements WebSocketBase {
   }
   /**
    * @return the local address for this socket
+   * @return 
    */
   public SocketAddress localAddress() {
     if (cached_1 != null) {

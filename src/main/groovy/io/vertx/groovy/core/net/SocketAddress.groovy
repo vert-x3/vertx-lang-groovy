@@ -19,9 +19,7 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
  * The address of a socket
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class SocketAddress {
   final def io.vertx.core.net.SocketAddress delegate;

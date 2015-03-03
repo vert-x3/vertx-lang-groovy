@@ -207,7 +207,7 @@ eventBus.send("news.uk.sport", "Yay! Someone kicked a ball")
 ==== Setting headers on messages
 
 Messages sent over the event bus can also contain headers. This can be specified by providing a
-`link:groovydoc/io/vertx/groovy/core/eventbus/DeliveryOptions.html[DeliveryOptions]` when sending or publishing:
+`link:../cheatsheet/DeliveryOptions.html[DeliveryOptions]` when sending or publishing:
 
 [source,groovy]
 ----
@@ -264,7 +264,7 @@ consisting of multiple rounds.
 
 ==== Sending with timeouts
 
-When sending a message with a reply handler you can specify a timeout in the `link:groovydoc/io/vertx/groovy/core/eventbus/DeliveryOptions.html[DeliveryOptions]`.
+When sending a message with a reply handler you can specify a timeout in the `link:../cheatsheet/DeliveryOptions.html[DeliveryOptions]`.
 
 If a reply is not received within that time, the reply handler will be called with a failure.
 

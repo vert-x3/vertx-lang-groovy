@@ -18,28 +18,25 @@ package io.vertx.groovy.core.streams;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
- * Pumps data from a {@link ReadStream} to a {@link WriteStream} and performs flow control where necessary to
+ * Pumps data from a {@link io.vertx.groovy.core.streams.ReadStream} to a {@link io.vertx.groovy.core.streams.WriteStream} and performs flow control where necessary to
  * prevent the write stream buffer from getting overfull.
  * <p>
- * Instances of this class read items from a {@link ReadStream} and write them to a {@link WriteStream}. If data
- * can be read faster than it can be written this could result in the write queue of the {@link WriteStream} growing
+ * Instances of this class read items from a {@link io.vertx.groovy.core.streams.ReadStream} and write them to a {@link io.vertx.groovy.core.streams.WriteStream}. If data
+ * can be read faster than it can be written this could result in the write queue of the {@link io.vertx.groovy.core.streams.WriteStream} growing
  * without bound, eventually causing it to exhaust all available RAM.
  * <p>
- * To prevent this, after each write, instances of this class check whether the write queue of the {@link
- * WriteStream} is full, and if so, the {@link ReadStream} is paused, and a {@code drainHandler} is set on the
- * {@link WriteStream}.
+ * To prevent this, after each write, instances of this class check whether the write queue of the {@link io.vertx.groovy.core.streams.WriteStream} is full, and if so, the {@link io.vertx.groovy.core.streams.ReadStream} is paused, and a <code>drainHandler</code> is set on the
+ * {@link io.vertx.groovy.core.streams.WriteStream}.
  * <p>
- * When the {@link WriteStream} has processed half of its backlog, the {@code drainHandler} will be
- * called, which results in the pump resuming the {@link ReadStream}.
+ * When the {@link io.vertx.groovy.core.streams.WriteStream} has processed half of its backlog, the <code>drainHandler</code> will be
+ * called, which results in the pump resuming the {@link io.vertx.groovy.core.streams.ReadStream}.
  * <p>
- * This class can be used to pump from any {@link ReadStream} to any {@link WriteStream},
- * e.g. from an {@link io.vertx.core.http.HttpServerRequest} to an {@link io.vertx.core.file.AsyncFile},
- * or from {@link io.vertx.core.net.NetSocket} to a {@link io.vertx.core.http.WebSocket}.
+ * This class can be used to pump from any {@link io.vertx.groovy.core.streams.ReadStream} to any {@link io.vertx.groovy.core.streams.WriteStream},
+ * e.g. from an {@link io.vertx.groovy.core.http.HttpServerRequest} to an {@link io.vertx.groovy.core.file.AsyncFile},
+ * or from {@link io.vertx.groovy.core.net.NetSocket} to a {@link io.vertx.groovy.core.http.WebSocket}.
  * <p>
  * Please see the documentation for more information.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class Pump {
   final def io.vertx.core.streams.Pump delegate;
@@ -50,10 +47,9 @@ public class Pump {
     return delegate;
   }
   /**
-   * Create a new {@code Pump} with the given {@code ReadStream} and {@code WriteStream}
-   *
-   * @param rs  the read stream
-   * @param ws  the write stream
+   * Create a new <code>Pump</code> with the given <code>ReadStream</code> and <code>WriteStream</code>
+   * @param rs the read stream
+   * @param ws the write stream
    * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws) {
@@ -61,12 +57,11 @@ public class Pump {
     return ret;
   }
   /**
-   * Create a new {@code Pump} with the given {@code ReadStream} and {@code WriteStream} and
-   * {@code writeQueueMaxSize}
-   *
-   * @param rs  the read stream
-   * @param ws  the write stream
-   * @param writeQueueMaxSize  the max size of the write queue
+   * Create a new <code>Pump</code> with the given <code>ReadStream</code> and <code>WriteStream</code> and
+   * <code>writeQueueMaxSize</code>
+   * @param rs the read stream
+   * @param ws the write stream
+   * @param writeQueueMaxSize the max size of the write queue
    * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws, int writeQueueMaxSize) {
@@ -74,9 +69,8 @@ public class Pump {
     return ret;
   }
   /**
-   * Set the write queue max size to {@code maxSize}
-   *
-   * @param maxSize  the max size
+   * Set the write queue max size to <code>maxSize</code>
+   * @param maxSize the max size
    * @return a reference to this, so the API can be used fluently
    */
   public Pump setWriteQueueMaxSize(int maxSize) {
@@ -85,7 +79,6 @@ public class Pump {
   }
   /**
    * Start the Pump. The Pump can be started and stopped multiple times.
-   *
    * @return a reference to this, so the API can be used fluently
    */
   public Pump start() {
@@ -94,7 +87,6 @@ public class Pump {
   }
   /**
    * Stop the Pump. The Pump can be started and stopped multiple times.
-   *
    * @return a reference to this, so the API can be used fluently
    */
   public Pump stop() {
@@ -103,6 +95,7 @@ public class Pump {
   }
   /**
    * Return the total number of items pumped by this pump.
+   * @return 
    */
   public int numberPumped() {
     def ret = this.delegate.numberPumped();

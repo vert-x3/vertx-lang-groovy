@@ -20,11 +20,9 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A {@link io.vertx.core.streams.ReadStream} of {@link io.vertx.core.http.HttpServerRequest}, used for
- * notifying http request to a {@link io.vertx.core.http.HttpServer}.
- *
- * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
- */
+ * A {@link io.vertx.groovy.core.streams.ReadStream} of {@link io.vertx.groovy.core.http.HttpServerRequest}, used for
+ * notifying http request to a {@link io.vertx.groovy.core.http.HttpServer}.
+*/
 @CompileStatic
 public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
   final def io.vertx.core.http.HttpServerRequestStream delegate;

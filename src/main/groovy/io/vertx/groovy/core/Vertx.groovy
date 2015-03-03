@@ -57,13 +57,11 @@ import io.vertx.groovy.core.http.HttpClient
  * <p>
  * Most functionality in Vert.x core is fairly low level.
  * <p>
- * To create an instance of this class you can use the static factory methods: {@link #vertx},
- * {@link #vertx(io.vertx.core.VertxOptions)} and {@link #clusteredVertx(io.vertx.core.VertxOptions, Handler)}.
+ * To create an instance of this class you can use the static factory methods: {@link io.vertx.groovy.core.Vertx#vertx},
+ * {@link io.vertx.groovy.core.Vertx#vertx} and {@link io.vertx.groovy.core.Vertx#clusteredVertx}.
  * <p>
  * Please see the user manual for more detailed usage information.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class Vertx implements Measured {
   final def io.vertx.core.Vertx delegate;
@@ -75,7 +73,6 @@ public class Vertx implements Measured {
   }
   /**
    * The metric base name
-   *
    * @return the metric base name
    */
   public String metricBaseName() {
@@ -84,9 +81,7 @@ public class Vertx implements Measured {
   }
   /**
    * Will return the metrics that correspond with this measured object.
-   *
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
-   * the json data representing that metric
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
    */
   public Map<String, Map<String, Object>> metrics() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
@@ -94,7 +89,6 @@ public class Vertx implements Measured {
   }
   /**
    * Creates a non clustered instance using default options.
-   *
    * @return the instance
    */
   public static Vertx vertx() {
@@ -103,8 +97,7 @@ public class Vertx implements Measured {
   }
   /**
    * Creates a non clustered instance using the specified options
-   *
-   * @param options  the options to use
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/VertxOptions.html">VertxOptions</a>)
    * @return the instance
    */
   public static Vertx vertx(Map<String, Object> options) {
@@ -115,9 +108,8 @@ public class Vertx implements Measured {
    * Creates a clustered instance using the specified options.
    * <p>
    * The instance is created asynchronously and the resultHandler is called with the result when it is ready.
-   *
-   * @param options  the options to use
-   * @param resultHandler  the result handler that will receive the result
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/VertxOptions.html">VertxOptions</a>)
+   * @param resultHandler the result handler that will receive the result
    */
   public static void clusteredVertx(Map<String, Object> options = [:], Handler<AsyncResult<Vertx>> resultHandler) {
     io.vertx.core.Vertx.clusteredVertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.Vertx>>() {
@@ -134,7 +126,6 @@ public class Vertx implements Measured {
   }
   /**
    * Gets the current context
-   *
    * @return The current context or null if no current context
    */
   public static Context currentContext() {
@@ -143,7 +134,6 @@ public class Vertx implements Measured {
   }
   /**
    * Gets the current context, or creates one if there isn't one
-   *
    * @return The current context (created if didn't exist)
    */
   public Context getOrCreateContext() {
@@ -152,8 +142,7 @@ public class Vertx implements Measured {
   }
   /**
    * Create a TCP/SSL server using the specified options
-   *
-   * @param options  the options to use
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/NetServerOptions.html">NetServerOptions</a>)
    * @return the server
    */
   public NetServer createNetServer(Map<String, Object> options) {
@@ -162,7 +151,6 @@ public class Vertx implements Measured {
   }
   /**
    * Create a TCP/SSL server using default options
-   *
    * @return the server
    */
   public NetServer createNetServer() {
@@ -171,8 +159,7 @@ public class Vertx implements Measured {
   }
   /**
    * Create a TCP/SSL client using the specified options
-   *
-   * @param options  the options to use
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/NetClientOptions.html">NetClientOptions</a>)
    * @return the client
    */
   public NetClient createNetClient(Map<String, Object> options) {
@@ -181,7 +168,6 @@ public class Vertx implements Measured {
   }
   /**
    * Create a TCP/SSL client using default options
-   *
    * @return the client
    */
   public NetClient createNetClient() {
@@ -190,8 +176,7 @@ public class Vertx implements Measured {
   }
   /**
    * Create an HTTP/HTTPS server using the specified options
-   *
-   * @param options  the options to use
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/HttpServerOptions.html">HttpServerOptions</a>)
    * @return the server
    */
   public HttpServer createHttpServer(Map<String, Object> options) {
@@ -200,7 +185,6 @@ public class Vertx implements Measured {
   }
   /**
    * Create an HTTP/HTTPS server using default options
-   *
    * @return the server
    */
   public HttpServer createHttpServer() {
@@ -209,8 +193,7 @@ public class Vertx implements Measured {
   }
   /**
    * Create a HTTP/HTTPS client using the specified options
-   *
-   * @param options  the options to use
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/HttpClientOptions.html">HttpClientOptions</a>)
    * @return the client
    */
   public HttpClient createHttpClient(Map<String, Object> options) {
@@ -219,7 +202,6 @@ public class Vertx implements Measured {
   }
   /**
    * Create a HTTP/HTTPS client using default options
-   *
    * @return the client
    */
   public HttpClient createHttpClient() {
@@ -228,8 +210,7 @@ public class Vertx implements Measured {
   }
   /**
    * Create a datagram socket using the specified options
-   *
-   * @param options  the options to use
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/DatagramSocketOptions.html">DatagramSocketOptions</a>)
    * @return the socket
    */
   public DatagramSocket createDatagramSocket(Map<String, Object> options) {
@@ -238,7 +219,6 @@ public class Vertx implements Measured {
   }
   /**
    * Create a datagram socket using default options
-   *
    * @return the socket
    */
   public DatagramSocket createDatagramSocket() {
@@ -247,7 +227,6 @@ public class Vertx implements Measured {
   }
   /**
    * Get the filesystem object. There is a single instance of FileSystem per Vertx instance.
-   *
    * @return the filesystem object
    */
   public FileSystem fileSystem() {
@@ -260,7 +239,6 @@ public class Vertx implements Measured {
   }
   /**
    * Get the event bus object. There is a single instance of EventBus per Vertx instance.
-   *
    * @return the event bus object
    */
   public EventBus eventBus() {
@@ -273,9 +251,8 @@ public class Vertx implements Measured {
   }
   /**
    * Create a DNS client to connect to a DNS server at the specified host and port
-   *
-   * @param port  the port
-   * @param host  the host
+   * @param port the port
+   * @param host the host
    * @return the DNS client
    */
   public DnsClient createDnsClient(int port, String host) {
@@ -284,7 +261,6 @@ public class Vertx implements Measured {
   }
   /**
    * Get the shared data object. There is a single instance of SharedData per Vertx instance.
-   *
    * @return the shared data object
    */
   public SharedData sharedData() {
@@ -296,11 +272,10 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * Set a one-shot timer to fire after {@code delay} milliseconds, at which point {@code handler} will be called with
+   * Set a one-shot timer to fire after <code>delay</code> milliseconds, at which point <code>handler</code> will be called with
    * the id of the timer.
-   *
-   * @param delay  the delay in milliseconds, after which the timer will fire
-   * @param handler  the handler that will be called with the timer ID when the timer fires
+   * @param delay the delay in milliseconds, after which the timer will fire
+   * @param handler the handler that will be called with the timer ID when the timer fires
    * @return the unique ID of the timer
    */
   public long setTimer(long delay, Handler<Long> handler) {
@@ -308,10 +283,9 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * Returns a one-shot timer as a read stream. The timer will be fired after {@code delay} milliseconds after
-   * the {@link ReadStream#handler} has been called.
-   *
-   * @param delay  the delay in milliseconds, after which the timer will fire
+   * Returns a one-shot timer as a read stream. The timer will be fired after <code>delay</code> milliseconds after
+   * the  has been called.
+   * @param delay the delay in milliseconds, after which the timer will fire
    * @return the timer stream
    */
   public TimeoutStream timerStream(long delay) {
@@ -319,12 +293,10 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * Set a periodic timer to fire every {@code delay} milliseconds, at which point {@code handler} will be called with
+   * Set a periodic timer to fire every <code>delay</code> milliseconds, at which point <code>handler</code> will be called with
    * the id of the timer.
-   *
-   *
-   * @param delay  the delay in milliseconds, after which the timer will fire
-   * @param handler  the handler that will be called with the timer ID when the timer fires
+   * @param delay the delay in milliseconds, after which the timer will fire
+   * @param handler the handler that will be called with the timer ID when the timer fires
    * @return the unique ID of the timer
    */
   public long setPeriodic(long delay, Handler<Long> handler) {
@@ -332,10 +304,9 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * Returns a periodic timer as a read stream. The timer will be fired every {@code delay} milliseconds after
-   * the {@link ReadStream#handler} has been called.
-   *
-   * @param delay  the delay in milliseconds, after which the timer will fire
+   * Returns a periodic timer as a read stream. The timer will be fired every <code>delay</code> milliseconds after
+   * the  has been called.
+   * @param delay the delay in milliseconds, after which the timer will fire
    * @return the periodic stream
    */
   public TimeoutStream periodicStream(long delay) {
@@ -343,9 +314,8 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
-   * Cancels the timer with the specified {@code id}.
-   *
-   * @param id  The id of the timer to cancel
+   * Cancels the timer with the specified <code>id</code>.
+   * @param id The id of the timer to cancel
    * @return true if the timer was successfully cancelled, or false if the timer does not exist.
    */
   public boolean cancelTimer(long id) {
@@ -355,7 +325,6 @@ public class Vertx implements Measured {
   /**
    * Puts the handler on the event queue for the current context so it will be run asynchronously ASAP after all
    * preceeding events have been handled.
-   *
    * @param action - a handler representing the action to execute
    */
   public void runOnContext(Handler<Void> action) {
@@ -372,9 +341,8 @@ public class Vertx implements Measured {
     this.delegate.close();
   }
   /**
-   * Like {@link #close} but the completionHandler will be called when the close is complete
-   *
-   * @param completionHandler  The handler will be notified when the close is complete.
+   * Like {@link io.vertx.groovy.core.Vertx#close} but the completionHandler will be called when the close is complete
+   * @param completionHandler The handler will be notified when the close is complete.
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
@@ -382,35 +350,32 @@ public class Vertx implements Measured {
   /**
    * Deploy a verticle instance given a name.
    * <p>
-   * Given the name, Vert.x selects a {@link VerticleFactory} instance to use to instantiate the verticle.
+   * Given the name, Vert.x selects a  instance to use to instantiate the verticle.
    * <p>
    * For the rules on how factories are selected please consult the user manual.
-   *
-   * @param name  the name.
+   * @param name the name.
    */
   public void deployVerticle(String name) {
     this.delegate.deployVerticle(name);
   }
   /**
-   * Like {@link #deployVerticle(String)} but the completionHandler will be notified when the deployment is complete.
+   * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but the completionHandler will be notified when the deployment is complete.
    * <p>
    * If the deployment is successful the result will contain a String representing the unique deployment ID of the
    * deployment.
    * <p>
    * This deployment ID can subsequently be used to undeploy the verticle.
-   *
-   * @param name  The identifier
-   * @param completionHandler  a handler which will be notified when the deployment is complete
+   * @param name The identifier
+   * @param completionHandler a handler which will be notified when the deployment is complete
    */
   public void deployVerticle(String name, Handler<AsyncResult<String>> completionHandler) {
     this.delegate.deployVerticle(name, completionHandler);
   }
   /**
-   * Like {@link #deployVerticle(Verticle)} but {@link io.vertx.core.DeploymentOptions} are provided to configure the
+   * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a> are provided to configure the
    * deployment.
-   *
-   * @param name  the name
-   * @param options  the deployment options.
+   * @param name the name
+   * @param options the deployment options. (see <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a>)
    */
   public void deployVerticle(String name, Map<String, Object> options) {
     this.delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
@@ -419,24 +384,21 @@ public class Vertx implements Measured {
    * Undeploy a verticle deployment.
    * <p>
    * The actual undeployment happens asynchronously and may not complete until after the method has returned.
-   *
-   * @param deploymentID  the deployment ID
+   * @param deploymentID the deployment ID
    */
   public void undeploy(String deploymentID) {
     this.delegate.undeploy(deploymentID);
   }
   /**
-   * Like {@link #undeploy(String) } but the completionHandler will be notified when the undeployment is complete.
-   *
-   * @param deploymentID  the deployment ID
-   * @param completionHandler  a handler which will be notified when the undeployment is complete
+   * Like {@link io.vertx.groovy.core.Vertx #undeploy(String)} but the completionHandler will be notified when the undeployment is complete.
+   * @param deploymentID the deployment ID
+   * @param completionHandler a handler which will be notified when the undeployment is complete
    */
   public void undeploy(String deploymentID, Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.undeploy(deploymentID, completionHandler);
   }
   /**
    * Return a Set of deployment IDs for the currently deployed deploymentIDs.
-   *
    * @return Set of deployment IDs
    */
   public Set<String> deploymentIDs() {
@@ -446,18 +408,16 @@ public class Vertx implements Measured {
   /**
    * Safely execute some blocking code.
    * <p>
-   * Executes the blocking code in the handler {@code blockingCodeHandler} using a thread from the worker pool.
+   * Executes the blocking code in the handler <code>blockingCodeHandler</code> using a thread from the worker pool.
    * <p>
-   * When the code is complete the handler {@code resultHandler} will be called with the result on the original context
+   * When the code is complete the handler <code>resultHandler</code> will be called with the result on the original context
    * (e.g. on the original event loop of the caller).
    * <p>
-   * A {@code Future} instance is passed into {@code blockingCodeHandler}. When the blocking code successfully completes,
-   * the handler should call the {@link Future#complete} or {@link Future#complete(Object)} method, or the {@link Future#fail}
+   * A <code>Future</code> instance is passed into <code>blockingCodeHandler</code>. When the blocking code successfully completes,
+   * the handler should call the {@link io.vertx.groovy.core.Future#complete} or {@link io.vertx.groovy.core.Future#complete} method, or the {@link io.vertx.groovy.core.Future#fail}
    * method if it failed.
-   *
-   * @param blockingCodeHandler  handler representing the blocking code to run
-   * @param resultHandler  handler that will be called when the blocking code is complete
-   * @param <T> the type of the result
+   * @param blockingCodeHandler handler representing the blocking code to run
+   * @param resultHandler handler that will be called when the blocking code is complete
    */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, Handler<AsyncResult<T>> resultHandler) {
     this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {

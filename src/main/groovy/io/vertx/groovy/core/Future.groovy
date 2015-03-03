@@ -22,9 +22,7 @@ import io.vertx.core.Handler
 /**
  * Represents the result of an action that may, or may not, have occurred yet.
  * <p>
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class Future<T> {
   final def io.vertx.core.Future delegate;
@@ -36,9 +34,7 @@ public class Future<T> {
   }
   /**
    * Create a future that hasn't completed yet
-   *
-   * @param <T>  the result type
-   * @return  the future
+   * @return the future
    */
   public static <T> Future<T> future() {
     def ret= Future.FACTORY.apply(io.vertx.core.Future.future());
@@ -46,9 +42,7 @@ public class Future<T> {
   }
   /**
    * Create a succeeded future with a null result
-   *
-   * @param <T>  the result type
-   * @return  the future
+   * @return the future
    */
   public static <T> Future<T> succeededFuture() {
     def ret= Future.FACTORY.apply(io.vertx.core.Future.succeededFuture());
@@ -56,10 +50,8 @@ public class Future<T> {
   }
   /**
    * Created a succeeded future with the specified result.
-   *
-   * @param result  the result
-   * @param <T>  the result type
-   * @return  the future
+   * @param result the result
+   * @return the future
    */
   public static <T> Future<T> succeededFuture(T result) {
     def ret= Future.FACTORY.apply(io.vertx.core.Future.succeededFuture(InternalHelper.unwrapObject(result)));
@@ -67,10 +59,8 @@ public class Future<T> {
   }
   /**
    * Create a failed future with the specified failure message.
-   *
-   * @param failureMessage  the failure message
-   * @param <T>  the result type
-   * @return  the future
+   * @param failureMessage the failure message
+   * @return the future
    */
   public static <T> Future<T> failedFuture(String failureMessage) {
     def ret= Future.FACTORY.apply(io.vertx.core.Future.failedFuture(failureMessage));
@@ -80,7 +70,6 @@ public class Future<T> {
    * Has the future completed?
    * <p>
    * It's completed if it's either succeeded or failed.
-   *
    * @return true if completed, false if not
    */
   public boolean isComplete() {
@@ -92,9 +81,7 @@ public class Future<T> {
    * <p>
    * If the future has already been completed it will be called immediately. Otherwise it will be called when the
    * future is completed.
-   *
-   * @param handler  the Handler that will be called with the result
-
+   * @param handler the Handler that will be called with the result
    */
   public void setHandler(Handler<AsyncResult<T>> handler) {
     ((io.vertx.core.Future) this.delegate).setHandler(new Handler<AsyncResult<Object>>() {
@@ -111,25 +98,20 @@ public class Future<T> {
   }
   /**
    * Set the result. Any handler will be called, if there is one, and the future will be marked as completed.
-   *
-   * @param result  the result
-   * @throws IllegalStateException when the future is already completed
+   * @param result the result
    */
   public void complete(T result) {
     ((io.vertx.core.Future) this.delegate).complete(InternalHelper.unwrapObject(result));
   }
   /**
    * Set a null result. Any handler will be called, if there is one, and the future will be marked as completed.
-   *
-   * @throws IllegalStateException when the future is already completed
    */
   public void complete() {
     ((io.vertx.core.Future) this.delegate).complete();
   }
   /**
    * Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.
-   *
-   * @param failureMessage  the failure message
+   * @param failureMessage the failure message
    */
   public void fail(String failureMessage) {
     ((io.vertx.core.Future) this.delegate).fail(failureMessage);

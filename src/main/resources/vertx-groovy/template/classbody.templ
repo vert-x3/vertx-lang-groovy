@@ -11,9 +11,15 @@
 	  }\n
 
 	@foreach{method:methods}
-	@if{method.comment != null}
+	@if{method.doc != null}
 	  /**\n
-	   *@{method.comment.replaceAll('\n(?!$)', '\n   *')}
+	@{renderDocToHtml("   *", method.doc, renderLinkToHtml)}
+	@foreach{param: method.params}
+	   * @param @{param.name} @if{param.description != null}@{param.description}@end{}@if{param.type.kind == CLASS_DATA_OBJECT} (see @{renderDataObjectHtmlLink(param.type)})@end{}\n
+	@end{}
+	@if{!method.returnType.name.equals("void")}
+	   * @return @if{method.returnDescription != null}@{method.returnDescription}@end{}@if{method.returnType.kind == CLASS_DATA_OBJECT} (see @{renderDataObjectHtmlLink(method.returnType)})@end{}\n
+	@end{}
 	   */\n
 	@end{}
 	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeParam:method.typeParams}@{typeParam.name}@end{', '}> @end{}@includeNamed{'returnTypeTemplate';returnType=method.returnType} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultDataObject=defaultDataObjectMap[method]}@end{', '}) {\n

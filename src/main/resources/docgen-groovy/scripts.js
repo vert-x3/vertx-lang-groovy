@@ -34,7 +34,12 @@ function renderSource(elt, source) {
 }
 
 function toTypeLink(elt) {
-    return "groovydoc/" + elt.getQualifiedName().toString().replace("io.vertx.", "io.vertx.groovy.").replace(/\./g, "/") + ".html";
+    var annotation = java.lang.Thread.currentThread().getContextClassLoader().loadClass("io.vertx.codegen.annotations.DataObject");
+    if (elt.getAnnotation(annotation) != null) {
+        return "../cheatsheet/" + elt.getSimpleName().toString() + ".html";
+    } else {
+        return "groovydoc/" + elt.getQualifiedName().toString().replace("io.vertx.", "io.vertx.groovy.").replace(/\./g, "/") + ".html";
+    }
 }
 
 function toMethodLink(elt) {

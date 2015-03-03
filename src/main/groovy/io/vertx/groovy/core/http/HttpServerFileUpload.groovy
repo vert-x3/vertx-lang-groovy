@@ -22,9 +22,7 @@ import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
  * Represents an file upload from an HTML FORM.
- *
- * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
- */
+*/
 @CompileStatic
 public class HttpServerFileUpload implements ReadStream<Buffer> {
   final def io.vertx.core.http.HttpServerFileUpload delegate;
@@ -60,8 +58,8 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * Stream the content of this upload to the given file on storage.
-   *
-   * @param filename  the name of the file
+   * @param filename the name of the file
+   * @return 
    */
   public HttpServerFileUpload streamToFileSystem(String filename) {
     this.delegate.streamToFileSystem(filename);
@@ -69,6 +67,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return the filename which was used when upload the file.
+   * @return 
    */
   public String filename() {
     def ret = this.delegate.filename();
@@ -76,6 +75,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return the name of the attribute
+   * @return 
    */
   public String name() {
     def ret = this.delegate.name();
@@ -83,6 +83,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return  the content type for the upload
+   * @return 
    */
   public String contentType() {
     def ret = this.delegate.contentType();
@@ -90,6 +91,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return the contentTransferEncoding for the upload
+   * @return 
    */
   public String contentTransferEncoding() {
     def ret = this.delegate.contentTransferEncoding();
@@ -97,6 +99,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return the charset for the upload
+   * @return 
    */
   public String charset() {
     def ret = this.delegate.charset();
@@ -104,8 +107,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * The size of the upload may not be available until it is all read.
-   * Check {@link #isSizeAvailable} to determine this
-   *
+   * Check {@link io.vertx.groovy.core.http.HttpServerFileUpload#isSizeAvailable} to determine this
    * @return the size of the upload (in bytes)
    */
   public long size() {
@@ -113,7 +115,8 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * @return true if the size of the upload can be retrieved via {@link #size()}.
+   * @return true if the size of the upload can be retrieved via {@link io.vertx.groovy.core.http.HttpServerFileUpload#size}.
+   * @return 
    */
   public boolean isSizeAvailable() {
     def ret = this.delegate.isSizeAvailable();

@@ -30,14 +30,12 @@ import io.vertx.groovy.core.net.NetSocket
  * <p>
  * Instances are created for each request and passed to the user via a handler.
  * <p>
- * Each instance of this class is associated with a corresponding {@link HttpServerResponse} instance via
- * {@link #response}.<p>
- * It implements {@link io.vertx.core.streams.ReadStream} so it can be used with
- * {@link io.vertx.core.streams.Pump} to pump data with flow control.
+ * Each instance of this class is associated with a corresponding {@link io.vertx.groovy.core.http.HttpServerResponse} instance via
+ * {@link io.vertx.groovy.core.http.HttpServerRequest#response}.<p>
+ * It implements {@link io.vertx.groovy.core.streams.ReadStream} so it can be used with
+ * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
  * <p>
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class HttpServerRequest implements ReadStream<Buffer> {
   final def io.vertx.core.http.HttpServerRequest delegate;
@@ -73,6 +71,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the HTTP version of the request
+   * @return 
    */
   public HttpVersion version() {
     def ret = this.delegate.version();
@@ -80,6 +79,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the HTTP method for the request.
+   * @return 
    */
   public HttpMethod method() {
     def ret = this.delegate.method();
@@ -87,6 +87,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the URI of the request. This is usually a relative URI
+   * @return 
    */
   public String uri() {
     def ret = this.delegate.uri();
@@ -94,6 +95,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return The path part of the uri. For example /somepath/somemorepath/someresource.foo
+   * @return 
    */
   public String path() {
     def ret = this.delegate.path();
@@ -101,14 +103,16 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the query part of the uri. For example someparam=32&amp;someotherparam=x
+   * @return 
    */
   public String query() {
     def ret = this.delegate.query();
     return ret;
   }
   /**
-   * @return the response. Each instance of this class has an {@link HttpServerResponse} instance attached to it. This is used
+   * @return the response. Each instance of this class has an {@link io.vertx.groovy.core.http.HttpServerResponse} instance attached to it. This is used
    * to send the response back to the client.
+   * @return 
    */
   public HttpServerResponse response() {
     if (cached_0 != null) {
@@ -120,6 +124,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the headers in the request.
+   * @return 
    */
   public MultiMap headers() {
     if (cached_1 != null) {
@@ -131,8 +136,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * Return the first header value with the specified name
-   *
-   * @param headerName  the header name
+   * @param headerName the header name
    * @return the header value
    */
   public String getHeader(String headerName) {
@@ -141,6 +145,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the query parameters in the request
+   * @return 
    */
   public MultiMap params() {
     if (cached_2 != null) {
@@ -152,8 +157,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * Return the first param value with the specified name
-   *
-   * @param paramName  the param name
+   * @param paramName the param name
    * @return the param value
    */
   public String getParam(String paramName) {
@@ -162,6 +166,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the remote (client side) address of the request
+   * @return 
    */
   public SocketAddress remoteAddress() {
     if (cached_3 != null) {
@@ -173,6 +178,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the local (server side) address of the server that handles the request
+   * @return 
    */
   public SocketAddress localAddress() {
     if (cached_4 != null) {
@@ -184,6 +190,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the absolute URI corresponding to the the HTTP request
+   * @return 
    */
   public String absoluteURI() {
     def ret = this.delegate.absoluteURI();
@@ -194,8 +201,8 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * <p>
    * This saves the user having to manually setting a data and end handler and append the chunks of the body until
    * the whole body received. Don't use this if your request body is large - you could potentially run out of RAM.
-   *
    * @param bodyHandler This handler will be called after all the body has been received
+   * @return 
    */
   public HttpServerRequest bodyHandler(Handler<Buffer> bodyHandler) {
     this.delegate.bodyHandler(new Handler<io.vertx.core.buffer.Buffer>() {
@@ -213,7 +220,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * Once you have called this method, you must handle writing to the connection yourself using the net socket,
    * the server request instance will no longer be usable as normal.
    * Writing to the socket directly if you don't know what you're doing can easily break the HTTP protocol.
-   *
    * @return the net socket
    */
   public NetSocket netSocket() {
@@ -227,8 +233,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   /**
    * Call this with true if you are expecting a multi-part body to be submitted in the request.
    * This must be called before the body of the request has been received
-   *
-   * @param expect  true - if you are expecting a multi-part body
+   * @param expect true - if you are expecting a multi-part body
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest setExpectMultipart(boolean expect) {
@@ -236,7 +241,8 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return this;
   }
   /**
-   * @return  true if we are expecting a multi-part body for this request. See {@link #setExpectMultipart}.
+   * @return  true if we are expecting a multi-part body for this request. See {@link io.vertx.groovy.core.http.HttpServerRequest#setExpectMultipart}.
+   * @return 
    */
   public boolean isExpectMultipart() {
     def ret = this.delegate.isExpectMultipart();
@@ -245,7 +251,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   /**
    * Set an upload handler. The handler will get notified once a new file upload was received to allow you to deal
    * with the file upload.
-   *
+   * @param uploadHandler 
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest uploadHandler(Handler<HttpServerFileUpload> uploadHandler) {
@@ -262,8 +268,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * Be aware that the attributes will only be available after the whole body has been received, i.e. after
    * the request end handler has been called.
    * <p>
-   * {@link #setExpectMultipart(boolean)} must be called first before trying to get the form attributes.
-   *
+   * {@link io.vertx.groovy.core.http.HttpServerRequest#setExpectMultipart} must be called first before trying to get the form attributes.
    * @return the form attributes
    */
   public MultiMap formAttributes() {
@@ -276,8 +281,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * Return the first form attribute value with the specified name
-   *
-   * @param attributeName  the attribute name
+   * @param attributeName the attribute name
    * @return the attribute value
    */
   public String getFormAttribute(String attributeName) {
@@ -289,8 +293,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * <p>
    * This is an alternative way of handling WebSockets and can only be used if no websocket handlers are set on the
    * Http server, and can only be used during the upgrade request during the WebSocket handshake.
-   *
-   * @return  the WebSocket
+   * @return the WebSocket
    */
   public ServerWebSocket upgrade() {
     def ret= ServerWebSocket.FACTORY.apply(this.delegate.upgrade());

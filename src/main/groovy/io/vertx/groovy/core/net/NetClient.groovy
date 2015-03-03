@@ -29,9 +29,7 @@ import io.vertx.core.Handler
  * <p>
  * This client supports a configurable number of connection attempts and a configurable
  * delay between attempts.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class NetClient implements Measured {
   final def io.vertx.core.net.NetClient delegate;
@@ -43,7 +41,6 @@ public class NetClient implements Measured {
   }
   /**
    * The metric base name
-   *
    * @return the metric base name
    */
   public String metricBaseName() {
@@ -52,22 +49,20 @@ public class NetClient implements Measured {
   }
   /**
    * Will return the metrics that correspond with this measured object.
-   *
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
-   * the json data representing that metric
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
    */
   public Map<String, Map<String, Object>> metrics() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
     return ret;
   }
   /**
-   * Open a connection to a server at the specific {@code port} and {@code host}.
+   * Open a connection to a server at the specific <code>port</code> and <code>host</code>.
    * <p>
-   * {@code host} can be a valid host name or IP address. The connect is done asynchronously and on success, a
-   * {@link NetSocket} instance is supplied via the {@code connectHandler} instance
-   *
-   * @param port  the port
-   * @param host  the host
+   * <code>host</code> can be a valid host name or IP address. The connect is done asynchronously and on success, a
+   * {@link io.vertx.groovy.core.net.NetSocket} instance is supplied via the <code>connectHandler</code> instance
+   * @param port the port
+   * @param host the host
+   * @param connectHandler 
    * @return a reference to this, so the API can be used fluently
    */
   public NetClient connect(int port, String host, Handler<AsyncResult<NetSocket>> connectHandler) {

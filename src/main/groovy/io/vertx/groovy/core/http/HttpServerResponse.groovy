@@ -26,7 +26,7 @@ import io.vertx.core.Handler
  * Represents a server-side HTTP response.
  * <p>
  * An instance of this is created and associated to every instance of
- * {@link HttpServerRequest} that.
+ * {@link io.vertx.groovy.core.http.HttpServerRequest} that.
  * <p>
  * It allows the developer to control the HTTP response that is sent back to the
  * client for a particular HTTP request.
@@ -39,11 +39,9 @@ import io.vertx.core.Handler
  * serving files from the server since buffers do not have to be read one by one
  * from the file and written to the outgoing socket.
  * <p>
- * It implements {@link io.vertx.core.streams.WriteStream} so it can be used with
- * {@link io.vertx.core.streams.Pump} to pump data with flow control.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+ * It implements {@link io.vertx.groovy.core.streams.WriteStream} so it can be used with
+ * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
+*/
 @CompileStatic
 public class HttpServerResponse implements WriteStream<Buffer> {
   final def io.vertx.core.http.HttpServerResponse delegate;
@@ -54,9 +52,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return delegate;
   }
   /**
-   * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
-   * #setWriteQueueMaxSize}
-   *
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.HttpServerResponse#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
@@ -80,7 +76,8 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * @return the HTTP status code of the response. The default is {@code 200} representing {@code OK}.
+   * @return the HTTP status code of the response. The default is <code>200</code> representing <code>OK</code>.
+   * @return 
    */
   public int getStatusCode() {
     def ret = this.delegate.getStatusCode();
@@ -89,7 +86,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * Set the status code. If the status message hasn't been explicitly set, a default status message corresponding
    * to the code will be looked-up and used.
-   *
+   * @param statusCode 
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setStatusCode(int statusCode) {
@@ -98,7 +95,8 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return the HTTP status message of the response. If this is not specified a default value will be used depending on what
-   * {@link #setStatusCode} has been set to.
+   * {@link io.vertx.groovy.core.http.HttpServerResponse#setStatusCode} has been set to.
+   * @return 
    */
   public String getStatusMessage() {
     def ret = this.delegate.getStatusMessage();
@@ -106,7 +104,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * Set the status message
-   *
+   * @param statusMessage 
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setStatusMessage(String statusMessage) {
@@ -114,18 +112,18 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * If {@code chunked} is {@code true}, this response will use HTTP chunked encoding, and each call to write to the body
+   * If <code>chunked</code> is <code>true</code>, this response will use HTTP chunked encoding, and each call to write to the body
    * will correspond to a new HTTP chunk sent on the wire.
    * <p>
-   * If chunked encoding is used the HTTP header {@code Transfer-Encoding} with a value of {@code Chunked} will be
+   * If chunked encoding is used the HTTP header <code>Transfer-Encoding</code> with a value of <code>Chunked</code> will be
    * automatically inserted in the response.
    * <p>
-   * If {@code chunked} is {@code false}, this response will not use HTTP chunked encoding, and therefore the total size
-   * of any data that is written in the respone body must be set in the {@code Content-Length} header <b>before</b> any
+   * If <code>chunked</code> is <code>false</code>, this response will not use HTTP chunked encoding, and therefore the total size
+   * of any data that is written in the respone body must be set in the <code>Content-Length</code> header <b>before</b> any
    * data is written out.
    * <p>
    * An HTTP chunked response is typically used when you do not know the total size of the request body up front.
-   *
+   * @param chunked 
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setChunked(boolean chunked) {
@@ -134,6 +132,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return is the response chunked?
+   * @return 
    */
   public boolean isChunked() {
     def ret = this.delegate.isChunked();
@@ -141,6 +140,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return The HTTP headers
+   * @return 
    */
   public MultiMap headers() {
     if (cached_0 != null) {
@@ -152,9 +152,8 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * Put an HTTP header
-   *
-   * @param name  the header name
-   * @param value  the header value.
+   * @param name the header name
+   * @param value the header value.
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse putHeader(String name, String value) {
@@ -163,6 +162,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return The HTTP trailers
+   * @return 
    */
   public MultiMap trailers() {
     if (cached_1 != null) {
@@ -174,9 +174,8 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * Put an HTTP trailer
-   *
-   * @param name  the trailer name
-   * @param value  the trailer value
+   * @param name the trailer name
+   * @param value the trailer value
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse putTrailer(String name, String value) {
@@ -186,8 +185,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * Set a close handler for the response. This will be called if the underlying connection closes before the response
    * is complete.
-   *
-   * @param handler  the handler
+   * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse closeHandler(Handler<Void> handler) {
@@ -195,10 +193,9 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Write a {@link String} to the response body, encoded using the encoding {@code enc}.
-   *
-   * @param chunk  the string to write
-   * @param enc  the encoding to use
+   * Write a  to the response body, encoded using the encoding <code>enc</code>.
+   * @param chunk the string to write
+   * @param enc the encoding to use
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse write(String chunk, String enc) {
@@ -206,9 +203,8 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Write a {@link String} to the response body, encoded in UTF-8.
-   *
-   * @param chunk  the string to write
+   * Write a  to the response body, encoded in UTF-8.
+   * @param chunk the string to write
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse write(String chunk) {
@@ -216,27 +212,24 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Same as {@link #end(Buffer)} but writes a String in UTF-8 encoding before ending the response.
-   *
-   * @param chunk  the string to write before ending the response
+   * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes a String in UTF-8 encoding before ending the response.
+   * @param chunk the string to write before ending the response
    */
   public void end(String chunk) {
     this.delegate.end(chunk);
   }
   /**
-   * Same as {@link #end(Buffer)} but writes a String with the specified encoding before ending the response.
-   *
-   * @param chunk  the string to write before ending the response
-   * @param enc  the encoding to use
+   * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes a String with the specified encoding before ending the response.
+   * @param chunk the string to write before ending the response
+   * @param enc the encoding to use
    */
   public void end(String chunk, String enc) {
     this.delegate.end(chunk, enc);
   }
   /**
-   * Same as {@link #end()} but writes some data to the response body before ending. If the response is not chunked and
+   * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes some data to the response body before ending. If the response is not chunked and
    * no other data has been written then the @code{Content-Length} header will be automatically set.
-   *
-   * @param chunk  the buffer to write before ending the response
+   * @param chunk the buffer to write before ending the response
    */
   public void end(Buffer chunk) {
     this.delegate.end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
@@ -251,13 +244,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     this.delegate.end();
   }
   /**
-   * Ask the OS to stream a file as specified by {@code filename} directly
+   * Ask the OS to stream a file as specified by <code>filename</code> directly
    * from disk to the outgoing connection, bypassing userspace altogether
    * (where supported by the underlying operating system.
    * This is a very efficient way to serve files.<p>
    * The actual serve is asynchronous and may not complete until some time after this method has returned.
-   *
-   * @param filename  path to the file to serve
+   * @param filename path to the file to serve
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename) {
@@ -265,11 +257,10 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Like {@link #sendFile(String)} but providing a handler which will be notified once the file has been completely
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} but providing a handler which will be notified once the file has been completely
    * written to the wire.
-   *
    * @param filename path to the file to serve
-   * @param resultHandler  handler that will be called on completion
+   * @param resultHandler handler that will be called on completion
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
@@ -284,6 +275,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return has the response already ended?
+   * @return 
    */
   public boolean ended() {
     def ret = this.delegate.ended();
@@ -291,6 +283,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return have the headers for the response already been written?
+   * @return 
    */
   public boolean headWritten() {
     def ret = this.delegate.headWritten();
@@ -299,8 +292,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * Provide a handler that will be called just before the headers are written to the wire.<p>
    * This provides a hook allowing you to add any more headers or do any more operations before this occurs.
-   *
-   * @param handler  the handler
+   * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse headersEndHandler(Handler<Void> handler) {
@@ -311,8 +303,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * Provide a handler that will be called just before the last part of the body is written to the wire
    * and the response is ended.<p>
    * This provides a hook allowing you to do any more operations before this occurs.
-   *
-   * @param handler  the handler
+   * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse bodyEndHandler(Handler<Void> handler) {

@@ -24,11 +24,9 @@ import io.vertx.groovy.core.net.SocketAddress
 /**
  * Represents a server side WebSocket.
  * <p>
- * Instances of this class are passed into a {@link io.vertx.core.http.HttpServer#websocketHandler} or provided
- * when a WebSocket handshake is manually {@link HttpServerRequest#upgrade}ed.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+ * Instances of this class are passed into a {@link io.vertx.groovy.core.http.HttpServer#websocketHandler} or provided
+ * when a WebSocket handshake is manually {@link io.vertx.groovy.core.http.HttpServerRequest#upgrade}ed.
+*/
 @CompileStatic
 public class ServerWebSocket implements WebSocketBase {
   final def io.vertx.core.http.ServerWebSocket delegate;
@@ -39,9 +37,7 @@ public class ServerWebSocket implements WebSocketBase {
     return delegate;
   }
   /**
-   * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
-   * #setWriteQueueMaxSize}
-   *
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.ServerWebSocket#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
@@ -49,13 +45,12 @@ public class ServerWebSocket implements WebSocketBase {
     return ret;
   }
   /**
-   * When a {@code Websocket} is created it automatically registers an event handler with the event bus - the ID of that
+   * When a <code>Websocket</code> is created it automatically registers an event handler with the event bus - the ID of that
    * handler is given by this method.
    * <p>
    * Given this ID, a different event loop can send a binary frame to that event handler using the event bus and
    * that buffer will be received by this instance in its own event loop and written to the underlying connection. This
    * allows you to write data to other WebSockets which are owned by different event loops.
-   *
    * @return the binary handler id
    */
   public String binaryHandlerID() {
@@ -63,12 +58,13 @@ public class ServerWebSocket implements WebSocketBase {
     return ret;
   }
   /**
-   * When a {@code Websocket} is created it automatically registers an event handler with the eventbus, the ID of that
-   * handler is given by {@code textHandlerID}.
+   * When a <code>Websocket</code> is created it automatically registers an event handler with the eventbus, the ID of that
+   * handler is given by <code>textHandlerID</code>.
    * <p>
    * Given this ID, a different event loop can send a text frame to that event handler using the event bus and
    * that buffer will be received by this instance in its own event loop and written to the underlying connection. This
    * allows you to write data to other WebSockets which are owned by different event loops.
+   * @return 
    */
   public String textHandlerID() {
     def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).textHandlerID();
@@ -82,6 +78,7 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the remote address for this socket
+   * @return 
    */
   public SocketAddress remoteAddress() {
     if (cached_0 != null) {
@@ -93,6 +90,7 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the local address for this socket
+   * @return 
    */
   public SocketAddress localAddress() {
     if (cached_1 != null) {
@@ -164,6 +162,7 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the WebSocket handshake path.
+   * @return 
    */
   public String path() {
     def ret = this.delegate.path();
@@ -171,6 +170,7 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the WebSocket handshake query string.
+   * @return 
    */
   public String query() {
     def ret = this.delegate.query();
@@ -178,6 +178,7 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the headers in the WebSocket handshake
+   * @return 
    */
   public MultiMap headers() {
     if (cached_2 != null) {

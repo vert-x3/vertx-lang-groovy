@@ -23,9 +23,7 @@ import io.vertx.core.Handler
 /**
  * Represents a stream of message that can be written to.
  * <p>
- *
- * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
- */
+*/
 @CompileStatic
 public class MessageProducer<T> implements WriteStream<T> {
   final def io.vertx.core.eventbus.MessageProducer delegate;
@@ -36,9 +34,7 @@ public class MessageProducer<T> implements WriteStream<T> {
     return delegate;
   }
   /**
-   * This will return {@code true} if there are more bytes in the write queue than the value set using {@link
-   * #setWriteQueueMaxSize}
-   *
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.eventbus.MessageProducer#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
@@ -63,8 +59,7 @@ public class MessageProducer<T> implements WriteStream<T> {
   }
   /**
    * Update the delivery options of this producer.
-   *
-   * @param options the new options
+   * @param options the new options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    * @return this producer object
    */
   public MessageProducer<T> deliveryOptions(Map<String, Object> options = [:]) {
@@ -73,6 +68,7 @@ public class MessageProducer<T> implements WriteStream<T> {
   }
   /**
    * @return The address to which the producer produces messages.
+   * @return 
    */
   public String address() {
     def ret = ((io.vertx.core.eventbus.MessageProducer) this.delegate).address();

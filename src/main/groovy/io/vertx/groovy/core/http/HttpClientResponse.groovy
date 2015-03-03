@@ -26,14 +26,12 @@ import io.vertx.groovy.core.net.NetSocket
 /**
  * Represents a client-side HTTP response.
  * <p>
- * Vert.x provides you with one of these via the handler that was provided when creating the {@link io.vertx.core.http.HttpClientRequest}
- * or that was set on the {@link io.vertx.core.http.HttpClientRequest} instance.
+ * Vert.x provides you with one of these via the handler that was provided when creating the {@link io.vertx.groovy.core.http.HttpClientRequest}
+ * or that was set on the {@link io.vertx.groovy.core.http.HttpClientRequest} instance.
  * <p>
- * It implements {@link io.vertx.core.streams.ReadStream} so it can be used with
- * {@link io.vertx.core.streams.Pump} to pump data with flow control.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+ * It implements {@link io.vertx.groovy.core.streams.ReadStream} so it can be used with
+ * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
+*/
 @CompileStatic
 public class HttpClientResponse implements ReadStream<Buffer> {
   final def io.vertx.core.http.HttpClientResponse delegate;
@@ -69,6 +67,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the status code of the response
+   * @return 
    */
   public int statusCode() {
     def ret = this.delegate.statusCode();
@@ -76,6 +75,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the status message of the response
+   * @return 
    */
   public String statusMessage() {
     def ret = this.delegate.statusMessage();
@@ -83,6 +83,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the headers
+   * @return 
    */
   public MultiMap headers() {
     if (cached_0 != null) {
@@ -94,8 +95,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * Return the first header value with the specified name
-   *
-   * @param headerName  the header name
+   * @param headerName the header name
    * @return the header value
    */
   public String getHeader(String headerName) {
@@ -104,8 +104,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * Return the first trailer value with the specified name
-   *
-   * @param trailerName  the trailer name
+   * @param trailerName the trailer name
    * @return the trailer value
    */
   public String getTrailer(String trailerName) {
@@ -114,6 +113,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the trailers
+   * @return 
    */
   public MultiMap trailers() {
     if (cached_1 != null) {
@@ -125,6 +125,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the Set-Cookie headers (including trailers)
+   * @return 
    */
   public List<String> cookies() {
     if (cached_2 != null) {
@@ -139,8 +140,8 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * <p>
    * This saves you having to manually set a dataHandler and an endHandler and append the chunks of the body until
    * the whole body received. Don't use this if your request body is large - you could potentially run out of RAM.
-   *
    * @param bodyHandler This handler will be called after all the body has been received
+   * @return 
    */
   public HttpClientResponse bodyHandler(Handler<Buffer> bodyHandler) {
     this.delegate.bodyHandler(new Handler<io.vertx.core.buffer.Buffer>() {
@@ -155,9 +156,8 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * <p>
    * USE THIS WITH CAUTION! Writing to the socket directly if you don't know what you're doing can easily break the HTTP protocol
    * <p>
-   * One valid use-case for calling this is to receive the {@link io.vertx.core.net.NetSocket} after a HTTP CONNECT was issued to the
+   * One valid use-case for calling this is to receive the {@link io.vertx.groovy.core.net.NetSocket} after a HTTP CONNECT was issued to the
    * remote peer and it responded with a status code of 200.
-   *
    * @return the net socket
    */
   public NetSocket netSocket() {

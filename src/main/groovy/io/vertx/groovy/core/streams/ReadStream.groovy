@@ -21,11 +21,9 @@ import io.vertx.core.Handler
 /**
  * Represents a stream of items that can be read from.
  * <p>
- * Any class that implements this interface can be used by a {@link Pump} to pump data from it
- * to a {@link WriteStream}.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+ * Any class that implements this interface can be used by a {@link io.vertx.groovy.core.streams.Pump} to pump data from it
+ * to a {@link io.vertx.groovy.core.streams.WriteStream}.
+*/
 @CompileStatic
 public interface ReadStream<T> extends StreamBase {
   public Object getDelegate();
@@ -51,8 +49,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
   }
   /**
    * Set an exception handler on the read stream.
-   *
-   * @param handler  the exception handler
+   * @param handler the exception handler
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> exceptionHandler(Handler<Throwable> handler) {
@@ -61,7 +58,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
   }
   /**
    * Set a data handler. As data is read, the handler will be called with the data.
-   *
+   * @param handler 
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> handler(Handler<T> handler) {
@@ -73,8 +70,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
     return this;
   }
   /**
-   * Pause the {@code ReadSupport}. While it's paused, no data will be sent to the {@code dataHandler}
-   *
+   * Pause the <code>ReadSupport</code>. While it's paused, no data will be sent to the <code>dataHandler</code>
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> pause() {
@@ -82,8 +78,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
     return this;
   }
   /**
-   * Resume reading. If the {@code ReadSupport} has been paused, reading will recommence on it.
-   *
+   * Resume reading. If the <code>ReadSupport</code> has been paused, reading will recommence on it.
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> resume() {
@@ -92,7 +87,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
   }
   /**
    * Set an end handler. Once the stream has ended, and there is no more data to be read, this handler will be called.
-   *
+   * @param endHandler 
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> endHandler(Handler<Void> endHandler) {

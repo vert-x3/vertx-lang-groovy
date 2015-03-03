@@ -1,3 +1,5 @@
+@includeNamed{"common.templ"}
+
 @comment{"This is where the generation starts"}
 @comment{"==================================="}
 
@@ -314,10 +316,10 @@ import io.vertx.lang.groovy.InternalHelper\n
 	@end{}
 @end{}
 
-@if{ifaceComment != null}
+@if{doc != null}
 /**\n
- *@{ifaceComment.replaceAll('\n(?!$)', '\n *')}
- */\n
+@{renderDocToHtml(" *", doc, renderLinkToHtml)}
+*/\n
 @end{}
 @CompileStatic\n
 public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN)}

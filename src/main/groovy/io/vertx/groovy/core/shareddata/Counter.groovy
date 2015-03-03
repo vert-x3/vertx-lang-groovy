@@ -22,10 +22,7 @@ import io.vertx.core.Handler
 /**
  * An asynchronous counter that can be used to across the cluster to maintain a consistent count.
  * <p>
- *
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class Counter {
   final def io.vertx.core.shareddata.Counter delegate;
@@ -37,7 +34,6 @@ public class Counter {
   }
   /**
    * Get the current value of the counter
-   *
    * @param resultHandler handler which will be passed the value
    */
   public void get(Handler<AsyncResult<Long>> resultHandler) {
@@ -45,7 +41,6 @@ public class Counter {
   }
   /**
    * Increment the counter atomically and return the new count
-   *
    * @param resultHandler handler which will be passed the value
    */
   public void incrementAndGet(Handler<AsyncResult<Long>> resultHandler) {
@@ -53,7 +48,6 @@ public class Counter {
   }
   /**
    * Increment the counter atomically and return the value before the increment.
-   *
    * @param resultHandler handler which will be passed the value
    */
   public void getAndIncrement(Handler<AsyncResult<Long>> resultHandler) {
@@ -61,7 +55,6 @@ public class Counter {
   }
   /**
    * Decrement the counter atomically and return the new count
-   *
    * @param resultHandler handler which will be passed the value
    */
   public void decrementAndGet(Handler<AsyncResult<Long>> resultHandler) {
@@ -69,8 +62,7 @@ public class Counter {
   }
   /**
    * Add the value to the counter atomically and return the new count
-   *
-   * @param value  the value to add
+   * @param value the value to add
    * @param resultHandler handler which will be passed the value
    */
   public void addAndGet(long value, Handler<AsyncResult<Long>> resultHandler) {
@@ -78,8 +70,7 @@ public class Counter {
   }
   /**
    * Add the value to the counter atomically and return the value before the add
-   *
-   * @param value  the value to add
+   * @param value the value to add
    * @param resultHandler handler which will be passed the value
    */
   public void getAndAdd(long value, Handler<AsyncResult<Long>> resultHandler) {
@@ -88,10 +79,9 @@ public class Counter {
   /**
    * Set the counter to the specified value only if the current value is the expectec value. This happens
    * atomically.
-   *
-   * @param expected  the expected value
-   * @param value  the new value
-   * @param resultHandler  the handler will be passed true on success
+   * @param expected the expected value
+   * @param value the new value
+   * @param resultHandler the handler will be passed true on success
    */
   public void compareAndSet(long expected, long value, Handler<AsyncResult<Boolean>> resultHandler) {
     this.delegate.compareAndSet(expected, value, resultHandler);

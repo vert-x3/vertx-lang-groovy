@@ -32,9 +32,7 @@ import io.vertx.core.Handler
  * Message delivery is best-effort and messages can be lost if failure of all or part of the event bus occurs.
  * <p>
  * Please refer to the documentation for more information on the event bus.
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class EventBus implements Measured {
   final def io.vertx.core.eventbus.EventBus delegate;
@@ -46,7 +44,6 @@ public class EventBus implements Measured {
   }
   /**
    * The metric base name
-   *
    * @return the metric base name
    */
   public String metricBaseName() {
@@ -55,9 +52,7 @@ public class EventBus implements Measured {
   }
   /**
    * Will return the metrics that correspond with this measured object.
-   *
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is
-   * the json data representing that metric
+   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
    */
   public Map<String, Map<String, Object>> metrics() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
@@ -67,9 +62,8 @@ public class EventBus implements Measured {
    * Sends a message.
    * <p>
    * The message will be delivered to at most one of the handlers registered to the address.
-   *
-   * @param address  the address to send it to
-   * @param message  the message, may be {@code null}
+   * @param address the address to send it to
+   * @param message the message, may be {@code null}
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus send(String address, Object message) {
@@ -77,12 +71,11 @@ public class EventBus implements Measured {
     return this;
   }
   /**
-   * Like {@link #send(String, Object)} but specifying a {@code replyHandler} that will be called if the recipient
+   * Like {@link io.vertx.groovy.core.eventbus.EventBus#send} but specifying a <code>replyHandler</code> that will be called if the recipient
    * subsequently replies to the message.
-   *
-   * @param address  the address to send it to
-   * @param message  the message, may be {@code null}
-   * @param replyHandler  reply handler will be called when any reply from the recipient is received, may be {@code null}
+   * @param address the address to send it to
+   * @param message the message, may be {@code null}
+   * @param replyHandler reply handler will be called when any reply from the recipient is received, may be {@code null}
    * @return a reference to this, so the API can be used fluently
    */
   public <T> EventBus send(String address, Object message, Handler<AsyncResult<Message<T>>> replyHandler) {
@@ -100,11 +93,10 @@ public class EventBus implements Measured {
     return this;
   }
   /**
-   * Like {@link #send(String, Object)} but specifying {@code options} that can be used to configure the delivery.
-   *
-   * @param address  the address to send it to
-   * @param message  the message, may be {@code null}
-   * @param options  delivery options
+   * Like {@link io.vertx.groovy.core.eventbus.EventBus#send} but specifying <code>options</code> that can be used to configure the delivery.
+   * @param address the address to send it to
+   * @param message the message, may be {@code null}
+   * @param options delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    * @return a reference to this, so the API can be used fluently
    */
   public <T> EventBus send(String address, Object message, Map<String, Object> options) {
@@ -112,13 +104,12 @@ public class EventBus implements Measured {
     return this;
   }
   /**
-   * Like {@link #send(String, Object, DeliveryOptions)} but specifying a {@code replyHandler} that will be called if the recipient
+   * Like {@link io.vertx.groovy.core.eventbus.EventBus#send} but specifying a <code>replyHandler</code> that will be called if the recipient
    * subsequently replies to the message.
-   *
-   * @param address  the address to send it to
-   * @param message  the message, may be {@code null}
-   * @param options  delivery options
-   * @param replyHandler  reply handler will be called when any reply from the recipient is received, may be {@code null}
+   * @param address the address to send it to
+   * @param message the message, may be {@code null}
+   * @param options delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
+   * @param replyHandler reply handler will be called when any reply from the recipient is received, may be {@code null}
    * @return a reference to this, so the API can be used fluently
    */
   public <T> EventBus send(String address, Object message, Map<String, Object> options, Handler<AsyncResult<Message<T>>> replyHandler) {
@@ -138,22 +129,19 @@ public class EventBus implements Measured {
   /**
    * Publish a message.<p>
    * The message will be delivered to all handlers registered to the address.
-   *
-   * @param address  the address to publish it to
-   * @param message  the message, may be {@code null}
+   * @param address the address to publish it to
+   * @param message the message, may be {@code null}
    * @return a reference to this, so the API can be used fluently
-
    */
   public EventBus publish(String address, Object message) {
     this.delegate.publish(address, InternalHelper.unwrapObject(message));
     return this;
   }
   /**
-   * Like {@link #publish(String, Object)} but specifying {@code options} that can be used to configure the delivery.
-   *
-   * @param address  the address to publish it to
-   * @param message  the message, may be {@code null}
-   * @param options  the delivery options
+   * Like {@link io.vertx.groovy.core.eventbus.EventBus#publish} but specifying <code>options</code> that can be used to configure the delivery.
+   * @param address the address to publish it to
+   * @param message the message, may be {@code null}
+   * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus publish(String address, Object message, Map<String, Object> options) {
@@ -164,10 +152,9 @@ public class EventBus implements Measured {
    * Create a message consumer against the specified address.
    * <p>
    * The returned consumer is not yet registered
-   * at the address, registration will be effective when {@link MessageConsumer#handler(io.vertx.core.Handler)}
+   * at the address, registration will be effective when {@link io.vertx.groovy.core.eventbus.MessageConsumer#handler}
    * is called.
-   *
-   * @param address  the address that it will register it at
+   * @param address the address that it will register it at
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> consumer(String address) {
@@ -176,10 +163,8 @@ public class EventBus implements Measured {
   }
   /**
    * Create a consumer and register it against the specified address.
-   *
-   * @param address  the address that will register it at
-   * @param handler  the handler that will process the received messages
-   *
+   * @param address the address that will register it at
+   * @param handler the handler that will process the received messages
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> consumer(String address, Handler<Message<T>> handler) {
@@ -191,9 +176,8 @@ public class EventBus implements Measured {
     return ret;
   }
   /**
-   * Like {@link #consumer(String)} but the address won't be propagated across the cluster.
-   *
-   * @param address  the address to register it at
+   * Like {@link io.vertx.groovy.core.eventbus.EventBus#consumer} but the address won't be propagated across the cluster.
+   * @param address the address to register it at
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> localConsumer(String address) {
@@ -201,10 +185,9 @@ public class EventBus implements Measured {
     return ret;
   }
   /**
-   * Like {@link #consumer(String, Handler)} but the address won't be propagated across the cluster.
-   *
-   * @param address  the address that will register it at
-   * @param handler  the handler that will process the received messages
+   * Like {@link io.vertx.groovy.core.eventbus.EventBus#consumer} but the address won't be propagated across the cluster.
+   * @param address the address that will register it at
+   * @param handler the handler that will process the received messages
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> localConsumer(String address, Handler<Message<T>> handler) {
@@ -218,11 +201,10 @@ public class EventBus implements Measured {
   /**
    * Create a message sender against the specified address.
    * <p>
-   * The returned sender will invoke the {@link #send(String, Object)}
-   * method when the stream {@link io.vertx.core.streams.WriteStream#write(Object)} method is called with the sender
+   * The returned sender will invoke the {@link io.vertx.groovy.core.eventbus.EventBus#send}
+   * method when the stream {@link io.vertx.groovy.core.streams.WriteStream#write} method is called with the sender
    * address and the provided data.
-   *
-   * @param address  the address to send it to
+   * @param address the address to send it to
    * @return The sender
    */
   public <T> MessageProducer<T> sender(String address) {
@@ -230,11 +212,10 @@ public class EventBus implements Measured {
     return ret;
   }
   /**
-   * Like {@link #sender(String)} but specifying delivery options that will be used for configuring the delivery of
+   * Like {@link io.vertx.groovy.core.eventbus.EventBus#sender} but specifying delivery options that will be used for configuring the delivery of
    * the message.
-   *
-   * @param address  the address to send it to
-   * @param options  the delivery options
+   * @param address the address to send it to
+   * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    * @return The sender
    */
   public <T> MessageProducer<T> sender(String address, Map<String, Object> options) {
@@ -244,10 +225,9 @@ public class EventBus implements Measured {
   /**
    * Create a message publisher against the specified address.
    * <p>
-   * The returned publisher will invoke the {@link #publish(String, Object)}
-   * method when the stream {@link io.vertx.core.streams.WriteStream#write(Object)} method is called with the publisher
+   * The returned publisher will invoke the {@link io.vertx.groovy.core.eventbus.EventBus#publish}
+   * method when the stream {@link io.vertx.groovy.core.streams.WriteStream#write} method is called with the publisher
    * address and the provided data.
-   *
    * @param address The address to publish it to
    * @return The publisher
    */
@@ -256,11 +236,10 @@ public class EventBus implements Measured {
     return ret;
   }
   /**
-   * Like {@link #publisher(String)} but specifying delivery options that will be used for configuring the delivery of
+   * Like {@link io.vertx.groovy.core.eventbus.EventBus#publisher} but specifying delivery options that will be used for configuring the delivery of
    * the message.
-   *
-   * @param address  the address to publish it to
-   * @param options  the delivery options
+   * @param address the address to publish it to
+   * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    * @return The publisher
    */
   public <T> MessageProducer<T> publisher(String address, Map<String, Object> options) {
@@ -269,7 +248,6 @@ public class EventBus implements Measured {
   }
   /**
    * Close the event bus and release any resources held
-   *
    * @param completionHandler may be {@code null}
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {

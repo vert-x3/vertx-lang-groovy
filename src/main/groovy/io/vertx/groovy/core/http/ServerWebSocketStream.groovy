@@ -20,11 +20,9 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A {@link io.vertx.core.streams.ReadStream} of {@link io.vertx.core.http.ServerWebSocket}, used for
- * notifying web socket connections to a {@link io.vertx.core.http.HttpServer}.
- *
- * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
- */
+ * A {@link io.vertx.groovy.core.streams.ReadStream} of {@link io.vertx.groovy.core.http.ServerWebSocket}, used for
+ * notifying web socket connections to a {@link io.vertx.groovy.core.http.HttpServer}.
+*/
 @CompileStatic
 public class ServerWebSocketStream implements ReadStream<ServerWebSocket> {
   final def io.vertx.core.http.ServerWebSocketStream delegate;

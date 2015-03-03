@@ -19,9 +19,7 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
  * Represent a Service-Record (SRV) which was resolved for a domain.
- *
- * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
- */
+*/
 @CompileStatic
 public class SrvRecord {
   final def io.vertx.core.dns.SrvRecord delegate;
@@ -33,6 +31,7 @@ public class SrvRecord {
   }
   /**
    * Returns the priority for this service record.
+   * @return 
    */
   public int priority() {
     def ret = this.delegate.priority();
@@ -40,6 +39,7 @@ public class SrvRecord {
   }
   /**
    * Returns the weight of this service record.
+   * @return 
    */
   public int weight() {
     def ret = this.delegate.weight();
@@ -47,6 +47,7 @@ public class SrvRecord {
   }
   /**
    * Returns the port the service is running on.
+   * @return 
    */
   public int port() {
     def ret = this.delegate.port();
@@ -54,6 +55,7 @@ public class SrvRecord {
   }
   /**
    * Returns the name for the server being queried.
+   * @return 
    */
   public String name() {
     def ret = this.delegate.name();
@@ -61,6 +63,7 @@ public class SrvRecord {
   }
   /**
    * Returns the protocol for the service being queried (i.e. "_tcp").
+   * @return 
    */
   public String protocol() {
     def ret = this.delegate.protocol();
@@ -68,6 +71,7 @@ public class SrvRecord {
   }
   /**
    * Returns the service's name (i.e. "_http").
+   * @return 
    */
   public String service() {
     def ret = this.delegate.service();
@@ -75,6 +79,7 @@ public class SrvRecord {
   }
   /**
    * Returns the name of the host for the service.
+   * @return 
    */
   public String target() {
     def ret = this.delegate.target();

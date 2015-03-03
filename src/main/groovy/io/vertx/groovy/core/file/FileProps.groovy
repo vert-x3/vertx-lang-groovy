@@ -20,9 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 /**
  * Represents properties of a file on the file system.
  * <p>
- *
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
+*/
 @CompileStatic
 public class FileProps {
   final def io.vertx.core.file.FileProps delegate;
@@ -34,6 +32,7 @@ public class FileProps {
   }
   /**
    * The date the file was created
+   * @return 
    */
   public long creationTime() {
     def ret = this.delegate.creationTime();
@@ -41,6 +40,7 @@ public class FileProps {
   }
   /**
    * The date the file was last accessed
+   * @return 
    */
   public long lastAccessTime() {
     def ret = this.delegate.lastAccessTime();
@@ -48,6 +48,7 @@ public class FileProps {
   }
   /**
    * The date the file was last modified
+   * @return 
    */
   public long lastModifiedTime() {
     def ret = this.delegate.lastModifiedTime();
@@ -55,6 +56,7 @@ public class FileProps {
   }
   /**
    * Is the file a directory?
+   * @return 
    */
   public boolean isDirectory() {
     def ret = this.delegate.isDirectory();
@@ -62,6 +64,7 @@ public class FileProps {
   }
   /**
    * Is the file some other type? (I.e. not a directory, regular file or symbolic link)
+   * @return 
    */
   public boolean isOther() {
     def ret = this.delegate.isOther();
@@ -69,6 +72,7 @@ public class FileProps {
   }
   /**
    * Is the file a regular file?
+   * @return 
    */
   public boolean isRegularFile() {
     def ret = this.delegate.isRegularFile();
@@ -76,6 +80,7 @@ public class FileProps {
   }
   /**
    * Is the file a symbolic link?
+   * @return 
    */
   public boolean isSymbolicLink() {
     def ret = this.delegate.isSymbolicLink();
@@ -83,6 +88,7 @@ public class FileProps {
   }
   /**
    * The size of the file, in bytes
+   * @return 
    */
   public long size() {
     def ret = this.delegate.size();
