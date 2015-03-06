@@ -17,12 +17,10 @@
 package io.vertx.groovy.core.http;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
-import io.vertx.groovy.core.MultiMap
-import io.vertx.core.http.WebsocketVersion
 import io.vertx.groovy.core.metrics.Measured
 import io.vertx.core.http.HttpMethod
-import java.util.Map
-import io.vertx.core.json.JsonObject
+import io.vertx.groovy.core.MultiMap
+import io.vertx.core.http.WebsocketVersion
 import io.vertx.core.Handler
 /**
  * An asynchronous HTTP client.
@@ -65,14 +63,6 @@ public class HttpClient implements Measured {
    */
   public String metricBaseName() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
-    return ret;
-  }
-  /**
-   * Will return the metrics that correspond with this measured object.
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
-   */
-  public Map<String, Map<String, Object>> metrics() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
     return ret;
   }
   /**

@@ -17,8 +17,6 @@
 package io.vertx.groovy.core.metrics;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
-import java.util.Map
-import io.vertx.core.json.JsonObject
 /**
  * @author <a href="mailto:nscavell@redhat.com">Nick Scavelli</a>
 */
@@ -26,7 +24,6 @@ import io.vertx.core.json.JsonObject
 public interface Measured {
   public Object getDelegate();
   String metricBaseName();
-  Map<String,JsonObject> metrics();
 
   static final java.util.function.Function<io.vertx.core.metrics.Measured, Measured> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
     io.vertx.core.metrics.Measured arg -> new MeasuredImpl(arg);
@@ -48,14 +45,6 @@ class MeasuredImpl implements Measured {
    */
   public String metricBaseName() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
-    return ret;
-  }
-  /**
-   * Will return the metrics that correspond with this measured object.
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
-   */
-  public Map<String, Map<String, Object>> metrics() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
     return ret;
   }
 }

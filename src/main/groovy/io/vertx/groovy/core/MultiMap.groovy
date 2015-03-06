@@ -72,7 +72,7 @@ public class MultiMap {
     return ret;
   }
   /**
-   * Gets a immutable null of all names
+   * Gets a immutable <!-- tag link rendered to null using label/type instead --> of all names
    * @return A {@link java.util.Set} of all names
    */
   public Set<String> names() {

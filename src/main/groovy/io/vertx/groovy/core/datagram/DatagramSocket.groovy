@@ -19,9 +19,7 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.metrics.Measured
-import java.util.Map
 import io.vertx.groovy.core.streams.ReadStream
-import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 import io.vertx.groovy.core.net.SocketAddress
@@ -52,14 +50,6 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    */
   public String metricBaseName() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
-    return ret;
-  }
-  /**
-   * Will return the metrics that correspond with this measured object.
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
-   */
-  public Map<String, Map<String, Object>> metrics() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
     return ret;
   }
   /**

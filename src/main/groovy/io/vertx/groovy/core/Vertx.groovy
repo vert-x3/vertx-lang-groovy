@@ -21,8 +21,6 @@ import io.vertx.groovy.core.datagram.DatagramSocket
 import io.vertx.groovy.core.http.HttpServer
 import io.vertx.groovy.core.shareddata.SharedData
 import io.vertx.groovy.core.eventbus.EventBus
-import java.util.Map
-import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.http.HttpClientOptions
 import io.vertx.core.datagram.DatagramSocketOptions
@@ -77,14 +75,6 @@ public class Vertx implements Measured {
    */
   public String metricBaseName() {
     def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
-    return ret;
-  }
-  /**
-   * Will return the metrics that correspond with this measured object.
-   * @return the map of metrics where the key is the name of the metric (excluding the base name) and the value is the json data representing that metric
-   */
-  public Map<String, Map<String, Object>> metrics() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metrics()?.collectEntries({k, v -> [k, v.getMap()]});
     return ret;
   }
   /**

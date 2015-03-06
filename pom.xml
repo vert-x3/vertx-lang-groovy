@@ -7,7 +7,7 @@
   <parent>
     <groupId>io.vertx</groupId>
     <artifactId>vertx-parent</artifactId>
-    <version>2</version>
+    <version>5</version>
   </parent>
 
   <artifactId>vertx-lang-groovy</artifactId>
@@ -282,7 +282,7 @@
               <goal>attach-docs</goal>
             </goals>
             <configuration>
-              <destinationDirectory>${project.build.directory}/docs/groovy/groovydoc</destinationDirectory>
+              <destinationDirectory>${project.build.directory}/docs/vertx-core/groovy/groovydoc</destinationDirectory>
               <scope>public</scope>
               <skipJavadoc>true</skipJavadoc>
             </configuration>
@@ -301,7 +301,7 @@
             <phase>package</phase>
             <configuration>
               <sourceDirectory>${asciidoc.dir}</sourceDirectory>
-              <outputDirectory>${project.build.directory}/docs</outputDirectory>
+              <outputDirectory>${project.build.directory}/docs/vertx-core</outputDirectory>
               <backend>html</backend>
               <doctype>book</doctype>
               <preserveDirectories>true</preserveDirectories>
