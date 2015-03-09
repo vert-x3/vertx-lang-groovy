@@ -33,9 +33,20 @@ function renderSource(elt, source) {
     }
 }
 
-function toTypeLink(elt, coordinate) {
+function isDataObject(elt) {
     var annotation = java.lang.Thread.currentThread().getContextClassLoader().loadClass("io.vertx.codegen.annotations.DataObject");
-    if (elt.getAnnotation(annotation) != null) {
+    while (elt != null) {
+        var kind = elt.getKind().name();
+        if (kind === "CLASS" || kind === "INTERFACE") {
+            return elt.getAnnotation(annotation);
+        }
+        elt = elt.getEnclosingElement();
+    }
+    return false;
+}
+
+function toTypeLink(elt, coordinate) {
+    if (isDataObject(elt)) {
         var baseLink;
         if (coordinate == null) {
             baseLink = "../";
@@ -64,20 +75,33 @@ function toConstructorLink(elt, coordinate) {
 function toExecutableLink(elt, name, coordinate) {
     var typeElt = elt.getEnclosingElement();
     var link = toTypeLink(typeElt, coordinate);
-    var anchor = '#' + name + "(";
-    var type = elt.asType();
-    var methodType  = typeUtils.erasure(type);
-    var parameterTypes = methodType.getParameterTypes();
-    for (var i = 0;i < parameterTypes.size();i++) {
-        if (i > 0) {
-            anchor += ',%20';
+    if (link.indexOf("cheatsheet") != -1) {
+        return link + '#' + java.beans.Introspector.decapitalize(elt.getSimpleName().toString().substring(3));
+    } else {
+        var anchor = '#' + name + "(";
+        var type = elt.asType();
+        var methodType  = typeUtils.erasure(type);
+        var parameterTypes = methodType.getParameterTypes();
+        for (var i = 0;i < parameterTypes.size();i++) {
+            if (i > 0) {
+                anchor += ',%20';
+            }
+            anchor += parameterTypes.get(i).toString();
         }
-        anchor += parameterTypes.get(i).toString();
+        anchor += ')';
+        return link + anchor;
     }
-    anchor += ')';
-    return link + anchor;
 }
 
 function toFieldLink(elt) {
     return "todo";
+}
+
+function resolveLabel(elt, label) {
+    if (isDataObject(elt)) {
+        if (elt.getKind().name() === "METHOD") {
+            return java.beans.Introspector.decapitalize(elt.getSimpleName().toString().substring(3));
+        }
+    }
+    return label;
 }
