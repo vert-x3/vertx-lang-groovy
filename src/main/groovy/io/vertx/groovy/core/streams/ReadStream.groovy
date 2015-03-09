@@ -21,8 +21,8 @@ import io.vertx.core.Handler
 /**
  * Represents a stream of items that can be read from.
  * <p>
- * Any class that implements this interface can be used by a {@link io.vertx.groovy.core.streams.Pump} to pump data from it
- * to a {@link io.vertx.groovy.core.streams.WriteStream}.
+ * Any class that implements this interface can be used by a link to pump data from it
+ * to a link.
 */
 @CompileStatic
 public interface ReadStream<T> extends StreamBase {

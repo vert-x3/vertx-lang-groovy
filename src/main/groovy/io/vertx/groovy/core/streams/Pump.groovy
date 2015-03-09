@@ -18,22 +18,22 @@ package io.vertx.groovy.core.streams;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 /**
- * Pumps data from a {@link io.vertx.groovy.core.streams.ReadStream} to a {@link io.vertx.groovy.core.streams.WriteStream} and performs flow control where necessary to
+ * Pumps data from a link to a link and performs flow control where necessary to
  * prevent the write stream buffer from getting overfull.
  * <p>
- * Instances of this class read items from a {@link io.vertx.groovy.core.streams.ReadStream} and write them to a {@link io.vertx.groovy.core.streams.WriteStream}. If data
- * can be read faster than it can be written this could result in the write queue of the {@link io.vertx.groovy.core.streams.WriteStream} growing
+ * Instances of this class read items from a link and write them to a link. If data
+ * can be read faster than it can be written this could result in the write queue of the link growing
  * without bound, eventually causing it to exhaust all available RAM.
  * <p>
- * To prevent this, after each write, instances of this class check whether the write queue of the {@link io.vertx.groovy.core.streams.WriteStream} is full, and if so, the {@link io.vertx.groovy.core.streams.ReadStream} is paused, and a <code>drainHandler</code> is set on the
- * {@link io.vertx.groovy.core.streams.WriteStream}.
+ * To prevent this, after each write, instances of this class check whether the write queue of the link is full, and if so, the link is paused, and a <code>drainHandler</code> is set on the
+ * link.
  * <p>
- * When the {@link io.vertx.groovy.core.streams.WriteStream} has processed half of its backlog, the <code>drainHandler</code> will be
- * called, which results in the pump resuming the {@link io.vertx.groovy.core.streams.ReadStream}.
+ * When the link has processed half of its backlog, the <code>drainHandler</code> will be
+ * called, which results in the pump resuming the link.
  * <p>
- * This class can be used to pump from any {@link io.vertx.groovy.core.streams.ReadStream} to any {@link io.vertx.groovy.core.streams.WriteStream},
- * e.g. from an {@link io.vertx.groovy.core.http.HttpServerRequest} to an {@link io.vertx.groovy.core.file.AsyncFile},
- * or from {@link io.vertx.groovy.core.net.NetSocket} to a {@link io.vertx.groovy.core.http.WebSocket}.
+ * This class can be used to pump from any link to any link,
+ * e.g. from an link to an link,
+ * or from link to a link.
  * <p>
  * Please see the documentation for more information.
 */

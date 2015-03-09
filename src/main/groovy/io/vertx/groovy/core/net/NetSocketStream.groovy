@@ -20,8 +20,8 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A {@link io.vertx.groovy.core.streams.ReadStream} of {@link io.vertx.groovy.core.net.NetSocket}, used for notifying
- * socket connections to a {@link io.vertx.groovy.core.net.NetServer}.
+ * A link of link, used for notifying
+ * socket connections to a link.
 */
 @CompileStatic
 public class NetSocketStream implements ReadStream<NetSocket> {

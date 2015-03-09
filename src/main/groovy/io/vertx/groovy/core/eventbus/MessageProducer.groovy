@@ -34,7 +34,7 @@ public class MessageProducer<T> implements WriteStream<T> {
     return delegate;
   }
   /**
-   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.eventbus.MessageProducer#setWriteQueueMaxSize}
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using link
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {

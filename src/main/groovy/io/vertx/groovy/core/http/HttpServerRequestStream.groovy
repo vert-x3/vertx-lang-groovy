@@ -20,8 +20,8 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A {@link io.vertx.groovy.core.streams.ReadStream} of {@link io.vertx.groovy.core.http.HttpServerRequest}, used for
- * notifying http request to a {@link io.vertx.groovy.core.http.HttpServer}.
+ * A link of link, used for
+ * notifying http request to a link.
 */
 @CompileStatic
 public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {

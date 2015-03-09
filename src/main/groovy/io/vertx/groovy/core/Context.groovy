@@ -21,9 +21,9 @@ import java.util.List
 import io.vertx.core.json.JsonObject
 import io.vertx.core.Handler
 /**
- * The execution context of a {@link io.vertx.groovy.core.Handler} execution.
+ * The execution context of a link execution.
  * <p>
- * When Vert.x provides an event to a handler or calls the start or stop methods of a {@link io.vertx.groovy.core.Verticle},
+ * When Vert.x provides an event to a handler or calls the start or stop methods of a link,
  * the execution is associated with a <code>Context</code>.
  * <p>
  * Usually a context is an *event-loop context* and is tied to a specific event loop thread. So executions for that
@@ -47,10 +47,10 @@ import io.vertx.core.Handler
  * thread, so you don't have to worry about multi-threaded acccess to the verticle state and you can code your application
  * as single threaded.
  * <p>
- * This class also allows arbitrary data to be {@link io.vertx.groovy.core.Context#put} and {@link io.vertx.groovy.core.Context#get} on the context so it can be shared easily
+ * This class also allows arbitrary data to be link and link on the context so it can be shared easily
  * amongst different handlers of, for example, a verticle instance.
  * <p>
- * This class also provides {@link io.vertx.groovy.core.Context#runOnContext} which allows an action to be executed asynchronously using the same context.
+ * This class also provides link which allows an action to be executed asynchronously using the same context.
 */
 @CompileStatic
 public class Context {

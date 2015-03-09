@@ -33,26 +33,37 @@ function renderSource(elt, source) {
     }
 }
 
-function toTypeLink(elt) {
+function toTypeLink(elt, coordinate) {
     var annotation = java.lang.Thread.currentThread().getContextClassLoader().loadClass("io.vertx.codegen.annotations.DataObject");
     if (elt.getAnnotation(annotation) != null) {
-        return "../cheatsheet/" + elt.getSimpleName().toString() + ".html";
+        var baseLink;
+        if (coordinate == null) {
+            baseLink = "../";
+        } else {
+            baseLink = "../../" + coordinate.getArtifactId() + "/"
+        }
+        return baseLink + "cheatsheet/" + elt.getSimpleName().toString() + ".html";
     } else {
-        return "groovydoc/" + elt.getQualifiedName().toString().replace("io.vertx.", "io.vertx.groovy.").replace(/\./g, "/") + ".html";
+        if (coordinate == null) {
+            baseLink = "";
+        } else {
+            baseLink = "../../" + coordinate.getArtifactId() + "/groovy/"
+        }
+        return baseLink + "groovydoc/" + elt.getQualifiedName().toString().replace("io.vertx.", "io.vertx.groovy.").replace(/\./g, "/") + ".html";
     }
 }
 
-function toMethodLink(elt) {
-    return toExecutableLink(elt, elt.getSimpleName().toString());
+function toMethodLink(elt, coordinate) {
+    return toExecutableLink(elt, elt.getSimpleName().toString(), coordinate);
 }
 
-function toConstructorLink(elt) {
-    return toExecutableLink(elt, elt.getEnclosingElement().getSimpleName().toString());
+function toConstructorLink(elt, coordinate) {
+    return toExecutableLink(elt, elt.getEnclosingElement().getSimpleName().toString(), coordinate);
 }
 
-function toExecutableLink(elt, name) {
+function toExecutableLink(elt, name, coordinate) {
     var typeElt = elt.getEnclosingElement();
-    var link = toTypeLink(typeElt);
+    var link = toTypeLink(typeElt, coordinate);
     var anchor = '#' + name + "(";
     var type = elt.asType();
     var methodType  = typeUtils.erasure(type);
