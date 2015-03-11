@@ -15,17 +15,19 @@
  */
 
 package io.vertx.lang.groovy
+
 import io.vertx.codegen.testmodel.RefedInterface1Impl
 import io.vertx.codegen.testmodel.TestEnum
 import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.codegen.testmodel.TestDataObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
-import io.vertx.groovy.codegen.testmodel.ConcreteHandlerUserType
+import io.vertx.groovy.codegen.testmodel.ConcreteHandlerUserTypeExtension
 import io.vertx.groovy.codegen.testmodel.GenericRefedInterface
 import io.vertx.groovy.codegen.testmodel.RefedInterface1
 import io.vertx.groovy.codegen.testmodel.RefedInterface2
 import io.vertx.groovy.codegen.testmodel.TestInterface
+import io.vertx.groovy.codegen.testmodel.Factory
 import org.junit.Test
 
 import static org.junit.Assert.*
@@ -435,8 +437,7 @@ public class ApiTest {
   @Test
   public void testMethodWithConcreteHandlerUserTypesSubtype() {
     def count = 0;
-    AsyncResultChecker checker = new AsyncResultChecker();
-    obj.methodWithConcreteHandlerUserTypesSubtype(ConcreteHandlerUserType.createConcrete({
+    obj.methodWithConcreteHandlerUserTypeSubtype(Factory.createConcreteHandlerUserType({
       assertEquals("echidnas", it.string)
       count++
     }));
@@ -446,10 +447,24 @@ public class ApiTest {
   @Test
   public void testMethodWithAbstractHandlerUserTypesSubtype() {
     def count = 0;
-    obj.methodWithAbstractHandlerUserTypesSubtype(ConcreteHandlerUserType.createAbstract({
+    obj.methodWithAbstractHandlerUserTypeSubtype(Factory.createAbstractHandlerUserType({
       assertEquals("echidnas", it.string)
       count++
     }));
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithConcreteHandlerUserTypesSubtypeExtension() {
+    def count = 0;
+    obj.methodWithConcreteHandlerUserTypeSubtypeExtension(
+        new ConcreteHandlerUserTypeExtension(new io.vertx.codegen.testmodel.ConcreteHandlerUserTypeExtension() {
+          @Override
+          void handle(io.vertx.codegen.testmodel.RefedInterface1 event) {
+            assertEquals("echidnas", event.string)
+            count++
+          }
+        }));
     assertEquals(1, count);
   }
 

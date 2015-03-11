@@ -24,8 +24,8 @@ import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 import io.vertx.groovy.core.net.SocketAddress
 /**
- * A datagram socket can be used to send link's to remote datagram servers
- * and receive links .
+ * A datagram socket can be used to send {@link io.vertx.groovy.core.datagram.DatagramPacket}'s to remote datagram servers
+ * and receive {@link io.vertx.groovy.core.datagram.DatagramPacket}s .
  * <p>
  * Usually you use a datagram socket to send UDP over the wire. UDP is connection-less which means you are not connected
  * to the remote peer in a persistent way. Because of this you have to supply the address and port of the remote peer
@@ -53,8 +53,8 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return ret;
   }
   /**
-   * Write the given link to the link.
-   * The link will be notified once the write completes.
+   * Write the given {@link io.vertx.groovy.core.buffer.Buffer} to the {@link io.vertx.groovy.core.net.SocketAddress}.
+   * The {@link io.vertx.groovy.core.Handler} will be notified once the write completes.
    * @param packet the {@link io.vertx.core.buffer.Buffer} to write
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer
@@ -76,8 +76,8 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Returns a link able to send  to the
-   * link.
+   * Returns a {@link io.vertx.groovy.core.datagram.PacketWritestream} able to send  to the
+   * {@link io.vertx.groovy.core.net.SocketAddress}.
    * @param port the port of the remote peer
    * @param host the host address of the remote peer
    * @return the write stream for sending packets
@@ -87,7 +87,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return ret;
   }
   /**
-   * Write the given  to the link using UTF8 encoding.
+   * Write the given  to the {@link io.vertx.groovy.core.net.SocketAddress} using UTF8 encoding.
    * The  will be notified once the write completes.
    * @param str the {@link String} to write
    * @param port the host port of the remote peer
@@ -110,7 +110,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Write the given  to the link using the given encoding.
+   * Write the given  to the {@link io.vertx.groovy.core.net.SocketAddress} using the given encoding.
    * The  will be notified once the write completes.
    * @param str the {@link String} to write
    * @param enc the charset used for encoding
@@ -134,7 +134,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Closes the link implementation asynchronous
+   * Closes the {@link io.vertx.groovy.core.datagram.DatagramSocket} implementation asynchronous
    * and notifies the handler once done.
    * @param handler the handler to notify once complete
    */
@@ -142,14 +142,14 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     this.delegate.close(handler);
   }
   /**
-   * Closes the link. The close itself is asynchronous.
+   * Closes the {@link io.vertx.groovy.core.datagram.DatagramSocket}. The close itself is asynchronous.
    */
   public void close() {
     this.delegate.close();
   }
   /**
-   * Return the link to which
-   * this link is bound.
+   * Return the {@link io.vertx.groovy.core.net.SocketAddress} to which
+   * this {@link io.vertx.groovy.core.datagram.DatagramSocket} is bound.
    * @return the socket address
    */
   public SocketAddress localAddress() {

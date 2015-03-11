@@ -21,15 +21,15 @@ import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * An event bus consumer object representing a stream of message to an link address that can
+ * An event bus consumer object representing a stream of message to an {@link io.vertx.groovy.core.eventbus.EventBus} address that can
  * be read from.
  * <p>
- * The link or link
+ * The {@link io.vertx.groovy.core.eventbus.EventBus#consumer} or {@link io.vertx.groovy.core.eventbus.EventBus#localConsumer}
  * creates a new consumer, the returned consumer is not yet registered against the event bus. Registration
- * is effective after the link method is invoked.<p>
+ * is effective after the {@link io.vertx.groovy.core.eventbus.MessageConsumer#handler} method is invoked.<p>
  *
- * The consumer is unregistered from the event bus using the link method or by calling the
- * link with a null value..
+ * The consumer is unregistered from the event bus using the {@link io.vertx.groovy.core.eventbus.MessageConsumer#unregister} method or by calling the
+ * {@link io.vertx.groovy.core.eventbus.MessageConsumer#handler} with a null value..
 */
 @CompileStatic
 public class MessageConsumer<T> implements ReadStream<Message<T>> {

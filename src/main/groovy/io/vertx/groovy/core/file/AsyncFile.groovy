@@ -25,10 +25,10 @@ import io.vertx.core.Handler
 /**
  * Represents a file on the file-system which can be read from, or written to asynchronously.
  * <p>
- * This class also implements link and
- * link. This allows the data to be pumped to and from
- * other streams, e.g. an link instance,
- * using the link class
+ * This class also implements {@link io.vertx.groovy.core.streams.ReadStream} and
+ * {@link io.vertx.groovy.core.streams.WriteStream}. This allows the data to be pumped to and from
+ * other streams, e.g. an {@link io.vertx.groovy.core.http.HttpClientRequest} instance,
+ * using the {@link io.vertx.groovy.core.streams.Pump} class
 */
 @CompileStatic
 public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
@@ -40,7 +40,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return delegate;
   }
   /**
-   * This will return <code>true</code> if there are more bytes in the write queue than the value set using link
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.file.AsyncFile#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
@@ -98,7 +98,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     this.delegate.close(handler);
   }
   /**
-   * Write a link to the file at position <code>position</code> in the file, asynchronously.
+   * Write a {@link io.vertx.groovy.core.buffer.Buffer} to the file at position <code>position</code> in the file, asynchronously.
    * <p>
    * If <code>position</code> lies outside of the current size
    * of the file, the file will be enlarged to encompass it.
@@ -159,7 +159,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   /**
-   * Same as link but the handler will be called when the flush is complete or if an error occurs
+   * Same as {@link io.vertx.groovy.core.file.AsyncFile#flush} but the handler will be called when the flush is complete or if an error occurs
    * @param handler 
    * @return 
    */
@@ -168,7 +168,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   /**
-   * Sets the position from which data will be read from when using the file as a link.
+   * Sets the position from which data will be read from when using the file as a {@link io.vertx.groovy.core.streams.ReadStream}.
    * @param readPos the position in the file
    * @return a reference to this, so the API can be used fluently
    */
@@ -177,7 +177,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   /**
-   * Sets the position from which data will be written when using the file as a link.
+   * Sets the position from which data will be written when using the file as a {@link io.vertx.groovy.core.streams.WriteStream}.
    * @param writePos the position in the file
    * @return a reference to this, so the API can be used fluently
    */

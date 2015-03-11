@@ -30,10 +30,10 @@ import io.vertx.groovy.core.net.NetSocket
  * <p>
  * Instances are created for each request and passed to the user via a handler.
  * <p>
- * Each instance of this class is associated with a corresponding link instance via
- * link.<p>
- * It implements link so it can be used with
- * link to pump data with flow control.
+ * Each instance of this class is associated with a corresponding {@link io.vertx.groovy.core.http.HttpServerResponse} instance via
+ * {@link io.vertx.groovy.core.http.HttpServerRequest#response}.<p>
+ * It implements {@link io.vertx.groovy.core.streams.ReadStream} so it can be used with
+ * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
  * <p>
 */
 @CompileStatic
@@ -110,7 +110,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * @return the response. Each instance of this class has an link instance attached to it. This is used
+   * @return the response. Each instance of this class has an {@link io.vertx.groovy.core.http.HttpServerResponse} instance attached to it. This is used
    * to send the response back to the client.
    * @return 
    */
@@ -241,7 +241,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return this;
   }
   /**
-   * @return  true if we are expecting a multi-part body for this request. See link.
+   * @return  true if we are expecting a multi-part body for this request. See {@link io.vertx.groovy.core.http.HttpServerRequest#setExpectMultipart}.
    * @return 
    */
   public boolean isExpectMultipart() {
@@ -268,7 +268,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * Be aware that the attributes will only be available after the whole body has been received, i.e. after
    * the request end handler has been called.
    * <p>
-   * link must be called first before trying to get the form attributes.
+   * {@link io.vertx.groovy.core.http.HttpServerRequest#setExpectMultipart} must be called first before trying to get the form attributes.
    * @return the form attributes
    */
   public MultiMap formAttributes() {

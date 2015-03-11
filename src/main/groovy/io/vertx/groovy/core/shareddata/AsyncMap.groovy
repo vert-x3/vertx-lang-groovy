@@ -60,7 +60,7 @@ public class AsyncMap<K,V> {
     ((io.vertx.core.shareddata.AsyncMap) this.delegate).put(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), completionHandler);
   }
   /**
-   * Like link but specifying a timeout. If the value cannot be put within the timeout a
+   * Like {@link io.vertx.groovy.core.shareddata.AsyncMap#put} but specifying a timeout. If the value cannot be put within the timeout a
    * failure will be passed to the handler
    * @param k the key
    * @param v the value
@@ -91,7 +91,7 @@ public class AsyncMap<K,V> {
     });
   }
   /**
-   * Link link but specifying a timeout. If the value cannot be put within the timeout a
+   * Link {@link io.vertx.groovy.core.shareddata.AsyncMap#putIfAbsent} but specifying a timeout. If the value cannot be put within the timeout a
    * failure will be passed to the handler
    * @param k the key
    * @param v the value

@@ -32,8 +32,8 @@ public class DatagramPacket {
     return delegate;
   }
   /**
-   * Returns the link of the sender that sent
-   * this link.
+   * Returns the {@link io.vertx.groovy.core.net.SocketAddress} of the sender that sent
+   * this {@link io.vertx.groovy.core.datagram.DatagramPacket}.
    * @return the address of the sender
    */
   public SocketAddress sender() {
@@ -41,7 +41,7 @@ public class DatagramPacket {
     return ret;
   }
   /**
-   * Returns the data of the link
+   * Returns the data of the {@link io.vertx.groovy.core.datagram.DatagramPacket}
    * @return the data
    */
   public Buffer data() {

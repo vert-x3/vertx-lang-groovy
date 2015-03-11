@@ -26,12 +26,12 @@ import io.vertx.core.Handler
  * Represents a socket-like interface to a TCP connection on either the
  * client or the server side.
  * <p>
- * Instances of this class are created on the client side by an link
- * when a connection to a server is made, or on the server side by a link
+ * Instances of this class are created on the client side by an {@link io.vertx.groovy.core.net.NetClient}
+ * when a connection to a server is made, or on the server side by a {@link io.vertx.groovy.core.net.NetServer}
  * when a server accepts a connection.
  * <p>
  * It implements both  and  so it can be used with
- * link to pump data with flow control.
+ * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
 */
 @CompileStatic
 public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
@@ -43,7 +43,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return delegate;
   }
   /**
-   * This will return <code>true</code> if there are more bytes in the write queue than the value set using link
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.net.NetSocket#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
@@ -129,7 +129,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   /**
-   * Same as link but also takes a handler that will be called when the send has completed or
+   * Same as {@link io.vertx.groovy.core.net.NetSocket#sendFile} but also takes a handler that will be called when the send has completed or
    * a failure has occurred
    * @param filename file name of the file to send
    * @param resultHandler handler
@@ -188,7 +188,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   /**
-   * @return true if this link is encrypted via SSL/TLS.
+   * @return true if this {@link io.vertx.groovy.core.net.NetSocket} is encrypted via SSL/TLS.
    * @return 
    */
   public boolean isSsl() {

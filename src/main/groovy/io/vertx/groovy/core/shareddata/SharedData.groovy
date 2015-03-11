@@ -79,7 +79,7 @@ public class SharedData {
     });
   }
   /**
-   * Like link but specifying a timeout. If the lock is not obtained within the timeout
+   * Like {@link io.vertx.groovy.core.shareddata.SharedData#getLock} but specifying a timeout. If the lock is not obtained within the timeout
    * a failure will be sent to the handler
    * @param name the name of the lock
    * @param timeout the timeout in ms
