@@ -24,12 +24,12 @@ import io.vertx.core.Handler
 /**
  * Represents a message that is received from the event bus in a handler.
  * <p>
- * Messages have a {@link io.vertx.groovy.core.eventbus.Message#body}, which can be null, and also {@link io.vertx.groovy.core.eventbus.Message#headers}, which can be empty.
+ * Messages have a link, which can be null, and also link, which can be empty.
  * <p>
- * If the message was sent specifying a reply handler it will also have a {@link io.vertx.groovy.core.eventbus.Message#replyAddress}. In that case the message
- * can be replied to using that reply address, or, more simply by just using {@link io.vertx.groovy.core.eventbus.Message#reply}.
+ * If the message was sent specifying a reply handler it will also have a link. In that case the message
+ * can be replied to using that reply address, or, more simply by just using link.
  * <p>
- * If you want to notify the sender that processing failed, then {@link io.vertx.groovy.core.eventbus.Message#fail} can be called.
+ * If you want to notify the sender that processing failed, then link can be called.
 */
 @CompileStatic
 public class Message<T> {
@@ -108,7 +108,7 @@ public class Message<T> {
     });
   }
   /**
-   * Link {@link io.vertx.groovy.core.eventbus.Message#reply} but allows you to specify delivery options for the reply.
+   * Link link but allows you to specify delivery options for the reply.
    * @param message the reply message
    * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    */

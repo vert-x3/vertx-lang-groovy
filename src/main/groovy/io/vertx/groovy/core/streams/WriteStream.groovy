@@ -22,7 +22,7 @@ import io.vertx.core.Handler
  *
  * Represents a stream of data that can be written to.
  * <p>
- * Any class that implements this interface can be used by a {@link io.vertx.groovy.core.streams.Pump} to pump data from a <code>ReadStream</code>
+ * Any class that implements this interface can be used by a link to pump data from a <code>ReadStream</code>
  * to it.
 */
 @CompileStatic
@@ -60,7 +60,7 @@ class WriteStreamImpl<T> implements WriteStream<T> {
   /**
    * Write some data to the stream. The data is put on an internal write queue, and the write actually happens
    * asynchronously. To avoid running out of memory by putting too much on the write queue,
-   * check the {@link io.vertx.groovy.core.streams.WriteStream#writeQueueFull} method before writing. This is done automatically if using a {@link io.vertx.groovy.core.streams.Pump}.
+   * check the link method before writing. This is done automatically if using a link.
    * @param data the data to write
    * @return a reference to this, so the API can be used fluently
    */

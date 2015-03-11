@@ -26,7 +26,7 @@ import io.vertx.core.Handler
  * Represents a server-side HTTP response.
  * <p>
  * An instance of this is created and associated to every instance of
- * {@link io.vertx.groovy.core.http.HttpServerRequest} that.
+ * link that.
  * <p>
  * It allows the developer to control the HTTP response that is sent back to the
  * client for a particular HTTP request.
@@ -39,8 +39,8 @@ import io.vertx.core.Handler
  * serving files from the server since buffers do not have to be read one by one
  * from the file and written to the outgoing socket.
  * <p>
- * It implements {@link io.vertx.groovy.core.streams.WriteStream} so it can be used with
- * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
+ * It implements link so it can be used with
+ * link to pump data with flow control.
 */
 @CompileStatic
 public class HttpServerResponse implements WriteStream<Buffer> {
@@ -52,7 +52,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return delegate;
   }
   /**
-   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.HttpServerResponse#setWriteQueueMaxSize}
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using link
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
@@ -95,7 +95,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return the HTTP status message of the response. If this is not specified a default value will be used depending on what
-   * {@link io.vertx.groovy.core.http.HttpServerResponse#setStatusCode} has been set to.
+   * link has been set to.
    * @return 
    */
   public String getStatusMessage() {
@@ -212,14 +212,14 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes a String in UTF-8 encoding before ending the response.
+   * Same as link but writes a String in UTF-8 encoding before ending the response.
    * @param chunk the string to write before ending the response
    */
   public void end(String chunk) {
     this.delegate.end(chunk);
   }
   /**
-   * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes a String with the specified encoding before ending the response.
+   * Same as link but writes a String with the specified encoding before ending the response.
    * @param chunk the string to write before ending the response
    * @param enc the encoding to use
    */
@@ -227,7 +227,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     this.delegate.end(chunk, enc);
   }
   /**
-   * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes some data to the response body before ending. If the response is not chunked and
+   * Same as link but writes some data to the response body before ending. If the response is not chunked and
    * no other data has been written then the @code{Content-Length} header will be automatically set.
    * @param chunk the buffer to write before ending the response
    */
@@ -257,7 +257,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} but providing a handler which will be notified once the file has been completely
+   * Like link but providing a handler which will be notified once the file has been completely
    * written to the wire.
    * @param filename path to the file to serve
    * @param resultHandler handler that will be called on completion

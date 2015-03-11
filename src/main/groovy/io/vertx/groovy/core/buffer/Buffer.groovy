@@ -139,7 +139,7 @@ public class Buffer {
     return ret;
   }
   /**
-   * Returns a copy of a sub-sequence the Buffer as a {@link io.vertx.groovy.core.buffer.Buffer} starting at position <code>start</code>
+   * Returns a copy of a sub-sequence the Buffer as a link starting at position <code>start</code>
    * and ending at position <code>end - 1</code>
    * @param start 
    * @param end 

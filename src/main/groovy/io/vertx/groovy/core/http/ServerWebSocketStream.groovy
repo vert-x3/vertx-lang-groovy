@@ -20,8 +20,8 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A {@link io.vertx.groovy.core.streams.ReadStream} of {@link io.vertx.groovy.core.http.ServerWebSocket}, used for
- * notifying web socket connections to a {@link io.vertx.groovy.core.http.HttpServer}.
+ * A link of link, used for
+ * notifying web socket connections to a link.
 */
 @CompileStatic
 public class ServerWebSocketStream implements ReadStream<ServerWebSocket> {

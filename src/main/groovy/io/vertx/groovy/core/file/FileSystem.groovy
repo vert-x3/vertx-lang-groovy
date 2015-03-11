@@ -59,7 +59,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#copy}
+   * Blocking version of link
    * @param from 
    * @param to 
    * @return 
@@ -86,7 +86,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#copyRecursive}
+   * Blocking version of link
    * @param from 
    * @param to 
    * @param recursive 
@@ -110,7 +110,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#move}
+   * Blocking version of link
    * @param from 
    * @param to 
    * @return 
@@ -133,7 +133,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#truncate}
+   * Blocking version of link
    * @param path 
    * @param len 
    * @return 
@@ -157,7 +157,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem #chmod(String, String, Handler)}
+   * Blocking version of link
    * @param path 
    * @param perms 
    * @return 
@@ -184,7 +184,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#chmodRecursive}
+   * Blocking version of link
    * @param path 
    * @param perms 
    * @param dirPerms 
@@ -207,7 +207,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#chown}
+   * Blocking version of link
    *
    * @param path 
    * @param user 
@@ -241,7 +241,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#props}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -272,7 +272,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#lprops}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -292,7 +292,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#link}
+   * Blocking version of link
    * @param link 
    * @param existing 
    * @return 
@@ -313,7 +313,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#link}
+   * Blocking version of link
    * @param link 
    * @param existing 
    * @return 
@@ -333,7 +333,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#unlink}
+   * Blocking version of link
    * @param link 
    * @return 
    */
@@ -352,7 +352,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#readSymlink}
+   * Blocking version of link
    * @param link 
    * @return 
    */
@@ -371,7 +371,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#delete}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -394,7 +394,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#deleteRecursive}
+   * Blocking version of link
    * @param path 
    * @param recursive 
    * @return 
@@ -416,7 +416,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#mkdir}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -443,7 +443,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#mkdir}
+   * Blocking version of link
    * @param path 
    * @param perms 
    * @return 
@@ -465,7 +465,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#mkdirs}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -492,7 +492,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#mkdirs}
+   * Blocking version of link
    * @param path 
    * @param perms 
    * @return 
@@ -514,7 +514,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#readDir}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -539,7 +539,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#readDir}
+   * Blocking version of link
    * @param path 
    * @param filter 
    * @return 
@@ -571,7 +571,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#readFile}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -592,7 +592,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#writeFile}
+   * Blocking version of link
    * @param path 
    * @param data 
    * @return 
@@ -625,7 +625,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#open}
+   * Blocking version of link
    * @param path 
    * @param options  (see <a href="../../../../../../../cheatsheet/OpenOptions.html">OpenOptions</a>)
    * @return 
@@ -645,7 +645,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#createFile}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -665,7 +665,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#createFile}
+   * Blocking version of link
    * @param path 
    * @param perms 
    * @return 
@@ -685,7 +685,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#exists}
+   * Blocking version of link
    * @param path 
    * @return 
    */
@@ -714,7 +714,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#fsProps}
+   * Blocking version of link
    * @param path 
    * @return 
    */

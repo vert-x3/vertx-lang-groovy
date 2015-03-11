@@ -26,26 +26,26 @@ import io.vertx.core.Handler
 /**
  * Represents a client-side HTTP request.
  * <p>
- * Instances are created by an {@link io.vertx.groovy.core.http.HttpClient} instance, via one of the methods corresponding to the
+ * Instances are created by an link instance, via one of the methods corresponding to the
  * specific HTTP methods, or the generic request methods. On creation the request will not have been written to the
  * wire.
  * <p>
  * Once a request has been obtained, headers can be set on it, and data can be written to its body if required. Once
- * you are ready to send the request, one of the {@link io.vertx.groovy.core.http.HttpClientRequest#end} methods should be called.
+ * you are ready to send the request, one of the link methods should be called.
  * <p>
  * Nothing is actually sent until the request has been internally assigned an HTTP connection.
  * <p>
- * The {@link io.vertx.groovy.core.http.HttpClient} instance will return an instance of this class immediately, even if there are no HTTP
+ * The link instance will return an instance of this class immediately, even if there are no HTTP
  * connections available in the pool. Any requests sent before a connection is assigned will be queued
  * internally and actually sent when an HTTP connection becomes available from the pool.
  * <p>
- * The headers of the request are queued for writing either when the {@link io.vertx.groovy.core.http.HttpClientRequest#end} method is called, or, when the first
+ * The headers of the request are queued for writing either when the link method is called, or, when the first
  * part of the body is written, whichever occurs first.
  * <p>
  * This class supports both chunked and non-chunked HTTP.
  * <p>
- * It implements {@link io.vertx.groovy.core.streams.WriteStream} so it can be used with
- * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
+ * It implements link so it can be used with
+ * link to pump data with flow control.
  * <p>
  * An example of using this class is as follows:
  * <p>
@@ -60,7 +60,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return delegate;
   }
   /**
-   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.HttpClientRequest#setWriteQueueMaxSize}
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using link
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
@@ -188,7 +188,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * has been set using this method, then the <code>handler</code> will be called.
    * <p>
    * You can then continue to write data to the request body and later end it. This is normally used in conjunction with
-   * the {@link io.vertx.groovy.core.http.HttpClientRequest#sendHead} method to force the request header to be written before the request has ended.
+   * the link method to force the request header to be written before the request has ended.
    * @param handler 
    * @return a reference to this, so the API can be used fluently
    */
@@ -197,10 +197,10 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   /**
-   * Forces the head of the request to be written before {@link io.vertx.groovy.core.http.HttpClientRequest#end} is called on the request or any data is
+   * Forces the head of the request to be written before link is called on the request or any data is
    * written to it.
    * <p>
-   * This is normally used to implement HTTP 100-continue handling, see {@link io.vertx.groovy.core.http.HttpClientRequest#continueHandler} for
+   * This is normally used to implement HTTP 100-continue handling, see link for
    * more information.
    * @return a reference to this, so the API can be used fluently
    */
@@ -209,14 +209,14 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   /**
-   * Same as {@link io.vertx.groovy.core.http.HttpClientRequest#end} but writes a String in UTF-8 encoding
+   * Same as link but writes a String in UTF-8 encoding
    * @param chunk 
    */
   public void end(String chunk) {
     this.delegate.end(chunk);
   }
   /**
-   * Same as {@link io.vertx.groovy.core.http.HttpClientRequest#end} but writes a String with the specified encoding
+   * Same as link but writes a String with the specified encoding
    * @param chunk 
    * @param enc 
    */
@@ -224,7 +224,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     this.delegate.end(chunk, enc);
   }
   /**
-   * Same as {@link io.vertx.groovy.core.http.HttpClientRequest#end} but writes some data to the request body before ending. If the request is not chunked and
+   * Same as link but writes some data to the request body before ending. If the request is not chunked and
    * no other data has been written then the <code>Content-Length</code> header will be automatically set
    * @param chunk 
    */
@@ -232,7 +232,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     this.delegate.end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
   }
   /**
-   * Ends the request. If no data has been written to the request body, and {@link io.vertx.groovy.core.http.HttpClientRequest#sendHead} has not been called then
+   * Ends the request. If no data has been written to the request body, and link has not been called then
    * the actual request won't get written until this method gets called.
    * <p>
    * Once the request has ended, it cannot be used any more,
@@ -241,7 +241,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     this.delegate.end();
   }
   /**
-   * Set's the amount of time after which if a response is not received <!-- tag link rendered to null using label/type instead -->
+   * Set's the amount of time after which if a response is not received link
    * will be sent to the exception handler of this request.
    * <p>
    *  Calling this method more than once

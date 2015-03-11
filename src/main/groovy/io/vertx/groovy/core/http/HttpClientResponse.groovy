@@ -26,11 +26,11 @@ import io.vertx.groovy.core.net.NetSocket
 /**
  * Represents a client-side HTTP response.
  * <p>
- * Vert.x provides you with one of these via the handler that was provided when creating the {@link io.vertx.groovy.core.http.HttpClientRequest}
- * or that was set on the {@link io.vertx.groovy.core.http.HttpClientRequest} instance.
+ * Vert.x provides you with one of these via the handler that was provided when creating the link
+ * or that was set on the link instance.
  * <p>
- * It implements {@link io.vertx.groovy.core.streams.ReadStream} so it can be used with
- * {@link io.vertx.groovy.core.streams.Pump} to pump data with flow control.
+ * It implements link so it can be used with
+ * link to pump data with flow control.
 */
 @CompileStatic
 public class HttpClientResponse implements ReadStream<Buffer> {
@@ -156,7 +156,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * <p>
    * USE THIS WITH CAUTION! Writing to the socket directly if you don't know what you're doing can easily break the HTTP protocol
    * <p>
-   * One valid use-case for calling this is to receive the {@link io.vertx.groovy.core.net.NetSocket} after a HTTP CONNECT was issued to the
+   * One valid use-case for calling this is to receive the link after a HTTP CONNECT was issued to the
    * remote peer and it responded with a status code of 200.
    * @return the net socket
    */

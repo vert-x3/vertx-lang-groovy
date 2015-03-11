@@ -20,7 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A timeout stream is triggered by a timer, the {@link io.vertx.groovy.core.Handler} will be call when the timer is fired,
+ * A timeout stream is triggered by a timer, the link will be call when the timer is fired,
  * it can be once or several times depending on the nature of the timer related to this stream. The
  *  will be called after the timer handler has been called.
  * <p>
@@ -57,7 +57,7 @@ public class TimeoutStream implements ReadStream<Long> {
     return this;
   }
   /**
-   * Cancels the timeout. Note this has the same effect as calling {@link io.vertx.groovy.core.TimeoutStream#handler} with a null
+   * Cancels the timeout. Note this has the same effect as calling link with a null
    * argument.
    */
   public void cancel() {

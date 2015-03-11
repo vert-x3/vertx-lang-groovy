@@ -31,7 +31,7 @@ import io.vertx.core.Handler
  * <p>
  * The client can also pool HTTP connections.
  * <p>
- * For pooling to occur, keep-alive must be true on the <a href="../../../../../../../cheatsheet/HttpClientOptions.html">HttpClientOptions</a> (default is true).
+ * For pooling to occur, keep-alive must be true on the link (default is true).
  * In this case connections will be pooled and re-used if there are pending HTTP requests waiting to get a connection,
  * otherwise they will be closed.
  * <p>
@@ -41,7 +41,7 @@ import io.vertx.core.Handler
  * The client also supports pipe-lining of requests. Pipe-lining means another request is sent on the same connection
  * before the response from the preceeding one has returned. Pipe-lining is not appropriate for all requests.
  * <p>
- * To enable pipe-lining, it must be enabled on the <a href="../../../../../../../cheatsheet/HttpClientOptions.html">HttpClientOptions</a> (default is false).
+ * To enable pipe-lining, it must be enabled on the link (default is false).
  * <p>
  * When pipe-lining is enabled the connection will be automatically closed when all in-flight responses have returned
  * and there are no outstanding pending requests to write.

@@ -21,6 +21,7 @@ import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.codegen.testmodel.TestDataObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
+import io.vertx.groovy.codegen.testmodel.ConcreteHandlerUserType
 import io.vertx.groovy.codegen.testmodel.GenericRefedInterface
 import io.vertx.groovy.codegen.testmodel.RefedInterface1
 import io.vertx.groovy.codegen.testmodel.RefedInterface2
@@ -429,6 +430,27 @@ public class ApiTest {
       checker.assertAsyncResult("cheetahs", it, { it.string })
     })
     assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithConcreteHandlerUserTypesSubtype() {
+    def count = 0;
+    AsyncResultChecker checker = new AsyncResultChecker();
+    obj.methodWithConcreteHandlerUserTypesSubtype(ConcreteHandlerUserType.createConcrete({
+      assertEquals("echidnas", it.string)
+      count++
+    }));
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithAbstractHandlerUserTypesSubtype() {
+    def count = 0;
+    obj.methodWithAbstractHandlerUserTypesSubtype(ConcreteHandlerUserType.createAbstract({
+      assertEquals("echidnas", it.string)
+      count++
+    }));
+    assertEquals(1, count);
   }
 
   @Test

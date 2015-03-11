@@ -20,7 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 /**
  * Local maps can be used to share data safely in a single Vert.x instance.
  * <p>
- * The map only allows immutable keys and values in the map, OR certain mutable objects such as {@link io.vertx.groovy.core.buffer.Buffer}
+ * The map only allows immutable keys and values in the map, OR certain mutable objects such as link
  * instances which will be copied when they are added to the map.
  * <p>
  * This ensures there is no shared access to mutable state from different threads (e.g. different event loops) in the
