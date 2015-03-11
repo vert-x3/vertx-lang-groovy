@@ -241,7 +241,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     this.delegate.end();
   }
   /**
-   * Set's the amount of time after which if a response is not received <!-- tag link rendered to null using label/type instead -->
+   * Set's the amount of time after which if a response is not received TimeoutException
    * will be sent to the exception handler of this request.
    * <p>
    *  Calling this method more than once

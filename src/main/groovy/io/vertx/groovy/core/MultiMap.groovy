@@ -72,7 +72,7 @@ public class MultiMap {
     return ret;
   }
   /**
-   * Gets a immutable link of all names
+   * Gets a immutable Set of all names
    * @return A {@link java.util.Set} of all names
    */
   public Set<String> names() {

@@ -21,7 +21,7 @@ import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.streams.WriteStream
 import io.vertx.core.Handler
 /**
- * A link for sending packets to a link.
+ * A {@link io.vertx.groovy.core.streams.WriteStream} for sending packets to a {@link io.vertx.groovy.core.net.SocketAddress}.
  * The stream  is called when the write fails.
 */
 @CompileStatic
@@ -34,7 +34,7 @@ public class PacketWritestream implements WriteStream<Buffer> {
     return delegate;
   }
   /**
-   * This will return <code>true</code> if there are more bytes in the write queue than the value set using link
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.datagram.PacketWritestream#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {

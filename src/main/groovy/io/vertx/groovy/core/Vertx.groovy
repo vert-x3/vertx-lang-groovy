@@ -371,6 +371,16 @@ public class Vertx implements Measured {
     this.delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
   /**
+   * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a> are provided to configure the
+   * deployment.
+   * @param name the name
+   * @param options the deployment options. (see <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a>)
+   * @param completionHandler a handler which will be notified when the deployment is complete
+   */
+  public void deployVerticle(String name, Map<String, Object> options, Handler<AsyncResult<String>> completionHandler) {
+    this.delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler);
+  }
+  /**
    * Undeploy a verticle deployment.
    * <p>
    * The actual undeployment happens asynchronously and may not complete until after the method has returned.

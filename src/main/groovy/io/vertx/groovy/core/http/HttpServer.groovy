@@ -23,10 +23,10 @@ import io.vertx.core.Handler
 /**
  * An HTTP and WebSockets server.
  * <p>
- * You receive HTTP requests by providing a link. As requests arrive on the server the handler
+ * You receive HTTP requests by providing a {@link io.vertx.groovy.core.http.HttpServer#requestHandler}. As requests arrive on the server the handler
  * will be called with the requests.
  * <p>
- * You receive WebSockets by providing a link. As WebSocket connections arrive on the server, the
+ * You receive WebSockets by providing a {@link io.vertx.groovy.core.http.HttpServer#websocketHandler}. As WebSocket connections arrive on the server, the
  * WebSocket is passed to the handler.
 */
 @CompileStatic
@@ -48,7 +48,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Return the request stream for the server. As HTTP requests are received by the server,
-   * instances of link will be created and passed to the stream link.
+   * instances of {@link io.vertx.groovy.core.http.HttpServerRequest} will be created and passed to the stream {@link io.vertx.groovy.core.streams.ReadStream#handler}.
    * @return the request stream
    */
   public HttpServerRequestStream requestStream() {
@@ -57,7 +57,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Set the request handler for the server to <code>requestHandler</code>. As HTTP requests are received by the server,
-   * instances of link will be created and passed to this handler.
+   * instances of {@link io.vertx.groovy.core.http.HttpServerRequest} will be created and passed to this handler.
    * @param handler 
    * @return a reference to this, so the API can be used fluently
    */
@@ -71,7 +71,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Return the websocket stream for the server. If a websocket connect handshake is successful a
-   * new link instance will be created and passed to the stream link.
+   * new {@link io.vertx.groovy.core.http.ServerWebSocket} instance will be created and passed to the stream {@link io.vertx.groovy.core.streams.ReadStream#handler}.
    * @return the websocket stream
    */
   public ServerWebSocketStream websocketStream() {
@@ -80,7 +80,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Set the websocket handler for the server to <code>wsHandler</code>. If a websocket connect handshake is successful a
-   * new link instance will be created and passed to the handler.
+   * new {@link io.vertx.groovy.core.http.ServerWebSocket} instance will be created and passed to the handler.
    * @param handler 
    * @return a reference to this, so the API can be used fluently
    */
@@ -94,7 +94,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Tell the server to start listening. The server will listen on the port and host specified in the
-   * link that was used when creating the server.
+   * <a href="../../../../../../../cheatsheet/HttpServerOptions.html">HttpServerOptions</a> that was used when creating the server.
    * <p>
    * The listen happens asynchronously and the server may not be listening until some time after the call has returned.
    * @return a reference to this, so the API can be used fluently
@@ -105,7 +105,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Tell the server to start listening. The server will listen on the port and host specified here,
-   * ignoring any value set in the link that was used when creating the server.
+   * ignoring any value set in the <a href="../../../../../../../cheatsheet/HttpServerOptions.html">HttpServerOptions</a> that was used when creating the server.
    * <p>
    * The listen happens asynchronously and the server may not be listening until some time after the call has returned.
    * @param port the port to listen on
@@ -117,7 +117,7 @@ public class HttpServer implements Measured {
     return this;
   }
   /**
-   * Like link but supplying a handler that will be called when the server is actually
+   * Like {@link io.vertx.groovy.core.http.HttpServer#listen} but supplying a handler that will be called when the server is actually
    * listening (or has failed).
    * @param port the port to listen on
    * @param host the host to listen on
@@ -139,8 +139,8 @@ public class HttpServer implements Measured {
     return this;
   }
   /**
-   * Like link but the server will listen on host "0.0.0.0" and port specified here ignoring
-   * any value in the link that was used when creating the server.
+   * Like {@link io.vertx.groovy.core.http.HttpServer#listen} but the server will listen on host "0.0.0.0" and port specified here ignoring
+   * any value in the <a href="../../../../../../../cheatsheet/HttpServerOptions.html">HttpServerOptions</a> that was used when creating the server.
    * @param port the port to listen on
    * @return a reference to this, so the API can be used fluently
    */
@@ -149,7 +149,7 @@ public class HttpServer implements Measured {
     return this;
   }
   /**
-   * Like link but supplying a handler that will be called when the server is actually listening (or has failed).
+   * Like {@link io.vertx.groovy.core.http.HttpServer#listen} but supplying a handler that will be called when the server is actually listening (or has failed).
    * @param port the port to listen on
    * @param listenHandler the listen handler
    * @return 
@@ -169,7 +169,7 @@ public class HttpServer implements Measured {
     return this;
   }
   /**
-   * Like link but supplying a handler that will be called when the server is actually listening (or has failed).
+   * Like {@link io.vertx.groovy.core.http.HttpServer#listen} but supplying a handler that will be called when the server is actually listening (or has failed).
    * @param listenHandler the listen handler
    * @return 
    */
@@ -196,7 +196,7 @@ public class HttpServer implements Measured {
     this.delegate.close();
   }
   /**
-   * Like link but supplying a handler that will be called when the server is actually closed (or has failed).
+   * Like {@link io.vertx.groovy.core.http.HttpServer#close} but supplying a handler that will be called when the server is actually closed (or has failed).
    * @param completionHandler the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {

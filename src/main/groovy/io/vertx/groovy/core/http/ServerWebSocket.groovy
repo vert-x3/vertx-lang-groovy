@@ -24,8 +24,8 @@ import io.vertx.groovy.core.net.SocketAddress
 /**
  * Represents a server side WebSocket.
  * <p>
- * Instances of this class are passed into a link or provided
- * when a WebSocket handshake is manually linked.
+ * Instances of this class are passed into a {@link io.vertx.groovy.core.http.HttpServer#websocketHandler} or provided
+ * when a WebSocket handshake is manually {@link io.vertx.groovy.core.http.HttpServerRequest#upgrade}ed.
 */
 @CompileStatic
 public class ServerWebSocket implements WebSocketBase {
@@ -37,7 +37,7 @@ public class ServerWebSocket implements WebSocketBase {
     return delegate;
   }
   /**
-   * This will return <code>true</code> if there are more bytes in the write queue than the value set using link
+   * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.ServerWebSocket#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
