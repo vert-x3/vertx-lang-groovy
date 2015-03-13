@@ -65,4 +65,17 @@
     }
     return null;
   }
+
+  def genConstructorExpression(type) {
+    var fqn = type.name.replace("io.vertx.", "io.vertx.groovy.");
+    if (type.concrete) {
+      return "new " + fqn;
+    } else {
+      return "new " + fqn + "Impl";
+    }
+  }
+
+  def genConstructor(type, arg) {
+    return genConstructorExpression(type) + "(" + arg + ")";
+  }
 }

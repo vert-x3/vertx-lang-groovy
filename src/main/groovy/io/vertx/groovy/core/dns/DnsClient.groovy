@@ -107,7 +107,7 @@ public class DnsClient {
         if (event.succeeded()) {
           f = InternalHelper.<List<MxRecord>>result(event.result().collect({
             io.vertx.core.dns.MxRecord element ->
-            MxRecord.FACTORY.apply(element)
+            new io.vertx.groovy.core.dns.MxRecord(element)
           }) as List)
         } else {
           f = InternalHelper.<List<MxRecord>>failure(event.cause())
@@ -160,7 +160,7 @@ public class DnsClient {
         if (event.succeeded()) {
           f = InternalHelper.<List<SrvRecord>>result(event.result().collect({
             io.vertx.core.dns.SrvRecord element ->
-            SrvRecord.FACTORY.apply(element)
+            new io.vertx.groovy.core.dns.SrvRecord(element)
           }) as List)
         } else {
           f = InternalHelper.<List<SrvRecord>>failure(event.cause())
@@ -181,8 +181,4 @@ public class DnsClient {
     this.delegate.reverseLookup(ipaddress, handler);
     return this;
   }
-
-  static final java.util.function.Function<io.vertx.core.dns.DnsClient, DnsClient> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.dns.DnsClient arg -> new DnsClient(arg);
-  };
 }

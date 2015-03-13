@@ -47,7 +47,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   public MessageConsumer<T> handler(Handler<Message<T>> handler) {
     ((io.vertx.core.eventbus.MessageConsumer) this.delegate).handler(new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
       public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
-        handler.handle(Message.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.eventbus.Message(event));
       }
     });
     return this;
@@ -69,7 +69,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public ReadStream<T> bodyStream() {
-    def ret= ReadStream.FACTORY.apply(((io.vertx.core.eventbus.MessageConsumer) this.delegate).bodyStream());
+    def ret= new io.vertx.groovy.core.streams.ReadStreamImpl(((io.vertx.core.eventbus.MessageConsumer) this.delegate).bodyStream());
     return ret;
   }
   /**
@@ -96,7 +96,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return this registration
    */
   public MessageConsumer<T> setMaxBufferedMessages(int maxBufferedMessages) {
-    def ret= MessageConsumer.FACTORY.apply(((io.vertx.core.eventbus.MessageConsumer) this.delegate).setMaxBufferedMessages(maxBufferedMessages));
+    def ret= new io.vertx.groovy.core.eventbus.MessageConsumer(((io.vertx.core.eventbus.MessageConsumer) this.delegate).setMaxBufferedMessages(maxBufferedMessages));
     return ret;
   }
   /**
@@ -127,8 +127,4 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   public void unregister(Handler<AsyncResult<Void>> completionHandler) {
     ((io.vertx.core.eventbus.MessageConsumer) this.delegate).unregister(completionHandler);
   }
-
-  static final java.util.function.Function<io.vertx.core.eventbus.MessageConsumer, MessageConsumer> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.eventbus.MessageConsumer arg -> new MessageConsumer(arg);
-  };
 }

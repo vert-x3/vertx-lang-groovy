@@ -37,8 +37,4 @@ public class SocketAddress {
     def ret = this.delegate.port();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.net.SocketAddress, SocketAddress> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.net.SocketAddress arg -> new SocketAddress(arg);
-  };
 }

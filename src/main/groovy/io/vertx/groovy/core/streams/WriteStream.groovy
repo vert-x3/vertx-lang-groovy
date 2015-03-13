@@ -33,10 +33,6 @@ public interface WriteStream<T> extends StreamBase {
   WriteStream<T> setWriteQueueMaxSize(int maxSize);
   boolean writeQueueFull();
   WriteStream<T> drainHandler(Handler<Void> handler);
-
-  static final java.util.function.Function<io.vertx.core.streams.WriteStream, WriteStream> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.streams.WriteStream arg -> new WriteStreamImpl(arg);
-  };
 }
 
 @CompileStatic

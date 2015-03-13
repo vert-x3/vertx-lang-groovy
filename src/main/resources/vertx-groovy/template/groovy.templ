@@ -183,7 +183,7 @@ this.delegate
 			@else{elementKind == CLASS_API || elementKind.json}
 				@code{collectionName=eventType.raw.simpleName}
 				@if{elementKind == CLASS_API}
-					@code{toGroovyElement='' + elementType.simpleName + '.FACTORY.apply(it)'}
+					@code{toGroovyElement='' + genConstructor(elementType, "it")}
 					@code{elementJavaType=elementType.name}
 				@else{elementKind == CLASS_JSON_OBJECT}
 					@code{toGroovyElement='it?.getMap()'}
@@ -205,7 +205,7 @@ this.delegate
 		@else{eventKind == CLASS_API}
 			new Handler<@{eventType.erased.name}>() {\n
 			      public void handle(@{eventType.erased.name} event) {\n
-			        @{param.name}.handle(@{eventType.raw.simpleName}.FACTORY.apply(event));\n
+			        @{param.name}.handle(@{genConstructor(eventType.raw, "event")});\n
 			      }\n
 			    }
 		@else{eventKind == CLASS_ASYNC_RESULT}
@@ -221,7 +221,7 @@ this.delegate
 				@else{elementKind == CLASS_API || elementKind.json}
 					@code{collectionName=resultType.raw.simpleName}
 					@if{elementKind == CLASS_API}
-						@code{toGroovyElement=elementType.raw.simpleName + '.FACTORY.apply(element)'}
+						@code{toGroovyElement=genConstructor(elementType.raw, "element")}
 						@code{elementJavaType=elementType.name}
 						@code{elementGroovyType=elementType.simpleName}
 					@else{elementKind == CLASS_JSON_OBJECT}
@@ -375,11 +375,6 @@ public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN
 	@end{}
 
 @end{}
-
-\n
-  static final java.util.function.Function<@{type.raw.name}, @{type.raw.simpleName}> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {\n
-    @{type.raw.name} arg -> new @{type.raw.simpleName + (concrete ? '' : 'Impl')}(arg);\n
-  };\n
 
 }\n
 

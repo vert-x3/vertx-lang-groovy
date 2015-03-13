@@ -57,7 +57,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
   public NetSocket handler(Handler<Buffer> handler) {
     this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(Buffer.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -147,7 +147,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= SocketAddress.FACTORY.apply(this.delegate.remoteAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.remoteAddress());
     cached_0 = ret;
     return ret;
   }
@@ -159,7 +159,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= SocketAddress.FACTORY.apply(this.delegate.localAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.localAddress());
     cached_1 = ret;
     return ret;
   }
@@ -197,8 +197,4 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
   }
   private SocketAddress cached_0;
   private SocketAddress cached_1;
-
-  static final java.util.function.Function<io.vertx.core.net.NetSocket, NetSocket> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.net.NetSocket arg -> new NetSocket(arg);
-  };
 }

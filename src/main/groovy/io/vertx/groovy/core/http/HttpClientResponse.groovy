@@ -52,7 +52,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   public HttpClientResponse handler(Handler<Buffer> handler) {
     this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(Buffer.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -89,7 +89,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.headers());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.headers());
     cached_0 = ret;
     return ret;
   }
@@ -119,7 +119,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.trailers());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.trailers());
     cached_1 = ret;
     return ret;
   }
@@ -146,7 +146,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   public HttpClientResponse bodyHandler(Handler<Buffer> bodyHandler) {
     this.delegate.bodyHandler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        bodyHandler.handle(Buffer.FACTORY.apply(event));
+        bodyHandler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -164,7 +164,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_3 != null) {
       return cached_3;
     }
-    def ret= NetSocket.FACTORY.apply(this.delegate.netSocket());
+    def ret= new io.vertx.groovy.core.net.NetSocket(this.delegate.netSocket());
     cached_3 = ret;
     return ret;
   }
@@ -172,8 +172,4 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   private MultiMap cached_1;
   private java.util.List<java.lang.String> cached_2;
   private NetSocket cached_3;
-
-  static final java.util.function.Function<io.vertx.core.http.HttpClientResponse, HttpClientResponse> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.HttpClientResponse arg -> new HttpClientResponse(arg);
-  };
 }

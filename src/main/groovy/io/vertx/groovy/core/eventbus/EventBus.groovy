@@ -148,7 +148,7 @@ public class EventBus implements Measured {
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> consumer(String address) {
-    def ret= MessageConsumer.FACTORY.apply(this.delegate.consumer(address));
+    def ret= new io.vertx.groovy.core.eventbus.MessageConsumer(this.delegate.consumer(address));
     return ret;
   }
   /**
@@ -158,9 +158,9 @@ public class EventBus implements Measured {
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> consumer(String address, Handler<Message<T>> handler) {
-    def ret= MessageConsumer.FACTORY.apply(this.delegate.consumer(address, new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
+    def ret= new io.vertx.groovy.core.eventbus.MessageConsumer(this.delegate.consumer(address, new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
       public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
-        handler.handle(Message.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.eventbus.Message(event));
       }
     }));
     return ret;
@@ -171,7 +171,7 @@ public class EventBus implements Measured {
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> localConsumer(String address) {
-    def ret= MessageConsumer.FACTORY.apply(this.delegate.localConsumer(address));
+    def ret= new io.vertx.groovy.core.eventbus.MessageConsumer(this.delegate.localConsumer(address));
     return ret;
   }
   /**
@@ -181,9 +181,9 @@ public class EventBus implements Measured {
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> localConsumer(String address, Handler<Message<T>> handler) {
-    def ret= MessageConsumer.FACTORY.apply(this.delegate.localConsumer(address, new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
+    def ret= new io.vertx.groovy.core.eventbus.MessageConsumer(this.delegate.localConsumer(address, new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
       public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
-        handler.handle(Message.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.eventbus.Message(event));
       }
     }));
     return ret;
@@ -198,7 +198,7 @@ public class EventBus implements Measured {
    * @return The sender
    */
   public <T> MessageProducer<T> sender(String address) {
-    def ret= MessageProducer.FACTORY.apply(this.delegate.sender(address));
+    def ret= new io.vertx.groovy.core.eventbus.MessageProducer(this.delegate.sender(address));
     return ret;
   }
   /**
@@ -209,7 +209,7 @@ public class EventBus implements Measured {
    * @return The sender
    */
   public <T> MessageProducer<T> sender(String address, Map<String, Object> options) {
-    def ret= MessageProducer.FACTORY.apply(this.delegate.sender(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= new io.vertx.groovy.core.eventbus.MessageProducer(this.delegate.sender(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
@@ -222,7 +222,7 @@ public class EventBus implements Measured {
    * @return The publisher
    */
   public <T> MessageProducer<T> publisher(String address) {
-    def ret= MessageProducer.FACTORY.apply(this.delegate.publisher(address));
+    def ret= new io.vertx.groovy.core.eventbus.MessageProducer(this.delegate.publisher(address));
     return ret;
   }
   /**
@@ -233,7 +233,7 @@ public class EventBus implements Measured {
    * @return The publisher
    */
   public <T> MessageProducer<T> publisher(String address, Map<String, Object> options) {
-    def ret= MessageProducer.FACTORY.apply(this.delegate.publisher(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= new io.vertx.groovy.core.eventbus.MessageProducer(this.delegate.publisher(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
@@ -243,8 +243,4 @@ public class EventBus implements Measured {
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
   }
-
-  static final java.util.function.Function<io.vertx.core.eventbus.EventBus, EventBus> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.eventbus.EventBus arg -> new EventBus(arg);
-  };
 }

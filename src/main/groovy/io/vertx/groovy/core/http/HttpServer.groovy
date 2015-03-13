@@ -52,7 +52,7 @@ public class HttpServer implements Measured {
    * @return the request stream
    */
   public HttpServerRequestStream requestStream() {
-    def ret= HttpServerRequestStream.FACTORY.apply(this.delegate.requestStream());
+    def ret= new io.vertx.groovy.core.http.HttpServerRequestStream(this.delegate.requestStream());
     return ret;
   }
   /**
@@ -62,9 +62,9 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer requestHandler(Handler<HttpServerRequest> handler) {
-    def ret= HttpServer.FACTORY.apply(this.delegate.requestHandler(new Handler<io.vertx.core.http.HttpServerRequest>() {
+    def ret= new io.vertx.groovy.core.http.HttpServer(this.delegate.requestHandler(new Handler<io.vertx.core.http.HttpServerRequest>() {
       public void handle(io.vertx.core.http.HttpServerRequest event) {
-        handler.handle(HttpServerRequest.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.http.HttpServerRequest(event));
       }
     }));
     return ret;
@@ -75,7 +75,7 @@ public class HttpServer implements Measured {
    * @return the websocket stream
    */
   public ServerWebSocketStream websocketStream() {
-    def ret= ServerWebSocketStream.FACTORY.apply(this.delegate.websocketStream());
+    def ret= new io.vertx.groovy.core.http.ServerWebSocketStream(this.delegate.websocketStream());
     return ret;
   }
   /**
@@ -85,9 +85,9 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer websocketHandler(Handler<ServerWebSocket> handler) {
-    def ret= HttpServer.FACTORY.apply(this.delegate.websocketHandler(new Handler<io.vertx.core.http.ServerWebSocket>() {
+    def ret= new io.vertx.groovy.core.http.HttpServer(this.delegate.websocketHandler(new Handler<io.vertx.core.http.ServerWebSocket>() {
       public void handle(io.vertx.core.http.ServerWebSocket event) {
-        handler.handle(ServerWebSocket.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.http.ServerWebSocket(event));
       }
     }));
     return ret;
@@ -202,8 +202,4 @@ public class HttpServer implements Measured {
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
   }
-
-  static final java.util.function.Function<io.vertx.core.http.HttpServer, HttpServer> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.HttpServer arg -> new HttpServer(arg);
-  };
 }

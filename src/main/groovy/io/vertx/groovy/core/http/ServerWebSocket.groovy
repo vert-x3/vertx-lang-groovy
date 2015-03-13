@@ -84,7 +84,7 @@ public class ServerWebSocket implements WebSocketBase {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= SocketAddress.FACTORY.apply(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress());
     cached_0 = ret;
     return ret;
   }
@@ -96,7 +96,7 @@ public class ServerWebSocket implements WebSocketBase {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= SocketAddress.FACTORY.apply(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress());
     cached_1 = ret;
     return ret;
   }
@@ -107,7 +107,7 @@ public class ServerWebSocket implements WebSocketBase {
   public ServerWebSocket handler(Handler<Buffer> handler) {
     this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(Buffer.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -151,7 +151,7 @@ public class ServerWebSocket implements WebSocketBase {
   public ServerWebSocket frameHandler(Handler<WebSocketFrame> handler) {
     this.delegate.frameHandler(new Handler<io.vertx.core.http.WebSocketFrame>() {
       public void handle(io.vertx.core.http.WebSocketFrame event) {
-        handler.handle(WebSocketFrame.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.http.WebSocketFrame(event));
       }
     });
     return this;
@@ -184,7 +184,7 @@ public class ServerWebSocket implements WebSocketBase {
     if (cached_2 != null) {
       return cached_2;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.headers());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.headers());
     cached_2 = ret;
     return ret;
   }
@@ -203,8 +203,4 @@ public class ServerWebSocket implements WebSocketBase {
   private SocketAddress cached_0;
   private SocketAddress cached_1;
   private MultiMap cached_2;
-
-  static final java.util.function.Function<io.vertx.core.http.ServerWebSocket, ServerWebSocket> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.ServerWebSocket arg -> new ServerWebSocket(arg);
-  };
 }

@@ -63,8 +63,4 @@ public class TimeoutStream implements ReadStream<Long> {
   public void cancel() {
     this.delegate.cancel();
   }
-
-  static final java.util.function.Function<io.vertx.core.TimeoutStream, TimeoutStream> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.TimeoutStream arg -> new TimeoutStream(arg);
-  };
 }

@@ -181,8 +181,4 @@ public class AsyncMap<K,V> {
   public void size(Handler<AsyncResult<Integer>> resultHandler) {
     ((io.vertx.core.shareddata.AsyncMap) this.delegate).size(resultHandler);
   }
-
-  static final java.util.function.Function<io.vertx.core.shareddata.AsyncMap, AsyncMap> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.shareddata.AsyncMap arg -> new AsyncMap(arg);
-  };
 }

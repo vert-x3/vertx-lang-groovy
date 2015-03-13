@@ -55,7 +55,7 @@
 			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getList()});\n
 			@else{method.returnType.args[0].kind == CLASS_API}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{method.returnType.args[0].simpleName}.FACTORY.apply(underpants)});\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{genConstructor(method.returnType.args[0], "underpants")}});\n
 		  @else{}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 			@end{}
@@ -66,7 +66,7 @@
 			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getList()}) as Set;\n
 			@else{method.returnType.args[0].kind == CLASS_API}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{method.returnType.args[0].simpleName}.FACTORY.apply(underpants)}) as Set;\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{genConstructor(method.returnType.args[0], "underpants")}}) as Set;\n
 			@else{}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 			@end{}
@@ -77,7 +77,7 @@
 			@else{method.returnType.args[1].kind == CLASS_JSON_ARRAY}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, v.getList()]});\n
 			@else{method.returnType.args[1].kind == CLASS_API}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, @{method.returnType.args[0].simpleName}.FACTORY.apply(v)]});\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, @{genConstructor(method.returnType.args[0], "v")}]});\n
 			@else{}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 			@end{}
@@ -86,7 +86,7 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@else{method.returnType.kind == CLASS_API}
 			@code{cachedType=method.returnType.simpleName}
-		    def ret= @{method.returnType.raw.simpleName}.FACTORY.apply(@includeNamed{'invokeDelegate';method=method});\n
+		    def ret= @{genConstructorExpression(method.returnType.raw)}(@includeNamed{'invokeDelegate';method=method});\n
 		@else{}
 			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n

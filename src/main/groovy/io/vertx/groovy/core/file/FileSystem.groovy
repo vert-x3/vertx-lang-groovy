@@ -246,7 +246,7 @@ public class FileSystem {
    * @return 
    */
   public FileProps propsBlocking(String path) {
-    def ret= FileProps.FACTORY.apply(this.delegate.propsBlocking(path));
+    def ret= new io.vertx.groovy.core.file.FileProps(this.delegate.propsBlocking(path));
     return ret;
   }
   /**
@@ -277,7 +277,7 @@ public class FileSystem {
    * @return 
    */
   public FileProps lpropsBlocking(String path) {
-    def ret= FileProps.FACTORY.apply(this.delegate.lpropsBlocking(path));
+    def ret= new io.vertx.groovy.core.file.FileProps(this.delegate.lpropsBlocking(path));
     return ret;
   }
   /**
@@ -576,7 +576,7 @@ public class FileSystem {
    * @return 
    */
   public Buffer readFileBlocking(String path) {
-    def ret= Buffer.FACTORY.apply(this.delegate.readFileBlocking(path));
+    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.readFileBlocking(path));
     return ret;
   }
   /**
@@ -631,7 +631,7 @@ public class FileSystem {
    * @return 
    */
   public AsyncFile openBlocking(String path, Map<String, Object> options) {
-    def ret= AsyncFile.FACTORY.apply(this.delegate.openBlocking(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= new io.vertx.groovy.core.file.AsyncFile(this.delegate.openBlocking(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null));
     return ret;
   }
   /**
@@ -719,11 +719,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystemProps fsPropsBlocking(String path) {
-    def ret= FileSystemProps.FACTORY.apply(this.delegate.fsPropsBlocking(path));
+    def ret= new io.vertx.groovy.core.file.FileSystemProps(this.delegate.fsPropsBlocking(path));
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.file.FileSystem, FileSystem> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.file.FileSystem arg -> new FileSystem(arg);
-  };
 }

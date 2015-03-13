@@ -94,8 +94,4 @@ public class FileProps {
     def ret = this.delegate.size();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.file.FileProps, FileProps> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.file.FileProps arg -> new FileProps(arg);
-  };
 }

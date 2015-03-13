@@ -47,7 +47,7 @@ public class NetServer implements Measured {
    * @return the connect stream
    */
   public NetSocketStream connectStream() {
-    def ret= NetSocketStream.FACTORY.apply(this.delegate.connectStream());
+    def ret= new io.vertx.groovy.core.net.NetSocketStream(this.delegate.connectStream());
     return ret;
   }
   /**
@@ -58,9 +58,9 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer connectHandler(Handler<NetSocket> handler) {
-    def ret= NetServer.FACTORY.apply(this.delegate.connectHandler(new Handler<io.vertx.core.net.NetSocket>() {
+    def ret= new io.vertx.groovy.core.net.NetServer(this.delegate.connectHandler(new Handler<io.vertx.core.net.NetSocket>() {
       public void handle(io.vertx.core.net.NetSocket event) {
-        handler.handle(NetSocket.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.net.NetSocket(event));
       }
     }));
     return ret;
@@ -190,8 +190,4 @@ public class NetServer implements Measured {
     def ret = this.delegate.actualPort();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.net.NetServer, NetServer> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.net.NetServer arg -> new NetServer(arg);
-  };
 }

@@ -85,8 +85,4 @@ public class SrvRecord {
     def ret = this.delegate.target();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.dns.SrvRecord, SrvRecord> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.dns.SrvRecord arg -> new SrvRecord(arg);
-  };
 }

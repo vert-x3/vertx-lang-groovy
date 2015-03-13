@@ -83,7 +83,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return the write stream for sending packets
    */
   public PacketWritestream sender(int port, String host) {
-    def ret= PacketWritestream.FACTORY.apply(this.delegate.sender(port, host));
+    def ret= new io.vertx.groovy.core.datagram.PacketWritestream(this.delegate.sender(port, host));
     return ret;
   }
   /**
@@ -156,7 +156,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= SocketAddress.FACTORY.apply(this.delegate.localAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.localAddress());
     cached_0 = ret;
     return ret;
   }
@@ -329,7 +329,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
   public DatagramSocket handler(Handler<DatagramPacket> handler) {
     this.delegate.handler(new Handler<io.vertx.core.datagram.DatagramPacket>() {
       public void handle(io.vertx.core.datagram.DatagramPacket event) {
-        handler.handle(DatagramPacket.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.datagram.DatagramPacket(event));
       }
     });
     return this;
@@ -339,8 +339,4 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   private SocketAddress cached_0;
-
-  static final java.util.function.Function<io.vertx.core.datagram.DatagramSocket, DatagramSocket> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.datagram.DatagramSocket arg -> new DatagramSocket(arg);
-  };
 }

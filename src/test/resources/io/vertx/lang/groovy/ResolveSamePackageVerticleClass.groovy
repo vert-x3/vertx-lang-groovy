@@ -6,7 +6,7 @@ public class ResolveSamePackageVerticleClass extends GroovyVerticle {
 
     @Override
     void start() throws Exception {
-        SamePackage o = new SamePackage()
+        InSamePackage o = new InSamePackage()
         DeploymentTest.started.set(true)
     }
 

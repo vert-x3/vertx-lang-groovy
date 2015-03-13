@@ -44,7 +44,7 @@ public class WebSocketStream implements ReadStream<WebSocket> {
   public WebSocketStream handler(Handler<WebSocket> handler) {
     this.delegate.handler(new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
-        handler.handle(WebSocket.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
     });
     return this;
@@ -61,8 +61,4 @@ public class WebSocketStream implements ReadStream<WebSocket> {
     this.delegate.endHandler(endHandler);
     return this;
   }
-
-  static final java.util.function.Function<io.vertx.core.http.WebSocketStream, WebSocketStream> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.WebSocketStream arg -> new WebSocketStream(arg);
-  };
 }

@@ -49,10 +49,6 @@ public interface WebSocketBase extends ReadStream<Buffer>,  WriteStream<Buffer> 
   void close();
   SocketAddress remoteAddress();
   SocketAddress localAddress();
-
-  static final java.util.function.Function<io.vertx.core.http.WebSocketBase, WebSocketBase> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.WebSocketBase arg -> new WebSocketBaseImpl(arg);
-  };
 }
 
 @CompileStatic
@@ -79,7 +75,7 @@ class WebSocketBaseImpl implements WebSocketBase {
   public WebSocketBase handler(Handler<Buffer> handler) {
     ((io.vertx.core.http.WebSocketBase) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(Buffer.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -170,7 +166,7 @@ class WebSocketBaseImpl implements WebSocketBase {
   public WebSocketBase frameHandler(Handler<WebSocketFrame> handler) {
     ((io.vertx.core.http.WebSocketBase) this.delegate).frameHandler(new Handler<io.vertx.core.http.WebSocketFrame>() {
       public void handle(io.vertx.core.http.WebSocketFrame event) {
-        handler.handle(WebSocketFrame.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.http.WebSocketFrame(event));
       }
     });
     return this;
@@ -189,7 +185,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= SocketAddress.FACTORY.apply(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress());
     cached_0 = ret;
     return ret;
   }
@@ -201,7 +197,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= SocketAddress.FACTORY.apply(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress());
     cached_1 = ret;
     return ret;
   }

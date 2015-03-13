@@ -44,7 +44,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame binaryFrame(Buffer data, boolean isFinal) {
-    def ret= WebSocketFrame.FACTORY.apply(io.vertx.core.http.WebSocketFrame.binaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal));
+    def ret= new io.vertx.groovy.core.http.WebSocketFrame(io.vertx.core.http.WebSocketFrame.binaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal));
     return ret;
   }
   /**
@@ -54,7 +54,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame textFrame(String str, boolean isFinal) {
-    def ret= WebSocketFrame.FACTORY.apply(io.vertx.core.http.WebSocketFrame.textFrame(str, isFinal));
+    def ret= new io.vertx.groovy.core.http.WebSocketFrame(io.vertx.core.http.WebSocketFrame.textFrame(str, isFinal));
     return ret;
   }
   /**
@@ -64,7 +64,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame continuationFrame(Buffer data, boolean isFinal) {
-    def ret= WebSocketFrame.FACTORY.apply(io.vertx.core.http.WebSocketFrame.continuationFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal));
+    def ret= new io.vertx.groovy.core.http.WebSocketFrame(io.vertx.core.http.WebSocketFrame.continuationFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal));
     return ret;
   }
   /**
@@ -112,7 +112,7 @@ public class WebSocketFrame {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= Buffer.FACTORY.apply(this.delegate.binaryData());
+    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.binaryData());
     cached_1 = ret;
     return ret;
   }
@@ -126,8 +126,4 @@ public class WebSocketFrame {
   }
   private java.lang.String cached_0;
   private Buffer cached_1;
-
-  static final java.util.function.Function<io.vertx.core.http.WebSocketFrame, WebSocketFrame> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.WebSocketFrame arg -> new WebSocketFrame(arg);
-  };
 }

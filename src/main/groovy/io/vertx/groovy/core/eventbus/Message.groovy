@@ -53,7 +53,7 @@ public class Message<T> {
    * @return the headers
    */
   public MultiMap headers() {
-    def ret= MultiMap.FACTORY.apply(((io.vertx.core.eventbus.Message) this.delegate).headers());
+    def ret= new io.vertx.groovy.core.MultiMap(((io.vertx.core.eventbus.Message) this.delegate).headers());
     return ret;
   }
   /**
@@ -147,8 +147,4 @@ public class Message<T> {
     ((io.vertx.core.eventbus.Message) this.delegate).fail(failureCode, message);
   }
   private T cached_0;
-
-  static final java.util.function.Function<io.vertx.core.eventbus.Message, Message> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.eventbus.Message arg -> new Message(arg);
-  };
 }

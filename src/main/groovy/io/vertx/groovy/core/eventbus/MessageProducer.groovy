@@ -74,8 +74,4 @@ public class MessageProducer<T> implements WriteStream<T> {
     def ret = ((io.vertx.core.eventbus.MessageProducer) this.delegate).address();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.eventbus.MessageProducer, MessageProducer> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.eventbus.MessageProducer arg -> new MessageProducer(arg);
-  };
 }

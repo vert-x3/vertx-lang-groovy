@@ -53,7 +53,7 @@ public class Pump {
    * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws) {
-    def ret= Pump.FACTORY.apply(io.vertx.core.streams.Pump.pump((io.vertx.core.streams.ReadStream<T>)rs.getDelegate(), (io.vertx.core.streams.WriteStream<T>)ws.getDelegate()));
+    def ret= new io.vertx.groovy.core.streams.Pump(io.vertx.core.streams.Pump.pump((io.vertx.core.streams.ReadStream<T>)rs.getDelegate(), (io.vertx.core.streams.WriteStream<T>)ws.getDelegate()));
     return ret;
   }
   /**
@@ -65,7 +65,7 @@ public class Pump {
    * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws, int writeQueueMaxSize) {
-    def ret= Pump.FACTORY.apply(io.vertx.core.streams.Pump.pump((io.vertx.core.streams.ReadStream<T>)rs.getDelegate(), (io.vertx.core.streams.WriteStream<T>)ws.getDelegate(), writeQueueMaxSize));
+    def ret= new io.vertx.groovy.core.streams.Pump(io.vertx.core.streams.Pump.pump((io.vertx.core.streams.ReadStream<T>)rs.getDelegate(), (io.vertx.core.streams.WriteStream<T>)ws.getDelegate(), writeQueueMaxSize));
     return ret;
   }
   /**
@@ -101,8 +101,4 @@ public class Pump {
     def ret = this.delegate.numberPumped();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.streams.Pump, Pump> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.streams.Pump arg -> new Pump(arg);
-  };
 }

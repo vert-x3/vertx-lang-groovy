@@ -24,10 +24,6 @@ import io.vertx.lang.groovy.InternalHelper
 public interface Measured {
   public Object getDelegate();
   String metricBaseName();
-
-  static final java.util.function.Function<io.vertx.core.metrics.Measured, Measured> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.metrics.Measured arg -> new MeasuredImpl(arg);
-  };
 }
 
 @CompileStatic

@@ -78,8 +78,4 @@ public class NetClient implements Measured {
   public void close() {
     this.delegate.close();
   }
-
-  static final java.util.function.Function<io.vertx.core.net.NetClient, NetClient> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.net.NetClient arg -> new NetClient(arg);
-  };
 }

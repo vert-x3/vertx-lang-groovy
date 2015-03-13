@@ -146,7 +146,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.headers());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.headers());
     cached_0 = ret;
     return ret;
   }
@@ -168,7 +168,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.trailers());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.trailers());
     cached_1 = ret;
     return ret;
   }
@@ -312,8 +312,4 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   private MultiMap cached_0;
   private MultiMap cached_1;
-
-  static final java.util.function.Function<io.vertx.core.http.HttpServerResponse, HttpServerResponse> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.HttpServerResponse arg -> new HttpServerResponse(arg);
-  };
 }

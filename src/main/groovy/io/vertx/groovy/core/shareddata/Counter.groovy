@@ -86,8 +86,4 @@ public class Counter {
   public void compareAndSet(long expected, long value, Handler<AsyncResult<Boolean>> resultHandler) {
     this.delegate.compareAndSet(expected, value, resultHandler);
   }
-
-  static final java.util.function.Function<io.vertx.core.shareddata.Counter, Counter> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.shareddata.Counter arg -> new Counter(arg);
-  };
 }

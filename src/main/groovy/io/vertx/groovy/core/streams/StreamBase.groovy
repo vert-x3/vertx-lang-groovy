@@ -25,10 +25,6 @@ import io.vertx.core.Handler
 public interface StreamBase {
   public Object getDelegate();
   StreamBase exceptionHandler(Handler<Throwable> handler);
-
-  static final java.util.function.Function<io.vertx.core.streams.StreamBase, StreamBase> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.streams.StreamBase arg -> new StreamBaseImpl(arg);
-  };
 }
 
 @CompileStatic

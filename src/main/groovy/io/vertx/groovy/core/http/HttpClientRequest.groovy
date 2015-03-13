@@ -91,7 +91,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   public HttpClientRequest handler(Handler<HttpClientResponse> handler) {
     this.delegate.handler(new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
-        handler.handle(HttpClientResponse.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
     });
     return this;
@@ -149,7 +149,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.headers());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.headers());
     cached_0 = ret;
     return ret;
   }
@@ -254,8 +254,4 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   private MultiMap cached_0;
-
-  static final java.util.function.Function<io.vertx.core.http.HttpClientRequest, HttpClientRequest> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.HttpClientRequest arg -> new HttpClientRequest(arg);
-  };
 }

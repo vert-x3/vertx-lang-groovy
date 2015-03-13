@@ -37,7 +37,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> future() {
-    def ret= Future.FACTORY.apply(io.vertx.core.Future.future());
+    def ret= new io.vertx.groovy.core.Future(io.vertx.core.Future.future());
     return ret;
   }
   /**
@@ -45,7 +45,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> succeededFuture() {
-    def ret= Future.FACTORY.apply(io.vertx.core.Future.succeededFuture());
+    def ret= new io.vertx.groovy.core.Future(io.vertx.core.Future.succeededFuture());
     return ret;
   }
   /**
@@ -54,7 +54,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> succeededFuture(T result) {
-    def ret= Future.FACTORY.apply(io.vertx.core.Future.succeededFuture(InternalHelper.unwrapObject(result)));
+    def ret= new io.vertx.groovy.core.Future(io.vertx.core.Future.succeededFuture(InternalHelper.unwrapObject(result)));
     return ret;
   }
   /**
@@ -63,7 +63,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> failedFuture(String failureMessage) {
-    def ret= Future.FACTORY.apply(io.vertx.core.Future.failedFuture(failureMessage));
+    def ret= new io.vertx.groovy.core.Future(io.vertx.core.Future.failedFuture(failureMessage));
     return ret;
   }
   /**
@@ -116,8 +116,4 @@ public class Future<T> {
   public void fail(String failureMessage) {
     ((io.vertx.core.Future) this.delegate).fail(failureMessage);
   }
-
-  static final java.util.function.Function<io.vertx.core.Future, Future> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.Future arg -> new Future(arg);
-  };
 }

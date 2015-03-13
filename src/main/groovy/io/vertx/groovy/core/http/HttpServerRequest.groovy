@@ -52,7 +52,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   public HttpServerRequest handler(Handler<Buffer> handler) {
     this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(Buffer.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -118,7 +118,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= HttpServerResponse.FACTORY.apply(this.delegate.response());
+    def ret= new io.vertx.groovy.core.http.HttpServerResponse(this.delegate.response());
     cached_0 = ret;
     return ret;
   }
@@ -130,7 +130,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.headers());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.headers());
     cached_1 = ret;
     return ret;
   }
@@ -151,7 +151,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_2 != null) {
       return cached_2;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.params());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.params());
     cached_2 = ret;
     return ret;
   }
@@ -172,7 +172,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_3 != null) {
       return cached_3;
     }
-    def ret= SocketAddress.FACTORY.apply(this.delegate.remoteAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.remoteAddress());
     cached_3 = ret;
     return ret;
   }
@@ -184,7 +184,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_4 != null) {
       return cached_4;
     }
-    def ret= SocketAddress.FACTORY.apply(this.delegate.localAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.localAddress());
     cached_4 = ret;
     return ret;
   }
@@ -207,7 +207,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   public HttpServerRequest bodyHandler(Handler<Buffer> bodyHandler) {
     this.delegate.bodyHandler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        bodyHandler.handle(Buffer.FACTORY.apply(event));
+        bodyHandler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -226,7 +226,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_5 != null) {
       return cached_5;
     }
-    def ret= NetSocket.FACTORY.apply(this.delegate.netSocket());
+    def ret= new io.vertx.groovy.core.net.NetSocket(this.delegate.netSocket());
     cached_5 = ret;
     return ret;
   }
@@ -257,7 +257,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   public HttpServerRequest uploadHandler(Handler<HttpServerFileUpload> uploadHandler) {
     this.delegate.uploadHandler(new Handler<io.vertx.core.http.HttpServerFileUpload>() {
       public void handle(io.vertx.core.http.HttpServerFileUpload event) {
-        uploadHandler.handle(HttpServerFileUpload.FACTORY.apply(event));
+        uploadHandler.handle(new io.vertx.groovy.core.http.HttpServerFileUpload(event));
       }
     });
     return this;
@@ -275,7 +275,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_6 != null) {
       return cached_6;
     }
-    def ret= MultiMap.FACTORY.apply(this.delegate.formAttributes());
+    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.formAttributes());
     cached_6 = ret;
     return ret;
   }
@@ -296,7 +296,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the WebSocket
    */
   public ServerWebSocket upgrade() {
-    def ret= ServerWebSocket.FACTORY.apply(this.delegate.upgrade());
+    def ret= new io.vertx.groovy.core.http.ServerWebSocket(this.delegate.upgrade());
     return ret;
   }
   private HttpServerResponse cached_0;
@@ -306,8 +306,4 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   private SocketAddress cached_4;
   private NetSocket cached_5;
   private MultiMap cached_6;
-
-  static final java.util.function.Function<io.vertx.core.http.HttpServerRequest, HttpServerRequest> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.HttpServerRequest arg -> new HttpServerRequest(arg);
-  };
 }

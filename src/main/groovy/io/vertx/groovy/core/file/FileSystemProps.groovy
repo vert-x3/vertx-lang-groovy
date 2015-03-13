@@ -53,8 +53,4 @@ public class FileSystemProps {
     def ret = this.delegate.usableSpace();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.file.FileSystemProps, FileSystemProps> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.file.FileSystemProps arg -> new FileSystemProps(arg);
-  };
 }

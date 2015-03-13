@@ -40,7 +40,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer() {
-    def ret= Buffer.FACTORY.apply(io.vertx.core.buffer.Buffer.buffer());
+    def ret= new io.vertx.groovy.core.buffer.Buffer(io.vertx.core.buffer.Buffer.buffer());
     return ret;
   }
   /**
@@ -52,7 +52,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(int initialSizeHint) {
-    def ret= Buffer.FACTORY.apply(io.vertx.core.buffer.Buffer.buffer(initialSizeHint));
+    def ret= new io.vertx.groovy.core.buffer.Buffer(io.vertx.core.buffer.Buffer.buffer(initialSizeHint));
     return ret;
   }
   /**
@@ -61,7 +61,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(String string) {
-    def ret= Buffer.FACTORY.apply(io.vertx.core.buffer.Buffer.buffer(string));
+    def ret= new io.vertx.groovy.core.buffer.Buffer(io.vertx.core.buffer.Buffer.buffer(string));
     return ret;
   }
   /**
@@ -72,7 +72,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(String string, String enc) {
-    def ret= Buffer.FACTORY.apply(io.vertx.core.buffer.Buffer.buffer(string, enc));
+    def ret= new io.vertx.groovy.core.buffer.Buffer(io.vertx.core.buffer.Buffer.buffer(string, enc));
     return ret;
   }
   /**
@@ -146,7 +146,7 @@ public class Buffer {
    * @return 
    */
   public Buffer getBuffer(int start, int end) {
-    def ret= Buffer.FACTORY.apply(this.delegate.getBuffer(start, end));
+    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.getBuffer(start, end));
     return ret;
   }
   /**
@@ -406,7 +406,7 @@ public class Buffer {
    * @return 
    */
   public Buffer copy() {
-    def ret= Buffer.FACTORY.apply(this.delegate.copy());
+    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.copy());
     return ret;
   }
   /**
@@ -416,7 +416,7 @@ public class Buffer {
    * @return 
    */
   public Buffer slice() {
-    def ret= Buffer.FACTORY.apply(this.delegate.slice());
+    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.slice());
     return ret;
   }
   /**
@@ -428,11 +428,7 @@ public class Buffer {
    * @return 
    */
   public Buffer slice(int start, int end) {
-    def ret= Buffer.FACTORY.apply(this.delegate.slice(start, end));
+    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.slice(start, end));
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.buffer.Buffer, Buffer> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.buffer.Buffer arg -> new Buffer(arg);
-  };
 }

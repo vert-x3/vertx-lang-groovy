@@ -144,8 +144,4 @@ public class MultiMap {
     def ret = this.delegate.size();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.MultiMap, MultiMap> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.MultiMap arg -> new MultiMap(arg);
-  };
 }

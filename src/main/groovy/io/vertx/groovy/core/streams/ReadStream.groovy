@@ -32,10 +32,6 @@ public interface ReadStream<T> extends StreamBase {
   ReadStream<T> pause();
   ReadStream<T> resume();
   ReadStream<T> endHandler(Handler<Void> endHandler);
-
-  static final java.util.function.Function<io.vertx.core.streams.ReadStream, ReadStream> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.streams.ReadStream arg -> new ReadStreamImpl(arg);
-  };
 }
 
 @CompileStatic

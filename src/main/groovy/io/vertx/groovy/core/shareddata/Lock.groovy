@@ -38,8 +38,4 @@ public class Lock {
   public void release() {
     this.delegate.release();
   }
-
-  static final java.util.function.Function<io.vertx.core.shareddata.Lock, Lock> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.shareddata.Lock arg -> new Lock(arg);
-  };
 }

@@ -39,7 +39,7 @@ public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
   public HttpServerRequestStream handler(Handler<HttpServerRequest> handler) {
     this.delegate.handler(new Handler<io.vertx.core.http.HttpServerRequest>() {
       public void handle(io.vertx.core.http.HttpServerRequest event) {
-        handler.handle(HttpServerRequest.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.http.HttpServerRequest(event));
       }
     });
     return this;
@@ -56,8 +56,4 @@ public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
     this.delegate.endHandler(endHandler);
     return this;
   }
-
-  static final java.util.function.Function<io.vertx.core.http.HttpServerRequestStream, HttpServerRequestStream> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.HttpServerRequestStream arg -> new HttpServerRequestStream(arg);
-  };
 }

@@ -80,7 +80,7 @@ public class WebSocket implements WebSocketBase {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= SocketAddress.FACTORY.apply(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress());
     cached_0 = ret;
     return ret;
   }
@@ -92,7 +92,7 @@ public class WebSocket implements WebSocketBase {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= SocketAddress.FACTORY.apply(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress());
     cached_1 = ret;
     return ret;
   }
@@ -103,7 +103,7 @@ public class WebSocket implements WebSocketBase {
   public WebSocket handler(Handler<Buffer> handler) {
     this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(Buffer.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -147,15 +147,11 @@ public class WebSocket implements WebSocketBase {
   public WebSocket frameHandler(Handler<WebSocketFrame> handler) {
     this.delegate.frameHandler(new Handler<io.vertx.core.http.WebSocketFrame>() {
       public void handle(io.vertx.core.http.WebSocketFrame event) {
-        handler.handle(WebSocketFrame.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.http.WebSocketFrame(event));
       }
     });
     return this;
   }
   private SocketAddress cached_0;
   private SocketAddress cached_1;
-
-  static final java.util.function.Function<io.vertx.core.http.WebSocket, WebSocket> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.WebSocket arg -> new WebSocket(arg);
-  };
 }

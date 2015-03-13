@@ -39,7 +39,7 @@ public class NetSocketStream implements ReadStream<NetSocket> {
   public NetSocketStream handler(Handler<NetSocket> handler) {
     this.delegate.handler(new Handler<io.vertx.core.net.NetSocket>() {
       public void handle(io.vertx.core.net.NetSocket event) {
-        handler.handle(NetSocket.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.net.NetSocket(event));
       }
     });
     return this;
@@ -56,8 +56,4 @@ public class NetSocketStream implements ReadStream<NetSocket> {
     this.delegate.endHandler(endHandler);
     return this;
   }
-
-  static final java.util.function.Function<io.vertx.core.net.NetSocketStream, NetSocketStream> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.net.NetSocketStream arg -> new NetSocketStream(arg);
-  };
 }

@@ -122,11 +122,7 @@ public class SharedData {
    * @return the msp
    */
   public <K, V> LocalMap<K,V> getLocalMap(String name) {
-    def ret= LocalMap.FACTORY.apply(this.delegate.getLocalMap(name));
+    def ret= new io.vertx.groovy.core.shareddata.LocalMap(this.delegate.getLocalMap(name));
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.shareddata.SharedData, SharedData> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.shareddata.SharedData arg -> new SharedData(arg);
-  };
 }

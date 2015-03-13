@@ -39,7 +39,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   public HttpServerFileUpload handler(Handler<Buffer> handler) {
     this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(Buffer.FACTORY.apply(event));
+        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
     });
     return this;
@@ -122,8 +122,4 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
     def ret = this.delegate.isSizeAvailable();
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.http.HttpServerFileUpload, HttpServerFileUpload> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.http.HttpServerFileUpload arg -> new HttpServerFileUpload(arg);
-  };
 }

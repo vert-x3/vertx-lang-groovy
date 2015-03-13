@@ -146,8 +146,4 @@ public class Context {
     def ret = this.delegate.remove(key);
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.Context, Context> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.Context arg -> new Context(arg);
-  };
 }

@@ -37,7 +37,7 @@ public class DatagramPacket {
    * @return the address of the sender
    */
   public SocketAddress sender() {
-    def ret= SocketAddress.FACTORY.apply(this.delegate.sender());
+    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.sender());
     return ret;
   }
   /**
@@ -45,11 +45,7 @@ public class DatagramPacket {
    * @return the data
    */
   public Buffer data() {
-    def ret= Buffer.FACTORY.apply(this.delegate.data());
+    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.data());
     return ret;
   }
-
-  static final java.util.function.Function<io.vertx.core.datagram.DatagramPacket, DatagramPacket> FACTORY = io.vertx.lang.groovy.Factories.createFactory() {
-    io.vertx.core.datagram.DatagramPacket arg -> new DatagramPacket(arg);
-  };
 }
