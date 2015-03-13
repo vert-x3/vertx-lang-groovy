@@ -28,6 +28,9 @@ import junit.framework.AssertionFailedError;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -64,6 +67,22 @@ public class DeploymentTest {
       afe.initCause(e);
       throw afe;
     }
+  }
+
+  private String getRelativePath(String classpathResource) throws Exception {
+    URL url = Thread.currentThread().getContextClassLoader().getResource(classpathResource);
+    assertNotNull(url);
+    URI verticleURI = url.toURI();
+    URI userDir = new File(System.getProperty("user.dir")).toURI();
+    URI relativeURI = userDir.relativize(verticleURI);
+    assertTrue(!relativeURI.isAbsolute());
+    return relativeURI.toString();
+  }
+
+  private String getAbsolutePath(String classpathResource) throws Exception {
+    URL url = Thread.currentThread().getContextClassLoader().getResource("io/vertx/lang/groovy/LifeCycleVerticleClass.groovy");
+    assertNotNull(url);
+    return new File(url.toURI()).getAbsolutePath();
   }
 
   @Before
@@ -135,6 +154,90 @@ public class DeploymentTest {
             onDeploy));
     assertTrue(started.get());
     assertTrue(stopped.get());
+  }
+
+  @Test
+  public void testDeployVerticleClassFromRelativeFile() throws Exception {
+    String relativePath = getRelativePath("io/vertx/lang/groovy/LifeCycleVerticleClass.groovy");
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(relativePath, onDeploy));
+    assertTrue(started.get());
+    assertTrue(stopped.get());
+  }
+
+  @Test
+  public void testDeployVerticleClassFromAbsoluteFile() throws Exception {
+    String verticlePath = getAbsolutePath("io/vertx/lang/groovy/LifeCycleVerticleClass.groovy");
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            verticlePath,
+            onDeploy));
+    assertTrue(started.get());
+    assertTrue(stopped.get());
+  }
+
+  @Test
+  public void testResolveSamePackageFromClassPath() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "io/vertx/lang/groovy/ResolveSamePackageVerticleClass.groovy",
+            new DeploymentOptions().setConfig(new JsonObject()),
+            onDeploy));
+    assertTrue(started.get());
+  }
+
+  @Test
+  public void testResolveSamePackageFromRelativeFile() throws Exception {
+    String relativePath = getRelativePath("io/vertx/lang/groovy/ResolveSamePackageVerticleClass.groovy");
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            relativePath,
+            new DeploymentOptions().setConfig(new JsonObject()),
+            onDeploy));
+    assertTrue(started.get());
+  }
+
+  @Test
+  public void testResolveSamePackageFromAbsoluteFile() throws Exception {
+    String relativePath = getAbsolutePath("io/vertx/lang/groovy/ResolveSamePackageVerticleClass.groovy");
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            relativePath,
+            new DeploymentOptions().setConfig(new JsonObject()),
+            onDeploy));
+    assertTrue(started.get());
+  }
+
+  @Test
+  public void testResolveChildPackageFromClassPath() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "io/vertx/lang/groovy/ResolveChildPackageVerticleClass.groovy",
+            new DeploymentOptions().setConfig(new JsonObject()),
+            onDeploy));
+    assertTrue(started.get());
+  }
+
+  @Test
+  public void testResolveChildPackageFromRelativeFile() throws Exception {
+    String relativePath = getRelativePath("io/vertx/lang/groovy/ResolveChildPackageVerticleClass.groovy");
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            relativePath,
+            new DeploymentOptions().setConfig(new JsonObject()),
+            onDeploy));
+    assertTrue(started.get());
+  }
+
+  @Test
+  public void testResolveChildPackageFromAbsoluteFile() throws Exception {
+    String relativePath = getAbsolutePath("io/vertx/lang/groovy/ResolveChildPackageVerticleClass.groovy");
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            relativePath,
+            new DeploymentOptions().setConfig(new JsonObject()),
+            onDeploy));
+    assertTrue(started.get());
   }
 
   @Test

@@ -57,6 +57,15 @@ public class GroovyVerticleFactory implements VerticleFactory {
     if (verticleName.endsWith(".groovy")) {
       URL url = classLoader.getResource(verticleName);
       if (url == null) {
+        File f = new File(verticleName);
+        if (!f.isAbsolute()) {
+          f = new File(System.getProperty('user.dir'), verticleName);
+        }
+        if (f.exists() && f.isFile()) {
+          url = f.toURI().toURL();
+        }
+      }
+      if (url == null) {
         throw new IllegalStateException("Cannot find verticle script: " + verticleName + " on classpath");
       }
       GroovyClassLoader gcl = new GroovyClassLoader(classLoader, compilerConfig);
