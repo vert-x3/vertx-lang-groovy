@@ -76,7 +76,7 @@ public class DeploymentTest {
   public void testDeployVerticleClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:io/vertx/lang/groovy/LifeCycleVerticleClass.groovy",
+            "io/vertx/lang/groovy/LifeCycleVerticleClass.groovy",
             onDeploy));
     assertTrue(started.get());
     assertTrue(stopped.get());
@@ -86,7 +86,7 @@ public class DeploymentTest {
   public void testAsyncDeployVerticleClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:io/vertx/lang/groovy/LifeCycleAsyncVerticleClass.groovy",
+            "io/vertx/lang/groovy/LifeCycleAsyncVerticleClass.groovy",
             onDeploy));
     assertTrue(started.get());
     assertTrue(stopped.get());
@@ -108,7 +108,7 @@ public class DeploymentTest {
   public void testDeployVerticleScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:io/vertx/lang/groovy/LifeCycleVerticleScript.groovy",
+            "io/vertx/lang/groovy/LifeCycleVerticleScript.groovy",
             onDeploy));
     assertTrue(started.get());
     assertTrue(stopped.get());
@@ -131,7 +131,7 @@ public class DeploymentTest {
   public void testAsyncDeployVerticleScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:io/vertx/lang/groovy/LifeCycleAsyncVerticleScript.groovy",
+            "io/vertx/lang/groovy/LifeCycleAsyncVerticleScript.groovy",
             onDeploy));
     assertTrue(started.get());
     assertTrue(stopped.get());
@@ -141,7 +141,7 @@ public class DeploymentTest {
   public void testResolveVertxInClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
+            "io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(started.get());
@@ -151,7 +151,7 @@ public class DeploymentTest {
   public void testResolveVertxInScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "groovy:io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
+            "io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(started.get());
@@ -175,7 +175,7 @@ public class DeploymentTest {
     Vertx vertx = Vertx.vertx();
     try {
       BlockingQueue<AsyncResult<String>> deployed = new ArrayBlockingQueue<>(1);
-      vertx.deployVerticle("groovy:io/vertx/lang/groovy//NoStopVerticleScript.groovy", deployed::add);
+      vertx.deployVerticle("io/vertx/lang/groovy//NoStopVerticleScript.groovy", deployed::add);
       AsyncResult<String> deployment = deployed.poll(10, TimeUnit.SECONDS);
       String deploymentId = assertResult(deployment);
       BlockingQueue<AsyncResult<Void>> undeployed = new ArrayBlockingQueue<>(1);
