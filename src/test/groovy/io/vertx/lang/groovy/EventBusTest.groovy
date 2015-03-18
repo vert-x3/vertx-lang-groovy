@@ -18,37 +18,52 @@ package io.vertx.lang.groovy
 
 import io.vertx.groovy.core.Vertx
 import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.test.core.VertxTestBase
 import org.junit.Test
-
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 
 import static org.junit.Assert.*;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-class EventBusTest {
+class EventBusTest extends VertxTestBase {
+  
+  Vertx _vertx;
+
+  @Override
+  void setUp() throws Exception {
+    super.setUp()
+    _vertx = new Vertx(vertx);
+  }
 
   @Test
   public void testBuffer() {
-
-    def vertx = Vertx.vertx();
-    try {
-      def latch = new CountDownLatch(1)
-      def eventBus = vertx.eventBus();
-      eventBus.consumer("the_address").handler { message ->
-        def body = message.body()
-        if (body instanceof Buffer && body.toString("UTF-8").equals("the_message")) {
-          latch.countDown()
-        }
+    def eventBus = _vertx.eventBus()
+    eventBus.consumer("the_address").handler { message ->
+      def body = message.body()
+      if (body instanceof Buffer && body.toString("UTF-8").equals("the_message")) {
+        testComplete()
+      } else {
+        fail()
       }
-      eventBus.send("the_address", Buffer.buffer("the_message"))
-      assertTrue(latch.await(10, TimeUnit.SECONDS))
-    } finally {
-      vertx.close();
     }
-
+    eventBus.send("the_address", Buffer.buffer("the_message"))
+    await()
   }
 
+  @Test
+  public void testGroovyString() {
+    def eventBus = _vertx.eventBus()
+    eventBus.consumer("the_address").handler { message ->
+      def body = message.body()
+      if (body instanceof String && body.equals("the_message")) {
+        testComplete()
+      } else {
+        fail()
+      }
+    }
+    def val = "the_message"
+    eventBus.send("the_address", "${val}")
+    await()
+  }
 }

@@ -36,6 +36,8 @@ public class InternalHelper {
       return new JsonArray((List<Object>) obj);
     } else if (obj instanceof Buffer) {
       return ((Buffer) obj).getDelegate();
+    } else if (obj instanceof GString) {
+      return ((GString) obj).toString();
     }
     return obj;
   }

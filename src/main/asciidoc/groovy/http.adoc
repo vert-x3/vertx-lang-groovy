@@ -582,10 +582,11 @@ at any one time:
 
 [source,groovy]
 ----
+import io.vertx.core.http.HttpMethod
 import io.vertx.groovy.core.streams.Pump
 vertx.createHttpServer().requestHandler({ request ->
   def response = request.response()
-  if (request.method() == 'PUT') {
+  if (request.method() == HttpMethod.PUT) {
     response.setChunked(true)
     Pump.pump(request, response).start()
     request.endHandler({ v ->
@@ -719,13 +720,14 @@ the HTTP method at run-time:
 
 [source,groovy]
 ----
+import io.vertx.core.http.HttpMethod
 def client = vertx.createHttpClient()
 
-client.request('GET', "some-uri", { response ->
+client.request(HttpMethod.GET, "some-uri", { response ->
   println("Received response with status code ${response.statusCode()}")
 }).end()
 
-client.request('POST', "foo-uri", { response ->
+client.request(HttpMethod.POST, "foo-uri", { response ->
   println("Received response with status code ${response.statusCode()}")
 }).end("some-data")
 
