@@ -16,6 +16,8 @@
 
 package io.vertx.lang.groovy
 
+import com.acme.groovy.pkg.MyInterface
+import com.acme.groovy.pkg.sub.SubInterface
 import io.vertx.codegen.testmodel.RefedInterface1Impl
 import io.vertx.codegen.testmodel.TestEnum
 import io.vertx.codegen.testmodel.TestInterfaceImpl
@@ -910,5 +912,14 @@ public class ApiTest {
   public void testMethodWithThrowableReturn() {
     Throwable ret = obj.methodWithThrowableReturn("bogies");
     assertEquals("bogies", ret.getMessage());
+  }
+
+  @Test
+  public void testCustomModule() {
+    MyInterface my = MyInterface.create();
+    TestInterface testInterface = my.method();
+    testInterface.methodWithBasicParams((byte) 123, (short) 12345, 1234567, 1265615234l, 12.345f, 12.34566d, true, 'X' as char, "foobar");
+    SubInterface sub = my.sub();
+    assertEquals("olleh", sub.reverse("hello"))
   }
 }

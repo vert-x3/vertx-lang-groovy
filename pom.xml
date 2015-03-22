@@ -188,8 +188,7 @@
               <includeArtifactIds>vertx-codegen</includeArtifactIds>
               <includeTypes>jar</includeTypes>
               <includeClassifiers>sources</includeClassifiers>
-              <includes>io/vertx/codegen/testmodel/**</includes>
-              <includes>com/acme/**</includes>
+              <includes>com/acme/**/*,io/vertx/codegen/testmodel/**/*</includes>
               <outputDirectory>${basedir}/src/test/java</outputDirectory>
             </configuration>
           </execution>
