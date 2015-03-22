@@ -112,6 +112,22 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-testCompile</id>
+              <configuration>
+                <annotationProcessors>
+                  <annotationProcessor>io.vertx.codegen.CodeGenProcessor</annotationProcessor>
+                </annotationProcessors>
+                <compilerArgs>
+                  <arg>-AoutputDirectory=${project.basedir}/src/test</arg>
+                </compilerArgs>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
@@ -160,7 +176,7 @@
               <outputDirectory>${project.build.directory}/sources/vertx-core</outputDirectory>
             </configuration>
           </execution>
-          <!-- Unpack codegen source code to target/sources/codegen -->
+          <!-- Unpack codegen source code to src/test/java -->
           <execution>
             <id>unpack-codegen</id>
             <phase>generate-test-sources</phase>
@@ -172,7 +188,8 @@
               <includeArtifactIds>vertx-codegen</includeArtifactIds>
               <includeTypes>jar</includeTypes>
               <includeClassifiers>sources</includeClassifiers>
-              <outputDirectory>${project.build.directory}/sources/codegen</outputDirectory>
+              <includes>io/vertx/codegen/testmodel/**</includes>
+              <outputDirectory>${basedir}/src/test/java</outputDirectory>
             </configuration>
           </execution>
         </executions>
@@ -224,26 +241,6 @@
                 <docgen.output>${asciidoc.dir}/groovy</docgen.output>
               </optionMap>
               <sourceDirectory>src/main/docoverride</sourceDirectory>
-            </configuration>
-          </execution>
-          <!-- Run the annotation processor on codegen and generate the codegen API -->
-          <execution>
-            <id>generate-codegen</id>
-            <goals>
-              <goal>process</goal>
-            </goals>
-            <phase>generate-test-sources</phase>
-            <configuration>
-              <systemProperties>
-                <java.util.logging.SimpleFormatter.format>%4$s: %3$s - %5$s %6$s%n</java.util.logging.SimpleFormatter.format>
-              </systemProperties>
-              <processors>
-                <processor>io.vertx.codegen.CodeGenProcessor</processor>
-              </processors>
-              <optionMap>
-                <outputDirectory>${project.basedir}/src/test</outputDirectory>
-              </optionMap>
-              <sourceDirectory>${project.build.directory}/sources/codegen</sourceDirectory>
             </configuration>
           </execution>
         </executions>

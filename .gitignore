@@ -20,5 +20,6 @@ test-results
 test-tmp
 *.class
 src/gen
-src/test/groovy/io/vertx/groovy/codegen/**/*.groovy
+src/test/java/io/vertx/codegen/**/*
+src/test/groovy/io/vertx/groovy/codegen/**/*
 src/scratchpad
