@@ -20,7 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.core.Handler
 /**
- * A timeout stream is triggered by a timer, the {@link io.vertx.groovy.core.Handler} will be call when the timer is fired,
+ * A timeout stream is triggered by a timer, the {@link io.vertx.core.Handler} will be call when the timer is fired,
  * it can be once or several times depending on the nature of the timer related to this stream. The
  *  will be called after the timer handler has been called.
  * <p>

@@ -54,7 +54,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
   }
   /**
    * Write the given {@link io.vertx.groovy.core.buffer.Buffer} to the {@link io.vertx.groovy.core.net.SocketAddress}.
-   * The {@link io.vertx.groovy.core.Handler} will be notified once the write completes.
+   * The {@link io.vertx.core.Handler} will be notified once the write completes.
    * @param packet the {@link io.vertx.core.buffer.Buffer} to write
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer

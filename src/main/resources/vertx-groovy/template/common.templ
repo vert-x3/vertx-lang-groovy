@@ -20,7 +20,7 @@
     } if (type.kind == CLASS_DATA_OBJECT || type.kind == CLASS_JSON_OBJECT) {
       return "java.util.Map<java.lang.String, java.lang.Object>";
     } else if (type.kind == CLASS_API) {
-      return type.name.replace("io.vertx.", "io.vertx.groovy.");
+      return type.translateName("groovy");
     } else if (type.kind == CLASS_LIST || type.kind == CLASS_SET) {
       return type.raw.name + "<" + genGroovyDocType(type.args[0]) + ">";
     } else if (type.kind == CLASS_MAP) {
@@ -51,7 +51,7 @@
         if (type.kind == CLASS_API) {
           var elt = link.targetElement;
           var eltKind = elt.getKind().name();
-          var ret = "{@link " + rawType.name.replace("io.vertx.", "io.vertx.groovy.");
+          var ret = "{@link " + rawType.translateName("groovy");
           if (eltKind == "METHOD") {
             ret += "#" + elt.getSimpleName().toString();
           }
@@ -67,7 +67,7 @@
   }
 
   def genConstructorExpression(type) {
-    var fqn = type.name.replace("io.vertx.", "io.vertx.groovy.");
+    var fqn = type.translateName("groovy");
     if (type.concrete) {
       return "new " + fqn;
     } else {

@@ -19,7 +19,7 @@
  * under the License.\n
  */\n\n
 
-package @{ifacePackageName.replace("io.vertx.", "io.vertx.groovy.")};\n
+package @{type.raw.translatePackageName("groovy")};\n
 
 @comment{'the current index of the cache'}
 @code{cacheDecls=new java.util.ArrayList()}
@@ -307,7 +307,7 @@ import io.vertx.lang.groovy.InternalHelper\n
 @foreach{importedType:importedTypes}
 	@if{importedType.kind == CLASS_API}
 		@if{!ifacePackageName.equals(importedType.packageName)}
-			import @{importedType.toString().replace("io.vertx.", "io.vertx.groovy.")}\n
+			import @{importedType.raw.translateName("groovy")}\n
 		@end{}
 	@else{}
 		@if{!importedType.packageName.equals("java.lang")}
