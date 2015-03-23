@@ -34,19 +34,47 @@ public class GroovyVerticle {
   protected Vertx vertx;
   protected Context context
 
+  /**
+   * If your verticle does a simple, synchronous start-up then override this method and put your start-up
+   * code in there.
+   * @throws Exception
+   */
   public void start() throws Exception {
   }
 
+  /**
+   * If your verticle has simple synchronous clean-up tasks to complete then override this method and put your clean-up
+   * code in there.
+   * @throws Exception
+   */
   public void stop() throws Exception {
   }
 
-  // TODO implement async stop and start!
-
+  /**
+   * Start the verticle instance.
+   * <p>
+   * Vert.x calls this method when deploying the instance. You do not call it yourself.
+   * <p>
+   * A future is passed into the method, and when deployment is complete the verticle should either call
+   * {@link io.vertx.core.Future#complete} or {@link io.vertx.core.Future#fail} the future.
+   *
+   * @param startFuture  the future
+   */
   public void start(Future<Void> startFuture) throws Exception {
     start();
     startFuture.complete();
   }
 
+  /**
+   * Stop the verticle instance.
+   * <p>
+   * Vert.x calls this method when un-deploying the instance. You do not call it yourself.
+   * <p>
+   * A future is passed into the method, and when un-deployment is complete the verticle should either call
+   * {@link io.vertx.core.Future#complete} or {@link io.vertx.core.Future#fail} the future.
+   *
+   * @param stopFuture  the future
+   */
   public void stop(Future<Void> stopFuture) throws Exception {
     stop();
     stopFuture.complete();

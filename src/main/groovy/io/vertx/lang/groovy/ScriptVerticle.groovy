@@ -45,6 +45,16 @@ public class ScriptVerticle extends AbstractVerticle {
   private static final Class[] EMPTY_PARAMS = [];
   private static final Class[] FUTURE_PARAMS = [io.vertx.groovy.core.Future.class];
 
+  /**
+   * Start the verticle instance.
+   * <p>
+   * Vert.x calls this method when deploying the instance. You do not call it yourself.
+   * <p>
+   * A future is passed into the method, and when deployment is complete the verticle should either call
+   * {@link io.vertx.core.Future#complete} or {@link io.vertx.core.Future#fail} the future.
+   *
+   * @param startFuture  the future
+   */
   @Override
   void start(Future<Void> startFuture) throws Exception {
     Binding binding = script.getBinding();
@@ -56,6 +66,16 @@ public class ScriptVerticle extends AbstractVerticle {
     handleLifecycle("vertxStart", startFuture);
   }
 
+  /**
+   * Stop the verticle instance.
+   * <p>
+   * Vert.x calls this method when un-deploying the instance. You do not call it yourself.
+   * <p>
+   * A future is passed into the method, and when un-deployment is complete the verticle should either call
+   * {@link io.vertx.core.Future#complete} or {@link io.vertx.core.Future#fail} the future.
+   *
+   * @param stopFuture  the future
+   */
   @Override
   void stop(Future<Void> stopFuture) throws Exception {
     handleLifecycle("vertxStop", stopFuture);
