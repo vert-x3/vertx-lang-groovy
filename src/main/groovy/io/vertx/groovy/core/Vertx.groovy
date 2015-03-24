@@ -406,6 +406,14 @@ public class Vertx implements Measured {
     return ret;
   }
   /**
+   * Is this Vert.x instance clustered?
+   * @return true if clustered
+   */
+  public boolean isClustered() {
+    def ret = this.delegate.isClustered();
+    return ret;
+  }
+  /**
    * Safely execute some blocking code.
    * <p>
    * Executes the blocking code in the handler <code>blockingCodeHandler</code> using a thread from the worker pool.
