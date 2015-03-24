@@ -96,7 +96,6 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-codegen</artifactId>
-      <type>jar</type>
       <classifier>tck-sources</classifier>
       <scope>test</scope>
     </dependency>
