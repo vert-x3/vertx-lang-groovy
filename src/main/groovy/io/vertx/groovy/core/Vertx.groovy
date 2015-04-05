@@ -70,11 +70,11 @@ public class Vertx implements Measured {
     return delegate;
   }
   /**
-   * The metric base name
-   * @return the metric base name
+   * Whether the metrics are enabled for this measured object
+   * @return true if the metrics are enabled
    */
-  public String metricBaseName() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
+  public boolean isMetricsEnabled() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).isMetricsEnabled();
     return ret;
   }
   /**

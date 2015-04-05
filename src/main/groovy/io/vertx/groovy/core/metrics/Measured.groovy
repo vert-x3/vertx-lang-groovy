@@ -23,7 +23,7 @@ import io.vertx.lang.groovy.InternalHelper
 @CompileStatic
 public interface Measured {
   public Object getDelegate();
-  String metricBaseName();
+  boolean isMetricsEnabled();
 }
 
 @CompileStatic
@@ -36,11 +36,11 @@ class MeasuredImpl implements Measured {
     return delegate;
   }
   /**
-   * The metric base name
-   * @return the metric base name
+   * Whether the metrics are enabled for this measured object
+   * @return true if the metrics are enabled
    */
-  public String metricBaseName() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).metricBaseName();
+  public boolean isMetricsEnabled() {
+    def ret = ((io.vertx.core.metrics.Measured) this.delegate).isMetricsEnabled();
     return ret;
   }
 }
