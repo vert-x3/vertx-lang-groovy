@@ -1,8 +1,8 @@
 == Using the file system with Vert.x
 
-The Vert.x `link:groovydoc/io/vertx/groovy/core/file/FileSystem.html[FileSystem]` object provides many operations for manipulating the file system.
+The Vert.x `link:groovydoc/io/vertx/groovy/core/file/FileSystem.html[null]` object provides many operations for manipulating the file system.
 
-There is one file system object per Vert.x instance, and you obtain it with `link:groovydoc/io/vertx/groovy/core/Vertx.html#fileSystem()[fileSystem]`.
+There is one file system object per Vert.x instance, and you obtain it with `link:groovydoc/io/vertx/groovy/core/Vertx.html#fileSystem()[null]`.
 
 A blocking and a non blocking version of each operation is provided.
 
@@ -51,7 +51,7 @@ We won't list them all here, please consult the `link:groovydoc/io/vertx/groovy/
 
 Vert.x provides an asynchronous file abstraction that allows you to manipulate a file on the file system
 
-You open an `link:groovydoc/io/vertx/groovy/core/file/AsyncFile.html[AsyncFile]` as follows:
+You open an `link:groovydoc/io/vertx/groovy/core/file/AsyncFile.html[null]` as follows:
 
 [source,groovy]
 ----
