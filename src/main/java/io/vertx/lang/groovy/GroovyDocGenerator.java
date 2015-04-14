@@ -98,7 +98,7 @@ public class GroovyDocGenerator implements DocGenerator {
   }
 
   @Override
-  public String resolveLabel(Element elt) {
+  public String resolveLabel(Element elt, String defaultLabel) {
     if (elt.getKind() == ElementKind.METHOD) {
       TypeInfo type = factory.create(elt.getEnclosingElement().asType());
       if (type.getKind() == ClassKind.DATA_OBJECT) {
@@ -109,7 +109,7 @@ public class GroovyDocGenerator implements DocGenerator {
         return name;
       }
     }
-    return null;
+    return defaultLabel;
   }
 
   @Override
