@@ -299,6 +299,14 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     def ret= new io.vertx.groovy.core.http.ServerWebSocket(this.delegate.upgrade());
     return ret;
   }
+  /**
+   * Has the request ended? I.e. has the entire request, including the body been read?
+   * @return true if ended
+   */
+  public boolean isEnded() {
+    def ret = this.delegate.isEnded();
+    return ret;
+  }
   private HttpServerResponse cached_0;
   private MultiMap cached_1;
   private MultiMap cached_2;
