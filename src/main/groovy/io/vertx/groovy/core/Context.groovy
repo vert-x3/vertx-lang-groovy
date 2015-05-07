@@ -146,4 +146,12 @@ public class Context {
     def ret = this.delegate.remove(key);
     return ret;
   }
+  /**
+   * @return The Vertx instance that created the context
+   * @return 
+   */
+  public Vertx owner() {
+    def ret= new io.vertx.groovy.core.Vertx(this.delegate.owner());
+    return ret;
+  }
 }
