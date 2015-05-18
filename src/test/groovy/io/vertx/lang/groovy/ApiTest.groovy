@@ -445,6 +445,15 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerAsyncResultNullListDataObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListNullDataObject({
+      checker.assertAsyncResult([null], it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultSetDataObject() {
     def count = 0
     obj.methodWithHandlerAsyncResultSetDataObject({
@@ -455,6 +464,15 @@ public class ApiTest {
       count++;
     });
     assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultNullSetDataObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetNullDataObject({
+      checker.assertAsyncResult([null] as Set, it)
+    });
+    assertEquals(1, checker.count);
   }
 
   @Test
