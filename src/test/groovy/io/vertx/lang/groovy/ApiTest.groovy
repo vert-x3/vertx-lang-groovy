@@ -16,20 +16,25 @@
 
 package io.vertx.lang.groovy
 
+import java.util.stream.Collectors;
+
 import com.acme.groovy.pkg.MyInterface
 import com.acme.groovy.pkg.sub.SubInterface
+
 import io.vertx.codegen.testmodel.RefedInterface1Impl
 import io.vertx.codegen.testmodel.TestEnum
 import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.codegen.testmodel.TestDataObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
+import io.vertx.core.json.JsonObject;
 import io.vertx.groovy.codegen.testmodel.ConcreteHandlerUserTypeExtension
 import io.vertx.groovy.codegen.testmodel.GenericRefedInterface
 import io.vertx.groovy.codegen.testmodel.RefedInterface1
 import io.vertx.groovy.codegen.testmodel.RefedInterface2
 import io.vertx.groovy.codegen.testmodel.TestInterface
 import io.vertx.groovy.codegen.testmodel.Factory
+
 import org.junit.Test
 
 import static org.junit.Assert.*
@@ -424,6 +429,53 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerAsyncResultListDataObject() {
+    def count = 0
+    obj.methodWithHandlerAsyncResultListDataObject({
+      List<TestDataObject> result = it.result();
+      assertEquals("String 1", result[0].foo);
+      assertEquals(1, result[0].bar);
+      assertEquals(1.1, result[0].wibble, 0);
+      assertEquals("String 2", result[1].foo);
+      assertEquals(2, result[1].bar);
+      assertEquals(2.2, result[1].wibble, 0);
+      count++;
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultNullListDataObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListNullDataObject({
+      checker.assertAsyncResult([null], it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetDataObject() {
+    def count = 0
+    obj.methodWithHandlerAsyncResultSetDataObject({
+      Set<JsonObject> result = it.result().stream().map({it.toJson()}).collect(Collectors.toSet());
+      assertEquals(2, result.size());
+      assertTrue(result.contains(new JsonObject().put("foo", "String 1").put("bar", 1).put("wibble", 1.1d)));
+      assertTrue(result.contains(new JsonObject().put("foo", "String 2").put("bar", 2).put("wibble", 2.2d)));
+      count++;
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultNullSetDataObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetNullDataObject({
+      checker.assertAsyncResult([null] as Set, it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
   public void testMethodWithHandlerUserTypes() {
     def count = 0;
     obj.methodWithHandlerUserTypes({
@@ -604,7 +656,8 @@ public class ApiTest {
     refed2.setString("bar")
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
       (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
-      (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2])
+      (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2],
+      (List<TestDataObject>)[new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1), new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2)])
   }
 
   @Test
@@ -615,7 +668,8 @@ public class ApiTest {
     refed2.setString("bar")
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
       (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
-      (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2])
+      (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2],
+      (Set<TestDataObject>)[new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1), new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2)])
   }
 
   @Test

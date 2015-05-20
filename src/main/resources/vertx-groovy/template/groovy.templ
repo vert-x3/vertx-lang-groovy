@@ -216,7 +216,7 @@ this.delegate
 			@else{resultKind == CLASS_LIST || resultKind == CLASS_SET}
 				@code{elementType=resultType.args[0]}
 				@code{elementKind=elementType.kind}
-				@if{elementKind == CLASS_PRIMITIVE || elementKind == CLASS_BOXED_PRIMITIVE || elementKind == CLASS_STRING}
+				@if{elementKind == CLASS_PRIMITIVE || elementKind == CLASS_BOXED_PRIMITIVE || elementKind == CLASS_STRING || elementKind == CLASS_DATA_OBJECT}
 					@{param.name}
 				@else{elementKind == CLASS_API || elementKind.json}
 					@code{collectionName=resultType.raw.simpleName}
