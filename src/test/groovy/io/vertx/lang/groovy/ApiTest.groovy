@@ -457,10 +457,9 @@ public class ApiTest {
   public void testMethodWithHandlerAsyncResultSetDataObject() {
     def count = 0
     obj.methodWithHandlerAsyncResultSetDataObject({
-      Set<JsonObject> result = it.result().stream().map({it.toJson()}).collect(Collectors.toSet());
-      assertEquals(2, result.size());
-      assertTrue(result.contains(new JsonObject().put("foo", "String 1").put("bar", 1).put("wibble", 1.1d)));
-      assertTrue(result.contains(new JsonObject().put("foo", "String 2").put("bar", 2).put("wibble", 2.2d)));
+      assertEquals(2, it.result().size());
+      assertTrue(it.result().contains([foo:"String 1",bar: 1,wibble: 1.1d]));
+      assertTrue(it.result().contains([foo:"String 2",bar: 2,wibble: 2.2d]));
       count++;
     });
     assertEquals(1, count);
@@ -657,7 +656,7 @@ public class ApiTest {
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
       (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
       (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2],
-      (List<TestDataObject>)[new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1), new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2)])
+      (List<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]])
   }
 
   @Test
@@ -669,7 +668,7 @@ public class ApiTest {
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
       (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
       (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2],
-      (Set<TestDataObject>)[new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1), new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2)])
+      (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]])
   }
 
   @Test

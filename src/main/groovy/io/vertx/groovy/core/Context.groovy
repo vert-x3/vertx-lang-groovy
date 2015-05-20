@@ -62,6 +62,36 @@ public class Context {
     return delegate;
   }
   /**
+   * Is the current thread a worker thread?
+   * <p>
+   * NOTE! This is not always the same as calling {@link io.vertx.groovy.core.Context#isWorkerContext}. If you are running blocking code
+   * from an event loop context, then this will return true but {@link io.vertx.groovy.core.Context#isWorkerContext} will return false.
+   * @return true if current thread is a worker thread, false otherwise
+   */
+  public static boolean isOnWorkerThread() {
+    def ret = io.vertx.core.Context.isOnWorkerThread();
+    return ret;
+  }
+  /**
+   * Is the current thread an event thread?
+   * <p>
+   * NOTE! This is not always the same as calling {@link io.vertx.groovy.core.Context#isEventLoopContext}. If you are running blocking code
+   * from an event loop context, then this will return false but {@link io.vertx.groovy.core.Context#isEventLoopContext} will return true.
+   * @return true if current thread is a worker thread, false otherwise
+   */
+  public static boolean isOnEventLoopThread() {
+    def ret = io.vertx.core.Context.isOnEventLoopThread();
+    return ret;
+  }
+  /**
+   * Is the current thread a Vert.x thread? That's either a worker thread or an event loop thread
+   * @return true if current thread is a Vert.x thread, false otherwise
+   */
+  public static boolean isOnVertxThread() {
+    def ret = io.vertx.core.Context.isOnVertxThread();
+    return ret;
+  }
+  /**
    * Run the specified action asynchronously on the same context, some time after the current execution has completed.
    * @param action the action to run
    */
@@ -94,27 +124,35 @@ public class Context {
     return ret;
   }
   /**
-   * @return true if this is an event loop context, false otherwise
-   * @return 
+   * Is the current context an event loop context?
+   * <p>
+   * NOTE! when running blocking code using {@link io.vertx.groovy.core.Vertx#executeBlocking} from a
+   * standard (not worker) verticle, the context will still an event loop context and this 
+   * will return true.
+   * @return true if false otherwise
    */
   public boolean isEventLoopContext() {
     def ret = this.delegate.isEventLoopContext();
     return ret;
   }
   /**
-   * @return true if this is an worker context, false otherwise
-   * @return 
+   * Is the current context a worker context?
+   * <p>
+   * NOTE! when running blocking code using {@link io.vertx.groovy.core.Vertx#executeBlocking} from a
+   * standard (not worker) verticle, the context will still an event loop context and this 
+   * will return false.
+   * @return true if the current context is a worker context, false otherwise
    */
-  public boolean isWorker() {
-    def ret = this.delegate.isWorker();
+  public boolean isWorkerContext() {
+    def ret = this.delegate.isWorkerContext();
     return ret;
   }
   /**
-   * @return true if this is a multi-threaded worker context, false otherwise
-   * @return 
+   * Is the current context a multi-threaded worker context?
+   * @return true if the current context is a multi-threaded worker context, false otherwise
    */
-  public boolean isMultiThreaded() {
-    def ret = this.delegate.isMultiThreaded();
+  public boolean isMultiThreadedWorkerContext() {
+    def ret = this.delegate.isMultiThreadedWorkerContext();
     return ret;
   }
   /**
