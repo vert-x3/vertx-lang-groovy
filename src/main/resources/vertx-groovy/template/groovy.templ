@@ -190,7 +190,7 @@ this.delegate
 			@code{elementKind=elementType.kind}
 			@if{elementKind == CLASS_PRIMITIVE || elementKind == CLASS_BOXED_PRIMITIVE || elementKind == CLASS_STRING}
 				@{param.name}
-			@else{elementKind == CLASS_API || elementKind.json}
+			@else{elementKind == CLASS_API || elementKind.json || elementKind == CLASS_DATA_OBJECT}
 				@code{collectionName=eventType.raw.simpleName}
 				@if{elementKind == CLASS_API}
 					@code{toGroovyElement='' + genConstructor(elementType, "it")}
@@ -198,6 +198,9 @@ this.delegate
 				@else{elementKind == CLASS_JSON_OBJECT}
 					@code{toGroovyElement='it?.getMap()'}
 					@code{elementJavaType='JsonObject'}
+				@else{elementKind == CLASS_DATA_OBJECT}
+					@code{toGroovyElement='it?.toJson()?.getMap()'}
+					@code{elementJavaType=elementType.simpleName}
 				@else{}
 					@code{toGroovyElement='it?.toList()'}
 					@code{elementJavaType='JsonArray'}

@@ -373,6 +373,51 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerListDataObject() {
+    def count = 0
+    obj.methodWithHandlerListDataObject({
+      assertEquals("String 1", it[0].foo);
+      assertEquals(1, it[0].bar);
+      assertEquals(1.1, it[0].wibble, 0);
+      assertEquals("String 2", it[1].foo);
+      assertEquals(2, it[1].bar);
+      assertEquals(2.2, it[1].wibble, 0);
+      count++;
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerNullListDataObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerListNullDataObject({
+      checker.assertResult([null], it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerSetDataObject() {
+    def count = 0
+    obj.methodWithHandlerSetDataObject({
+      assertEquals(2, it.size());
+      assertTrue(it.contains([foo:"String 1",bar: 1,wibble: 1.1d]));
+      assertTrue(it.contains([foo:"String 2",bar: 2,wibble: 2.2d]));
+      count++;
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerNullSetDataObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerSetNullDataObject({
+      checker.assertResult([null] as Set, it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultListJsonArray() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListJsonArray({
