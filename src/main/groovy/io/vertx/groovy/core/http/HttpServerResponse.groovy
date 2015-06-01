@@ -22,6 +22,7 @@ import io.vertx.groovy.core.streams.WriteStream
 import io.vertx.groovy.core.MultiMap
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
+import io.vertx.groovy.core.Future
 /**
  * Represents a server-side HTTP response.
  * <p>
@@ -292,11 +293,17 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * Provide a handler that will be called just before the headers are written to the wire.<p>
    * This provides a hook allowing you to add any more headers or do any more operations before this occurs.
+   * The handler will be passed a future, when you've completed the work you want to do you should complete (or fail)
+   * the future. This can be done after the handler has returned.
    * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
-  public HttpServerResponse headersEndHandler(Handler<Void> handler) {
-    this.delegate.headersEndHandler(handler);
+  public HttpServerResponse headersEndHandler(Handler<Future> handler) {
+    this.delegate.headersEndHandler(new Handler<io.vertx.core.Future>() {
+      public void handle(io.vertx.core.Future event) {
+        handler.handle(new io.vertx.groovy.core.Future(event));
+      }
+    });
     return this;
   }
   /**
