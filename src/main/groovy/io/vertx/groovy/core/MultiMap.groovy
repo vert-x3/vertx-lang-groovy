@@ -39,7 +39,7 @@ public class MultiMap {
    * Returns the value of with the specified name.  If there are
    * more than one values for the specified name, the first value is returned.
    * @param name The name of the header to search
-   * @return The first header value or {@code null} if there is no such entry
+   * @return The first header value or <code>null</code> if there is no such entry
    */
   public String get(String name) {
     def ret = this.delegate.get(name);
