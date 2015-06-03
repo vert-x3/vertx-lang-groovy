@@ -100,7 +100,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return ret;
   }
   /**
-   * Write a  to the connection, encoded in UTF-8.
+   * Write a {@link java.lang.String} to the connection, encoded in UTF-8.
    * @param str the string to write
    * @return a reference to this, so the API can be used fluently
    */
@@ -109,7 +109,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   /**
-   * Write a  to the connection, encoded using the encoding <code>enc</code>.
+   * Write a {@link java.lang.String} to the connection, encoded using the encoding <code>enc</code>.
    * @param str the string to write
    * @param enc the encoding to use
    * @return a reference to this, so the API can be used fluently

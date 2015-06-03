@@ -55,7 +55,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
   /**
    * Write the given {@link io.vertx.groovy.core.buffer.Buffer} to the {@link io.vertx.groovy.core.net.SocketAddress}.
    * The {@link io.vertx.core.Handler} will be notified once the write completes.
-   * @param packet the {@link io.vertx.core.buffer.Buffer} to write
+   * @param packet the {@link io.vertx.groovy.core.buffer.Buffer} to write
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer
    * @param handler the {@link io.vertx.core.Handler} to notify once the write completes.
@@ -87,9 +87,9 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return ret;
   }
   /**
-   * Write the given  to the {@link io.vertx.groovy.core.net.SocketAddress} using UTF8 encoding.
+   * Write the given {@link java.lang.String} to the {@link io.vertx.groovy.core.net.SocketAddress} using UTF8 encoding.
    * The  will be notified once the write completes.
-   * @param str the {@link String} to write
+   * @param str the {@link java.lang.String} to write
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer
    * @param handler the {@link io.vertx.core.Handler} to notify once the write completes.
@@ -110,9 +110,9 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   /**
-   * Write the given  to the {@link io.vertx.groovy.core.net.SocketAddress} using the given encoding.
+   * Write the given {@link java.lang.String} to the {@link io.vertx.groovy.core.net.SocketAddress} using the given encoding.
    * The  will be notified once the write completes.
-   * @param str the {@link String} to write
+   * @param str the {@link java.lang.String} to write
    * @param enc the charset used for encoding
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer

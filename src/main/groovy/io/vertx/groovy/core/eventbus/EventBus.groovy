@@ -53,7 +53,7 @@ public class EventBus implements Measured {
    * <p>
    * The message will be delivered to at most one of the handlers registered to the address.
    * @param address the address to send it to
-   * @param message the message, may be {@code null}
+   * @param message the message, may be <code>null</code>
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus send(String address, Object message) {
@@ -64,8 +64,8 @@ public class EventBus implements Measured {
    * Like {@link io.vertx.groovy.core.eventbus.EventBus#send} but specifying a <code>replyHandler</code> that will be called if the recipient
    * subsequently replies to the message.
    * @param address the address to send it to
-   * @param message the message, may be {@code null}
-   * @param replyHandler reply handler will be called when any reply from the recipient is received, may be {@code null}
+   * @param message the message, may be <code>null</code>
+   * @param replyHandler reply handler will be called when any reply from the recipient is received, may be <code>null</code>
    * @return a reference to this, so the API can be used fluently
    */
   public <T> EventBus send(String address, Object message, Handler<AsyncResult<Message<T>>> replyHandler) {
@@ -85,7 +85,7 @@ public class EventBus implements Measured {
   /**
    * Like {@link io.vertx.groovy.core.eventbus.EventBus#send} but specifying <code>options</code> that can be used to configure the delivery.
    * @param address the address to send it to
-   * @param message the message, may be {@code null}
+   * @param message the message, may be <code>null</code>
    * @param options delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    * @return a reference to this, so the API can be used fluently
    */
@@ -97,9 +97,9 @@ public class EventBus implements Measured {
    * Like {@link io.vertx.groovy.core.eventbus.EventBus#send} but specifying a <code>replyHandler</code> that will be called if the recipient
    * subsequently replies to the message.
    * @param address the address to send it to
-   * @param message the message, may be {@code null}
+   * @param message the message, may be <code>null</code>
    * @param options delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
-   * @param replyHandler reply handler will be called when any reply from the recipient is received, may be {@code null}
+   * @param replyHandler reply handler will be called when any reply from the recipient is received, may be <code>null</code>
    * @return a reference to this, so the API can be used fluently
    */
   public <T> EventBus send(String address, Object message, Map<String, Object> options, Handler<AsyncResult<Message<T>>> replyHandler) {
@@ -120,7 +120,7 @@ public class EventBus implements Measured {
    * Publish a message.<p>
    * The message will be delivered to all handlers registered to the address.
    * @param address the address to publish it to
-   * @param message the message, may be {@code null}
+   * @param message the message, may be <code>null</code>
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus publish(String address, Object message) {
@@ -130,7 +130,7 @@ public class EventBus implements Measured {
   /**
    * Like {@link io.vertx.groovy.core.eventbus.EventBus#publish} but specifying <code>options</code> that can be used to configure the delivery.
    * @param address the address to publish it to
-   * @param message the message, may be {@code null}
+   * @param message the message, may be <code>null</code>
    * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    * @return a reference to this, so the API can be used fluently
    */
@@ -238,7 +238,7 @@ public class EventBus implements Measured {
   }
   /**
    * Close the event bus and release any resources held
-   * @param completionHandler may be {@code null}
+   * @param completionHandler may be <code>null</code>
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);

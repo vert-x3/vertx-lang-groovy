@@ -15,7 +15,7 @@
 	  /**\n
 	@{renderDocToHtml("   *", method.doc, renderLinkToHtml)}
 	@foreach{param: method.params}
-	   * @param @{param.name} @if{param.description != null}@{param.description}@end{}@if{param.type.kind == CLASS_DATA_OBJECT} (see @{renderDataObjectHtmlLink(param.type)})@end{}\n
+	   * @param @{param.name} @if{param.description != null}@{renderTokensToHtml("", param.description.tokens, renderLinkToHtml, "")}@end{}@if{param.type.kind == CLASS_DATA_OBJECT} (see @{renderDataObjectHtmlLink(param.type)})@end{}\n
 	@end{}
 	@if{!method.returnType.name.equals("void")}
 	   * @return @if{method.returnDescription != null}@{method.returnDescription}@end{}@if{method.returnType.kind == CLASS_DATA_OBJECT} (see @{renderDataObjectHtmlLink(method.returnType)})@end{}\n

@@ -194,7 +194,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Write a  to the response body, encoded using the encoding <code>enc</code>.
+   * Write a {@link java.lang.String} to the response body, encoded using the encoding <code>enc</code>.
    * @param chunk the string to write
    * @param enc the encoding to use
    * @return a reference to this, so the API can be used fluently
@@ -204,7 +204,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Write a  to the response body, encoded in UTF-8.
+   * Write a {@link java.lang.String} to the response body, encoded in UTF-8.
    * @param chunk the string to write
    * @return a reference to this, so the API can be used fluently
    */

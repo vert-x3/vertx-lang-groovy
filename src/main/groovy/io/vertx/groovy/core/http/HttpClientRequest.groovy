@@ -164,7 +164,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   /**
-   * Write a  to the request body, encoded as UTF-8.
+   * Write a {@link java.lang.String} to the request body, encoded as UTF-8.
    * @param chunk 
    * @return @return a reference to this, so the API can be used fluently
    */
@@ -173,7 +173,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   /**
-   * Write a  to the request body, encoded using the encoding <code>enc</code>.
+   * Write a {@link java.lang.String} to the request body, encoded using the encoding <code>enc</code>.
    * @param chunk 
    * @param enc 
    * @return @return a reference to this, so the API can be used fluently
@@ -241,7 +241,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     this.delegate.end();
   }
   /**
-   * Set's the amount of time after which if a response is not received TimeoutException
+   * Set's the amount of time after which if a response is not received {@link java.util.concurrent.TimeoutException}
    * will be sent to the exception handler of this request.
    * <p>
    *  Calling this method more than once
