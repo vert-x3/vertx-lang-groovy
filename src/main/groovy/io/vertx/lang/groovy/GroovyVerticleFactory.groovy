@@ -20,7 +20,7 @@ import groovy.transform.CompileStatic
 import io.vertx.core.Verticle
 import io.vertx.core.Vertx
 import io.vertx.core.logging.Logger
-import io.vertx.core.logging.impl.LoggerFactory
+import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.spi.VerticleFactory
 import org.codehaus.groovy.control.CompilerConfiguration
 /**
