@@ -44,9 +44,13 @@ public class InternalHelper {
 
   public static Object wrapObject(Object obj) {
     if (obj instanceof JsonObject) {
-      return ((JsonObject) obj).getMap();
+      return ((JsonObject) obj).getMap().collectEntries { k, v ->
+        [k, wrapObject(v)]
+      }
     } else if (obj instanceof JsonArray) {
-      return ((JsonArray) obj).toList();
+      return ((JsonArray) obj).toList().collect {
+        wrapObject(it)
+      }
     } else if (obj instanceof io.vertx.core.buffer.Buffer) {
       return new Buffer((io.vertx.core.buffer.Buffer) obj);
     }
