@@ -83,7 +83,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return the write stream for sending packets
    */
   public PacketWritestream sender(int port, String host) {
-    def ret= new io.vertx.groovy.core.datagram.PacketWritestream(this.delegate.sender(port, host));
+    def ret= InternalHelper.safeCreate(this.delegate.sender(port, host), io.vertx.core.datagram.PacketWritestream.class, io.vertx.groovy.core.datagram.PacketWritestream.class);
     return ret;
   }
   /**
@@ -156,7 +156,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.localAddress());
+    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }

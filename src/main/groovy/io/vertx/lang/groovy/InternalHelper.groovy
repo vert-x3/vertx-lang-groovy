@@ -21,7 +21,9 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.groovy.core.buffer.Buffer;
+import io.vertx.groovy.core.buffer.Buffer
+
+import java.lang.reflect.Constructor;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
@@ -63,6 +65,14 @@ public class InternalHelper {
 
   public static <V> AsyncResult<V> failure(Throwable t) {
     return Future.failedFuture(t);
+  }
+
+  public static <T, D> T safeCreate(D delegate, Class<D> delegateType, Class<T> type) {
+    if (delegate != null) {
+      Constructor<T> ctor = type.getConstructor(delegateType)
+      return ctor.newInstance(delegate)
+    }
+    return null
   }
 
 }

@@ -37,7 +37,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> future() {
-    def ret= new io.vertx.groovy.core.Future(io.vertx.core.Future.future());
+    def ret= InternalHelper.safeCreate(io.vertx.core.Future.future(), io.vertx.core.Future.class, io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
@@ -45,7 +45,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> succeededFuture() {
-    def ret= new io.vertx.groovy.core.Future(io.vertx.core.Future.succeededFuture());
+    def ret= InternalHelper.safeCreate(io.vertx.core.Future.succeededFuture(), io.vertx.core.Future.class, io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
@@ -54,7 +54,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> succeededFuture(T result) {
-    def ret= new io.vertx.groovy.core.Future(io.vertx.core.Future.succeededFuture(InternalHelper.unwrapObject(result)));
+    def ret= InternalHelper.safeCreate(io.vertx.core.Future.succeededFuture(InternalHelper.unwrapObject(result)), io.vertx.core.Future.class, io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
@@ -63,7 +63,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> failedFuture(String failureMessage) {
-    def ret= new io.vertx.groovy.core.Future(io.vertx.core.Future.failedFuture(failureMessage));
+    def ret= InternalHelper.safeCreate(io.vertx.core.Future.failedFuture(failureMessage), io.vertx.core.Future.class, io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**

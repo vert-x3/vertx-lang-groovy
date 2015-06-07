@@ -40,7 +40,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer() {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(io.vertx.core.buffer.Buffer.buffer());
+    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -52,7 +52,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(int initialSizeHint) {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(io.vertx.core.buffer.Buffer.buffer(initialSizeHint));
+    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(initialSizeHint), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -61,7 +61,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(String string) {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(io.vertx.core.buffer.Buffer.buffer(string));
+    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -72,7 +72,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(String string, String enc) {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(io.vertx.core.buffer.Buffer.buffer(string, enc));
+    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string, enc), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -146,7 +146,7 @@ public class Buffer {
    * @return 
    */
   public Buffer getBuffer(int start, int end) {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.getBuffer(start, end));
+    def ret= InternalHelper.safeCreate(this.delegate.getBuffer(start, end), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -406,7 +406,7 @@ public class Buffer {
    * @return 
    */
   public Buffer copy() {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.copy());
+    def ret= InternalHelper.safeCreate(this.delegate.copy(), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -416,7 +416,7 @@ public class Buffer {
    * @return 
    */
   public Buffer slice() {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.slice());
+    def ret= InternalHelper.safeCreate(this.delegate.slice(), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -428,7 +428,7 @@ public class Buffer {
    * @return 
    */
   public Buffer slice(int start, int end) {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.slice(start, end));
+    def ret= InternalHelper.safeCreate(this.delegate.slice(start, end), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
 }

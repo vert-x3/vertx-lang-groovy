@@ -122,7 +122,7 @@ public class SharedData {
    * @return the msp
    */
   public <K, V> LocalMap<K,V> getLocalMap(String name) {
-    def ret= new io.vertx.groovy.core.shareddata.LocalMap(this.delegate.getLocalMap(name));
+    def ret= InternalHelper.safeCreate(this.delegate.getLocalMap(name), io.vertx.core.shareddata.LocalMap.class, io.vertx.groovy.core.shareddata.LocalMap.class);
     return ret;
   }
 }

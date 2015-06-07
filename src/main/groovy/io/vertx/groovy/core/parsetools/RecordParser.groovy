@@ -76,11 +76,11 @@ public class RecordParser implements Handler<Buffer> {
    * @return 
    */
   public static RecordParser newDelimited(String delim, Handler<Buffer> output) {
-    def ret= new io.vertx.groovy.core.parsetools.RecordParser(io.vertx.core.parsetools.RecordParser.newDelimited(delim, new Handler<io.vertx.core.buffer.Buffer>() {
+    def ret= InternalHelper.safeCreate(io.vertx.core.parsetools.RecordParser.newDelimited(delim, new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         output.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
-    }));
+    }), io.vertx.core.parsetools.RecordParser.class, io.vertx.groovy.core.parsetools.RecordParser.class);
     return ret;
   }
   /**
@@ -93,11 +93,11 @@ public class RecordParser implements Handler<Buffer> {
    * @return 
    */
   public static RecordParser newDelimited(Buffer delim, Handler<Buffer> output) {
-    def ret= new io.vertx.groovy.core.parsetools.RecordParser(io.vertx.core.parsetools.RecordParser.newDelimited((io.vertx.core.buffer.Buffer)delim.getDelegate(), new Handler<io.vertx.core.buffer.Buffer>() {
+    def ret= InternalHelper.safeCreate(io.vertx.core.parsetools.RecordParser.newDelimited((io.vertx.core.buffer.Buffer)delim.getDelegate(), new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         output.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
-    }));
+    }), io.vertx.core.parsetools.RecordParser.class, io.vertx.groovy.core.parsetools.RecordParser.class);
     return ret;
   }
   /**
@@ -110,11 +110,11 @@ public class RecordParser implements Handler<Buffer> {
    * @return 
    */
   public static RecordParser newFixed(int size, Handler<Buffer> output) {
-    def ret= new io.vertx.groovy.core.parsetools.RecordParser(io.vertx.core.parsetools.RecordParser.newFixed(size, new Handler<io.vertx.core.buffer.Buffer>() {
+    def ret= InternalHelper.safeCreate(io.vertx.core.parsetools.RecordParser.newFixed(size, new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         output.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
-    }));
+    }), io.vertx.core.parsetools.RecordParser.class, io.vertx.groovy.core.parsetools.RecordParser.class);
     return ret;
   }
   /**

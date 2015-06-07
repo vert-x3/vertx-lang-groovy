@@ -74,7 +74,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest request(HttpMethod method, int port, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.request(method, port, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.request(method, port, host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -85,7 +85,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest request(HttpMethod method, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.request(method, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.request(method, host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -99,11 +99,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest request(HttpMethod method, int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.request(method, port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.request(method, port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -116,11 +116,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest request(HttpMethod method, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.request(method, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.request(method, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -130,7 +130,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest request(HttpMethod method, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.request(method, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.request(method, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -142,11 +142,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest request(HttpMethod method, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.request(method, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.request(method, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -156,7 +156,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest requestAbs(HttpMethod method, String absoluteURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.requestAbs(method, absoluteURI));
+    def ret= InternalHelper.safeCreate(this.delegate.requestAbs(method, absoluteURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -168,11 +168,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest requestAbs(HttpMethod method, String absoluteURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.requestAbs(method, absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.requestAbs(method, absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -183,7 +183,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest get(int port, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.get(port, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.get(port, host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -193,7 +193,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest get(String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.get(host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.get(host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -206,11 +206,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest get(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.get(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.get(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -222,11 +222,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest get(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.get(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.get(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -235,7 +235,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest get(String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.get(requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.get(requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -246,11 +246,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest get(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.get(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.get(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -259,7 +259,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest getAbs(String absoluteURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.getAbs(absoluteURI));
+    def ret= InternalHelper.safeCreate(this.delegate.getAbs(absoluteURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -270,11 +270,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest getAbs(String absoluteURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.getAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.getAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -287,11 +287,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient getNow(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.getNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.getNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -303,11 +303,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient getNow(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.getNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.getNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -318,11 +318,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient getNow(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.getNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.getNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -333,7 +333,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest post(int port, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.post(port, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.post(port, host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -343,7 +343,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest post(String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.post(host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.post(host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -356,11 +356,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest post(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.post(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.post(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -372,11 +372,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest post(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.post(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.post(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -385,7 +385,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest post(String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.post(requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.post(requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -396,11 +396,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest post(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.post(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.post(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -409,7 +409,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest postAbs(String absoluteURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.postAbs(absoluteURI));
+    def ret= InternalHelper.safeCreate(this.delegate.postAbs(absoluteURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -420,11 +420,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest postAbs(String absoluteURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.postAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.postAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -435,7 +435,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest head(int port, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.head(port, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.head(port, host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -445,7 +445,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest head(String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.head(host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.head(host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -458,11 +458,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest head(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.head(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.head(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -474,11 +474,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest head(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.head(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.head(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -487,7 +487,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest head(String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.head(requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.head(requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -498,11 +498,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest head(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.head(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.head(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -511,7 +511,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest headAbs(String absoluteURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.headAbs(absoluteURI));
+    def ret= InternalHelper.safeCreate(this.delegate.headAbs(absoluteURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -522,11 +522,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest headAbs(String absoluteURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.headAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.headAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -539,11 +539,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient headNow(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.headNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.headNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -555,11 +555,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient headNow(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.headNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.headNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -570,11 +570,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient headNow(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.headNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.headNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -585,7 +585,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest options(int port, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.options(port, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.options(port, host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -595,7 +595,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest options(String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.options(host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.options(host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -608,11 +608,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest options(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.options(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.options(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -624,11 +624,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest options(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.options(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.options(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -637,7 +637,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest options(String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.options(requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.options(requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -648,11 +648,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest options(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.options(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.options(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -661,7 +661,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest optionsAbs(String absoluteURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.optionsAbs(absoluteURI));
+    def ret= InternalHelper.safeCreate(this.delegate.optionsAbs(absoluteURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -672,11 +672,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest optionsAbs(String absoluteURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.optionsAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.optionsAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -689,11 +689,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient optionsNow(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.optionsNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.optionsNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -705,11 +705,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient optionsNow(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.optionsNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.optionsNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -720,11 +720,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient optionsNow(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.optionsNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.optionsNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -735,7 +735,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest put(int port, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.put(port, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.put(port, host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -745,7 +745,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest put(String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.put(host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.put(host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -758,11 +758,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest put(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.put(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.put(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -774,11 +774,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest put(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.put(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.put(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -787,7 +787,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest put(String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.put(requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.put(requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -798,11 +798,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest put(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.put(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.put(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -811,7 +811,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest putAbs(String absoluteURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.putAbs(absoluteURI));
+    def ret= InternalHelper.safeCreate(this.delegate.putAbs(absoluteURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -822,11 +822,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest putAbs(String absoluteURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.putAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.putAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -837,7 +837,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest delete(int port, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.delete(port, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.delete(port, host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -847,7 +847,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest delete(String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.delete(host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.delete(host, requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -860,11 +860,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest delete(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.delete(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.delete(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -876,11 +876,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest delete(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.delete(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.delete(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -889,7 +889,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest delete(String requestURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.delete(requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.delete(requestURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -900,11 +900,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest delete(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.delete(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.delete(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -913,7 +913,7 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest deleteAbs(String absoluteURI) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.deleteAbs(absoluteURI));
+    def ret= InternalHelper.safeCreate(this.delegate.deleteAbs(absoluteURI), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -924,11 +924,11 @@ public class HttpClient implements Measured {
    * @return an HTTP client request object
    */
   public HttpClientRequest deleteAbs(String absoluteURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= new io.vertx.groovy.core.http.HttpClientRequest(this.delegate.deleteAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    def ret= InternalHelper.safeCreate(this.delegate.deleteAbs(absoluteURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClientRequest.class, io.vertx.groovy.core.http.HttpClientRequest.class);
     return ret;
   }
   /**
@@ -940,11 +940,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(int port, String host, String requestURI, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(port, host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -955,11 +955,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String host, String requestURI, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -972,11 +972,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -988,11 +988,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String host, String requestURI, MultiMap headers, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1007,11 +1007,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1025,11 +1025,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String host, String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1045,11 +1045,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1064,11 +1064,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1078,11 +1078,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String requestURI, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1093,11 +1093,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String requestURI, MultiMap headers, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1110,11 +1110,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1128,11 +1128,11 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -1143,7 +1143,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(int port, String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(port, host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(port, host, requestURI), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1153,7 +1153,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(String host, String requestURI) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(host, requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(host, requestURI), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1165,7 +1165,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(int port, String host, String requestURI, MultiMap headers) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate()));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate()), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1176,7 +1176,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(String host, String requestURI, MultiMap headers) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate()));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate()), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1190,7 +1190,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1203,7 +1203,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(String host, String requestURI, MultiMap headers, WebsocketVersion version) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1218,7 +1218,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1232,7 +1232,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1241,7 +1241,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(String requestURI) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(requestURI));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(requestURI), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1251,7 +1251,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(String requestURI, MultiMap headers) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(requestURI, (io.vertx.core.MultiMap)headers.getDelegate()));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(requestURI, (io.vertx.core.MultiMap)headers.getDelegate()), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1263,7 +1263,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(String requestURI, MultiMap headers, WebsocketVersion version) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**
@@ -1276,7 +1276,7 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketStream websocketStream(String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols) {
-    def ret= new io.vertx.groovy.core.http.WebSocketStream(this.delegate.websocketStream(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols));
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols), io.vertx.core.http.WebSocketStream.class, io.vertx.groovy.core.http.WebSocketStream.class);
     return ret;
   }
   /**

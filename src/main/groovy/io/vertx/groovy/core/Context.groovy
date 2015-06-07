@@ -189,7 +189,7 @@ public class Context {
    * @return 
    */
   public Vertx owner() {
-    def ret= new io.vertx.groovy.core.Vertx(this.delegate.owner());
+    def ret= InternalHelper.safeCreate(this.delegate.owner(), io.vertx.core.Vertx.class, io.vertx.groovy.core.Vertx.class);
     return ret;
   }
 }

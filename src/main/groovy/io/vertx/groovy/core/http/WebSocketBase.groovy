@@ -185,7 +185,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= new io.vertx.groovy.core.net.SocketAddress(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress());
+    def ret= InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }
@@ -197,7 +197,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= new io.vertx.groovy.core.net.SocketAddress(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress());
+    def ret= InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
     cached_1 = ret;
     return ret;
   }

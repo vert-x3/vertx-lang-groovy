@@ -52,7 +52,7 @@ public class HttpServer implements Measured {
    * @return the request stream
    */
   public HttpServerRequestStream requestStream() {
-    def ret= new io.vertx.groovy.core.http.HttpServerRequestStream(this.delegate.requestStream());
+    def ret= InternalHelper.safeCreate(this.delegate.requestStream(), io.vertx.core.http.HttpServerRequestStream.class, io.vertx.groovy.core.http.HttpServerRequestStream.class);
     return ret;
   }
   /**
@@ -62,11 +62,11 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer requestHandler(Handler<HttpServerRequest> handler) {
-    def ret= new io.vertx.groovy.core.http.HttpServer(this.delegate.requestHandler(new Handler<io.vertx.core.http.HttpServerRequest>() {
+    def ret= InternalHelper.safeCreate(this.delegate.requestHandler(new Handler<io.vertx.core.http.HttpServerRequest>() {
       public void handle(io.vertx.core.http.HttpServerRequest event) {
         handler.handle(new io.vertx.groovy.core.http.HttpServerRequest(event));
       }
-    }));
+    }), io.vertx.core.http.HttpServer.class, io.vertx.groovy.core.http.HttpServer.class);
     return ret;
   }
   /**
@@ -75,7 +75,7 @@ public class HttpServer implements Measured {
    * @return the websocket stream
    */
   public ServerWebSocketStream websocketStream() {
-    def ret= new io.vertx.groovy.core.http.ServerWebSocketStream(this.delegate.websocketStream());
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(), io.vertx.core.http.ServerWebSocketStream.class, io.vertx.groovy.core.http.ServerWebSocketStream.class);
     return ret;
   }
   /**
@@ -85,11 +85,11 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer websocketHandler(Handler<ServerWebSocket> handler) {
-    def ret= new io.vertx.groovy.core.http.HttpServer(this.delegate.websocketHandler(new Handler<io.vertx.core.http.ServerWebSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.websocketHandler(new Handler<io.vertx.core.http.ServerWebSocket>() {
       public void handle(io.vertx.core.http.ServerWebSocket event) {
         handler.handle(new io.vertx.groovy.core.http.ServerWebSocket(event));
       }
-    }));
+    }), io.vertx.core.http.HttpServer.class, io.vertx.groovy.core.http.HttpServer.class);
     return ret;
   }
   /**

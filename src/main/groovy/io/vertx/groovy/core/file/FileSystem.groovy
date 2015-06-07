@@ -246,7 +246,7 @@ public class FileSystem {
    * @return 
    */
   public FileProps propsBlocking(String path) {
-    def ret= new io.vertx.groovy.core.file.FileProps(this.delegate.propsBlocking(path));
+    def ret= InternalHelper.safeCreate(this.delegate.propsBlocking(path), io.vertx.core.file.FileProps.class, io.vertx.groovy.core.file.FileProps.class);
     return ret;
   }
   /**
@@ -277,7 +277,7 @@ public class FileSystem {
    * @return 
    */
   public FileProps lpropsBlocking(String path) {
-    def ret= new io.vertx.groovy.core.file.FileProps(this.delegate.lpropsBlocking(path));
+    def ret= InternalHelper.safeCreate(this.delegate.lpropsBlocking(path), io.vertx.core.file.FileProps.class, io.vertx.groovy.core.file.FileProps.class);
     return ret;
   }
   /**
@@ -576,7 +576,7 @@ public class FileSystem {
    * @return 
    */
   public Buffer readFileBlocking(String path) {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.readFileBlocking(path));
+    def ret= InternalHelper.safeCreate(this.delegate.readFileBlocking(path), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -631,7 +631,7 @@ public class FileSystem {
    * @return 
    */
   public AsyncFile openBlocking(String path, Map<String, Object> options) {
-    def ret= new io.vertx.groovy.core.file.AsyncFile(this.delegate.openBlocking(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= InternalHelper.safeCreate(this.delegate.openBlocking(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.file.AsyncFile.class, io.vertx.groovy.core.file.AsyncFile.class);
     return ret;
   }
   /**
@@ -719,7 +719,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystemProps fsPropsBlocking(String path) {
-    def ret= new io.vertx.groovy.core.file.FileSystemProps(this.delegate.fsPropsBlocking(path));
+    def ret= InternalHelper.safeCreate(this.delegate.fsPropsBlocking(path), io.vertx.core.file.FileSystemProps.class, io.vertx.groovy.core.file.FileSystemProps.class);
     return ret;
   }
 }

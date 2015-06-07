@@ -752,6 +752,12 @@ public class ApiTest {
   }
 
   @Test
+  public void testVertxGenNullReturn() {
+    RefedInterface1 r = obj.methodWithVertxGenNullReturn();
+    assertEquals(null, r)
+  }
+
+  @Test
   public void testVertxAbstractGenReturn() {
     RefedInterface2 r = obj.methodWithAbstractVertxGenReturn();
     assertEquals("abstractchaffinch", r.string)

@@ -47,7 +47,7 @@ public class NetServer implements Measured {
    * @return the connect stream
    */
   public NetSocketStream connectStream() {
-    def ret= new io.vertx.groovy.core.net.NetSocketStream(this.delegate.connectStream());
+    def ret= InternalHelper.safeCreate(this.delegate.connectStream(), io.vertx.core.net.NetSocketStream.class, io.vertx.groovy.core.net.NetSocketStream.class);
     return ret;
   }
   /**
@@ -58,11 +58,11 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer connectHandler(Handler<NetSocket> handler) {
-    def ret= new io.vertx.groovy.core.net.NetServer(this.delegate.connectHandler(new Handler<io.vertx.core.net.NetSocket>() {
+    def ret= InternalHelper.safeCreate(this.delegate.connectHandler(new Handler<io.vertx.core.net.NetSocket>() {
       public void handle(io.vertx.core.net.NetSocket event) {
         handler.handle(new io.vertx.groovy.core.net.NetSocket(event));
       }
-    }));
+    }), io.vertx.core.net.NetServer.class, io.vertx.groovy.core.net.NetServer.class);
     return ret;
   }
   /**

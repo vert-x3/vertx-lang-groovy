@@ -86,7 +86,7 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@else{method.returnType.kind == CLASS_API}
 			@code{cachedType=method.returnType.simpleName}
-		    def ret= @{genConstructorExpression(method.returnType.raw)}(@includeNamed{'invokeDelegate';method=method});\n
+		    def ret= InternalHelper.safeCreate(@includeNamed{'invokeDelegate';method=method}, @{method.returnType.raw}.class, @{genConstructorType(method.returnType.raw)}.class);\n
 		@else{}
 			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n

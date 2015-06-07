@@ -82,7 +82,7 @@ public class Vertx implements Measured {
    * @return the instance
    */
   public static Vertx vertx() {
-    def ret= new io.vertx.groovy.core.Vertx(io.vertx.core.Vertx.vertx());
+    def ret= InternalHelper.safeCreate(io.vertx.core.Vertx.vertx(), io.vertx.core.Vertx.class, io.vertx.groovy.core.Vertx.class);
     return ret;
   }
   /**
@@ -91,7 +91,7 @@ public class Vertx implements Measured {
    * @return the instance
    */
   public static Vertx vertx(Map<String, Object> options) {
-    def ret= new io.vertx.groovy.core.Vertx(io.vertx.core.Vertx.vertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= InternalHelper.safeCreate(io.vertx.core.Vertx.vertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.Vertx.class, io.vertx.groovy.core.Vertx.class);
     return ret;
   }
   /**
@@ -119,7 +119,7 @@ public class Vertx implements Measured {
    * @return The current context or null if no current context
    */
   public static Context currentContext() {
-    def ret= new io.vertx.groovy.core.Context(io.vertx.core.Vertx.currentContext());
+    def ret= InternalHelper.safeCreate(io.vertx.core.Vertx.currentContext(), io.vertx.core.Context.class, io.vertx.groovy.core.Context.class);
     return ret;
   }
   /**
@@ -127,7 +127,7 @@ public class Vertx implements Measured {
    * @return The current context (created if didn't exist)
    */
   public Context getOrCreateContext() {
-    def ret= new io.vertx.groovy.core.Context(this.delegate.getOrCreateContext());
+    def ret= InternalHelper.safeCreate(this.delegate.getOrCreateContext(), io.vertx.core.Context.class, io.vertx.groovy.core.Context.class);
     return ret;
   }
   /**
@@ -136,7 +136,7 @@ public class Vertx implements Measured {
    * @return the server
    */
   public NetServer createNetServer(Map<String, Object> options) {
-    def ret= new io.vertx.groovy.core.net.NetServer(this.delegate.createNetServer(options != null ? new io.vertx.core.net.NetServerOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= InternalHelper.safeCreate(this.delegate.createNetServer(options != null ? new io.vertx.core.net.NetServerOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.net.NetServer.class, io.vertx.groovy.core.net.NetServer.class);
     return ret;
   }
   /**
@@ -144,7 +144,7 @@ public class Vertx implements Measured {
    * @return the server
    */
   public NetServer createNetServer() {
-    def ret= new io.vertx.groovy.core.net.NetServer(this.delegate.createNetServer());
+    def ret= InternalHelper.safeCreate(this.delegate.createNetServer(), io.vertx.core.net.NetServer.class, io.vertx.groovy.core.net.NetServer.class);
     return ret;
   }
   /**
@@ -153,7 +153,7 @@ public class Vertx implements Measured {
    * @return the client
    */
   public NetClient createNetClient(Map<String, Object> options) {
-    def ret= new io.vertx.groovy.core.net.NetClient(this.delegate.createNetClient(options != null ? new io.vertx.core.net.NetClientOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= InternalHelper.safeCreate(this.delegate.createNetClient(options != null ? new io.vertx.core.net.NetClientOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.net.NetClient.class, io.vertx.groovy.core.net.NetClient.class);
     return ret;
   }
   /**
@@ -161,7 +161,7 @@ public class Vertx implements Measured {
    * @return the client
    */
   public NetClient createNetClient() {
-    def ret= new io.vertx.groovy.core.net.NetClient(this.delegate.createNetClient());
+    def ret= InternalHelper.safeCreate(this.delegate.createNetClient(), io.vertx.core.net.NetClient.class, io.vertx.groovy.core.net.NetClient.class);
     return ret;
   }
   /**
@@ -170,7 +170,7 @@ public class Vertx implements Measured {
    * @return the server
    */
   public HttpServer createHttpServer(Map<String, Object> options) {
-    def ret= new io.vertx.groovy.core.http.HttpServer(this.delegate.createHttpServer(options != null ? new io.vertx.core.http.HttpServerOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= InternalHelper.safeCreate(this.delegate.createHttpServer(options != null ? new io.vertx.core.http.HttpServerOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.http.HttpServer.class, io.vertx.groovy.core.http.HttpServer.class);
     return ret;
   }
   /**
@@ -178,7 +178,7 @@ public class Vertx implements Measured {
    * @return the server
    */
   public HttpServer createHttpServer() {
-    def ret= new io.vertx.groovy.core.http.HttpServer(this.delegate.createHttpServer());
+    def ret= InternalHelper.safeCreate(this.delegate.createHttpServer(), io.vertx.core.http.HttpServer.class, io.vertx.groovy.core.http.HttpServer.class);
     return ret;
   }
   /**
@@ -187,7 +187,7 @@ public class Vertx implements Measured {
    * @return the client
    */
   public HttpClient createHttpClient(Map<String, Object> options) {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.createHttpClient(options != null ? new io.vertx.core.http.HttpClientOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= InternalHelper.safeCreate(this.delegate.createHttpClient(options != null ? new io.vertx.core.http.HttpClientOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -195,7 +195,7 @@ public class Vertx implements Measured {
    * @return the client
    */
   public HttpClient createHttpClient() {
-    def ret= new io.vertx.groovy.core.http.HttpClient(this.delegate.createHttpClient());
+    def ret= InternalHelper.safeCreate(this.delegate.createHttpClient(), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -204,7 +204,7 @@ public class Vertx implements Measured {
    * @return the socket
    */
   public DatagramSocket createDatagramSocket(Map<String, Object> options) {
-    def ret= new io.vertx.groovy.core.datagram.DatagramSocket(this.delegate.createDatagramSocket(options != null ? new io.vertx.core.datagram.DatagramSocketOptions(new io.vertx.core.json.JsonObject(options)) : null));
+    def ret= InternalHelper.safeCreate(this.delegate.createDatagramSocket(options != null ? new io.vertx.core.datagram.DatagramSocketOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.datagram.DatagramSocket.class, io.vertx.groovy.core.datagram.DatagramSocket.class);
     return ret;
   }
   /**
@@ -212,7 +212,7 @@ public class Vertx implements Measured {
    * @return the socket
    */
   public DatagramSocket createDatagramSocket() {
-    def ret= new io.vertx.groovy.core.datagram.DatagramSocket(this.delegate.createDatagramSocket());
+    def ret= InternalHelper.safeCreate(this.delegate.createDatagramSocket(), io.vertx.core.datagram.DatagramSocket.class, io.vertx.groovy.core.datagram.DatagramSocket.class);
     return ret;
   }
   /**
@@ -223,7 +223,7 @@ public class Vertx implements Measured {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= new io.vertx.groovy.core.file.FileSystem(this.delegate.fileSystem());
+    def ret= InternalHelper.safeCreate(this.delegate.fileSystem(), io.vertx.core.file.FileSystem.class, io.vertx.groovy.core.file.FileSystem.class);
     cached_0 = ret;
     return ret;
   }
@@ -235,7 +235,7 @@ public class Vertx implements Measured {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= new io.vertx.groovy.core.eventbus.EventBus(this.delegate.eventBus());
+    def ret= InternalHelper.safeCreate(this.delegate.eventBus(), io.vertx.core.eventbus.EventBus.class, io.vertx.groovy.core.eventbus.EventBus.class);
     cached_1 = ret;
     return ret;
   }
@@ -246,7 +246,7 @@ public class Vertx implements Measured {
    * @return the DNS client
    */
   public DnsClient createDnsClient(int port, String host) {
-    def ret= new io.vertx.groovy.core.dns.DnsClient(this.delegate.createDnsClient(port, host));
+    def ret= InternalHelper.safeCreate(this.delegate.createDnsClient(port, host), io.vertx.core.dns.DnsClient.class, io.vertx.groovy.core.dns.DnsClient.class);
     return ret;
   }
   /**
@@ -257,7 +257,7 @@ public class Vertx implements Measured {
     if (cached_2 != null) {
       return cached_2;
     }
-    def ret= new io.vertx.groovy.core.shareddata.SharedData(this.delegate.sharedData());
+    def ret= InternalHelper.safeCreate(this.delegate.sharedData(), io.vertx.core.shareddata.SharedData.class, io.vertx.groovy.core.shareddata.SharedData.class);
     cached_2 = ret;
     return ret;
   }
@@ -279,7 +279,7 @@ public class Vertx implements Measured {
    * @return the timer stream
    */
   public TimeoutStream timerStream(long delay) {
-    def ret= new io.vertx.groovy.core.TimeoutStream(this.delegate.timerStream(delay));
+    def ret= InternalHelper.safeCreate(this.delegate.timerStream(delay), io.vertx.core.TimeoutStream.class, io.vertx.groovy.core.TimeoutStream.class);
     return ret;
   }
   /**
@@ -300,7 +300,7 @@ public class Vertx implements Measured {
    * @return the periodic stream
    */
   public TimeoutStream periodicStream(long delay) {
-    def ret= new io.vertx.groovy.core.TimeoutStream(this.delegate.periodicStream(delay));
+    def ret= InternalHelper.safeCreate(this.delegate.periodicStream(delay), io.vertx.core.TimeoutStream.class, io.vertx.groovy.core.TimeoutStream.class);
     return ret;
   }
   /**

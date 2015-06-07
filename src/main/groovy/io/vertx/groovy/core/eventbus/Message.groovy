@@ -53,7 +53,7 @@ public class Message<T> {
    * @return the headers
    */
   public MultiMap headers() {
-    def ret= new io.vertx.groovy.core.MultiMap(((io.vertx.core.eventbus.Message) this.delegate).headers());
+    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.Message) this.delegate).headers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
     return ret;
   }
   /**

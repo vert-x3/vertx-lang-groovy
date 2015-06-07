@@ -89,7 +89,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.headers());
+    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
     cached_0 = ret;
     return ret;
   }
@@ -119,7 +119,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= new io.vertx.groovy.core.MultiMap(this.delegate.trailers());
+    def ret= InternalHelper.safeCreate(this.delegate.trailers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
     cached_1 = ret;
     return ret;
   }
@@ -164,7 +164,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_3 != null) {
       return cached_3;
     }
-    def ret= new io.vertx.groovy.core.net.NetSocket(this.delegate.netSocket());
+    def ret= InternalHelper.safeCreate(this.delegate.netSocket(), io.vertx.core.net.NetSocket.class, io.vertx.groovy.core.net.NetSocket.class);
     cached_3 = ret;
     return ret;
   }

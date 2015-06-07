@@ -66,16 +66,16 @@
     return "{@link " + rawType.name + "}";
   }
 
-  def genConstructorExpression(type) {
+  def genConstructorType(type) {
     var fqn = type.translateName("groovy");
     if (type.concrete) {
-      return "new " + fqn;
+      return fqn;
     } else {
-      return "new " + fqn + "Impl";
+      return fqn + "Impl";
     }
   }
 
   def genConstructor(type, arg) {
-    return genConstructorExpression(type) + "(" + arg + ")";
+    return "new " + genConstructorType(type) + "(" + arg + ")";
   }
 }

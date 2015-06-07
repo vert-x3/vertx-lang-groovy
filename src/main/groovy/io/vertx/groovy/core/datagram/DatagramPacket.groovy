@@ -37,7 +37,7 @@ public class DatagramPacket {
    * @return the address of the sender
    */
   public SocketAddress sender() {
-    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.sender());
+    def ret= InternalHelper.safeCreate(this.delegate.sender(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
     return ret;
   }
   /**
@@ -45,7 +45,7 @@ public class DatagramPacket {
    * @return the data
    */
   public Buffer data() {
-    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.data());
+    def ret= InternalHelper.safeCreate(this.delegate.data(), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
 }

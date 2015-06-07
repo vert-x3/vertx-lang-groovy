@@ -147,7 +147,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.remoteAddress());
+    def ret= InternalHelper.safeCreate(this.delegate.remoteAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }
@@ -159,7 +159,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= new io.vertx.groovy.core.net.SocketAddress(this.delegate.localAddress());
+    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
     cached_1 = ret;
     return ret;
   }

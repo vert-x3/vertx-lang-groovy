@@ -44,7 +44,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame binaryFrame(Buffer data, boolean isFinal) {
-    def ret= new io.vertx.groovy.core.http.WebSocketFrame(io.vertx.core.http.WebSocketFrame.binaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal));
+    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.binaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal), io.vertx.core.http.WebSocketFrame.class, io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -54,7 +54,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame textFrame(String str, boolean isFinal) {
-    def ret= new io.vertx.groovy.core.http.WebSocketFrame(io.vertx.core.http.WebSocketFrame.textFrame(str, isFinal));
+    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.textFrame(str, isFinal), io.vertx.core.http.WebSocketFrame.class, io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -64,7 +64,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame continuationFrame(Buffer data, boolean isFinal) {
-    def ret= new io.vertx.groovy.core.http.WebSocketFrame(io.vertx.core.http.WebSocketFrame.continuationFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal));
+    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.continuationFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal), io.vertx.core.http.WebSocketFrame.class, io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -112,7 +112,7 @@ public class WebSocketFrame {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= new io.vertx.groovy.core.buffer.Buffer(this.delegate.binaryData());
+    def ret= InternalHelper.safeCreate(this.delegate.binaryData(), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
     cached_1 = ret;
     return ret;
   }

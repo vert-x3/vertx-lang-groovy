@@ -69,7 +69,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public ReadStream<T> bodyStream() {
-    def ret= new io.vertx.groovy.core.streams.ReadStreamImpl(((io.vertx.core.eventbus.MessageConsumer) this.delegate).bodyStream());
+    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.MessageConsumer) this.delegate).bodyStream(), io.vertx.core.streams.ReadStream.class, io.vertx.groovy.core.streams.ReadStreamImpl.class);
     return ret;
   }
   /**
@@ -96,7 +96,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return this registration
    */
   public MessageConsumer<T> setMaxBufferedMessages(int maxBufferedMessages) {
-    def ret= new io.vertx.groovy.core.eventbus.MessageConsumer(((io.vertx.core.eventbus.MessageConsumer) this.delegate).setMaxBufferedMessages(maxBufferedMessages));
+    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.MessageConsumer) this.delegate).setMaxBufferedMessages(maxBufferedMessages), io.vertx.core.eventbus.MessageConsumer.class, io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**
