@@ -273,7 +273,7 @@ blocking APIs safely within a Vert.x application.
 As discussed before, you can't call blocking operations directly from an event loop, as that would prevent it
 from doing any other useful work. So how can you do this?
 
-It's done by calling `link:groovydoc/io/vertx/groovy/core/Vertx.html#executeBlocking(io.vertx.core.Handler,%20io.vertx.core.Handler)[executeBlocking]` specifying both the blocking code to execute and a
+It's done by calling `link:groovydoc/io/vertx/groovy/core/Vertx.html#executeBlocking(io.vertx.core.Handler,%20boolean,%20io.vertx.core.Handler)[executeBlocking]` specifying both the blocking code to execute and a
 result handler to be called back asynchronous when the blocking code has been executed.
 
 [source,groovy]
@@ -290,7 +290,16 @@ vertx.executeBlocking({ future ->
 
 ----
 
+By default, if executeBlocking is called several times from the same context (e.g. the same verticle instance) then
+the different executeBlocking are executed _serially_ (i.e. one after another).
+
+If you don't care about ordering you can call `link:groovydoc/io/vertx/groovy/core/Vertx.html#executeBlocking(io.vertx.core.Handler,%20boolean,%20io.vertx.core.Handler)[executeBlocking]`
+specifying `false` as the argument to `ordered`. In this case any executeBlocking may be executed in parallel
+on the worker pool.
+
 An alternative way to run blocking code is to use a <<worker_verticles, worker verticle>>
+
+A worker verticle is always executed with a thread from the worker pool.
 
 == Verticles
 

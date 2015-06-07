@@ -66,4 +66,20 @@ class EventBusTest extends VertxTestBase {
     eventBus.send("the_address", "${val}")
     await()
   }
+
+  @Test
+  public void testComplexJson() {
+    def val = [outer: [inner: 'value'], list: ['v1', 'v2', 'v3']]
+    def eventBus = _vertx.eventBus()
+    eventBus.consumer("the_address").handler { message ->
+      def body = message.body()
+      if (body instanceof Map && body.equals(val)) {
+        testComplete()
+      } else {
+        fail()
+      }
+    }
+    eventBus.send("the_address", val)
+    await()
+  }
 }

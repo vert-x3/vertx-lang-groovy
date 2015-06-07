@@ -425,7 +425,30 @@ public class Vertx implements Measured {
    * the handler should call the {@link io.vertx.groovy.core.Future#complete} or {@link io.vertx.groovy.core.Future#complete} method, or the {@link io.vertx.groovy.core.Future#fail}
    * method if it failed.
    * @param blockingCodeHandler handler representing the blocking code to run
+   * @param ordered if true then if executeBlocking is called several times on the same context, the executions for that context will be executed serially, not in parallel. if false then they will be no ordering guarantees
    * @param resultHandler handler that will be called when the blocking code is complete
+   */
+  public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, boolean ordered, Handler<AsyncResult<T>> resultHandler) {
+    this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {
+      public void handle(io.vertx.core.Future<java.lang.Object> event) {
+        blockingCodeHandler.handle(new io.vertx.groovy.core.Future(event));
+      }
+    }, ordered, new Handler<AsyncResult<Object>>() {
+      public void handle(AsyncResult<Object> event) {
+        AsyncResult<Object> f
+        if (event.succeeded()) {
+          f = InternalHelper.<Object>result(InternalHelper.wrapObject(event.result()))
+        } else {
+          f = InternalHelper.<Object>failure(event.cause())
+        }
+        resultHandler.handle(f)
+      }
+    });
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.Vertx#executeBlocking} called with ordered = true.
+   * @param blockingCodeHandler 
+   * @param resultHandler 
    */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, Handler<AsyncResult<T>> resultHandler) {
     this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {

@@ -170,19 +170,19 @@ this.delegate
 		@else{eventKind == CLASS_DATA_OBJECT}
 			new Handler<@{eventType.simpleName}>() {\n
 			      public void handle(@{eventType.simpleName} event) {\n
-			        @{param.name}.handle(event?.toJson()?.getMap());\n
+			        @{param.name}.handle((Map<String, Object>)InternalHelper.wrapObject(event?.toJson()));\n
 			      }\n
 			    }
 		@else{eventKind == CLASS_JSON_OBJECT}
 			new Handler<JsonObject>() {\n
 			      public void handle(JsonObject event) {\n
-			        @{param.name}.handle(event?.getMap());\n
+			        @{param.name}.handle((Map<String, Object>)InternalHelper.wrapObject(event));\n
 			      }\n
 			    }
 		@else{eventKind == CLASS_JSON_ARRAY}
 			new Handler<JsonArray>() {\n
 			      public void handle(JsonArray event) {\n
-			        @{param.name}.handle(event?.toList());\n
+			        @{param.name}.handle((List<Object>)InternalHelper.wrapObject(event));\n
 			      }\n
 			    }
 		@else{eventKind == CLASS_LIST || eventKind == CLASS_SET}
@@ -196,13 +196,13 @@ this.delegate
 					@code{toGroovyElement='' + genConstructor(elementType, "it")}
 					@code{elementJavaType=elementType.name}
 				@else{elementKind == CLASS_JSON_OBJECT}
-					@code{toGroovyElement='it?.getMap()'}
+					@code{toGroovyElement='InternalHelper.wrapObject(it)'}
 					@code{elementJavaType='JsonObject'}
 				@else{elementKind == CLASS_DATA_OBJECT}
-					@code{toGroovyElement='it?.toJson()?.getMap()'}
+					@code{toGroovyElement='(Map<String, Object>)InternalHelper.wrapObject(it?.toJson())'}
 					@code{elementJavaType=elementType.simpleName}
 				@else{}
-					@code{toGroovyElement='it?.toList()'}
+					@code{toGroovyElement='InternalHelper.wrapObject(it)'}
 					@code{elementJavaType='JsonArray'}
 				@end{}
 				new Handler<@{collectionName}<@{elementJavaType}>>() {\n
@@ -227,7 +227,7 @@ this.delegate
 			@if{resultKind == CLASS_OTHER || resultKind.basic || resultKind == CLASS_VOID}
 				@{param.name}
 			@else{resultKind == CLASS_DATA_OBJECT}
-				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result()?.toJson()?.getMap()';callbackName=param.name}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='(Map<String, Object>)InternalHelper.wrapObject(event.result()?.toJson())';callbackName=param.name}
 			@else{resultKind == CLASS_LIST || resultKind == CLASS_SET}
 				@code{elementType=resultType.args[0]}
 				@code{elementKind=elementType.kind}
@@ -240,15 +240,15 @@ this.delegate
 						@code{elementJavaType=elementType.name}
 						@code{elementGroovyType=elementType.simpleName}
 					@else{elementKind == CLASS_DATA_OBJECT}
-						@code{toGroovyElement='element?.toJson()?.getMap()'}
+						@code{toGroovyElement='(Map<String, Object>)InternalHelper.wrapObject(element?.toJson())'}
 						@code{elementJavaType=elementType.simpleName}
 						@code{elementGroovyType='Map<String, Object>'}
 					@else{elementKind == CLASS_JSON_OBJECT}
-						@code{toGroovyElement='element?.getMap()'}
+						@code{toGroovyElement='InternalHelper.wrapObject(element)'}
 						@code{elementJavaType='JsonObject'}
 						@code{elementGroovyType='Map<String, Object>'}
 					@else{}
-						@code{toGroovyElement='element?.toList()'}
+						@code{toGroovyElement='InternalHelper.wrapObject(element)'}
 						@code{elementJavaType='JsonArray'}
 						@code{elementGroovyType='List<Object>'}
 					@end{}
@@ -260,9 +260,9 @@ this.delegate
 					null
 				@end{}
 			@else{resultKind == CLASS_JSON_OBJECT}
-				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='event.result()?.getMap()';callbackName=param.name}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='Map<String, Object>';callbackObject='(' + eventGroovyType + ')InternalHelper.wrapObject(event.result())';callbackName=param.name}
 			@else{resultKind == CLASS_JSON_ARRAY}
-				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='List<Object>';callbackObject='event.result()?.toList()';callbackName=param.name}
+				@includeNamed{'resultHandlerTemplate';eventJavaType=resultType.name;eventGroovyType='List<Object>';callbackObject='(' + eventGroovyType + ')InternalHelper.wrapObject(event.result())';callbackName=param.name}
 			@else{resultKind == CLASS_OBJECT}
 				@includeNamed{'resultHandlerTemplate';eventJavaType='Object';eventGroovyType='Object';callbackObject='InternalHelper.wrapObject(event.result())';callbackName=param.name}
 			@else{resultKind == CLASS_API}
