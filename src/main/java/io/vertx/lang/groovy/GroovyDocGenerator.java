@@ -3,7 +3,7 @@ package io.vertx.lang.groovy;
 import io.vertx.codegen.ClassKind;
 import io.vertx.codegen.TypeInfo;
 import io.vertx.codetrans.CodeTranslator;
-import io.vertx.codetrans.GroovyLang;
+import io.vertx.codetrans.lang.groovy.GroovyLang;
 import io.vertx.docgen.Coordinate;
 import io.vertx.docgen.DocGenerator;
 
