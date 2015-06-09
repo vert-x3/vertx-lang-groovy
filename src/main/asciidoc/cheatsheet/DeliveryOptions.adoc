@@ -13,7 +13,7 @@
 |===
 ^|Name | Type ^| Description
 
-|[[sendTimeout]]`sendTimeout`
+|[[timeout]]`timeout`
 |`Number`
 |+++
 Set the send timeout.+++
