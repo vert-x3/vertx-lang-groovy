@@ -36,6 +36,14 @@ public class MultiMap {
     return delegate;
   }
   /**
+   * Create a multi-map implementation with case insensitive keys, for instance it can be used to hold some HTTP headers.
+   * @return the multi-map
+   */
+  public static MultiMap caseInsensitiveMultiMap() {
+    def ret= InternalHelper.safeCreate(io.vertx.core.MultiMap.caseInsensitiveMultiMap(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    return ret;
+  }
+  /**
    * Returns the value of with the specified name.  If there are
    * more than one values for the specified name, the first value is returned.
    * @param name The name of the header to search

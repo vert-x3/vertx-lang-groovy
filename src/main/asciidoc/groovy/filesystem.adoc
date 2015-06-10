@@ -46,7 +46,48 @@ Let's see a couple of examples using asynchronous methods:
 
 [source,groovy]
 ----
-Code not translatable
+import io.vertx.groovy.core.Vertx
+import io.vertx.groovy.core.buffer.Buffer
+def vertx = Vertx.vertx()
+
+// Read a file
+vertx.fileSystem().readFile("target/classes/readme.txt", { result ->
+  if (result.succeeded()) {
+    println(result.result())
+  } else {
+    System.err.println("Oh oh ...${result.cause()}")
+  }
+})
+
+// Copy a file
+vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt", { result ->
+  if (result.succeeded()) {
+    println("File copied")
+  } else {
+    System.err.println("Oh oh ...${result.cause()}")
+  }
+})
+
+// Write a file
+vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"), { result ->
+  if (result.succeeded()) {
+    println("File written")
+  } else {
+    System.err.println("Oh oh ...${result.cause()}")
+  }
+})
+
+// Check existence and delete
+vertx.fileSystem().exists("target/classes/junk.txt", { result ->
+  if (result.succeeded() && result.result()) {
+    vertx.fileSystem().delete("target/classes/junk.txt", { r ->
+      println("File deleted")
+    })
+  } else {
+    System.err.println("Oh oh ... - cannot delete the file: ${result.cause()}")
+  }
+})
+
 ----
 
 === Asynchronous files
@@ -89,7 +130,28 @@ Here is an example of random access writes:
 
 [source,groovy]
 ----
-Code not translatable
+import io.vertx.groovy.core.Vertx
+import io.vertx.groovy.core.buffer.Buffer
+def vertx = Vertx.vertx()
+vertx.fileSystem().open("target/classes/hello.txt", [:], { result ->
+  if (result.succeeded()) {
+    def file = result.result()
+    def buff = Buffer.buffer("foo")
+    for (def i = 0;i < 5;i++) {
+      file.write(buff, buff.length() * i, { ar ->
+        if (ar.succeeded()) {
+          println("Written ok!")
+          // etc
+        } else {
+          System.err.println("Failed to write: ${ar.cause()}")
+        }
+      })
+    }
+  } else {
+    System.err.println("Cannot open file ${result.cause()}")
+  }
+})
+
 ----
 
 ==== Random access reads
@@ -110,7 +172,27 @@ Here's an example of random access reads:
 
 [source,groovy]
 ----
-Code not translatable
+import io.vertx.groovy.core.Vertx
+import io.vertx.groovy.core.buffer.Buffer
+def vertx = Vertx.vertx()
+vertx.fileSystem().open("target/classes/les_miserables.txt", [:], { result ->
+  if (result.succeeded()) {
+    def file = result.result()
+    def buff = Buffer.buffer(1000)
+    for (def i = 0;i < 10;i++) {
+      file.read(buff, i * 100, i * 100, 100, { ar ->
+        if (ar.succeeded()) {
+          println("Read ok!")
+        } else {
+          System.err.println("Failed to write: ${ar.cause()}")
+        }
+      })
+    }
+  } else {
+    System.err.println("Cannot open file ${result.cause()}")
+  }
+})
+
 ----
 
 ==== Opening Options
@@ -143,7 +225,23 @@ copy the content to another `AsyncFile`:
 
 [source,groovy]
 ----
-Code not translatable
+import io.vertx.groovy.core.Vertx
+import io.vertx.groovy.core.streams.Pump
+def vertx = Vertx.vertx()
+def output = vertx.fileSystem().openBlocking("target/classes/plagiary.txt", [:])
+
+vertx.fileSystem().open("target/classes/les_miserables.txt", [:], { result ->
+  if (result.succeeded()) {
+    def file = result.result()
+    Pump.pump(file, output).start()
+    file.endHandler({ r ->
+      println("Copy done")
+    })
+  } else {
+    System.err.println("Cannot open file ${result.cause()}")
+  }
+})
+
 ----
 
 You can also use the _pump_ to write file content into HTTP responses, or more generally in any
