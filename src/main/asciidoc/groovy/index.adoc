@@ -273,7 +273,7 @@ blocking APIs safely within a Vert.x application.
 As discussed before, you can't call blocking operations directly from an event loop, as that would prevent it
 from doing any other useful work. So how can you do this?
 
-It's done by calling `link:groovydoc/io/vertx/groovy/core/Vertx.html#executeBlocking(io.vertx.core.Handler,%20io.vertx.core.Handler)[executeBlocking]` specifying both the blocking code to execute and a
+It's done by calling `link:groovydoc/io/vertx/groovy/core/Vertx.html#executeBlocking(io.vertx.core.Handler,%20boolean,%20io.vertx.core.Handler)[executeBlocking]` specifying both the blocking code to execute and a
 result handler to be called back asynchronous when the blocking code has been executed.
 
 [source,groovy]
@@ -290,7 +290,16 @@ vertx.executeBlocking({ future ->
 
 ----
 
+By default, if executeBlocking is called several times from the same context (e.g. the same verticle instance) then
+the different executeBlocking are executed _serially_ (i.e. one after another).
+
+If you don't care about ordering you can call `link:groovydoc/io/vertx/groovy/core/Vertx.html#executeBlocking(io.vertx.core.Handler,%20boolean,%20io.vertx.core.Handler)[executeBlocking]`
+specifying `false` as the argument to `ordered`. In this case any executeBlocking may be executed in parallel
+on the worker pool.
+
 An alternative way to run blocking code is to use a <<worker_verticles, worker verticle>>
+
+A worker verticle is always executed with a thread from the worker pool.
 
 == Verticles
 
@@ -499,38 +508,7 @@ vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options)
 This is useful for scaling easily across multiple cores. For example you might have a web-server verticle to deploy
 and multiple cores on your machine, so you want to deploy multiple instances to take utilise all the cores.
 
-=== Passing configuration to a verticle
-
-Configuration in the form of JSON can be passed to a verticle at deployment time:
-
-[source,groovy]
-----
-def config = [
-  name:"tim",
-  directory:"/blah"
-]
-def options = [
-  config:config
-]
-vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options)
-
-----
-
-This configuration is then available via the `link:groovydoc/io/vertx/groovy/core/Context.html[Context]` object or directly using the
-`config` method. The configuration is returned as a JSON object so you can
-retrieve data as follows:
-
-[source,groovy]
-----
-Code not translatable
-----
-
-=== Accessing environment variables in a Verticle
-
-Environment variables and system properties are accessible from a verticle by following the Java way. To retrieve
-system properties, use `System.getProperty`
-(or `System.getProperty`). You can also retrieve the
-environment variables using `System.getenv`.
+include::override/verticle-configuration.adoc[]
 
 === Verticle Isolation Groups
 
