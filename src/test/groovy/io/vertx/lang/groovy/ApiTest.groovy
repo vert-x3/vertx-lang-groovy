@@ -293,6 +293,17 @@ public class ApiTest {
       assertEquals([null], it);
       count++;
     });
+    assertEquals(1, count) 
+  }
+  
+  @Test
+  public void testMethodWithHandlerListComplexJsonObject() {
+    def count = 0;
+
+    obj.methodWithHandlerListComplexJsonObject({
+      assertEquals([[outer: [socks: "tartan"], list: ["yellow", "blue"]]], it);
+      count++;
+    });
     assertEquals(1, count)
   }
 
@@ -310,6 +321,15 @@ public class ApiTest {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListNullJsonObject({
       checker.assertAsyncResult([null], it)
+    })
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultListComplexJsonObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListComplexJsonObject({
+      checker.assertAsyncResult([[outer: [socks: "tartan"], list: ["yellow", "blue"]]], it)
     })
     assertEquals(1, checker.count);
   }
@@ -335,6 +355,16 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerSetComplexJsonObject() {
+    def count = 0;
+    obj.methodWithHandlerSetComplexJsonObject({
+      assertEquals([[outer: [socks: "tartan"], list: ["yellow", "blue"]]] as Set, it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultSetJsonObject() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetJsonObject({
@@ -348,6 +378,15 @@ public class ApiTest {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetNullJsonObject({
       checker.assertAsyncResult([null] as Set, it)
+    })
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetComplexJsonObject() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetComplexJsonObject({
+      checker.assertAsyncResult([[outer: [socks: "tartan"], list: ["yellow", "blue"]]] as Set, it)
     })
     assertEquals(1, checker.count);
   }
@@ -367,6 +406,16 @@ public class ApiTest {
     def count = 0;
     obj.methodWithHandlerListNullJsonArray({
       assertEquals([null], it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
+  public void testMethodWithHandlerListComplexJsonArray() {
+    def count = 0;
+    obj.methodWithHandlerListComplexJsonArray({
+      assertEquals([[[foo: "hello"]], [[bar: "bye"]]], it);
       count++;
     });
     assertEquals(1, count)
@@ -436,6 +485,15 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerAsyncResultListComplexJsonArray() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultListComplexJsonArray({
+      checker.assertAsyncResult([[[foo: "hello"]], [[bar: "bye"]]], it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
   public void testMethodWithHandlerSetJsonArray() {
     def count = 0;
     obj.methodWithHandlerSetJsonArray({
@@ -456,6 +514,16 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerSetComplexJsonArray() {
+    def count = 0;
+    obj.methodWithHandlerSetComplexJsonArray({
+      assertEquals([[[foo: "hello"]], [[bar: "bye"]]] as Set, it);
+      count++;
+    });
+    assertEquals(1, count)
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultSetJsonArray() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetJsonArray({
@@ -469,6 +537,15 @@ public class ApiTest {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetNullJsonArray({
       checker.assertAsyncResult([null] as Set, it)
+    });
+    assertEquals(1, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetComplexJsonArray() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultSetComplexJsonArray({
+      checker.assertAsyncResult([[[foo: "hello"]], [[bar: "bye"]]] as Set, it)
     });
     assertEquals(1, checker.count);
   }
@@ -664,6 +741,11 @@ public class ApiTest {
       assertEquals(["foo", "bar", "wib"], it)
       count++
     })
+    count = 0;
+    obj.methodWithGenericHandler("JsonObjectComplex", {
+      assertEquals([outer: [foo: "hello"], bar: ["this", "that"]], it)
+      count++
+    })
     assertEquals(1, count);
   }
 
@@ -683,6 +765,11 @@ public class ApiTest {
     checker = new AsyncResultChecker();
     obj.methodWithGenericHandlerAsyncResult("JsonObject", {
       checker.assertAsyncResult([foo:"hello","bar":123], it)
+    })
+    assertEquals(1, checker.count);
+    checker = new AsyncResultChecker();
+    obj.methodWithGenericHandlerAsyncResult("JsonObjectComplex", {
+      checker.assertAsyncResult([outer: [foo: "hello"], bar: ["this", "that"]], it)
     })
     assertEquals(1, checker.count);
     checker = new AsyncResultChecker();
@@ -784,6 +871,14 @@ public class ApiTest {
   }
 
   @Test
+  public void testListComplexJsonObjectReturn() {
+    List<Map<String, Object>> list = obj.methodWithListComplexJsonObjectReturn();
+    assertEquals(1, list.size());
+    Map<String, Object> json1 = list.get(0);
+    assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], json1);
+  }
+
+  @Test
   public void testListJsonArrayReturn() {
     List<List<Object>> list = obj.methodWithListJsonArrayReturn();
     assertEquals(2, list.size());
@@ -791,6 +886,16 @@ public class ApiTest {
     assertEquals("foo", json1.get(0));
     List<Object> json2 = list.get(1);
     assertEquals("blah", json2.get(0));
+  }
+
+  @Test
+  public void testListComplexJsonArrayReturn() {
+    List<List<Object>> list = obj.methodWithListComplexJsonArrayReturn();
+    assertEquals(2, list.size());
+    List<Object> json1 = list.get(0);
+    assertEquals([[foo: "hello"]], json1);
+    List<Object> json2 = list.get(1);
+    assertEquals([[bar: "bye"]], json2);
   }
 
   @Test
@@ -827,6 +932,13 @@ public class ApiTest {
   }
 
   @Test
+  public void testSetComplexJsonObjectReturn() {
+    Set<Map<String, Object>> set = obj.methodWithSetComplexJsonObjectReturn();
+    assertEquals(1, set.size());
+    assertTrue(set.contains([outer: [socks: "tartan"], list: ["yellow", "blue"]]));
+  }
+
+  @Test
   public void testSetJsonArrayReturn() {
     Set<List<Object>> set = obj.methodWithSetJsonArrayReturn();
     assertEquals(2, set.size());
@@ -836,6 +948,14 @@ public class ApiTest {
     List<Object> json2 = new ArrayList<>();
     json2.add("blah");
     assertTrue(set.contains(json2));
+  }
+
+  @Test
+  public void testSetComplexJsonArrayReturn() {
+    Set<List<Object>> set = obj.methodWithSetComplexJsonArrayReturn();
+    assertEquals(2, set.size());
+    assertTrue(set.contains([[foo: "hello"]]));
+    assertTrue(set.contains([[bar: "bye"]]));
   }
 
   @Test
@@ -870,10 +990,24 @@ public class ApiTest {
   }
 
   @Test
+  public void testMapComplexJsonObjectReturn() {
+    Map<String, Map<String, Object>> map = obj.methodWithMapComplexJsonObjectReturn({});
+    Map<String, Object> m = map.get("foo");
+    assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], m);
+  }
+
+  @Test
   public void testMapJsonArrayReturn() {
     Map<String, List<Object>> map = obj.methodWithMapJsonArrayReturn({});
     List<Object> m = map.get("foo");
     assertEquals("wibble", m.get(0));
+  }
+
+  @Test
+  public void testMapComplexJsonArrayReturn() {
+    Map<String, List<Object>> map = obj.methodWithMapComplexJsonArrayReturn({});
+    List<Object> m = map.get("foo");
+    assertEquals([[foo: "hello"], [bar: "bye"]], m);
   }
 
   @Test
@@ -947,6 +1081,14 @@ public class ApiTest {
   }
 
   @Test
+  public void testComplexJsonReturns() {
+    def ret = obj.methodWithComplexJsonObjectReturn();
+    assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], ret);
+    ret = obj.methodWithComplexJsonArrayReturn();
+    assertEquals([[foo: "hello"], [bar: "bye"]], ret);
+  }
+
+  @Test
   public void testJsonParams() {
     obj.methodWithJsonParams([cat:"lion",cheese:"cheddar"], ["house","spider"]);
   }
@@ -982,6 +1124,20 @@ public class ApiTest {
     assertEquals(2, count);
   }
 
+
+  @Test
+  public void testComplexJsonHandlerParams() {
+    def count = 0;
+    obj.methodWithHandlerComplexJson({
+      assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], it)
+      count++;
+    }, {
+      assertEquals([[[foo: "hello"]], [[bar: "bye"]]], it)
+      count++;
+    });
+    assertEquals(2, count);
+  }
+
   @Test
   public void testJsonHandlerAsyncResultParams() {
     def checker = new AsyncResultChecker();
@@ -1002,6 +1158,18 @@ public class ApiTest {
     });
     obj.methodWithHandlerAsyncResultNullJsonArray({
       checker.assertAsyncResult(null, it)
+    });
+    assertEquals(2, checker.count);
+  }
+
+  @Test
+  public void testComplexJsonHandlerAsyncResultParams() {
+    def checker = new AsyncResultChecker();
+    obj.methodWithHandlerAsyncResultComplexJsonObject({
+      checker.assertAsyncResult([outer: [socks: "tartan"], list: ["yellow", "blue"]], it)
+    });
+    obj.methodWithHandlerAsyncResultComplexJsonArray({
+      checker.assertAsyncResult([[foo: "hello"], [bar: "bye"]], it)
     });
     assertEquals(2, checker.count);
   }

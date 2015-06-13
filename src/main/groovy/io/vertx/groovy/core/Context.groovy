@@ -112,7 +112,7 @@ public class Context {
    * @return the configuration of the deployment or null if not a Verticle deployment
    */
   public Map<String, Object> config() {
-    def ret = this.delegate.config()?.getMap();
+    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.config());
     return ret;
   }
   /**

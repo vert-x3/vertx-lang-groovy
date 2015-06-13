@@ -44,16 +44,16 @@
 		    def ret = (@{method.returnType.simpleName}) InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
 		@else{method.returnType.kind == CLASS_JSON_OBJECT}
 			@code{cachedType='Map<String, Object>'}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.getMap();\n
+		    def ret = (Map<String, Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
 		@else{method.returnType.kind == CLASS_JSON_ARRAY}
 			@code{cachedType='List<Object>'}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.getList();\n
+		    def ret = (List<Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
 		@else{method.returnType.kind == CLASS_LIST}
 			@code{cachedType=method.returnType.name}
 			@if{method.returnType.args[0].kind == CLASS_JSON_OBJECT}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getMap()});\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)});\n
 			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getList()});\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)});\n
 			@else{method.returnType.args[0].kind == CLASS_API}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{genConstructor(method.returnType.args[0], "underpants")}});\n
 		  @else{}
@@ -62,9 +62,9 @@
 		@else{method.returnType.kind == CLASS_SET}
 			@code{cachedType=method.returnType.name}
 			@if{method.returnType.args[0].kind == CLASS_JSON_OBJECT}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getMap()}) as Set;\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)}) as Set;\n
 			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> underpants.getList()}) as Set;\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)}) as Set;\n
 			@else{method.returnType.args[0].kind == CLASS_API}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{genConstructor(method.returnType.args[0], "underpants")}}) as Set;\n
 			@else{}
@@ -73,9 +73,9 @@
 		@else{method.returnType.kind == CLASS_MAP}
 			@code{cachedType=method.returnType.name}
 			@if{method.returnType.args[1].kind == CLASS_JSON_OBJECT}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, v.getMap()]});\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, InternalHelper.wrapObject(v)]});\n
 			@else{method.returnType.args[1].kind == CLASS_JSON_ARRAY}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, v.getList()]});\n
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, InternalHelper.wrapObject(v)]});\n
 			@else{method.returnType.args[1].kind == CLASS_API}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, @{genConstructor(method.returnType.args[0], "v")}]});\n
 			@else{}
