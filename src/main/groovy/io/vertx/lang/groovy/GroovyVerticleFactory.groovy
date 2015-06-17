@@ -93,6 +93,8 @@ public class GroovyVerticleFactory implements VerticleFactory {
       Class<?> scriptVerticleClass = instance.getClass().getClassLoader().loadClass(ScriptVerticle.class.getName());
       Constructor<?> ctor = scriptVerticleClass.getConstructor(scriptClass);
       verticle = (Verticle) ctor.newInstance(instance);
+    } else if (instance instanceof Verticle) {
+      verticle = (Verticle) instance;
     } else {
       throw new UnsupportedOperationException("Not yet implemented");
     }

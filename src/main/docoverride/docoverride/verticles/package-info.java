@@ -17,10 +17,14 @@
 /**
  * === Writing Verticles
  *
- * There is two alternatives to create verticles in Groovy:
+ * There are three alternatives to create verticles in Groovy:
  *
  *  * a plain Groovy script
- *  * a Groovy class extending the {@link io.vertx.lang.groovy.GroovyVerticle} class.
+ *  * a Groovy class extending the {@link io.vertx.lang.groovy.GroovyVerticle} class
+ *  * a Groovy class implementing the {@link io.vertx.core.Verticle} interface or extending the {@link io.vertx.core.AbstractVerticle} class
+ *
+ *  We will not cover the third case in this manual, as it is a plain Java class and instead you should read the
+ *  Vert.x manual for Java.
  *
  * For example, the next snippet is a valid Groovy verticle:
  *

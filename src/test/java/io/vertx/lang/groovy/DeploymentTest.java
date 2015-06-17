@@ -246,17 +246,27 @@ public class DeploymentTest {
   }
 
   @Test
-  public void testResolveVertxInClass() throws Exception {
+  public void testResolveVertxInJavaVerticleClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
+            "io/vertx/lang/groovy/ResolveVertxJavaVerticleClass.groovy",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(isStarted());
   }
 
   @Test
-  public void testResolveVertxInScript() throws Exception {
+  public void testResolveVertxInGroovyVerticleClass() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "io/vertx/lang/groovy/ResolveVertxGroovyVerticleClass.groovy",
+            new DeploymentOptions().setConfig(new JsonObject()),
+            onDeploy));
+    assertTrue(isStarted());
+  }
+
+  @Test
+  public void testResolveVertxInVerticleScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             "io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
@@ -322,10 +332,20 @@ public class DeploymentTest {
   }
 
   @Test
-  public void testRedeployVerticleClass() throws Exception {
+  public void testRedeployGroovyVerticleClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
+            "io/vertx/lang/groovy/ResolveVertxGroovyVerticleClass.groovy",
+            new DeploymentOptions().setConfig(new JsonObject()).setRedeploy(true),
+            onDeploy));
+    assertEquals("true", System.getProperty("started"));
+  }
+
+  @Test
+  public void testRedeployJavaVerticleClass() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "io/vertx/lang/groovy/ResolveVertxJavaVerticleClass.groovy",
             new DeploymentOptions().setConfig(new JsonObject()).setRedeploy(true),
             onDeploy));
     assertEquals("true", System.getProperty("started"));
