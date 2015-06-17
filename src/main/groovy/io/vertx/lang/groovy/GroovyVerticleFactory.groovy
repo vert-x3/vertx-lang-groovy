@@ -96,7 +96,7 @@ public class GroovyVerticleFactory implements VerticleFactory {
     } else if (instance instanceof Verticle) {
       verticle = (Verticle) instance;
     } else {
-      throw new UnsupportedOperationException("Not yet implemented");
+      throw new Exception("Class " + instance.getClass().getName() + " is not a Verticle");
     }
     return verticle;
   }
