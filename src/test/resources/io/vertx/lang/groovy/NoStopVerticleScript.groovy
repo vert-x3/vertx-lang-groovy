@@ -1,5 +1,4 @@
 package io.vertx.lang.groovy
 
-import io.vertx.lang.groovy.DeploymentTest
+System.setProperty("started", "true");
 
-DeploymentTest.started.set(true)

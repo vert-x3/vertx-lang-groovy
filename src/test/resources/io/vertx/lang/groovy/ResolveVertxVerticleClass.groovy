@@ -6,6 +6,7 @@ public class ResolveVertxVerticleClass extends GroovyVerticle {
 
   @Override
   void start() throws Exception {
-    DeploymentTest.started.set(vertx != null && vertx.currentContext().deploymentID() != null && vertx.currentContext().config() != null)
+    boolean started = vertx != null && vertx.currentContext().deploymentID() != null && vertx.currentContext().config() != null
+    System.setProperty("started", "${started}");
   }
 }

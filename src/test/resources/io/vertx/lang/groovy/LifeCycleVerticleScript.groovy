@@ -1,9 +1,9 @@
 package io.vertx.lang.groovy
 
 void vertxStart() {
-  DeploymentTest.started.set(true);
+  System.setProperty("started", "true");
 }
 
 void vertxStop() {
-  DeploymentTest.stopped.set(true);
+  System.setProperty("stopped", "true");
 }

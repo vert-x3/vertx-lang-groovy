@@ -25,7 +25,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import junit.framework.AssertionFailedError;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.File;
@@ -34,7 +34,6 @@ import java.net.URL;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 
 import static org.junit.Assert.*;
@@ -46,8 +45,13 @@ public class DeploymentTest {
 
   // TODO - needs some tests to ensure config, deploymentID etc are populated correctly in Verticle
 
-  public static final AtomicBoolean started = new AtomicBoolean();
-  public static final AtomicBoolean stopped = new AtomicBoolean();
+  boolean isStarted() {
+    return System.getProperty("started").equals("true");
+  }
+
+  boolean isStopped() {
+    return System.getProperty("stopped").equals("true");
+  }
 
   private static <T>  T assertResult(AsyncResult<T> asyncResult) {
     if (asyncResult.succeeded()) {
@@ -86,10 +90,10 @@ public class DeploymentTest {
     return new File(url.toURI()).getAbsolutePath();
   }
 
-  @Before
-  public void before() {
-    started.set(false);
-    stopped.set(false);
+  @After
+  public void after() {
+    System.clearProperty("started");
+    System.clearProperty("stopped");
   }
 
   @Test
@@ -98,8 +102,8 @@ public class DeploymentTest {
         vertx.deployVerticle(
             "io/vertx/lang/groovy/LifeCycleVerticleClass.groovy",
             onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
+    assertTrue(isStarted());
+    assertTrue(isStopped());
   }
 
   @Test
@@ -108,8 +112,8 @@ public class DeploymentTest {
         vertx.deployVerticle(
             "io/vertx/lang/groovy/LifeCycleAsyncVerticleClass.groovy",
             onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
+    assertTrue(isStarted());
+    assertTrue(isStopped());
   }
 
   @Test
@@ -120,8 +124,8 @@ public class DeploymentTest {
         vertx.deployVerticle(
             verticle.asJavaVerticle(),
             onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
+    assertTrue(isStarted());
+    assertTrue(isStopped());
   }
 
   @Test
@@ -130,8 +134,8 @@ public class DeploymentTest {
         vertx.deployVerticle(
             "io/vertx/lang/groovy/LifeCycleVerticleScript.groovy",
             onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
+    assertTrue(isStarted());
+    assertTrue(isStopped());
   }
 
   @Test
@@ -143,8 +147,8 @@ public class DeploymentTest {
         vertx.deployVerticle(
             verticle,
             onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
+    assertTrue(isStarted());
+    assertTrue(isStopped());
   }
 
   @Test
@@ -153,8 +157,8 @@ public class DeploymentTest {
         vertx.deployVerticle(
             "io/vertx/lang/groovy/LifeCycleAsyncVerticleScript.groovy",
             onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
+    assertTrue(isStarted());
+    assertTrue(isStopped());
   }
 
   @Test
@@ -162,8 +166,8 @@ public class DeploymentTest {
     String relativePath = getRelativePath("io/vertx/lang/groovy/LifeCycleVerticleClass.groovy");
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(relativePath, onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
+    assertTrue(isStarted());
+    assertTrue(isStopped());
   }
 
   @Test
@@ -173,8 +177,8 @@ public class DeploymentTest {
         vertx.deployVerticle(
             verticlePath,
             onDeploy));
-    assertTrue(started.get());
-    assertTrue(stopped.get());
+    assertTrue(isStarted());
+    assertTrue(isStopped());
   }
 
   @Test
@@ -184,7 +188,7 @@ public class DeploymentTest {
             "io/vertx/lang/groovy/ResolveSamePackageVerticleClass.groovy",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -195,7 +199,7 @@ public class DeploymentTest {
             relativePath,
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -206,7 +210,7 @@ public class DeploymentTest {
             relativePath,
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -216,7 +220,7 @@ public class DeploymentTest {
             "io/vertx/lang/groovy/ResolveChildPackageVerticleClass.groovy",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -227,7 +231,7 @@ public class DeploymentTest {
             relativePath,
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -238,7 +242,7 @@ public class DeploymentTest {
             relativePath,
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -248,7 +252,7 @@ public class DeploymentTest {
             "io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -258,7 +262,7 @@ public class DeploymentTest {
             "io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -271,7 +275,7 @@ public class DeploymentTest {
     ScriptVerticle verticle = new ScriptVerticle(script);
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(verticle, onDeploy));
-    assertTrue(started.get());
+    assertTrue(isStarted());
   }
 
   @Test
@@ -305,5 +309,25 @@ public class DeploymentTest {
     } finally {
       vertx.close();
     }
+  }
+
+  @Test
+  public void testRedeployVerticleScript() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
+            new DeploymentOptions().setConfig(new JsonObject()).setRedeploy(true),
+            onDeploy));
+    assertEquals("true", System.getProperty("started"));
+  }
+
+  @Test
+  public void testRedeployVerticleClass() throws Exception {
+    assertDeploy((vertx, onDeploy) ->
+        vertx.deployVerticle(
+            "io/vertx/lang/groovy/ResolveVertxVerticleClass.groovy",
+            new DeploymentOptions().setConfig(new JsonObject()).setRedeploy(true),
+            onDeploy));
+    assertEquals("true", System.getProperty("started"));
   }
 }

@@ -23,6 +23,10 @@ import io.vertx.core.logging.Logger
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.spi.VerticleFactory
 import org.codehaus.groovy.control.CompilerConfiguration
+
+import java.lang.reflect.Constructor
+import java.lang.reflect.Method
+
 /**
  * Placeholder
  *
@@ -77,13 +81,18 @@ public class GroovyVerticleFactory implements VerticleFactory {
       instance = clazz.newInstance();
     }
 
+    //
+    Class<?> scriptClass = instance.getClass().getClassLoader().loadClass(Script.class.getName())
+    Class<?> groovyVerticle = instance.getClass().getClassLoader().loadClass(GroovyVerticle.class.getName())
+
     Verticle verticle;
-    if (instance instanceof GroovyVerticle) {
-      GroovyVerticle groovyVerticle = (GroovyVerticle) instance;
-      verticle = groovyVerticle.asJavaVerticle();
-    } else if (instance instanceof Script) {
-      Script script = (Script) instance;
-      verticle = new ScriptVerticle(script);
+    if (groovyVerticle.isInstance(instance)) {
+      Method asJavaVerticle = groovyVerticle.getMethod("asJavaVerticle");
+      verticle = (Verticle) asJavaVerticle.invoke(instance);
+    } else if (scriptClass.isInstance(instance)) {
+      Class<?> scriptVerticleClass = instance.getClass().getClassLoader().loadClass(ScriptVerticle.class.getName());
+      Constructor<?> ctor = scriptVerticleClass.getConstructor(scriptClass);
+      verticle = (Verticle) ctor.newInstance(instance);
     } else {
       throw new UnsupportedOperationException("Not yet implemented");
     }

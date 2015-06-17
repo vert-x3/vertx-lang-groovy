@@ -26,7 +26,7 @@ public class LifeCycleAsyncVerticleClass extends GroovyVerticle {
   @Override
   void start(Future<Void> startFuture) throws Exception {
     vertx.timerStream(200).handler({ id ->
-      DeploymentTest.started.set(true)
+      System.setProperty("started", "true");
       startFuture.complete()
     });
   }
@@ -34,7 +34,7 @@ public class LifeCycleAsyncVerticleClass extends GroovyVerticle {
   @Override
   void stop(Future<Void> stopFuture) throws Exception {
     vertx.timerStream(200).handler({ id ->
-      DeploymentTest.stopped.set(true)
+      System.setProperty("stopped", "true");
       stopFuture.complete()
     });
   }

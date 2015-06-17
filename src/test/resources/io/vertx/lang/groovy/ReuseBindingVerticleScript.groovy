@@ -1,3 +1,3 @@
 package io.vertx.lang.groovy
 
-DeploymentTest.started.set(myobject != null);
+System.setProperty("started", "${myobject != null}");

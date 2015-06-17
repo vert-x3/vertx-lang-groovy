@@ -4,13 +4,13 @@ package io.vertx.lang.groovy
  */
 public class LifeCycleVerticleClass extends GroovyVerticle {
 
-    @Override
-    void start() throws Exception {
-        DeploymentTest.started.set(true)
-    }
+  @Override
+  void start() throws Exception {
+    System.setProperty("started", "true");
+  }
 
-    @Override
-    void stop() throws Exception {
-        DeploymentTest.stopped.set(true)
-    }
+  @Override
+  void stop() throws Exception {
+    System.setProperty("stopped", "true");
+  }
 }
