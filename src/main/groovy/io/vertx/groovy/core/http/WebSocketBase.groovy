@@ -43,7 +43,9 @@ public interface WebSocketBase extends ReadStream<Buffer>,  WriteStream<Buffer> 
   String binaryHandlerID();
   String textHandlerID();
   WebSocketBase writeFrame(WebSocketFrame frame);
-  WebSocketBase writeMessage(Buffer data);
+  WebSocketBase writeFinalTextFrame(String text);
+  WebSocketBase writeFinalBinaryFrame(Buffer data);
+  WebSocketBase writeBinaryMessage(Buffer data);
   WebSocketBase closeHandler(Handler<Void> handler);
   WebSocketBase frameHandler(Handler<WebSocketFrame> handler);
   void close();
@@ -140,13 +142,31 @@ class WebSocketBaseImpl implements WebSocketBase {
     return this;
   }
   /**
-   * Writes a (potentially large) piece of data to the connection. This data might be written as multiple frames
+   * Write a final WebSocket text frame to the connection
+   * @param text The text to write
+   * @return a reference to this, so the API can be used fluently
+   */
+  public WebSocketBase writeFinalTextFrame(String text) {
+    ((io.vertx.core.http.WebSocketBase) this.delegate).writeFinalTextFrame(text);
+    return this;
+  }
+  /**
+   * Write a final WebSocket binary frame to the connection
+   * @param data The data to write
+   * @return a reference to this, so the API can be used fluently
+   */
+  public WebSocketBase writeFinalBinaryFrame(Buffer data) {
+    ((io.vertx.core.http.WebSocketBase) this.delegate).writeFinalBinaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate());
+    return this;
+  }
+  /**
+   * Writes a (potentially large) piece of binary data to the connection. This data might be written as multiple frames
    * if it exceeds the maximum WebSocket frame size.
    * @param data the data to write
    * @return a reference to this, so the API can be used fluently
    */
-  public WebSocketBase writeMessage(Buffer data) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).writeMessage((io.vertx.core.buffer.Buffer)data.getDelegate());
+  public WebSocketBase writeBinaryMessage(Buffer data) {
+    ((io.vertx.core.http.WebSocketBase) this.delegate).writeBinaryMessage((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   /**

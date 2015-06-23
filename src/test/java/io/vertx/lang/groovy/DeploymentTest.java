@@ -320,34 +320,4 @@ public class DeploymentTest {
       vertx.close();
     }
   }
-
-  @Test
-  public void testRedeployVerticleScript() throws Exception {
-    assertDeploy((vertx, onDeploy) ->
-        vertx.deployVerticle(
-            "io/vertx/lang/groovy/ResolveVertxVerticleScript.groovy",
-            new DeploymentOptions().setConfig(new JsonObject()).setRedeploy(true),
-            onDeploy));
-    assertEquals("true", System.getProperty("started"));
-  }
-
-  @Test
-  public void testRedeployGroovyVerticleClass() throws Exception {
-    assertDeploy((vertx, onDeploy) ->
-        vertx.deployVerticle(
-            "io/vertx/lang/groovy/ResolveVertxGroovyVerticleClass.groovy",
-            new DeploymentOptions().setConfig(new JsonObject()).setRedeploy(true),
-            onDeploy));
-    assertEquals("true", System.getProperty("started"));
-  }
-
-  @Test
-  public void testRedeployJavaVerticleClass() throws Exception {
-    assertDeploy((vertx, onDeploy) ->
-        vertx.deployVerticle(
-            "io/vertx/lang/groovy/ResolveVertxJavaVerticleClass.groovy",
-            new DeploymentOptions().setConfig(new JsonObject()).setRedeploy(true),
-            onDeploy));
-    assertEquals("true", System.getProperty("started"));
-  }
 }

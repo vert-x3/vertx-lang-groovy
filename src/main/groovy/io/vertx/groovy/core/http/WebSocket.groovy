@@ -136,8 +136,16 @@ public class WebSocket implements WebSocketBase {
     this.delegate.writeFrame((io.vertx.core.http.WebSocketFrame)frame.getDelegate());
     return this;
   }
-  public WebSocket writeMessage(Buffer data) {
-    this.delegate.writeMessage((io.vertx.core.buffer.Buffer)data.getDelegate());
+  public WebSocket writeFinalTextFrame(String text) {
+    this.delegate.writeFinalTextFrame(text);
+    return this;
+  }
+  public WebSocket writeFinalBinaryFrame(Buffer data) {
+    this.delegate.writeFinalBinaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate());
+    return this;
+  }
+  public WebSocket writeBinaryMessage(Buffer data) {
+    this.delegate.writeBinaryMessage((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   public WebSocket closeHandler(Handler<Void> handler) {

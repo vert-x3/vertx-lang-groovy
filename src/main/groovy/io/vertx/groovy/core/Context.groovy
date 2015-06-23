@@ -192,4 +192,13 @@ public class Context {
     def ret= InternalHelper.safeCreate(this.delegate.owner(), io.vertx.core.Vertx.class, io.vertx.groovy.core.Vertx.class);
     return ret;
   }
+  /**
+   * @return  the number of instances of the verticle that were deployed in the deployment (if any) related
+   * to this context
+   * @return 
+   */
+  public int getInstanceCount() {
+    def ret = this.delegate.getInstanceCount();
+    return ret;
+  }
 }

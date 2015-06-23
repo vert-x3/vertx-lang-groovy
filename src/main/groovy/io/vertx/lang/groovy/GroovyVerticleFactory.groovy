@@ -24,9 +24,6 @@ import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.spi.VerticleFactory
 import org.codehaus.groovy.control.CompilerConfiguration
 
-import java.lang.reflect.Constructor
-import java.lang.reflect.Method
-
 /**
  * Placeholder
  *
@@ -81,18 +78,11 @@ public class GroovyVerticleFactory implements VerticleFactory {
       instance = clazz.newInstance();
     }
 
-    //
-    Class<?> scriptClass = instance.getClass().getClassLoader().loadClass(Script.class.getName())
-    Class<?> groovyVerticle = instance.getClass().getClassLoader().loadClass(GroovyVerticle.class.getName())
-
     Verticle verticle;
-    if (groovyVerticle.isInstance(instance)) {
-      Method asJavaVerticle = groovyVerticle.getMethod("asJavaVerticle");
-      verticle = (Verticle) asJavaVerticle.invoke(instance);
-    } else if (scriptClass.isInstance(instance)) {
-      Class<?> scriptVerticleClass = instance.getClass().getClassLoader().loadClass(ScriptVerticle.class.getName());
-      Constructor<?> ctor = scriptVerticleClass.getConstructor(scriptClass);
-      verticle = (Verticle) ctor.newInstance(instance);
+    if (instance instanceof GroovyVerticle) {
+      verticle = ((GroovyVerticle) instance).asJavaVerticle();
+    } else if (instance instanceof Script) {
+      verticle = new ScriptVerticle((Script) instance);
     } else if (instance instanceof Verticle) {
       verticle = (Verticle) instance;
     } else {
