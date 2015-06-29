@@ -135,6 +135,15 @@ public class Vertx implements Measured {
    * @param options the options to use (see <a href="../../../../../../cheatsheet/NetServerOptions.html">NetServerOptions</a>)
    * @return the server
    */
+  public NetServer createNetServer(io.vertx.core.net.NetServerOptions options) {
+    def ret= InternalHelper.safeCreate(this.delegate.createNetServer(options), io.vertx.core.net.NetServer.class, io.vertx.groovy.core.net.NetServer.class);
+    return ret;
+  }
+  /**
+   * Create a TCP/SSL server using the specified options
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/NetServerOptions.html">NetServerOptions</a>)
+   * @return the server
+   */
   public NetServer createNetServer(Map<String, Object> options) {
     def ret= InternalHelper.safeCreate(this.delegate.createNetServer(options != null ? new io.vertx.core.net.NetServerOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.net.NetServer.class, io.vertx.groovy.core.net.NetServer.class);
     return ret;
@@ -145,6 +154,15 @@ public class Vertx implements Measured {
    */
   public NetServer createNetServer() {
     def ret= InternalHelper.safeCreate(this.delegate.createNetServer(), io.vertx.core.net.NetServer.class, io.vertx.groovy.core.net.NetServer.class);
+    return ret;
+  }
+  /**
+   * Create a TCP/SSL client using the specified options
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/NetClientOptions.html">NetClientOptions</a>)
+   * @return the client
+   */
+  public NetClient createNetClient(io.vertx.core.net.NetClientOptions options) {
+    def ret= InternalHelper.safeCreate(this.delegate.createNetClient(options), io.vertx.core.net.NetClient.class, io.vertx.groovy.core.net.NetClient.class);
     return ret;
   }
   /**
@@ -169,6 +187,15 @@ public class Vertx implements Measured {
    * @param options the options to use (see <a href="../../../../../../cheatsheet/HttpServerOptions.html">HttpServerOptions</a>)
    * @return the server
    */
+  public HttpServer createHttpServer(io.vertx.core.http.HttpServerOptions options) {
+    def ret= InternalHelper.safeCreate(this.delegate.createHttpServer(options), io.vertx.core.http.HttpServer.class, io.vertx.groovy.core.http.HttpServer.class);
+    return ret;
+  }
+  /**
+   * Create an HTTP/HTTPS server using the specified options
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/HttpServerOptions.html">HttpServerOptions</a>)
+   * @return the server
+   */
   public HttpServer createHttpServer(Map<String, Object> options) {
     def ret= InternalHelper.safeCreate(this.delegate.createHttpServer(options != null ? new io.vertx.core.http.HttpServerOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.http.HttpServer.class, io.vertx.groovy.core.http.HttpServer.class);
     return ret;
@@ -186,6 +213,15 @@ public class Vertx implements Measured {
    * @param options the options to use (see <a href="../../../../../../cheatsheet/HttpClientOptions.html">HttpClientOptions</a>)
    * @return the client
    */
+  public HttpClient createHttpClient(io.vertx.core.http.HttpClientOptions options) {
+    def ret= InternalHelper.safeCreate(this.delegate.createHttpClient(options), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
+  }
+  /**
+   * Create a HTTP/HTTPS client using the specified options
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/HttpClientOptions.html">HttpClientOptions</a>)
+   * @return the client
+   */
   public HttpClient createHttpClient(Map<String, Object> options) {
     def ret= InternalHelper.safeCreate(this.delegate.createHttpClient(options != null ? new io.vertx.core.http.HttpClientOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
     return ret;
@@ -196,6 +232,15 @@ public class Vertx implements Measured {
    */
   public HttpClient createHttpClient() {
     def ret= InternalHelper.safeCreate(this.delegate.createHttpClient(), io.vertx.core.http.HttpClient.class, io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
+  }
+  /**
+   * Create a datagram socket using the specified options
+   * @param options the options to use (see <a href="../../../../../../cheatsheet/DatagramSocketOptions.html">DatagramSocketOptions</a>)
+   * @return the socket
+   */
+  public DatagramSocket createDatagramSocket(io.vertx.core.datagram.DatagramSocketOptions options) {
+    def ret= InternalHelper.safeCreate(this.delegate.createDatagramSocket(options), io.vertx.core.datagram.DatagramSocket.class, io.vertx.groovy.core.datagram.DatagramSocket.class);
     return ret;
   }
   /**
