@@ -52,9 +52,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpClientResponse> {
-  final def io.vertx.core.http.HttpClientRequest delegate;
-  public HttpClientRequest(io.vertx.core.http.HttpClientRequest delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.HttpClientRequest delegate;
+  public HttpClientRequest(Object delegate) {
+    this.delegate = (io.vertx.core.http.HttpClientRequest) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -68,7 +68,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return ret;
   }
   public HttpClientRequest exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).exceptionHandler(handler);
     return this;
   }
   /**
@@ -77,19 +77,19 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return 
    */
   public HttpClientRequest write(Buffer data) {
-    this.delegate.write((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).write((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   public HttpClientRequest setWriteQueueMaxSize(int maxSize) {
-    this.delegate.setWriteQueueMaxSize(maxSize);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public HttpClientRequest drainHandler(Handler<Void> handler) {
-    this.delegate.drainHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).drainHandler(handler);
     return this;
   }
   public HttpClientRequest handler(Handler<HttpClientResponse> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.http.HttpClientResponse>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).handler(new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         handler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
@@ -97,15 +97,15 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   public HttpClientRequest pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).pause();
     return this;
   }
   public HttpClientRequest resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).resume();
     return this;
   }
   public HttpClientRequest endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).endHandler(endHandler);
     return this;
   }
   /**
@@ -149,7 +149,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.groovy.core.MultiMap.class);
     cached_0 = ret;
     return ret;
   }

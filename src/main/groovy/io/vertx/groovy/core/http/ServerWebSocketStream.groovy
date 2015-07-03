@@ -25,19 +25,19 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class ServerWebSocketStream implements ReadStream<ServerWebSocket> {
-  final def io.vertx.core.http.ServerWebSocketStream delegate;
-  public ServerWebSocketStream(io.vertx.core.http.ServerWebSocketStream delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.ServerWebSocketStream delegate;
+  public ServerWebSocketStream(Object delegate) {
+    this.delegate = (io.vertx.core.http.ServerWebSocketStream) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public ServerWebSocketStream exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler);
     return this;
   }
   public ServerWebSocketStream handler(Handler<ServerWebSocket> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.http.ServerWebSocket>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).handler(new Handler<io.vertx.core.http.ServerWebSocket>() {
       public void handle(io.vertx.core.http.ServerWebSocket event) {
         handler.handle(new io.vertx.groovy.core.http.ServerWebSocket(event));
       }
@@ -45,15 +45,15 @@ public class ServerWebSocketStream implements ReadStream<ServerWebSocket> {
     return this;
   }
   public ServerWebSocketStream pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).pause();
     return this;
   }
   public ServerWebSocketStream resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).resume();
     return this;
   }
   public ServerWebSocketStream endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler);
     return this;
   }
 }

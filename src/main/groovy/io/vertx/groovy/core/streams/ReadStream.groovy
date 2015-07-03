@@ -36,9 +36,9 @@ public interface ReadStream<T> extends StreamBase {
 
 @CompileStatic
 class ReadStreamImpl<T> implements ReadStream<T> {
-  final def io.vertx.core.streams.ReadStream delegate;
-  public ReadStreamImpl(io.vertx.core.streams.ReadStream delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.streams.ReadStream delegate;
+  public ReadStreamImpl(Object delegate) {
+    this.delegate = (io.vertx.core.streams.ReadStream) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -49,7 +49,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.ReadStream) this.delegate).exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler);
     return this;
   }
   /**

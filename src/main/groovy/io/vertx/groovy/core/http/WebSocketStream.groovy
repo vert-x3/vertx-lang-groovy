@@ -30,19 +30,19 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class WebSocketStream implements ReadStream<WebSocket> {
-  final def io.vertx.core.http.WebSocketStream delegate;
-  public WebSocketStream(io.vertx.core.http.WebSocketStream delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.WebSocketStream delegate;
+  public WebSocketStream(Object delegate) {
+    this.delegate = (io.vertx.core.http.WebSocketStream) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public WebSocketStream exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).exceptionHandler(handler);
     return this;
   }
   public WebSocketStream handler(Handler<WebSocket> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.http.WebSocket>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).handler(new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         handler.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
@@ -50,15 +50,15 @@ public class WebSocketStream implements ReadStream<WebSocket> {
     return this;
   }
   public WebSocketStream pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).pause();
     return this;
   }
   public WebSocketStream resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).resume();
     return this;
   }
   public WebSocketStream endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).endHandler(endHandler);
     return this;
   }
 }

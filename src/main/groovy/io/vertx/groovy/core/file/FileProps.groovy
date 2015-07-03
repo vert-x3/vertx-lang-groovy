@@ -23,9 +23,9 @@ import io.vertx.lang.groovy.InternalHelper
 */
 @CompileStatic
 public class FileProps {
-  final def io.vertx.core.file.FileProps delegate;
-  public FileProps(io.vertx.core.file.FileProps delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.file.FileProps delegate;
+  public FileProps(Object delegate) {
+    this.delegate = (io.vertx.core.file.FileProps) delegate;
   }
   public Object getDelegate() {
     return delegate;

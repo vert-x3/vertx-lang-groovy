@@ -29,9 +29,9 @@ import io.vertx.groovy.core.net.SocketAddress
 */
 @CompileStatic
 public class ServerWebSocket implements WebSocketBase {
-  final def io.vertx.core.http.ServerWebSocket delegate;
-  public ServerWebSocket(io.vertx.core.http.ServerWebSocket delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.ServerWebSocket delegate;
+  public ServerWebSocket(Object delegate) {
+    this.delegate = (io.vertx.core.http.ServerWebSocket) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -84,7 +84,7 @@ public class ServerWebSocket implements WebSocketBase {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
+    def ret= InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }
@@ -96,16 +96,16 @@ public class ServerWebSocket implements WebSocketBase {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
+    def ret= InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_1 = ret;
     return ret;
   }
   public ServerWebSocket exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).exceptionHandler(handler);
     return this;
   }
   public ServerWebSocket handler(Handler<Buffer> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
@@ -113,51 +113,51 @@ public class ServerWebSocket implements WebSocketBase {
     return this;
   }
   public ServerWebSocket pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).pause();
     return this;
   }
   public ServerWebSocket resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).resume();
     return this;
   }
   public ServerWebSocket endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).endHandler(endHandler);
     return this;
   }
   public ServerWebSocket write(Buffer data) {
-    this.delegate.write((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).write((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   public ServerWebSocket setWriteQueueMaxSize(int maxSize) {
-    this.delegate.setWriteQueueMaxSize(maxSize);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public ServerWebSocket drainHandler(Handler<Void> handler) {
-    this.delegate.drainHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).drainHandler(handler);
     return this;
   }
   public ServerWebSocket writeFrame(WebSocketFrame frame) {
-    this.delegate.writeFrame((io.vertx.core.http.WebSocketFrame)frame.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).writeFrame((io.vertx.core.http.WebSocketFrame)frame.getDelegate());
     return this;
   }
   public ServerWebSocket writeFinalTextFrame(String text) {
-    this.delegate.writeFinalTextFrame(text);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).writeFinalTextFrame(text);
     return this;
   }
   public ServerWebSocket writeFinalBinaryFrame(Buffer data) {
-    this.delegate.writeFinalBinaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).writeFinalBinaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   public ServerWebSocket writeBinaryMessage(Buffer data) {
-    this.delegate.writeBinaryMessage((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).writeBinaryMessage((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   public ServerWebSocket closeHandler(Handler<Void> handler) {
-    this.delegate.closeHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).closeHandler(handler);
     return this;
   }
   public ServerWebSocket frameHandler(Handler<WebSocketFrame> handler) {
-    this.delegate.frameHandler(new Handler<io.vertx.core.http.WebSocketFrame>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.ServerWebSocket) this.delegate).frameHandler(new Handler<io.vertx.core.http.WebSocketFrame>() {
       public void handle(io.vertx.core.http.WebSocketFrame event) {
         handler.handle(new io.vertx.groovy.core.http.WebSocketFrame(event));
       }
@@ -192,7 +192,7 @@ public class ServerWebSocket implements WebSocketBase {
     if (cached_2 != null) {
       return cached_2;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.groovy.core.MultiMap.class);
     cached_2 = ret;
     return ret;
   }

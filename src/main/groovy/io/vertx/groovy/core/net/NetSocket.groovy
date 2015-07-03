@@ -35,9 +35,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
-  final def io.vertx.core.net.NetSocket delegate;
-  public NetSocket(io.vertx.core.net.NetSocket delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.net.NetSocket delegate;
+  public NetSocket(Object delegate) {
+    this.delegate = (io.vertx.core.net.NetSocket) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -51,11 +51,11 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return ret;
   }
   public NetSocket exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler);
     return this;
   }
   public NetSocket handler(Handler<Buffer> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
@@ -63,27 +63,27 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   public NetSocket pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).pause();
     return this;
   }
   public NetSocket resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).resume();
     return this;
   }
   public NetSocket endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler);
     return this;
   }
   public NetSocket write(Buffer data) {
-    this.delegate.write((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).write((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   public NetSocket setWriteQueueMaxSize(int maxSize) {
-    this.delegate.setWriteQueueMaxSize(maxSize);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public NetSocket drainHandler(Handler<Void> handler) {
-    this.delegate.drainHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler);
     return this;
   }
   /**
@@ -147,7 +147,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.remoteAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
+    def ret= InternalHelper.safeCreate(this.delegate.remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }
@@ -159,7 +159,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
+    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_1 = ret;
     return ret;
   }

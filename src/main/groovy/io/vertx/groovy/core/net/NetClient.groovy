@@ -30,9 +30,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class NetClient implements Measured {
-  final def io.vertx.core.net.NetClient delegate;
-  public NetClient(io.vertx.core.net.NetClient delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.net.NetClient delegate;
+  public NetClient(Object delegate) {
+    this.delegate = (io.vertx.core.net.NetClient) delegate;
   }
   public Object getDelegate() {
     return delegate;

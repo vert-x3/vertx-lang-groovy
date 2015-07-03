@@ -26,9 +26,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class MessageProducer<T> implements WriteStream<T> {
-  final def io.vertx.core.eventbus.MessageProducer delegate;
-  public MessageProducer(io.vertx.core.eventbus.MessageProducer delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.eventbus.MessageProducer delegate;
+  public MessageProducer(Object delegate) {
+    this.delegate = (io.vertx.core.eventbus.MessageProducer) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -42,19 +42,19 @@ public class MessageProducer<T> implements WriteStream<T> {
     return ret;
   }
   public MessageProducer<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.eventbus.MessageProducer) this.delegate).exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler);
     return this;
   }
   public MessageProducer<T> write(T data) {
-    ((io.vertx.core.eventbus.MessageProducer) this.delegate).write(InternalHelper.unwrapObject(data));
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).write(InternalHelper.unwrapObject(data));
     return this;
   }
   public MessageProducer<T> setWriteQueueMaxSize(int maxSize) {
-    ((io.vertx.core.eventbus.MessageProducer) this.delegate).setWriteQueueMaxSize(maxSize);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public MessageProducer<T> drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.eventbus.MessageProducer) this.delegate).drainHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler);
     return this;
   }
   /**

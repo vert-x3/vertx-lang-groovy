@@ -37,9 +37,9 @@ import io.vertx.groovy.core.net.SocketAddress
 */
 @CompileStatic
 public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
-  final def io.vertx.core.datagram.DatagramSocket delegate;
-  public DatagramSocket(io.vertx.core.datagram.DatagramSocket delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.datagram.DatagramSocket delegate;
+  public DatagramSocket(Object delegate) {
+    this.delegate = (io.vertx.core.datagram.DatagramSocket) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -83,7 +83,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return the write stream for sending packets
    */
   public PacketWritestream sender(int port, String host) {
-    def ret= InternalHelper.safeCreate(this.delegate.sender(port, host), io.vertx.core.datagram.PacketWritestream.class, io.vertx.groovy.core.datagram.PacketWritestream.class);
+    def ret= InternalHelper.safeCreate(this.delegate.sender(port, host), io.vertx.groovy.core.datagram.PacketWritestream.class);
     return ret;
   }
   /**
@@ -156,7 +156,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
+    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }
@@ -315,19 +315,19 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   public DatagramSocket pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.DatagramSocket) this.delegate).pause();
     return this;
   }
   public DatagramSocket resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.DatagramSocket) this.delegate).resume();
     return this;
   }
   public DatagramSocket endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.DatagramSocket) this.delegate).endHandler(endHandler);
     return this;
   }
   public DatagramSocket handler(Handler<DatagramPacket> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.datagram.DatagramPacket>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.DatagramSocket) this.delegate).handler(new Handler<io.vertx.core.datagram.DatagramPacket>() {
       public void handle(io.vertx.core.datagram.DatagramPacket event) {
         handler.handle(new io.vertx.groovy.core.datagram.DatagramPacket(event));
       }
@@ -335,7 +335,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   public DatagramSocket exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.DatagramSocket) this.delegate).exceptionHandler(handler);
     return this;
   }
   private SocketAddress cached_0;

@@ -37,9 +37,9 @@ public interface WriteStream<T> extends StreamBase {
 
 @CompileStatic
 class WriteStreamImpl<T> implements WriteStream<T> {
-  final def io.vertx.core.streams.WriteStream delegate;
-  public WriteStreamImpl(io.vertx.core.streams.WriteStream delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.streams.WriteStream delegate;
+  public WriteStreamImpl(Object delegate) {
+    this.delegate = (io.vertx.core.streams.WriteStream) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -50,7 +50,7 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler);
     return this;
   }
   /**

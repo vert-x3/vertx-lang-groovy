@@ -22,9 +22,9 @@ import io.vertx.lang.groovy.InternalHelper
 */
 @CompileStatic
 public class SrvRecord {
-  final def io.vertx.core.dns.SrvRecord delegate;
-  public SrvRecord(io.vertx.core.dns.SrvRecord delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.dns.SrvRecord delegate;
+  public SrvRecord(Object delegate) {
+    this.delegate = (io.vertx.core.dns.SrvRecord) delegate;
   }
   public Object getDelegate() {
     return delegate;

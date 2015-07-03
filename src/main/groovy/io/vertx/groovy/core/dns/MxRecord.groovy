@@ -22,9 +22,9 @@ import io.vertx.lang.groovy.InternalHelper
 */
 @CompileStatic
 public class MxRecord {
-  final def io.vertx.core.dns.MxRecord delegate;
-  public MxRecord(io.vertx.core.dns.MxRecord delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.dns.MxRecord delegate;
+  public MxRecord(Object delegate) {
+    this.delegate = (io.vertx.core.dns.MxRecord) delegate;
   }
   public Object getDelegate() {
     return delegate;

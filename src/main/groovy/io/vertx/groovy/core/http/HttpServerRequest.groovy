@@ -38,19 +38,19 @@ import io.vertx.groovy.core.net.NetSocket
 */
 @CompileStatic
 public class HttpServerRequest implements ReadStream<Buffer> {
-  final def io.vertx.core.http.HttpServerRequest delegate;
-  public HttpServerRequest(io.vertx.core.http.HttpServerRequest delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.HttpServerRequest delegate;
+  public HttpServerRequest(Object delegate) {
+    this.delegate = (io.vertx.core.http.HttpServerRequest) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public HttpServerRequest exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).exceptionHandler(handler);
     return this;
   }
   public HttpServerRequest handler(Handler<Buffer> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
@@ -58,15 +58,15 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return this;
   }
   public HttpServerRequest pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).pause();
     return this;
   }
   public HttpServerRequest resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).resume();
     return this;
   }
   public HttpServerRequest endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).endHandler(endHandler);
     return this;
   }
   /**
@@ -118,7 +118,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.response(), io.vertx.core.http.HttpServerResponse.class, io.vertx.groovy.core.http.HttpServerResponse.class);
+    def ret= InternalHelper.safeCreate(this.delegate.response(), io.vertx.groovy.core.http.HttpServerResponse.class);
     cached_0 = ret;
     return ret;
   }
@@ -130,7 +130,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.groovy.core.MultiMap.class);
     cached_1 = ret;
     return ret;
   }
@@ -151,7 +151,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_2 != null) {
       return cached_2;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.params(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.params(), io.vertx.groovy.core.MultiMap.class);
     cached_2 = ret;
     return ret;
   }
@@ -172,7 +172,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_3 != null) {
       return cached_3;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.remoteAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
+    def ret= InternalHelper.safeCreate(this.delegate.remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_3 = ret;
     return ret;
   }
@@ -184,7 +184,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_4 != null) {
       return cached_4;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
+    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_4 = ret;
     return ret;
   }
@@ -226,7 +226,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_5 != null) {
       return cached_5;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.netSocket(), io.vertx.core.net.NetSocket.class, io.vertx.groovy.core.net.NetSocket.class);
+    def ret= InternalHelper.safeCreate(this.delegate.netSocket(), io.vertx.groovy.core.net.NetSocket.class);
     cached_5 = ret;
     return ret;
   }
@@ -275,7 +275,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_6 != null) {
       return cached_6;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.formAttributes(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.formAttributes(), io.vertx.groovy.core.MultiMap.class);
     cached_6 = ret;
     return ret;
   }
@@ -296,7 +296,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the WebSocket
    */
   public ServerWebSocket upgrade() {
-    def ret= InternalHelper.safeCreate(this.delegate.upgrade(), io.vertx.core.http.ServerWebSocket.class, io.vertx.groovy.core.http.ServerWebSocket.class);
+    def ret= InternalHelper.safeCreate(this.delegate.upgrade(), io.vertx.groovy.core.http.ServerWebSocket.class);
     return ret;
   }
   /**

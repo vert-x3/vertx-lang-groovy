@@ -25,19 +25,19 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class NetSocketStream implements ReadStream<NetSocket> {
-  final def io.vertx.core.net.NetSocketStream delegate;
-  public NetSocketStream(io.vertx.core.net.NetSocketStream delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.net.NetSocketStream delegate;
+  public NetSocketStream(Object delegate) {
+    this.delegate = (io.vertx.core.net.NetSocketStream) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public NetSocketStream exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).exceptionHandler(handler);
     return this;
   }
   public NetSocketStream handler(Handler<NetSocket> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.net.NetSocket>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).handler(new Handler<io.vertx.core.net.NetSocket>() {
       public void handle(io.vertx.core.net.NetSocket event) {
         handler.handle(new io.vertx.groovy.core.net.NetSocket(event));
       }
@@ -45,15 +45,15 @@ public class NetSocketStream implements ReadStream<NetSocket> {
     return this;
   }
   public NetSocketStream pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).pause();
     return this;
   }
   public NetSocketStream resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).resume();
     return this;
   }
   public NetSocketStream endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).endHandler(endHandler);
     return this;
   }
 }

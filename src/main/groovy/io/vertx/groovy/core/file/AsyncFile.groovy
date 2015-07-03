@@ -32,9 +32,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
-  final def io.vertx.core.file.AsyncFile delegate;
-  public AsyncFile(io.vertx.core.file.AsyncFile delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.file.AsyncFile delegate;
+  public AsyncFile(Object delegate) {
+    this.delegate = (io.vertx.core.file.AsyncFile) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -48,7 +48,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return ret;
   }
   public AsyncFile handler(Handler<Buffer> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
@@ -56,31 +56,31 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   public AsyncFile pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).pause();
     return this;
   }
   public AsyncFile resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).resume();
     return this;
   }
   public AsyncFile endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).endHandler(endHandler);
     return this;
   }
   public AsyncFile write(Buffer data) {
-    this.delegate.write((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).write((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   public AsyncFile setWriteQueueMaxSize(int maxSize) {
-    this.delegate.setWriteQueueMaxSize(maxSize);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public AsyncFile drainHandler(Handler<Void> handler) {
-    this.delegate.drainHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).drainHandler(handler);
     return this;
   }
   public AsyncFile exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).exceptionHandler(handler);
     return this;
   }
   /**

@@ -22,9 +22,9 @@ import io.vertx.lang.groovy.InternalHelper
 */
 @CompileStatic
 public class SocketAddress {
-  final def io.vertx.core.net.SocketAddress delegate;
-  public SocketAddress(io.vertx.core.net.SocketAddress delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.net.SocketAddress delegate;
+  public SocketAddress(Object delegate) {
+    this.delegate = (io.vertx.core.net.SocketAddress) delegate;
   }
   public Object getDelegate() {
     return delegate;

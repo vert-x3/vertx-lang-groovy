@@ -25,9 +25,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class AsyncMap<K,V> {
-  final def io.vertx.core.shareddata.AsyncMap delegate;
-  public AsyncMap(io.vertx.core.shareddata.AsyncMap delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.shareddata.AsyncMap delegate;
+  public AsyncMap(Object delegate) {
+    this.delegate = (io.vertx.core.shareddata.AsyncMap) delegate;
   }
   public Object getDelegate() {
     return delegate;

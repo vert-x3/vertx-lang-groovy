@@ -26,9 +26,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class PacketWritestream implements WriteStream<Buffer> {
-  final def io.vertx.core.datagram.PacketWritestream delegate;
-  public PacketWritestream(io.vertx.core.datagram.PacketWritestream delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.datagram.PacketWritestream delegate;
+  public PacketWritestream(Object delegate) {
+    this.delegate = (io.vertx.core.datagram.PacketWritestream) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -42,19 +42,19 @@ public class PacketWritestream implements WriteStream<Buffer> {
     return ret;
   }
   public PacketWritestream exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.PacketWritestream) this.delegate).exceptionHandler(handler);
     return this;
   }
   public PacketWritestream write(Buffer data) {
-    this.delegate.write((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.PacketWritestream) this.delegate).write((io.vertx.core.buffer.Buffer)data.getDelegate());
     return this;
   }
   public PacketWritestream setWriteQueueMaxSize(int maxSize) {
-    this.delegate.setWriteQueueMaxSize(maxSize);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.PacketWritestream) this.delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public PacketWritestream drainHandler(Handler<Void> handler) {
-    this.delegate.drainHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.PacketWritestream) this.delegate).drainHandler(handler);
     return this;
   }
 }

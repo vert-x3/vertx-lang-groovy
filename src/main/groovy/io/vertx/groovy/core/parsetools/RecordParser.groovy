@@ -52,9 +52,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class RecordParser implements Handler<Buffer> {
-  final def io.vertx.core.parsetools.RecordParser delegate;
-  public RecordParser(io.vertx.core.parsetools.RecordParser delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.parsetools.RecordParser delegate;
+  public RecordParser(Object delegate) {
+    this.delegate = (io.vertx.core.parsetools.RecordParser) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -80,7 +80,7 @@ public class RecordParser implements Handler<Buffer> {
       public void handle(io.vertx.core.buffer.Buffer event) {
         output.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
-    }), io.vertx.core.parsetools.RecordParser.class, io.vertx.groovy.core.parsetools.RecordParser.class);
+    }), io.vertx.groovy.core.parsetools.RecordParser.class);
     return ret;
   }
   /**
@@ -97,7 +97,7 @@ public class RecordParser implements Handler<Buffer> {
       public void handle(io.vertx.core.buffer.Buffer event) {
         output.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
-    }), io.vertx.core.parsetools.RecordParser.class, io.vertx.groovy.core.parsetools.RecordParser.class);
+    }), io.vertx.groovy.core.parsetools.RecordParser.class);
     return ret;
   }
   /**
@@ -114,7 +114,7 @@ public class RecordParser implements Handler<Buffer> {
       public void handle(io.vertx.core.buffer.Buffer event) {
         output.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
-    }), io.vertx.core.parsetools.RecordParser.class, io.vertx.groovy.core.parsetools.RecordParser.class);
+    }), io.vertx.groovy.core.parsetools.RecordParser.class);
     return ret;
   }
   /**

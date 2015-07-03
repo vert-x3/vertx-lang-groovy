@@ -25,9 +25,9 @@ import io.vertx.lang.groovy.InternalHelper
 */
 @CompileStatic
 public class Lock {
-  final def io.vertx.core.shareddata.Lock delegate;
-  public Lock(io.vertx.core.shareddata.Lock delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.shareddata.Lock delegate;
+  public Lock(Object delegate) {
+    this.delegate = (io.vertx.core.shareddata.Lock) delegate;
   }
   public Object getDelegate() {
     return delegate;

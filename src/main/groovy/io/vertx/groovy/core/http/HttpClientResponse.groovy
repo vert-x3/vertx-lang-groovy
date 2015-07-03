@@ -34,23 +34,23 @@ import io.vertx.groovy.core.net.NetSocket
 */
 @CompileStatic
 public class HttpClientResponse implements ReadStream<Buffer> {
-  final def io.vertx.core.http.HttpClientResponse delegate;
-  public HttpClientResponse(io.vertx.core.http.HttpClientResponse delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.HttpClientResponse delegate;
+  public HttpClientResponse(Object delegate) {
+    this.delegate = (io.vertx.core.http.HttpClientResponse) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public HttpClientResponse resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).resume();
     return this;
   }
   public HttpClientResponse exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).exceptionHandler(handler);
     return this;
   }
   public HttpClientResponse handler(Handler<Buffer> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
@@ -58,11 +58,11 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     return this;
   }
   public HttpClientResponse pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).pause();
     return this;
   }
   public HttpClientResponse endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).endHandler(endHandler);
     return this;
   }
   /**
@@ -89,7 +89,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.groovy.core.MultiMap.class);
     cached_0 = ret;
     return ret;
   }
@@ -119,7 +119,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.trailers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.trailers(), io.vertx.groovy.core.MultiMap.class);
     cached_1 = ret;
     return ret;
   }
@@ -164,7 +164,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_3 != null) {
       return cached_3;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.netSocket(), io.vertx.core.net.NetSocket.class, io.vertx.groovy.core.net.NetSocket.class);
+    def ret= InternalHelper.safeCreate(this.delegate.netSocket(), io.vertx.groovy.core.net.NetSocket.class);
     cached_3 = ret;
     return ret;
   }

@@ -33,19 +33,19 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class MessageConsumer<T> implements ReadStream<Message<T>> {
-  final def io.vertx.core.eventbus.MessageConsumer delegate;
-  public MessageConsumer(io.vertx.core.eventbus.MessageConsumer delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.eventbus.MessageConsumer delegate;
+  public MessageConsumer(Object delegate) {
+    this.delegate = (io.vertx.core.eventbus.MessageConsumer) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public MessageConsumer<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.eventbus.MessageConsumer) this.delegate).exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler);
     return this;
   }
   public MessageConsumer<T> handler(Handler<Message<T>> handler) {
-    ((io.vertx.core.eventbus.MessageConsumer) this.delegate).handler(new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).handler(new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
       public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
         handler.handle(new io.vertx.groovy.core.eventbus.Message(event));
       }
@@ -53,15 +53,15 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
     return this;
   }
   public MessageConsumer<T> pause() {
-    ((io.vertx.core.eventbus.MessageConsumer) this.delegate).pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).pause();
     return this;
   }
   public MessageConsumer<T> resume() {
-    ((io.vertx.core.eventbus.MessageConsumer) this.delegate).resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).resume();
     return this;
   }
   public MessageConsumer<T> endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.eventbus.MessageConsumer) this.delegate).endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler);
     return this;
   }
   /**
@@ -69,7 +69,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public ReadStream<T> bodyStream() {
-    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.MessageConsumer) this.delegate).bodyStream(), io.vertx.core.streams.ReadStream.class, io.vertx.groovy.core.streams.ReadStreamImpl.class);
+    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.MessageConsumer) this.delegate).bodyStream(), io.vertx.groovy.core.streams.ReadStreamImpl.class);
     return ret;
   }
   /**
@@ -96,7 +96,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return this registration
    */
   public MessageConsumer<T> setMaxBufferedMessages(int maxBufferedMessages) {
-    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.MessageConsumer) this.delegate).setMaxBufferedMessages(maxBufferedMessages), io.vertx.core.eventbus.MessageConsumer.class, io.vertx.groovy.core.eventbus.MessageConsumer.class);
+    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.MessageConsumer) this.delegate).setMaxBufferedMessages(maxBufferedMessages), io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**

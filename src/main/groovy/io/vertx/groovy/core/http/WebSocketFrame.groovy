@@ -30,9 +30,9 @@ import io.vertx.groovy.core.buffer.Buffer
 */
 @CompileStatic
 public class WebSocketFrame {
-  final def io.vertx.core.http.WebSocketFrame delegate;
-  public WebSocketFrame(io.vertx.core.http.WebSocketFrame delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.WebSocketFrame delegate;
+  public WebSocketFrame(Object delegate) {
+    this.delegate = (io.vertx.core.http.WebSocketFrame) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -44,7 +44,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame binaryFrame(Buffer data, boolean isFinal) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.binaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal), io.vertx.core.http.WebSocketFrame.class, io.vertx.groovy.core.http.WebSocketFrame.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.binaryFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal), io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -54,7 +54,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame textFrame(String str, boolean isFinal) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.textFrame(str, isFinal), io.vertx.core.http.WebSocketFrame.class, io.vertx.groovy.core.http.WebSocketFrame.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.textFrame(str, isFinal), io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -64,7 +64,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame continuationFrame(Buffer data, boolean isFinal) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.continuationFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal), io.vertx.core.http.WebSocketFrame.class, io.vertx.groovy.core.http.WebSocketFrame.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.continuationFrame((io.vertx.core.buffer.Buffer)data.getDelegate(), isFinal), io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -112,7 +112,7 @@ public class WebSocketFrame {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.binaryData(), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.binaryData(), io.vertx.groovy.core.buffer.Buffer.class);
     cached_1 = ret;
     return ret;
   }

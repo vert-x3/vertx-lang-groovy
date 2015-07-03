@@ -28,9 +28,9 @@ import io.vertx.lang.groovy.InternalHelper
 */
 @CompileStatic
 public class LocalMap<K,V> {
-  final def io.vertx.core.shareddata.LocalMap delegate;
-  public LocalMap(io.vertx.core.shareddata.LocalMap delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.shareddata.LocalMap delegate;
+  public LocalMap(Object delegate) {
+    this.delegate = (io.vertx.core.shareddata.LocalMap) delegate;
   }
   public Object getDelegate() {
     return delegate;

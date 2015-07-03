@@ -25,9 +25,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class NetServer implements Measured {
-  final def io.vertx.core.net.NetServer delegate;
-  public NetServer(io.vertx.core.net.NetServer delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.net.NetServer delegate;
+  public NetServer(Object delegate) {
+    this.delegate = (io.vertx.core.net.NetServer) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -47,7 +47,7 @@ public class NetServer implements Measured {
    * @return the connect stream
    */
   public NetSocketStream connectStream() {
-    def ret= InternalHelper.safeCreate(this.delegate.connectStream(), io.vertx.core.net.NetSocketStream.class, io.vertx.groovy.core.net.NetSocketStream.class);
+    def ret= InternalHelper.safeCreate(this.delegate.connectStream(), io.vertx.groovy.core.net.NetSocketStream.class);
     return ret;
   }
   /**
@@ -62,7 +62,7 @@ public class NetServer implements Measured {
       public void handle(io.vertx.core.net.NetSocket event) {
         handler.handle(new io.vertx.groovy.core.net.NetSocket(event));
       }
-    }), io.vertx.core.net.NetServer.class, io.vertx.groovy.core.net.NetServer.class);
+    }), io.vertx.groovy.core.net.NetServer.class);
     return ret;
   }
   /**

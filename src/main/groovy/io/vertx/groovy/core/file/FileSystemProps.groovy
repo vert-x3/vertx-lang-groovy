@@ -22,9 +22,9 @@ import io.vertx.lang.groovy.InternalHelper
 */
 @CompileStatic
 public class FileSystemProps {
-  final def io.vertx.core.file.FileSystemProps delegate;
-  public FileSystemProps(io.vertx.core.file.FileSystemProps delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.file.FileSystemProps delegate;
+  public FileSystemProps(Object delegate) {
+    this.delegate = (io.vertx.core.file.FileSystemProps) delegate;
   }
   public Object getDelegate() {
     return delegate;

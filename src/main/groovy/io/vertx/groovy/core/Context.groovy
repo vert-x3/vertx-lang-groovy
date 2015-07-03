@@ -54,9 +54,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class Context {
-  final def io.vertx.core.Context delegate;
-  public Context(io.vertx.core.Context delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.Context delegate;
+  public Context(Object delegate) {
+    this.delegate = (io.vertx.core.Context) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -189,7 +189,7 @@ public class Context {
    * @return 
    */
   public Vertx owner() {
-    def ret= InternalHelper.safeCreate(this.delegate.owner(), io.vertx.core.Vertx.class, io.vertx.groovy.core.Vertx.class);
+    def ret= InternalHelper.safeCreate(this.delegate.owner(), io.vertx.groovy.core.Vertx.class);
     return ret;
   }
   /**

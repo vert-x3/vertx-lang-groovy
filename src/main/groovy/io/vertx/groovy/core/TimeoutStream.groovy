@@ -29,31 +29,31 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class TimeoutStream implements ReadStream<Long> {
-  final def io.vertx.core.TimeoutStream delegate;
-  public TimeoutStream(io.vertx.core.TimeoutStream delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.TimeoutStream delegate;
+  public TimeoutStream(Object delegate) {
+    this.delegate = (io.vertx.core.TimeoutStream) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public TimeoutStream exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).exceptionHandler(handler);
     return this;
   }
   public TimeoutStream handler(Handler<Long> handler) {
-    this.delegate.handler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).handler(handler);
     return this;
   }
   public TimeoutStream pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).pause();
     return this;
   }
   public TimeoutStream resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).resume();
     return this;
   }
   public TimeoutStream endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).endHandler(endHandler);
     return this;
   }
   /**

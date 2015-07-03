@@ -28,9 +28,9 @@ import java.util.Set
 */
 @CompileStatic
 public class MultiMap {
-  final def io.vertx.core.MultiMap delegate;
-  public MultiMap(io.vertx.core.MultiMap delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.MultiMap delegate;
+  public MultiMap(Object delegate) {
+    this.delegate = (io.vertx.core.MultiMap) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -40,7 +40,7 @@ public class MultiMap {
    * @return the multi-map
    */
   public static MultiMap caseInsensitiveMultiMap() {
-    def ret= InternalHelper.safeCreate(io.vertx.core.MultiMap.caseInsensitiveMultiMap(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.MultiMap.caseInsensitiveMultiMap(), io.vertx.groovy.core.MultiMap.class);
     return ret;
   }
   /**

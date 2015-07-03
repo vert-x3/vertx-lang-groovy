@@ -34,9 +34,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class SharedData {
-  final def io.vertx.core.shareddata.SharedData delegate;
-  public SharedData(io.vertx.core.shareddata.SharedData delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.shareddata.SharedData delegate;
+  public SharedData(Object delegate) {
+    this.delegate = (io.vertx.core.shareddata.SharedData) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -122,7 +122,7 @@ public class SharedData {
    * @return the msp
    */
   public <K, V> LocalMap<K,V> getLocalMap(String name) {
-    def ret= InternalHelper.safeCreate(this.delegate.getLocalMap(name), io.vertx.core.shareddata.LocalMap.class, io.vertx.groovy.core.shareddata.LocalMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.getLocalMap(name), io.vertx.groovy.core.shareddata.LocalMap.class);
     return ret;
   }
 }

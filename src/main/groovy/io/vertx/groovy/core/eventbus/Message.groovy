@@ -33,9 +33,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class Message<T> {
-  final def io.vertx.core.eventbus.Message delegate;
-  public Message(io.vertx.core.eventbus.Message delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.eventbus.Message delegate;
+  public Message(Object delegate) {
+    this.delegate = (io.vertx.core.eventbus.Message) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -53,7 +53,7 @@ public class Message<T> {
    * @return the headers
    */
   public MultiMap headers() {
-    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.Message) this.delegate).headers(), io.vertx.core.MultiMap.class, io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.Message) this.delegate).headers(), io.vertx.groovy.core.MultiMap.class);
     return ret;
   }
   /**

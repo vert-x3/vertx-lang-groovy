@@ -31,9 +31,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class HttpServer implements Measured {
-  final def io.vertx.core.http.HttpServer delegate;
-  public HttpServer(io.vertx.core.http.HttpServer delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.HttpServer delegate;
+  public HttpServer(Object delegate) {
+    this.delegate = (io.vertx.core.http.HttpServer) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -52,7 +52,7 @@ public class HttpServer implements Measured {
    * @return the request stream
    */
   public HttpServerRequestStream requestStream() {
-    def ret= InternalHelper.safeCreate(this.delegate.requestStream(), io.vertx.core.http.HttpServerRequestStream.class, io.vertx.groovy.core.http.HttpServerRequestStream.class);
+    def ret= InternalHelper.safeCreate(this.delegate.requestStream(), io.vertx.groovy.core.http.HttpServerRequestStream.class);
     return ret;
   }
   /**
@@ -66,7 +66,7 @@ public class HttpServer implements Measured {
       public void handle(io.vertx.core.http.HttpServerRequest event) {
         handler.handle(new io.vertx.groovy.core.http.HttpServerRequest(event));
       }
-    }), io.vertx.core.http.HttpServer.class, io.vertx.groovy.core.http.HttpServer.class);
+    }), io.vertx.groovy.core.http.HttpServer.class);
     return ret;
   }
   /**
@@ -75,7 +75,7 @@ public class HttpServer implements Measured {
    * @return the websocket stream
    */
   public ServerWebSocketStream websocketStream() {
-    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(), io.vertx.core.http.ServerWebSocketStream.class, io.vertx.groovy.core.http.ServerWebSocketStream.class);
+    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(), io.vertx.groovy.core.http.ServerWebSocketStream.class);
     return ret;
   }
   /**
@@ -89,7 +89,7 @@ public class HttpServer implements Measured {
       public void handle(io.vertx.core.http.ServerWebSocket event) {
         handler.handle(new io.vertx.groovy.core.http.ServerWebSocket(event));
       }
-    }), io.vertx.core.http.HttpServer.class, io.vertx.groovy.core.http.HttpServer.class);
+    }), io.vertx.groovy.core.http.HttpServer.class);
     return ret;
   }
   /**

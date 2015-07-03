@@ -25,9 +25,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class Counter {
-  final def io.vertx.core.shareddata.Counter delegate;
-  public Counter(io.vertx.core.shareddata.Counter delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.shareddata.Counter delegate;
+  public Counter(Object delegate) {
+    this.delegate = (io.vertx.core.shareddata.Counter) delegate;
   }
   public Object getDelegate() {
     return delegate;

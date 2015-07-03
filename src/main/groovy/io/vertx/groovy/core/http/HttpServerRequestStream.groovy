@@ -25,19 +25,19 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
-  final def io.vertx.core.http.HttpServerRequestStream delegate;
-  public HttpServerRequestStream(io.vertx.core.http.HttpServerRequestStream delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.HttpServerRequestStream delegate;
+  public HttpServerRequestStream(Object delegate) {
+    this.delegate = (io.vertx.core.http.HttpServerRequestStream) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public HttpServerRequestStream exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).exceptionHandler(handler);
     return this;
   }
   public HttpServerRequestStream handler(Handler<HttpServerRequest> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.http.HttpServerRequest>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).handler(new Handler<io.vertx.core.http.HttpServerRequest>() {
       public void handle(io.vertx.core.http.HttpServerRequest event) {
         handler.handle(new io.vertx.groovy.core.http.HttpServerRequest(event));
       }
@@ -45,15 +45,15 @@ public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
     return this;
   }
   public HttpServerRequestStream pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).pause();
     return this;
   }
   public HttpServerRequestStream resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).resume();
     return this;
   }
   public HttpServerRequestStream endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).endHandler(endHandler);
     return this;
   }
 }

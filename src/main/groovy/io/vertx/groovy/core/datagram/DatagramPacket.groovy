@@ -24,9 +24,9 @@ import io.vertx.groovy.core.net.SocketAddress
 */
 @CompileStatic
 public class DatagramPacket {
-  final def io.vertx.core.datagram.DatagramPacket delegate;
-  public DatagramPacket(io.vertx.core.datagram.DatagramPacket delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.datagram.DatagramPacket delegate;
+  public DatagramPacket(Object delegate) {
+    this.delegate = (io.vertx.core.datagram.DatagramPacket) delegate;
   }
   public Object getDelegate() {
     return delegate;
@@ -37,7 +37,7 @@ public class DatagramPacket {
    * @return the address of the sender
    */
   public SocketAddress sender() {
-    def ret= InternalHelper.safeCreate(this.delegate.sender(), io.vertx.core.net.SocketAddress.class, io.vertx.groovy.core.net.SocketAddress.class);
+    def ret= InternalHelper.safeCreate(this.delegate.sender(), io.vertx.groovy.core.net.SocketAddress.class);
     return ret;
   }
   /**
@@ -45,7 +45,7 @@ public class DatagramPacket {
    * @return the data
    */
   public Buffer data() {
-    def ret= InternalHelper.safeCreate(this.delegate.data(), io.vertx.core.buffer.Buffer.class, io.vertx.groovy.core.buffer.Buffer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.data(), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
 }

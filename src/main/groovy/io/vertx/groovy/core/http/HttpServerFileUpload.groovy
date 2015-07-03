@@ -25,19 +25,19 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class HttpServerFileUpload implements ReadStream<Buffer> {
-  final def io.vertx.core.http.HttpServerFileUpload delegate;
-  public HttpServerFileUpload(io.vertx.core.http.HttpServerFileUpload delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.http.HttpServerFileUpload delegate;
+  public HttpServerFileUpload(Object delegate) {
+    this.delegate = (io.vertx.core.http.HttpServerFileUpload) delegate;
   }
   public Object getDelegate() {
     return delegate;
   }
   public HttpServerFileUpload exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).exceptionHandler(handler);
     return this;
   }
   public HttpServerFileUpload handler(Handler<Buffer> handler) {
-    this.delegate.handler(new Handler<io.vertx.core.buffer.Buffer>() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
       }
@@ -45,15 +45,15 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
     return this;
   }
   public HttpServerFileUpload endHandler(Handler<Void> endHandler) {
-    this.delegate.endHandler(endHandler);
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).endHandler(endHandler);
     return this;
   }
   public HttpServerFileUpload pause() {
-    this.delegate.pause();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).pause();
     return this;
   }
   public HttpServerFileUpload resume() {
-    this.delegate.resume();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).resume();
     return this;
   }
   /**

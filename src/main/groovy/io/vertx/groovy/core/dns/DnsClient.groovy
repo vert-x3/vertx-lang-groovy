@@ -27,9 +27,9 @@ import io.vertx.core.Handler
 */
 @CompileStatic
 public class DnsClient {
-  final def io.vertx.core.dns.DnsClient delegate;
-  public DnsClient(io.vertx.core.dns.DnsClient delegate) {
-    this.delegate = delegate;
+  private final def io.vertx.core.dns.DnsClient delegate;
+  public DnsClient(Object delegate) {
+    this.delegate = (io.vertx.core.dns.DnsClient) delegate;
   }
   public Object getDelegate() {
     return delegate;
