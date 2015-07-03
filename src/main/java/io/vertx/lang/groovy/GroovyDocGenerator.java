@@ -55,7 +55,7 @@ public class GroovyDocGenerator implements DocGenerator {
     try {
       type = factory.create(elt.asType());
     } catch (Exception e) {
-      System.out.println("Could not resolve doc likn for type " + elt.getQualifiedName());
+      System.out.println("Could not resolve doc link for type " + elt.getQualifiedName());
       return null;
     }
     if (type.getKind() == ClassKind.DATA_OBJECT) {
