@@ -67,9 +67,9 @@ public class InternalHelper {
     return Future.failedFuture(t);
   }
 
-  public static <T, D> T safeCreate(D delegate, Class<D> delegateType, Class<T> type) {
+  public static <T, D> T safeCreate(D delegate, Class<T> type) {
     if (delegate != null) {
-      Constructor<T> ctor = type.getConstructor(delegateType)
+      Constructor<T> ctor = type.getConstructor(Object.class)
       return ctor.newInstance(delegate)
     }
     return null

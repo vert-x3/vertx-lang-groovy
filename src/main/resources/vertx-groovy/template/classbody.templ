@@ -1,9 +1,9 @@
-	  final def @{type.raw} delegate;\n
-	  public @{constructor}(@{type.raw} delegate) {\n
+	  private final def @{type.raw} delegate;\n
+	  public @{constructor}(Object delegate) {\n
 	@if{concrete && concreteSuperTypes.size() > 0}
-	    super(delegate);\n
+	    super((@{type.raw}) delegate);\n
 	@end{}
-	    this.delegate = delegate;\n
+	    this.delegate = (@{type.raw}) delegate;\n
 	  }\n
 
 	  public Object getDelegate() {\n
@@ -86,7 +86,7 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@else{method.returnType.kind == CLASS_API}
 			@code{cachedType=method.returnType.simpleName}
-		    def ret= InternalHelper.safeCreate(@includeNamed{'invokeDelegate';method=method}, @{method.returnType.raw}.class, @{genConstructorType(method.returnType.raw)}.class);\n
+		    def ret= InternalHelper.safeCreate(@includeNamed{'invokeDelegate';method=method}, @{genConstructorType(method.returnType.raw)}.class);\n
 		@else{}
 			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
