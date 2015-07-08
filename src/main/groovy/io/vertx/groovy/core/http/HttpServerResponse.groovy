@@ -213,6 +213,15 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
+   * Used to write an interim 100 Continue response to signify that the client should send the rest of the request.
+   * Must only be used if the request contains an "Expect:100-Continue" header
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServerResponse writeContinue() {
+    this.delegate.writeContinue();
+    return this;
+  }
+  /**
    * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes a String in UTF-8 encoding before ending the response.
    * @param chunk the string to write before ending the response
    */
