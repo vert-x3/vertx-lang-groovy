@@ -94,12 +94,30 @@ public class Buffer {
     return ret;
   }
   /**
+   * Returns the unsigned <code>byte</code> at position <code>pos</code> in the Buffer, as a <code>short</code>.
+   * @param pos 
+   * @return 
+   */
+  public short getUnsignedByte(int pos) {
+    def ret = this.delegate.getUnsignedByte(pos);
+    return ret;
+  }
+  /**
    * Returns the <code>int</code> at position <code>pos</code> in the Buffer.
    * @param pos 
    * @return 
    */
   public int getInt(int pos) {
     def ret = this.delegate.getInt(pos);
+    return ret;
+  }
+  /**
+   * Returns the unsigned <code>int</code> at position <code>pos</code> in the Buffer, as a <code>long</code>.
+   * @param pos 
+   * @return 
+   */
+  public long getUnsignedInt(int pos) {
+    def ret = this.delegate.getUnsignedInt(pos);
     return ret;
   }
   /**
@@ -136,6 +154,15 @@ public class Buffer {
    */
   public short getShort(int pos) {
     def ret = this.delegate.getShort(pos);
+    return ret;
+  }
+  /**
+   * Returns the unsigned <code>short</code> at position <code>pos</code> in the Buffer, as an <code>int</code>.
+   * @param pos 
+   * @return 
+   */
+  public int getUnsignedShort(int pos) {
+    def ret = this.delegate.getUnsignedShort(pos);
     return ret;
   }
   /**
@@ -207,6 +234,16 @@ public class Buffer {
     return this;
   }
   /**
+   * Appends the specified unsigned <code>byte</code> to the end of the Buffer. The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param b 
+   * @return 
+   */
+  public Buffer appendUnsignedByte(short b) {
+    this.delegate.appendUnsignedByte(b);
+    return this;
+  }
+  /**
    * Appends the specified <code>int</code> to the end of the Buffer. The buffer will expand as necessary to accommodate any bytes written.<p>
    * Returns a reference to <code>this</code> so multiple operations can be appended together.
    * @param i 
@@ -214,6 +251,16 @@ public class Buffer {
    */
   public Buffer appendInt(int i) {
     this.delegate.appendInt(i);
+    return this;
+  }
+  /**
+   * Appends the specified unsigned <code>int</code> to the end of the Buffer. The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param i 
+   * @return 
+   */
+  public Buffer appendUnsignedInt(long i) {
+    this.delegate.appendUnsignedInt(i);
     return this;
   }
   /**
@@ -234,6 +281,16 @@ public class Buffer {
    */
   public Buffer appendShort(short s) {
     this.delegate.appendShort(s);
+    return this;
+  }
+  /**
+   * Appends the specified unsigned <code>short</code> to the end of the Buffer.The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param s 
+   * @return 
+   */
+  public Buffer appendUnsignedShort(int s) {
+    this.delegate.appendUnsignedShort(s);
     return this;
   }
   /**
@@ -291,6 +348,17 @@ public class Buffer {
     return this;
   }
   /**
+   * Sets the unsigned <code>byte</code> at position <code>pos</code> in the Buffer to the value <code>b</code>.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param b 
+   * @return 
+   */
+  public Buffer setUnsignedByte(int pos, short b) {
+    def ret= InternalHelper.safeCreate(this.delegate.setUnsignedByte(pos, b), io.vertx.groovy.core.buffer.Buffer.class);
+    return ret;
+  }
+  /**
    * Sets the <code>int</code> at position <code>pos</code> in the Buffer to the value <code>i</code>.<p>
    * The buffer will expand as necessary to accommodate any value written.
    * @param pos 
@@ -299,6 +367,17 @@ public class Buffer {
    */
   public Buffer setInt(int pos, int i) {
     this.delegate.setInt(pos, i);
+    return this;
+  }
+  /**
+   * Sets the unsigned <code>int</code> at position <code>pos</code> in the Buffer to the value <code>i</code>.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param i 
+   * @return 
+   */
+  public Buffer setUnsignedInt(int pos, long i) {
+    this.delegate.setUnsignedInt(pos, i);
     return this;
   }
   /**
@@ -343,6 +422,17 @@ public class Buffer {
    */
   public Buffer setShort(int pos, short s) {
     this.delegate.setShort(pos, s);
+    return this;
+  }
+  /**
+   * Sets the unsigned <code>short</code> at position <code>pos</code> in the Buffer to the value <code>s</code>.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param s 
+   * @return 
+   */
+  public Buffer setUnsignedShort(int pos, int s) {
+    this.delegate.setUnsignedShort(pos, s);
     return this;
   }
   /**

@@ -113,6 +113,26 @@ for (def i = 0;i < buff.length();4) {
 
 ----
 
+=== Working with unsigned numbers
+
+Unsigned numbers can be read from or appended/set to a buffer with the `getUnsignedXXX`,
+`appendUnsignedXXX` and `setUnsignedXXX` methods. This is useful when implementing a codec for a
+network protocol optimized to minimize bandwidth consumption.
+
+In the following example, value 200 is set at specified position with just one byte:
+
+[source,groovy]
+----
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer(128)
+def pos = 15
+buff.setUnsignedByte(pos, 200)
+println(buff.getUnsignedByte(pos))
+
+----
+
+The console shows '200'.
+
 === Buffer length
 
 Use `link:groovydoc/io/vertx/groovy/core/buffer/Buffer.html#length()[length]` to obtain the length of the buffer.

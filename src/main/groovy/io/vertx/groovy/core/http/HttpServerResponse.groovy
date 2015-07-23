@@ -307,9 +307,9 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
-  public HttpServerResponse headersEndHandler(Handler<Future<?>> handler) {
-    this.delegate.headersEndHandler(new Handler<io.vertx.core.Future<?>>() {
-      public void handle(io.vertx.core.Future<?> event) {
+  public HttpServerResponse headersEndHandler(Handler<Future<Void>> handler) {
+    this.delegate.headersEndHandler(new Handler<io.vertx.core.Future<java.lang.Void>>() {
+      public void handle(io.vertx.core.Future<java.lang.Void> event) {
         handler.handle(new io.vertx.groovy.core.Future(event));
       }
     });
