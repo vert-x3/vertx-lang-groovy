@@ -1181,6 +1181,12 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithThrowableParam() {
+    def ret = obj.methodWithThrowableParam(new Exception("the_exception"));
+    assertEquals("the_exception", ret);
+  }
+
+  @Test
   public void testMethodWithEnumReturn() {
     TestEnum ret = obj.methodWithEnumReturn("JULIEN");
     assertEquals(TestEnum.JULIEN, ret);
