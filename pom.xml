@@ -121,6 +121,7 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <executions>
             <execution>
+<!--
               <id>default-testCompile</id>
               <configuration>
                 <annotationProcessors>
@@ -130,6 +131,7 @@
                   <arg>-AoutputDirectory=${project.basedir}/src/test</arg>
                 </compilerArgs>
               </configuration>
+-->
             </execution>
           </executions>
         </plugin>
