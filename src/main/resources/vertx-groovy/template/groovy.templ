@@ -292,7 +292,7 @@ this.delegate
 	@else{returnType.kind == CLASS_JSON_ARRAY}
 		List<Object>
 	@else{returnType.kind == CLASS_LIST}
-		@if{returnType.args[0].kind == CLASS_JSON_OBJECT}
+		@if{returnType.args[0].kind == CLASS_JSON_OBJECT || returnType.args[0].kind == CLASS_DATA_OBJECT}
 			List<Map<String, Object>>
 		@else{returnType.args[0].kind == CLASS_JSON_ARRAY}
 			List<List<Object>>
@@ -300,7 +300,7 @@ this.delegate
 			@{returnType.simpleName}
 		@end{}
 	@else{returnType.kind == CLASS_SET}
-		@if{returnType.args[0].kind == CLASS_JSON_OBJECT}
+		@if{returnType.args[0].kind == CLASS_JSON_OBJECT || returnType.args[0].kind == CLASS_DATA_OBJECT}
 			Set<Map<String, Object>>
 		@else{returnType.args[0].kind == CLASS_JSON_ARRAY}
 			Set<List<Object>>

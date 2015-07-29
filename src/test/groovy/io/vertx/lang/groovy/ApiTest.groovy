@@ -914,6 +914,19 @@ public class ApiTest {
   }
 
   @Test
+  public void testListDataObjectReturn() {
+    List<Map<String, Object>> list = obj.methodWithListDataObjectReturn();
+    assertTrue(list[0] instanceof Map);
+    assertEquals("String 1", list[0].foo);
+    assertEquals(1, list[0].bar);
+    assertEquals(1.1, list[0].wibble, 0);
+    assertTrue(list[1] instanceof Map);
+    assertEquals("String 2", list[1].foo);
+    assertEquals(2, list[1].bar);
+    assertEquals(2.2, list[1].wibble, 0);
+  }
+
+  @Test
   public void testSetStringReturn() {
     assertEquals(["foo", "bar", "wibble"] as Set, obj.methodWithSetStringReturn())
   }
@@ -972,6 +985,14 @@ public class ApiTest {
     refed2.setString("bar");
     List<RefedInterface1> list = new ArrayList<>(set);
     assertTrue((list.get(0).getString().equals("foo") && list.get(1).getString().equals("bar")) || (list.get(0).getString().equals("bar") && list.get(1).getString().equals("foo")))
+  }
+
+  @Test
+  public void testSetDataObjectReturn() {
+    Set<Map<String, Object>> set = obj.methodWithSetDataObjectReturn();
+    assertEquals(2, set.size());
+    assertTrue(set.contains([foo:"String 1",bar: 1,wibble: 1.1d]));
+    assertTrue(set.contains([foo:"String 2",bar: 2,wibble: 2.2d]));
   }
 
   @Test

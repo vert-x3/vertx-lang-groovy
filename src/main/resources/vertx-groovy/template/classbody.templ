@@ -54,6 +54,8 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)});\n
 			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)});\n
+			@else{method.returnType.args[0].kind == CLASS_DATA_OBJECT}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> (Map<String, Object>)InternalHelper.wrapObject(underpants?.toJson())}) as List;\n
 			@else{method.returnType.args[0].kind == CLASS_API}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{genConstructor(method.returnType.args[0], "underpants")}});\n
 		  @else{}
@@ -65,6 +67,8 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)}) as Set;\n
 			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)}) as Set;\n
+			@else{method.returnType.args[0].kind == CLASS_DATA_OBJECT}
+		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> (Map<String, Object>)InternalHelper.wrapObject(underpants?.toJson())}) as Set;\n
 			@else{method.returnType.args[0].kind == CLASS_API}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{genConstructor(method.returnType.args[0], "underpants")}}) as Set;\n
 			@else{}
