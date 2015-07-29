@@ -425,9 +425,11 @@ public class ApiTest {
   public void testMethodWithHandlerListDataObject() {
     def count = 0
     obj.methodWithHandlerListDataObject({
+      assertTrue(it[0] instanceof Map);
       assertEquals("String 1", it[0].foo);
       assertEquals(1, it[0].bar);
       assertEquals(1.1, it[0].wibble, 0);
+      assertTrue(it[1] instanceof Map);
       assertEquals("String 2", it[1].foo);
       assertEquals(2, it[1].bar);
       assertEquals(2.2, it[1].wibble, 0);
@@ -555,9 +557,11 @@ public class ApiTest {
     def count = 0
     obj.methodWithHandlerAsyncResultListDataObject({
       List<TestDataObject> result = it.result();
+      assertTrue(result[0] instanceof Map);
       assertEquals("String 1", result[0].foo);
       assertEquals(1, result[0].bar);
       assertEquals(1.1, result[0].wibble, 0);
+      assertTrue(result[1] instanceof Map);
       assertEquals("String 2", result[1].foo);
       assertEquals(2, result[1].bar);
       assertEquals(2.2, result[1].wibble, 0);

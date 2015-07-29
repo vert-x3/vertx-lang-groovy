@@ -52,8 +52,8 @@ this.delegate
 			@code{groovyJsonType='List<Object>'}
 		@end{}
 		Handler<@{groovyJsonType}> @{param.name}
-	@else{param.type.kind == CLASS_HANDLER && param.type.args[0].kind.collection && param.type.args[0].args[0].kind.json}
-		@if{param.type.args[0].args[0].kind == CLASS_JSON_OBJECT}
+	@else{param.type.kind == CLASS_HANDLER && param.type.args[0].kind.collection && (param.type.args[0].args[0].kind.json || param.type.args[0].args[0].kind == CLASS_DATA_OBJECT)}
+		@if{param.type.args[0].args[0].kind == CLASS_JSON_OBJECT || param.type.args[0].args[0].kind == CLASS_DATA_OBJECT}
 			@code{groovyJsonType='Map<String, Object>'}
 		@else{}
 			@code{groovyJsonType='List<Object>'}
