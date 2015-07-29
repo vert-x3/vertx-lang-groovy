@@ -855,6 +855,19 @@ public class ApiTest {
   }
 
   @Test
+  public void testDataObjectReturn() {
+    Map<String, Object> r = obj.methodWithDataObjectReturn();
+    assertEquals("foo", r.foo)
+    assertEquals(123, r.bar)
+  }
+
+  @Test
+  public void testDataObjectNullReturn() {
+    Map<String, Object> r = obj.methodWithDataObjectNullReturn();
+    assertEquals(null, r)
+  }
+
+  @Test
   public void testListStringReturn() {
     assertEquals(["foo", "bar", "wibble"], obj.methodWithListStringReturn())
   }

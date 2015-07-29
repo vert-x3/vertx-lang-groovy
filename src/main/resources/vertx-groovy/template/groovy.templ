@@ -287,7 +287,7 @@ this.delegate
 @end{}
 
 @declare{'returnTypeTemplate'}
-	@if{returnType.kind == CLASS_JSON_OBJECT}
+	@if{returnType.kind == CLASS_JSON_OBJECT || returnType.kind == CLASS_DATA_OBJECT}
 		Map<String, Object>
 	@else{returnType.kind == CLASS_JSON_ARRAY}
 		List<Object>

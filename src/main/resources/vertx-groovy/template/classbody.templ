@@ -45,6 +45,9 @@
 		@else{method.returnType.kind == CLASS_JSON_OBJECT}
 			@code{cachedType='Map<String, Object>'}
 		    def ret = (Map<String, Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
+		@else{method.returnType.kind == CLASS_DATA_OBJECT}
+			@code{cachedType='Map<String, Object>'}
+		    def ret = (Map<String, Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method}?.toJson());\n
 		@else{method.returnType.kind == CLASS_JSON_ARRAY}
 			@code{cachedType='List<Object>'}
 		    def ret = (List<Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
