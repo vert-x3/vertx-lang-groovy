@@ -322,6 +322,7 @@ this.delegate
 
 import groovy.transform.CompileStatic\n
 import io.vertx.lang.groovy.InternalHelper\n
+import io.vertx.core.json.JsonObject\n
 @comment{"Generate the imports"}
 @foreach{importedType:importedTypes}
 	@if{importedType.kind == CLASS_API}
