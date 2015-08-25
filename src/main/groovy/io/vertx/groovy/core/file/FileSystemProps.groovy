@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.file;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 /**
  * Represents properties of the file system.
 */

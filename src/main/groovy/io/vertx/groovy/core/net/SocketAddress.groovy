@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.net;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 /**
  * The address of a socket
 */

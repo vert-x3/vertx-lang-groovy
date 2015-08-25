@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.http;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 import io.vertx.groovy.core.metrics.Measured
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler

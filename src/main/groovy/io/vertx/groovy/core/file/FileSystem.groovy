@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.file;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 import java.util.List
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.core.file.OpenOptions

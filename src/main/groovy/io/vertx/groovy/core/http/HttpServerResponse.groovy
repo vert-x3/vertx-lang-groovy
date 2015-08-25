@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.http;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.streams.WriteStream
 import io.vertx.groovy.core.MultiMap
@@ -260,21 +261,25 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * This is a very efficient way to serve files.<p>
    * The actual serve is asynchronous and may not complete until some time after this method has returned.
    * @param filename path to the file to serve
+   * @param offset offset to start serving from
+   * @param length length to serve to
    * @return a reference to this, so the API can be used fluently
    */
-  public HttpServerResponse sendFile(String filename) {
-    this.delegate.sendFile(filename);
+  public HttpServerResponse sendFile(String filename, long offset, long length) {
+    this.delegate.sendFile(filename, offset, length);
     return this;
   }
   /**
-   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} but providing a handler which will be notified once the file has been completely
-   * written to the wire.
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} but providing a handler which will be notified once the file has been
+   * completely written to the wire.
    * @param filename path to the file to serve
+   * @param offset the offset to serve from
+   * @param length the length to serve to
    * @param resultHandler handler that will be called on completion
    * @return a reference to this, so the API can be used fluently
    */
-  public HttpServerResponse sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename, resultHandler);
+  public HttpServerResponse sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
+    this.delegate.sendFile(filename, offset, length, resultHandler);
     return this;
   }
   /**
@@ -289,6 +294,14 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    */
   public boolean ended() {
     def ret = this.delegate.ended();
+    return ret;
+  }
+  /**
+   * @return has the underlying TCP connection corresponding to the request already been closed?
+   * @return 
+   */
+  public boolean closed() {
+    def ret = this.delegate.closed();
     return ret;
   }
   /**

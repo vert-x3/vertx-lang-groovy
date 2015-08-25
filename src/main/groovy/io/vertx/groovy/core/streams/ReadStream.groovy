@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.streams;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 import io.vertx.core.Handler
 /**
  * Represents a stream of items that can be read from.
