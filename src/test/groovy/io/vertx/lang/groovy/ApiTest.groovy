@@ -142,6 +142,31 @@ public class ApiTest {
   }
 
   @Test
+  public void testListOfDataObjectsParam() {
+    def list = [
+            [foo: "hello",
+            bar: 123,
+            wibble: 1.23],
+            [foo: "world",
+             bar: 123,
+             wibble: 1.23]
+    ];
+    obj.methodWithListOfDataObjectsParam(list);
+  }
+
+  @Test
+  public void testSetOfDataObjectsParam() {
+    def set = new LinkedHashSet()
+    set << [foo: "hello",
+             bar: 123,
+             wibble: 1.23]
+    set << [foo: "world",
+             bar: 123,
+             wibble: 1.23]
+    obj.methodWithSetOfDataObjectsParam(set);
+  }
+
+  @Test
   public void testNullDataObjectParam() {
     obj.methodWithNullDataObjectParam(null);
   }

@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.net;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.streams.WriteStream
 import io.vertx.groovy.core.streams.ReadStream
@@ -122,21 +123,25 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * Tell the operating system to stream a file as specified by <code>filename</code> directly from disk to the outgoing connection,
    * bypassing userspace altogether (where supported by the underlying operating system. This is a very efficient way to stream files.
    * @param filename file name of the file to send
+   * @param offset offset
+   * @param length length
    * @return a reference to this, so the API can be used fluently
    */
-  public NetSocket sendFile(String filename) {
-    this.delegate.sendFile(filename);
+  public NetSocket sendFile(String filename, long offset, long length) {
+    this.delegate.sendFile(filename, offset, length);
     return this;
   }
   /**
    * Same as {@link io.vertx.groovy.core.net.NetSocket#sendFile} but also takes a handler that will be called when the send has completed or
    * a failure has occurred
    * @param filename file name of the file to send
+   * @param offset offset
+   * @param length length
    * @param resultHandler handler
    * @return a reference to this, so the API can be used fluently
    */
-  public NetSocket sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename, resultHandler);
+  public NetSocket sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
+    this.delegate.sendFile(filename, offset, length, resultHandler);
     return this;
   }
   /**

@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.streams;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 /**
  * Pumps data from a {@link io.vertx.groovy.core.streams.ReadStream} to a {@link io.vertx.groovy.core.streams.WriteStream} and performs flow control where necessary to
  * prevent the write stream buffer from getting overfull.

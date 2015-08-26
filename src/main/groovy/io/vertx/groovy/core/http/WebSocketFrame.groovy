@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.http;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 import io.vertx.groovy.core.buffer.Buffer
 /**
  * A WebSocket frame that represents either text or binary data.

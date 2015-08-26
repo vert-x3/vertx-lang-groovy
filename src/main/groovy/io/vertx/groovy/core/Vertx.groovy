@@ -17,6 +17,7 @@
 package io.vertx.groovy.core;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 import io.vertx.groovy.core.datagram.DatagramSocket
 import io.vertx.groovy.core.http.HttpServer
 import io.vertx.groovy.core.shareddata.SharedData

@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.buffer;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 import io.vertx.core.shareddata.impl.ClusterSerializable
 /**
  * Most data is shuffled around inside Vert.x using buffers.

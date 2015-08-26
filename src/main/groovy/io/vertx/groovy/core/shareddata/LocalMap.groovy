@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.shareddata;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 /**
  * Local maps can be used to share data safely in a single Vert.x instance.
  * <p>

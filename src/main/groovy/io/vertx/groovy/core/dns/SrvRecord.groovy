@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.dns;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 /**
  * Represent a Service-Record (SRV) which was resolved for a domain.
 */

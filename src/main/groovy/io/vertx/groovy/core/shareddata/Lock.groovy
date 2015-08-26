@@ -17,6 +17,7 @@
 package io.vertx.groovy.core.shareddata;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
+import io.vertx.core.json.JsonObject
 /**
  * An asynchronous exclusive lock which can be obtained from any node in the cluster.
  * <p>
