@@ -125,6 +125,6 @@ public class WebSocketFrame {
     def ret = this.delegate.isFinal();
     return ret;
   }
-  private java.lang.String cached_0;
+  private String cached_0;
   private Buffer cached_1;
 }

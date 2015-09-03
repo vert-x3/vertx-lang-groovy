@@ -171,6 +171,6 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   private MultiMap cached_0;
   private MultiMap cached_1;
-  private java.util.List<java.lang.String> cached_2;
+  private List<String> cached_2;
   private NetSocket cached_3;
 }

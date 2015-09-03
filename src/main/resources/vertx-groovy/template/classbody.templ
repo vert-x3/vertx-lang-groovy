@@ -39,20 +39,15 @@
 		    }\n
 		@end{}
 		@if{method.returnType.kind == CLASS_OBJECT}
-			@code{cachedType=method.returnType.simpleName}
 		    // This cast is cleary flawed\n
 		    def ret = (@{method.returnType.simpleName}) InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
 		@else{method.returnType.kind == CLASS_JSON_OBJECT}
-			@code{cachedType='Map<String, Object>'}
 		    def ret = (Map<String, Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
 		@else{method.returnType.kind == CLASS_DATA_OBJECT}
-			@code{cachedType='Map<String, Object>'}
 		    def ret = (Map<String, Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method}?.toJson());\n
 		@else{method.returnType.kind == CLASS_JSON_ARRAY}
-			@code{cachedType='List<Object>'}
 		    def ret = (List<Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
 		@else{method.returnType.kind == CLASS_LIST}
-			@code{cachedType=method.returnType.name}
 			@if{method.returnType.args[0].kind == CLASS_JSON_OBJECT}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)});\n
 			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
@@ -65,7 +60,6 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 			@end{}
 		@else{method.returnType.kind == CLASS_SET}
-			@code{cachedType=method.returnType.name}
 			@if{method.returnType.args[0].kind == CLASS_JSON_OBJECT}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)}) as Set;\n
 			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
@@ -78,7 +72,6 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 			@end{}
 		@else{method.returnType.kind == CLASS_MAP}
-			@code{cachedType=method.returnType.name}
 			@if{method.returnType.args[1].kind == CLASS_JSON_OBJECT}
 		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, InternalHelper.wrapObject(v)]});\n
 			@else{method.returnType.args[1].kind == CLASS_JSON_ARRAY}
@@ -89,18 +82,15 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 			@end{}
 		@else{method.returnType.kind == CLASS_ENUM}
-			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@else{method.returnType.kind == CLASS_API}
-			@code{cachedType=method.returnType.simpleName}
 		    def ret= InternalHelper.safeCreate(@includeNamed{'invokeDelegate';method=method}, @{genConstructorType(method.returnType.raw)}.class);\n
 		@else{}
-			@code{cachedType=method.returnType.name}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@end{}
 		@if{method.cacheReturn}
 		    cached_@{cacheDecls.size()} = ret;\n
-			@code{cacheDecls.add('private' + (method.staticMethod ? ' static' : '') + ' ' + cachedType + ' cached_' + cacheDecls.size())}
+			@code{cacheDecls.add('private' + (method.staticMethod ? ' static' : '') + ' ' + genConvReturn(method.returnType) + ' cached_' + cacheDecls.size())}
 		@end{}
 		    return ret;\n
 		@end{}
