@@ -55,11 +55,11 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
   }
   /**
    * Write the given {@link io.vertx.groovy.core.buffer.Buffer} to the {@link io.vertx.groovy.core.net.SocketAddress}.
-   * The {@link io.vertx.core.Handler} will be notified once the write completes.
+   * The {@link io.vertx.groovy.core.Handler} will be notified once the write completes.
    * @param packet the {@link io.vertx.groovy.core.buffer.Buffer} to write
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer
-   * @param handler the {@link io.vertx.core.Handler} to notify once the write completes.
+   * @param handler the {@link io.vertx.groovy.core.Handler} to notify once the write completes.
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(Buffer packet, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
@@ -93,7 +93,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @param str the {@link java.lang.String} to write
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer
-   * @param handler the {@link io.vertx.core.Handler} to notify once the write completes.
+   * @param handler the {@link io.vertx.groovy.core.Handler} to notify once the write completes.
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(String str, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
@@ -117,7 +117,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @param enc the charset used for encoding
    * @param port the host port of the remote peer
    * @param host the host address of the remote peer
-   * @param handler the {@link io.vertx.core.Handler} to notify once the write completes.
+   * @param handler the {@link io.vertx.groovy.core.Handler} to notify once the write completes.
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(String str, String enc, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {

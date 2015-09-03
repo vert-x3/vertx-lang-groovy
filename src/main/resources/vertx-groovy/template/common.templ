@@ -78,4 +78,45 @@
   def genConstructor(type, arg) {
     return "new " + genConstructorType(type) + "(" + arg + ")";
   }
+  
+  def genConvReturn(type) {
+    var kind = type.kind;
+    if (kind == CLASS_JSON_OBJECT || kind == CLASS_DATA_OBJECT) {
+      return 'Map<String, Object>';
+    } else if (kind == CLASS_JSON_ARRAY) {
+      return 'List<Object>';
+    } else if (kind == CLASS_LIST) {
+      var eltType = type.args[0];
+      var eltKind = eltType.kind;
+      if (eltKind == CLASS_JSON_OBJECT || eltKind == CLASS_DATA_OBJECT) {
+        return 'List<Map<String, Object>>';
+      } else if (eltKind == CLASS_JSON_ARRAY) {
+        return 'List<List<Object>>';
+      } else {
+        return type.simpleName;
+      }
+    } else if (kind == CLASS_SET) {
+      var eltType = type.args[0];
+      var eltKind = eltType.kind;
+      if (eltKind == CLASS_JSON_OBJECT || eltKind == CLASS_DATA_OBJECT) {
+        return 'Set<Map<String, Object>>';
+      } else if (eltKind == CLASS_JSON_ARRAY) {
+        return 'Set<List<Object>>';
+      } else {
+        return type.simpleName;
+      }
+    } else if (kind == CLASS_MAP) {
+      var valType = type.args[1];
+      var valKind = valType.kind;
+      if (valKind == CLASS_JSON_OBJECT) {
+        return 'Map<String, Map<String, Object>>';
+      } else if (kind == CLASS_JSON_ARRAY) {
+        return 'Map<String, List<Object>>';
+      } else {
+        return type.simpleName;
+      }
+    } else {
+      return type.simpleName;
+    }
+  }
 }

@@ -22,9 +22,9 @@ import java.util.List
 import io.vertx.core.json.JsonObject
 import io.vertx.core.Handler
 /**
- * The execution context of a {@link io.vertx.core.Handler} execution.
+ * The execution context of a {@link io.vertx.groovy.core.Handler} execution.
  * <p>
- * When Vert.x provides an event to a handler or calls the start or stop methods of a {@link io.vertx.core.Verticle},
+ * When Vert.x provides an event to a handler or calls the start or stop methods of a {@link io.vertx.groovy.core.Verticle},
  * the execution is associated with a <code>Context</code>.
  * <p>
  * Usually a context is an *event-loop context* and is tied to a specific event loop thread. So executions for that

@@ -286,40 +286,6 @@ this.delegate
 	@end{}
 @end{}
 
-@declare{'returnTypeTemplate'}
-	@if{returnType.kind == CLASS_JSON_OBJECT || returnType.kind == CLASS_DATA_OBJECT}
-		Map<String, Object>
-	@else{returnType.kind == CLASS_JSON_ARRAY}
-		List<Object>
-	@else{returnType.kind == CLASS_LIST}
-		@if{returnType.args[0].kind == CLASS_JSON_OBJECT || returnType.args[0].kind == CLASS_DATA_OBJECT}
-			List<Map<String, Object>>
-		@else{returnType.args[0].kind == CLASS_JSON_ARRAY}
-			List<List<Object>>
-		@else{}
-			@{returnType.simpleName}
-		@end{}
-	@else{returnType.kind == CLASS_SET}
-		@if{returnType.args[0].kind == CLASS_JSON_OBJECT || returnType.args[0].kind == CLASS_DATA_OBJECT}
-			Set<Map<String, Object>>
-		@else{returnType.args[0].kind == CLASS_JSON_ARRAY}
-			Set<List<Object>>
-		@else{}
-			@{returnType.simpleName}
-		@end{}
-	@else{returnType.kind == CLASS_MAP}
-		@if{returnType.args[1].kind == CLASS_JSON_OBJECT}
-			Map<String, Map<String, Object>>
-		@else{returnType.args[1].kind == CLASS_JSON_ARRAY}
-			Map<String, List<Object>>
-		@else{}
-			@{returnType.simpleName}
-		@end{}
-	@else{}
-		@{returnType.simpleName}
-	@end{}
-@end{}
-
 import groovy.transform.CompileStatic\n
 import io.vertx.lang.groovy.InternalHelper\n
 import io.vertx.core.json.JsonObject\n

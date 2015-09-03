@@ -90,7 +90,7 @@ public class EventBus implements Measured {
    * @param options delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    * @return a reference to this, so the API can be used fluently
    */
-  public <T> EventBus send(String address, Object message, Map<String, Object> options) {
+  public EventBus send(String address, Object message, Map<String, Object> options) {
     this.delegate.send(address, InternalHelper.unwrapObject(message), options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
     return this;
   }
