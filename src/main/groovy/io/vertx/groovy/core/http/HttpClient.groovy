@@ -288,12 +288,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient getNow(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.getNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.getNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Sends an HTTP GET request to the server at the specified host and default port, specifying a response handler to receive
@@ -304,12 +304,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient getNow(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.getNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.getNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Sends an HTTP GET request  to the server at the default host and port, specifying a response handler to receive
@@ -319,12 +319,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient getNow(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.getNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.getNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Create an HTTP POST request to send to the server at the specified host and port.
@@ -540,12 +540,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient headNow(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.headNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.headNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Sends an HTTP HEAD request to the server at the specified host and default port, specifying a response handler to receive
@@ -556,12 +556,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient headNow(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.headNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.headNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Sends an HTTP HEAD request  to the server at the default host and port, specifying a response handler to receive
@@ -571,12 +571,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient headNow(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.headNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.headNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Create an HTTP OPTIONS request to send to the server at the specified host and port.
@@ -690,12 +690,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient optionsNow(int port, String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.optionsNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.optionsNow(port, host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Sends an HTTP OPTIONS request to the server at the specified host and default port, specifying a response handler to receive
@@ -706,12 +706,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient optionsNow(String host, String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.optionsNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.optionsNow(host, requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Sends an HTTP OPTIONS request  to the server at the default host and port, specifying a response handler to receive
@@ -721,12 +721,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient optionsNow(String requestURI, Handler<HttpClientResponse> responseHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.optionsNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
+    this.delegate.optionsNow(requestURI, new Handler<io.vertx.core.http.HttpClientResponse>() {
       public void handle(io.vertx.core.http.HttpClientResponse event) {
         responseHandler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Create an HTTP PUT request to send to the server at the specified host and port.
@@ -941,12 +941,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(int port, String host, String requestURI, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(port, host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket to the host and relative request URI and default port
@@ -956,12 +956,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String host, String requestURI, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket to the specified port, host and relative request URI, and with the specified headers
@@ -973,12 +973,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket to the specified host,relative request UR, and default port and with the specified headers
@@ -989,12 +989,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String host, String requestURI, MultiMap headers, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket to the specified port, host and relative request URI, with the specified headers and using
@@ -1008,12 +1008,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket to the specified host, relative request URI and default port with the specified headers and using
@@ -1026,12 +1026,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String host, String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket to the specified port, host and relative request URI, with the specified headers, using
@@ -1046,12 +1046,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket to the specified host, relative request URI and default port, with the specified headers, using
@@ -1065,12 +1065,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket at the relative request URI using the default host and port
@@ -1079,12 +1079,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String requestURI, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(requestURI, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket at the relative request URI using the default host and port and the specified headers
@@ -1094,12 +1094,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String requestURI, MultiMap headers, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket at the relative request URI using the default host and port, the specified headers and the
@@ -1111,12 +1111,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Connect a WebSocket at the relative request URI using the default host and port, the specified headers, the
@@ -1129,12 +1129,12 @@ public class HttpClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClient websocket(String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+    this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpClient.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Create a WebSocket stream to the specified port, host and relative request URI

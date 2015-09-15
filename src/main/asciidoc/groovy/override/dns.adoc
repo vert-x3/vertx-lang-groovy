@@ -4,7 +4,7 @@ As you saw in previous sections the DnsClient allows you to pass in a Handler wh
 AsyncResult once the query was complete.
 
 In case of an error it will be notified with a DnsException which will
-hole a `DnsResponseCode` that indicate why the resolution failed. This DnsResponseCode
+hole a `link:../../vertx-core/enums.html#DnsResponseCode[DnsResponseCode]` that indicate why the resolution failed. This DnsResponseCode
 can be used to inspect the cause in more detail.
 
 Possible DnsResponseCodes are:
