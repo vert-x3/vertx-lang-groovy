@@ -51,6 +51,11 @@ public class GroovyVerticleFactory implements VerticleFactory {
   }
 
   @Override
+  boolean blockingCreate() {
+    return true;
+  }
+
+  @Override
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) throws Exception {
     verticleName = VerticleFactory.removePrefix(verticleName);
     Object instance;
