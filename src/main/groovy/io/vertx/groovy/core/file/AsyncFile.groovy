@@ -186,4 +186,14 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     this.delegate.setWritePos(writePos);
     return this;
   }
+  /**
+   * Sets the buffer size that will be used to read the data from the file. Changing this value will impact how much
+   * the data will be read at a time from the file system.
+   * @param readBufferSize the buffer size
+   * @return a reference to this, so the API can be used fluently
+   */
+  public AsyncFile setReadBufferSize(int readBufferSize) {
+    this.delegate.setReadBufferSize(readBufferSize);
+    return this;
+  }
 }

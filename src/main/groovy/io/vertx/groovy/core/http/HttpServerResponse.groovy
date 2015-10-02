@@ -23,7 +23,6 @@ import io.vertx.groovy.core.streams.WriteStream
 import io.vertx.groovy.core.MultiMap
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
-import io.vertx.groovy.core.Future
 /**
  * Represents a server-side HTTP response.
  * <p>
@@ -255,6 +254,26 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     this.delegate.end();
   }
   /**
+   * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} using offset @code{0} which means starting from the beginning of the file.
+   * @param filename path to the file to serve
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServerResponse sendFile(String filename) {
+    this.delegate.sendFile(filename);
+    return this;
+  }
+  /**
+   * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} using length @code{Long.MAX_VALUE} which means until the end of the
+   * file.
+   * @param filename path to the file to serve
+   * @param offset offset to start serving from
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServerResponse sendFile(String filename, long offset) {
+    this.delegate.sendFile(filename, offset);
+    return this;
+  }
+  /**
    * Ask the OS to stream a file as specified by <code>filename</code> directly
    * from disk to the outgoing connection, bypassing userspace altogether
    * (where supported by the underlying operating system.
@@ -267,6 +286,29 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    */
   public HttpServerResponse sendFile(String filename, long offset, long length) {
     this.delegate.sendFile(filename, offset, length);
+    return this;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} but providing a handler which will be notified once the file has been completely
+   * written to the wire.
+   * @param filename path to the file to serve
+   * @param resultHandler handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServerResponse sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
+    this.delegate.sendFile(filename, resultHandler);
+    return this;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} but providing a handler which will be notified once the file has been completely
+   * written to the wire.
+   * @param filename path to the file to serve
+   * @param offset the offset to serve from
+   * @param resultHandler handler that will be called on completion
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServerResponse sendFile(String filename, long offset, Handler<AsyncResult<Void>> resultHandler) {
+    this.delegate.sendFile(filename, offset, resultHandler);
     return this;
   }
   /**
@@ -315,17 +357,11 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   /**
    * Provide a handler that will be called just before the headers are written to the wire.<p>
    * This provides a hook allowing you to add any more headers or do any more operations before this occurs.
-   * The handler will be passed a future, when you've completed the work you want to do you should complete (or fail)
-   * the future. This can be done after the handler has returned.
    * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
-  public HttpServerResponse headersEndHandler(Handler<Future<Void>> handler) {
-    this.delegate.headersEndHandler(new Handler<io.vertx.core.Future<java.lang.Void>>() {
-      public void handle(io.vertx.core.Future<java.lang.Void> event) {
-        handler.handle(new io.vertx.groovy.core.Future(event));
-      }
-    });
+  public HttpServerResponse headersEndHandler(Handler<Void> handler) {
+    this.delegate.headersEndHandler(handler);
     return this;
   }
   /**

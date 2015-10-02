@@ -123,7 +123,7 @@ public class CommandLine {
   /**
    * Gets the raw value of the given option. Raw values are the values as given in the user command line.
    * @param option the option (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
-   * @return the value,  if none.
+   * @return the value, <code>null</code> if none.
    */
   public String getRawValueForOption(Map<String, Object> option = [:]) {
     def ret = this.delegate.getRawValueForOption(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
@@ -141,7 +141,7 @@ public class CommandLine {
   /**
    * Gets the raw value of the given argument. Raw values are the values as given in the user command line.
    * @param arg the argument (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
-   * @return the value,  if none.
+   * @return the value, <code>null</code> if none.
    */
   public String getRawValueForArgument(Map<String, Object> arg = [:]) {
     def ret = this.delegate.getRawValueForArgument(arg != null ? new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(arg)) : null);

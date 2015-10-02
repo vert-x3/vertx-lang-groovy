@@ -65,11 +65,11 @@ public class AsyncMap<K,V> {
    * failure will be passed to the handler
    * @param k the key
    * @param v the value
-   * @param timeout the timoeout, in ms
+   * @param ttl The time to live (in ms) for the entry
    * @param completionHandler the handler
    */
-  public void put(K k, V v, long timeout, Handler<AsyncResult<Void>> completionHandler) {
-    ((io.vertx.core.shareddata.AsyncMap) this.delegate).put(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), timeout, completionHandler);
+  public void put(K k, V v, long ttl, Handler<AsyncResult<Void>> completionHandler) {
+    ((io.vertx.core.shareddata.AsyncMap) this.delegate).put(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), ttl, completionHandler);
   }
   /**
    * Put the entry only if there is no entry with the key already present. If key already present then the existing
@@ -96,11 +96,11 @@ public class AsyncMap<K,V> {
    * failure will be passed to the handler
    * @param k the key
    * @param v the value
-   * @param timeout the timeout, in ms
+   * @param ttl The time to live (in ms) for the entry
    * @param completionHandler the handler
    */
-  public void putIfAbsent(K k, V v, long timeout, Handler<AsyncResult<V>> completionHandler) {
-    ((io.vertx.core.shareddata.AsyncMap) this.delegate).putIfAbsent(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), timeout, new Handler<AsyncResult<Object>>() {
+  public void putIfAbsent(K k, V v, long ttl, Handler<AsyncResult<V>> completionHandler) {
+    ((io.vertx.core.shareddata.AsyncMap) this.delegate).putIfAbsent(InternalHelper.unwrapObject(k), InternalHelper.unwrapObject(v), ttl, new Handler<AsyncResult<Object>>() {
       public void handle(AsyncResult<Object> event) {
         AsyncResult<Object> f
         if (event.succeeded()) {

@@ -47,7 +47,7 @@ public class CLI {
   }
   /**
    * Creates an instance of {@link io.vertx.groovy.core.cli.CLI} using the default implementation.
-   * @param name the name of the CLI (must not be )
+   * @param name the name of the CLI (must not be <code>null</code>)
    * @return the created instance of {@link io.vertx.groovy.core.cli.CLI}
    */
   public static CLI create(String name) {
@@ -61,6 +61,16 @@ public class CLI {
    */
   public CommandLine parse(List<String> arguments) {
     def ret= InternalHelper.safeCreate(this.delegate.parse(arguments), io.vertx.groovy.core.cli.CommandLine.class);
+    return ret;
+  }
+  /**
+   * Parses the user command line interface and create a new {@link io.vertx.groovy.core.cli.CommandLine} containing extracting values.
+   * @param arguments the arguments
+   * @param validate enable / disable parsing validation
+   * @return the creates command line
+   */
+  public CommandLine parse(List<String> arguments, boolean validate) {
+    def ret= InternalHelper.safeCreate(this.delegate.parse(arguments, validate), io.vertx.groovy.core.cli.CommandLine.class);
     return ret;
   }
   /**
@@ -137,7 +147,7 @@ public class CLI {
   }
   /**
    * Adds an option.
-   * @param option the option, must not be . (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
+   * @param option the option, must not be <code>null</code>. (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addOption(Map<String, Object> option = [:]) {
@@ -147,7 +157,7 @@ public class CLI {
   /**
    * Adds a set of options. Unlike {@link io.vertx.groovy.core.cli.CLI#setOptions}}, this method does not remove the existing options.
    * The given list is appended to the existing list.
-   * @param options the options, must not be 
+   * @param options the options, must not be <code>null</code>
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addOptions(List<Map<String, Object>> options) {
@@ -156,7 +166,7 @@ public class CLI {
   }
   /**
    * Sets the list of arguments.
-   * @param options the list of options, must not be 
+   * @param options the list of options, must not be <code>null</code>
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setOptions(List<Map<String, Object>> options) {
@@ -173,7 +183,7 @@ public class CLI {
   }
   /**
    * Adds an argument.
-   * @param arg the argument, must not be  (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
+   * @param arg the argument, must not be <code>null</code> (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addArgument(Map<String, Object> arg = [:]) {
@@ -183,7 +193,7 @@ public class CLI {
   /**
    * Adds a set of arguments. Unlike {@link io.vertx.groovy.core.cli.CLI#setArguments}, this method does not remove the existing arguments.
    * The given list is appended to the existing list.
-   * @param args the arguments, must not be 
+   * @param args the arguments, must not be <code>null</code>
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addArguments(List<Map<String, Object>> args) {
@@ -192,7 +202,7 @@ public class CLI {
   }
   /**
    * Sets the list of arguments.
-   * @param args the list of arguments, must not be 
+   * @param args the list of arguments, must not be <code>null</code>
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setArguments(List<Map<String, Object>> args) {
@@ -201,8 +211,8 @@ public class CLI {
   }
   /**
    * Gets an <a href="../../../../../../../cheatsheet/Option.html">Option</a> based on its name (short name, long name or argument name).
-   * @param name the name, must not be 
-   * @return the <a href="../../../../../../../cheatsheet/Option.html">Option</a>,  if not found (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
+   * @param name the name, must not be <code>null</code>
+   * @return the <a href="../../../../../../../cheatsheet/Option.html">Option</a>, <code>null</code> if not found (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
    */
   public Map<String, Object> getOption(String name) {
     def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getOption(name)?.toJson());
@@ -210,8 +220,8 @@ public class CLI {
   }
   /**
    * Gets an <a href="../../../../../../../cheatsheet/Argument.html">Argument</a> based on its name (argument name).
-   * @param name the name of the argument, must not be 
-   * @return the <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>,  if not found. (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
+   * @param name the name of the argument, must not be <code>null</code>
+   * @return the <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>, <code>null</code> if not found. (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
    */
   public Map<String, Object> getArgument(String name) {
     def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getArgument(name)?.toJson());
@@ -220,7 +230,7 @@ public class CLI {
   /**
    * Gets an <a href="../../../../../../../cheatsheet/Argument.html">Argument</a> based on its index.
    * @param index the index, must be positive or zero.
-   * @return the <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>,  if not found. (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
+   * @return the <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>, <code>null</code> if not found. (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
    */
   public Map<String, Object> getArgument(int index) {
     def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getArgument(index)?.toJson());

@@ -949,6 +949,23 @@ public class HttpClient implements Measured {
     return this;
   }
   /**
+   * Connect a WebSocket to the specified port, host and relative request URI
+   * @param port the port
+   * @param host the host
+   * @param requestURI the relative URI
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(int port, String host, String requestURI, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
+  }
+  /**
    * Connect a WebSocket to the host and relative request URI and default port
    * @param host the host
    * @param requestURI the relative URI
@@ -962,6 +979,22 @@ public class HttpClient implements Measured {
       }
     });
     return this;
+  }
+  /**
+   * Connect a WebSocket to the host and relative request URI and default port
+   * @param host the host
+   * @param requestURI the relative URI
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(String host, String requestURI, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
   }
   /**
    * Connect a WebSocket to the specified port, host and relative request URI, and with the specified headers
@@ -981,6 +1014,24 @@ public class HttpClient implements Measured {
     return this;
   }
   /**
+   * Connect a WebSocket to the specified port, host and relative request URI, and with the specified headers
+   * @param port the port
+   * @param host the host
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
+  }
+  /**
    * Connect a WebSocket to the specified host,relative request UR, and default port and with the specified headers
    * @param host the host
    * @param requestURI the relative URI
@@ -995,6 +1046,23 @@ public class HttpClient implements Measured {
       }
     });
     return this;
+  }
+  /**
+   * Connect a WebSocket to the specified host,relative request UR, and default port and with the specified headers
+   * @param host the host
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(String host, String requestURI, MultiMap headers, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
   }
   /**
    * Connect a WebSocket to the specified port, host and relative request URI, with the specified headers and using
@@ -1016,6 +1084,26 @@ public class HttpClient implements Measured {
     return this;
   }
   /**
+   * Connect a WebSocket to the specified port, host and relative request URI, with the specified headers and using
+   * the specified version of WebSockets
+   * @param port the port
+   * @param host the host
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param version the websocket version
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
+  }
+  /**
    * Connect a WebSocket to the specified host, relative request URI and default port with the specified headers and using
    * the specified version of WebSockets
    * @param host the host
@@ -1032,6 +1120,25 @@ public class HttpClient implements Measured {
       }
     });
     return this;
+  }
+  /**
+   * Connect a WebSocket to the specified host, relative request URI and default port with the specified headers and using
+   * the specified version of WebSockets
+   * @param host the host
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param version the websocket version
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(String host, String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
   }
   /**
    * Connect a WebSocket to the specified port, host and relative request URI, with the specified headers, using
@@ -1054,6 +1161,27 @@ public class HttpClient implements Measured {
     return this;
   }
   /**
+   * Connect a WebSocket to the specified port, host and relative request URI, with the specified headers, using
+   * the specified version of WebSockets, and the specified websocket sub protocols
+   * @param port the port
+   * @param host the host
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param version the websocket version
+   * @param subProtocols the subprotocols to use
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(int port, String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(port, host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
+  }
+  /**
    * Connect a WebSocket to the specified host, relative request URI and default port, with the specified headers, using
    * the specified version of WebSockets, and the specified websocket sub protocols
    * @param host the host
@@ -1073,6 +1201,26 @@ public class HttpClient implements Measured {
     return this;
   }
   /**
+   * Connect a WebSocket to the specified host, relative request URI and default port, with the specified headers, using
+   * the specified version of WebSockets, and the specified websocket sub protocols
+   * @param host the host
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param version the websocket version
+   * @param subProtocols the subprotocols to use
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(String host, String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(host, requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
+  }
+  /**
    * Connect a WebSocket at the relative request URI using the default host and port
    * @param requestURI the relative URI
    * @param wsConnect handler that will be called with the websocket when connected
@@ -1085,6 +1233,21 @@ public class HttpClient implements Measured {
       }
     });
     return this;
+  }
+  /**
+   * Connect a WebSocket at the relative request URI using the default host and port
+   * @param requestURI the relative URI
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(String requestURI, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
   }
   /**
    * Connect a WebSocket at the relative request URI using the default host and port and the specified headers
@@ -1100,6 +1263,22 @@ public class HttpClient implements Measured {
       }
     });
     return this;
+  }
+  /**
+   * Connect a WebSocket at the relative request URI using the default host and port and the specified headers
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(String requestURI, MultiMap headers, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
   }
   /**
    * Connect a WebSocket at the relative request URI using the default host and port, the specified headers and the
@@ -1119,6 +1298,24 @@ public class HttpClient implements Measured {
     return this;
   }
   /**
+   * Connect a WebSocket at the relative request URI using the default host and port, the specified headers and the
+   * specified version of WebSockets
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param version the websocket version
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(String requestURI, MultiMap headers, WebsocketVersion version, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
+  }
+  /**
    * Connect a WebSocket at the relative request URI using the default host and port, the specified headers, the
    * specified version of WebSockets and the specified sub protocols
    * @param requestURI the relative URI
@@ -1135,6 +1332,25 @@ public class HttpClient implements Measured {
       }
     });
     return this;
+  }
+  /**
+   * Connect a WebSocket at the relative request URI using the default host and port, the specified headers, the
+   * specified version of WebSockets and the specified sub protocols
+   * @param requestURI the relative URI
+   * @param headers the headers
+   * @param version the websocket version
+   * @param subProtocols the subprotocols
+   * @param wsConnect handler that will be called with the websocket when connected
+   * @param failureHandler handler that will be called if websocekt connection fails
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClient websocket(String requestURI, MultiMap headers, WebsocketVersion version, String subProtocols, Handler<WebSocket> wsConnect, Handler<Throwable> failureHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.websocket(requestURI, (io.vertx.core.MultiMap)headers.getDelegate(), version, subProtocols, new Handler<io.vertx.core.http.WebSocket>() {
+      public void handle(io.vertx.core.http.WebSocket event) {
+        wsConnect.handle(new io.vertx.groovy.core.http.WebSocket(event));
+      }
+    }, failureHandler), io.vertx.groovy.core.http.HttpClient.class);
+    return ret;
   }
   /**
    * Create a WebSocket stream to the specified port, host and relative request URI
