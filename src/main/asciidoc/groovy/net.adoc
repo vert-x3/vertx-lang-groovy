@@ -523,9 +523,10 @@ The password for the trust store should also be provided:
 
 [source,groovy]
 ----
+import io.vertx.core.http.ClientAuth
 def options = [
   ssl:true,
-  clientAuthRequired:true,
+  clientAuth:ClientAuth.REQUIRED,
   trustStoreOptions:[
     path:"/path/to/your/truststore.jks",
     password:"password-of-your-truststore"
@@ -539,10 +540,11 @@ Alternatively you can read the trust store yourself as a buffer and provide that
 
 [source,groovy]
 ----
+import io.vertx.core.http.ClientAuth
 def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.jks")
 def options = [
   ssl:true,
-  clientAuthRequired:true,
+  clientAuth:ClientAuth.REQUIRED,
   trustStoreOptions:[
     value:myTrustStoreAsABuffer,
     password:"password-of-your-truststore"
@@ -557,9 +559,10 @@ extension can also be loaded in a similar fashion than JKS trust stores:
 
 [source,groovy]
 ----
+import io.vertx.core.http.ClientAuth
 def options = [
   ssl:true,
-  clientAuthRequired:true,
+  clientAuth:ClientAuth.REQUIRED,
   pfxTrustOptions:[
     path:"/path/to/your/truststore.pfx",
     password:"password-of-your-truststore"
@@ -573,10 +576,11 @@ Buffer configuration is also supported:
 
 [source,groovy]
 ----
+import io.vertx.core.http.ClientAuth
 def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.pfx")
 def options = [
   ssl:true,
-  clientAuthRequired:true,
+  clientAuth:ClientAuth.REQUIRED,
   pfxTrustOptions:[
     value:myTrustStoreAsABuffer,
     password:"password-of-your-truststore"
@@ -590,9 +594,10 @@ Another way of providing server certificate authority using a list `.pem` files.
 
 [source,groovy]
 ----
+import io.vertx.core.http.ClientAuth
 def options = [
   ssl:true,
-  clientAuthRequired:true,
+  clientAuth:ClientAuth.REQUIRED,
   pemTrustOptions:[
     certPaths:[
       "/path/to/your/server-ca.pem"
@@ -607,10 +612,11 @@ Buffer configuration is also supported:
 
 [source,groovy]
 ----
+import io.vertx.core.http.ClientAuth
 def myCaAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-ca.pfx")
 def options = [
   ssl:true,
-  clientAuthRequired:true,
+  clientAuth:ClientAuth.REQUIRED,
   pemTrustOptions:[
     certValues:[
       myCaAsABuffer
