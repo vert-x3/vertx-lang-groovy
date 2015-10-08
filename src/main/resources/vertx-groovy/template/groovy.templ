@@ -311,11 +311,8 @@ import io.vertx.core.json.JsonObject\n
 public @if{concrete}class@else{}interface@end{} @{helper.getSimpleName(ifaceFQCN)}
 
 @if{concrete}
-	@if{concreteSuperTypes.size() > 0}
-	 extends
-		@foreach{concreteSuperType: concreteSuperTypes}
-		 @{concreteSuperType.simpleName}
-		@end{}
+	@if{concreteSuperType != null}
+	 extends @{concreteSuperType.simpleName}
 	@end{}
 @end{}
 
