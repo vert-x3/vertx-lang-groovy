@@ -310,6 +310,10 @@
               <scope>public</scope>
               <extensions>.groovy</extensions>
               <skipJavadoc>true</skipJavadoc>
+              <!-- Workaround for aggregator -->
+              <additionalSourceDirectories>
+                <additionalSourceDirectory>${project.basedir}/src/main/groovy</additionalSourceDirectory>
+              </additionalSourceDirectories>
             </configuration>
           </execution>
         </executions>
@@ -331,24 +335,6 @@
               <doctype>book</doctype>
               <preserveDirectories>true</preserveDirectories>
               <relativeBaseDir>true</relativeBaseDir>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>add-groovy-source</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${basedir}/src/main/groovy</source>
-              </sources>
             </configuration>
           </execution>
         </executions>
