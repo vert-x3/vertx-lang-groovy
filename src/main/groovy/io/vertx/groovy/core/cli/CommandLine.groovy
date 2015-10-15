@@ -121,6 +121,24 @@ public class CommandLine {
     return ret;
   }
   /**
+   * Gets the raw values of the given option. Raw values are simple "String", not converted to the option type.
+   * @param option the option (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
+   * @return the list of values, empty if none
+   */
+  public List<String> getRawValuesForOption(Map<String, Object> option = [:]) {
+    def ret = this.delegate.getRawValuesForOption(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    return ret;
+  }
+  /**
+   * Gets the raw values of the given argument. Raw values are simple "String", not converted to the argument type.
+   * @param argument the argument (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
+   * @return the list of values, empty if none
+   */
+  public List<String> getRawValuesForArgument(Map<String, Object> argument = [:]) {
+    def ret = this.delegate.getRawValuesForArgument(argument != null ? new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(argument)) : null);
+    return ret;
+  }
+  /**
    * Gets the raw value of the given option. Raw values are the values as given in the user command line.
    * @param option the option (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
    * @return the value, <code>null</code> if none.
@@ -157,12 +175,29 @@ public class CommandLine {
     return ret;
   }
   /**
-   * check whether or not the given option has been seen in the user command line.
+   * Checks whether or not the given option has been seen in the user command line.
    * @param option the option (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
    * @return <code>true</code> if the user command line has used the option
    */
   public boolean isSeenInCommandLine(Map<String, Object> option = [:]) {
     def ret = this.delegate.isSeenInCommandLine(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    return ret;
+  }
+  /**
+   * Checks whether or not the command line is valid, i.e. all constraints from arguments and options have been
+   * satisfied. This method is used when the parser validation is disabled.
+   * @return <code>true</code> if the current {@link io.vertx.groovy.core.cli.CommandLine} object is valid.  otherwise.
+   */
+  public boolean isValid() {
+    def ret = this.delegate.isValid();
+    return ret;
+  }
+  /**
+   * Checks whether or not the user has passed a "help" option and is asking for help.
+   * @return <code>true</code> if the user command line has enabled a "Help" option,  otherwise.
+   */
+  public boolean isAskingForHelp() {
+    def ret = this.delegate.isAskingForHelp();
     return ret;
   }
 }
