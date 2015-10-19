@@ -190,7 +190,7 @@ this.delegate
 			@code{elementKind=elementType.kind}
 			@if{elementKind == CLASS_PRIMITIVE || elementKind == CLASS_BOXED_PRIMITIVE || elementKind == CLASS_STRING}
 				@{param.name}
-			@else{elementKind == CLASS_API || elementKind.json || elementKind == CLASS_DATA_OBJECT}
+			@else{elementKind == CLASS_API || elementKind.json || elementKind == CLASS_DATA_OBJECT || elementKind == CLASS_ENUM}
 				@code{collectionName=eventType.raw.simpleName}
 				@if{elementKind == CLASS_API}
 					@code{toGroovyElement='' + genConstructor(elementType, "it")}
@@ -200,6 +200,9 @@ this.delegate
 					@code{elementJavaType='JsonObject'}
 				@else{elementKind == CLASS_DATA_OBJECT}
 					@code{toGroovyElement='(Map<String, Object>)InternalHelper.wrapObject(it?.toJson())'}
+					@code{elementJavaType=elementType.simpleName}
+				@else{elementKind == CLASS_ENUM}
+					@code{toGroovyElement='it'}
 					@code{elementJavaType=elementType.simpleName}
 				@else{}
 					@code{toGroovyElement='InternalHelper.wrapObject(it)'}
@@ -233,7 +236,7 @@ this.delegate
 				@code{elementKind=elementType.kind}
 				@if{elementKind == CLASS_PRIMITIVE || elementKind == CLASS_BOXED_PRIMITIVE || elementKind == CLASS_STRING}
 					@{param.name}
-				@else{elementKind == CLASS_API || elementKind.json || elementKind == CLASS_DATA_OBJECT}
+				@else{elementKind == CLASS_API || elementKind.json || elementKind == CLASS_DATA_OBJECT || elementKind == CLASS_ENUM}
 					@code{collectionName=resultType.raw.simpleName}
 					@if{elementKind == CLASS_API}
 						@code{toGroovyElement=genConstructor(elementType.raw, "element")}
@@ -247,6 +250,10 @@ this.delegate
 						@code{toGroovyElement='InternalHelper.wrapObject(element)'}
 						@code{elementJavaType='JsonObject'}
 						@code{elementGroovyType='Map<String, Object>'}
+					@else{elementKind == CLASS_ENUM}
+						@code{toGroovyElement='element'}
+						@code{elementJavaType=elementType.simpleName}
+						@code{elementGroovyType=elementType.simpleName}
 					@else{}
 						@code{toGroovyElement='InternalHelper.wrapObject(element)'}
 						@code{elementJavaType='JsonArray'}

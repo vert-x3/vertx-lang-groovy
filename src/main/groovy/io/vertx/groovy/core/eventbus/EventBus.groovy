@@ -238,7 +238,14 @@ public class EventBus implements Measured {
     return ret;
   }
   /**
-   * Close the event bus and release any resources held
+   * Start the event bus. This would not normally be called in user code
+   * @param completionHandler 
+   */
+  public void start(Handler<AsyncResult<Void>> completionHandler) {
+    this.delegate.start(completionHandler);
+  }
+  /**
+   * Close the event bus and release any resources held. This would not normally be called in user code
    * @param completionHandler may be <code>null</code>
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {

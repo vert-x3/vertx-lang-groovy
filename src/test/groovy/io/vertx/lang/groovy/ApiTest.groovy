@@ -817,7 +817,7 @@ public class ApiTest {
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
       (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
       (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2],
-      (List<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]])
+      (List<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (List<TestEnum>)[TestEnum.JULIEN,TestEnum.TIM])
   }
 
   @Test
@@ -829,7 +829,7 @@ public class ApiTest {
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
       (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
       (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2],
-      (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]])
+      (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN])
   }
 
   @Test
@@ -842,6 +842,46 @@ public class ApiTest {
       (Map<String, Short>)[foo: (short)12, eek: (short)13],
       (Map<String, Integer>)[foo: 1234, eek: 1345], (Map<String, Long>)[foo: 123l, eek: 456l], (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
       (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]], (Map<String, RefedInterface1>)[foo: refed1, eek: refed2])
+  }
+
+  @Test
+  public void testMethodWithHandlerListEnum() {
+    def count = 0
+    obj.methodWithHandlerListEnum({
+      assertEquals([TestEnum.TIM, TestEnum.JULIEN], it);
+      count++;
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerSetEnum() {
+    def count = 0
+    obj.methodWithHandlerSetEnum({
+      assertEquals([TestEnum.TIM, TestEnum.JULIEN] as Set, it);
+      count++;
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultListEnum() {
+    def count = 0
+    obj.methodWithHandlerAsyncResultListEnum({
+      assertEquals([TestEnum.TIM, TestEnum.JULIEN], it.result());
+      count++;
+    });
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultSetEnum() {
+    def count = 0
+    obj.methodWithHandlerAsyncResultSetEnum({
+      assertEquals([TestEnum.TIM, TestEnum.JULIEN] as Set, it.result());
+      count++;
+    });
+    assertEquals(1, count);
   }
 
   // Returns
@@ -1247,6 +1287,16 @@ public class ApiTest {
       checker.assertAsyncResult([[foo: "hello"], [bar: "bye"]], it)
     });
     assertEquals(2, checker.count);
+  }
+
+  @Test
+  public void testMethodWithListEnumReturn() {
+    assertEquals([TestEnum.JULIEN,TestEnum.TIM], obj.methodWithListEnumReturn());
+  }
+
+  @Test
+  public void testMethodWithSetEnumReturn() {
+    assertEquals([TestEnum.JULIEN,TestEnum.TIM] as Set, obj.methodWithSetEnumReturn());
   }
 
   @Test
