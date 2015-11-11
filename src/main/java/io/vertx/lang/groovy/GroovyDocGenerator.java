@@ -1,7 +1,10 @@
 package io.vertx.lang.groovy;
 
-import io.vertx.codegen.ClassKind;
-import io.vertx.codegen.TypeInfo;
+import io.vertx.codegen.type.ClassKind;
+import io.vertx.codegen.type.ApiTypeInfo;
+import io.vertx.codegen.type.EnumTypeInfo;
+import io.vertx.codegen.type.TypeInfo;
+import io.vertx.codegen.type.TypeMirrorFactory;
 import io.vertx.codetrans.CodeTranslator;
 import io.vertx.codetrans.lang.groovy.GroovyLang;
 import io.vertx.docgen.Coordinate;
@@ -22,13 +25,13 @@ import java.util.List;
  */
 public class GroovyDocGenerator implements DocGenerator {
 
-  private TypeInfo.Factory factory;
+  private TypeMirrorFactory factory;
   private CodeTranslator translator;
   private ProcessingEnvironment env;
 
   @Override
   public void init(ProcessingEnvironment processingEnv) {
-    factory = new TypeInfo.Factory(processingEnv.getElementUtils(), processingEnv.getTypeUtils());
+    factory = new TypeMirrorFactory(processingEnv.getElementUtils(), processingEnv.getTypeUtils());
     translator = new CodeTranslator(processingEnv);
     env = processingEnv;
   }
@@ -58,7 +61,7 @@ public class GroovyDocGenerator implements DocGenerator {
       System.out.println("Could not resolve doc link for type " + elt.getQualifiedName());
       return null;
     }
-    if (type.getKind() == ClassKind.ENUM && ((TypeInfo.Class.Enum) type).isGen()) {
+    if (type.getKind() == ClassKind.ENUM && ((EnumTypeInfo) type).isGen()) {
       String baselink;
       if (coordinate == null) {
         baselink = "../";
@@ -81,7 +84,7 @@ public class GroovyDocGenerator implements DocGenerator {
       if (coordinate != null) {
         baselink = "../../" + coordinate.getArtifactId() + "/groovy/";
       }
-      TypeInfo.Class.Api api = (TypeInfo.Class.Api) type.getRaw();
+      ApiTypeInfo api = (ApiTypeInfo) type.getRaw();
       return baselink + "groovydoc/" + api.translateName("groovy").replace('.', '/') + ".html";
     }
     return null;

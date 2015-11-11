@@ -74,7 +74,7 @@ public class Future<T> {
    * @return true if completed, false if not
    */
   public boolean isComplete() {
-    def ret = ((io.vertx.core.Future) this.delegate).isComplete();
+    def ret = this.delegate.isComplete();
     return ret;
   }
   /**
@@ -85,7 +85,7 @@ public class Future<T> {
    * @param handler the Handler that will be called with the result
    */
   public void setHandler(Handler<AsyncResult<T>> handler) {
-    ((io.vertx.core.Future) this.delegate).setHandler(new Handler<AsyncResult<Object>>() {
+    this.delegate.setHandler(new Handler<AsyncResult<Object>>() {
       public void handle(AsyncResult<Object> event) {
         AsyncResult<Object> f
         if (event.succeeded()) {
@@ -102,19 +102,19 @@ public class Future<T> {
    * @param result the result
    */
   public void complete(T result) {
-    ((io.vertx.core.Future) this.delegate).complete(InternalHelper.unwrapObject(result));
+    this.delegate.complete(InternalHelper.unwrapObject(result));
   }
   /**
    * Set a null result. Any handler will be called, if there is one, and the future will be marked as completed.
    */
   public void complete() {
-    ((io.vertx.core.Future) this.delegate).complete();
+    this.delegate.complete();
   }
   /**
    * Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.
    * @param failureMessage the failure message
    */
   public void fail(String failureMessage) {
-    ((io.vertx.core.Future) this.delegate).fail(failureMessage);
+    this.delegate.fail(failureMessage);
   }
 }

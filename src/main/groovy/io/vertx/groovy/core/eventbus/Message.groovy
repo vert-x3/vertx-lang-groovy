@@ -46,7 +46,7 @@ public class Message<T> {
    * @return 
    */
   public String address() {
-    def ret = ((io.vertx.core.eventbus.Message) this.delegate).address();
+    def ret = this.delegate.address();
     return ret;
   }
   /**
@@ -54,7 +54,7 @@ public class Message<T> {
    * @return the headers
    */
   public MultiMap headers() {
-    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.Message) this.delegate).headers(), io.vertx.groovy.core.MultiMap.class);
+    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.groovy.core.MultiMap.class);
     return ret;
   }
   /**
@@ -66,7 +66,7 @@ public class Message<T> {
       return cached_0;
     }
     // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(((io.vertx.core.eventbus.Message) this.delegate).body());
+    def ret = (T) InternalHelper.wrapObject(this.delegate.body());
     cached_0 = ret;
     return ret;
   }
@@ -75,7 +75,7 @@ public class Message<T> {
    * @return the reply address, or null, if message was sent without a reply handler.
    */
   public String replyAddress() {
-    def ret = ((io.vertx.core.eventbus.Message) this.delegate).replyAddress();
+    def ret = this.delegate.replyAddress();
     return ret;
   }
   /**
@@ -87,7 +87,7 @@ public class Message<T> {
    * @param message the message to reply with.
    */
   public void reply(Object message) {
-    ((io.vertx.core.eventbus.Message) this.delegate).reply(InternalHelper.unwrapObject(message));
+    this.delegate.reply(InternalHelper.unwrapObject(message));
   }
   /**
    * The same as <code>reply(R message)</code> but you can specify handler for the reply - i.e.
@@ -96,7 +96,7 @@ public class Message<T> {
    * @param replyHandler the reply handler for the reply.
    */
   public <R> void reply(Object message, Handler<AsyncResult<Message<R>>> replyHandler) {
-    ((io.vertx.core.eventbus.Message) this.delegate).reply(InternalHelper.unwrapObject(message), new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+    this.delegate.reply(InternalHelper.unwrapObject(message), new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
       public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> event) {
         AsyncResult<Message<Object>> f
         if (event.succeeded()) {
@@ -114,7 +114,7 @@ public class Message<T> {
    * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    */
   public void reply(Object message, Map<String, Object> options) {
-    ((io.vertx.core.eventbus.Message) this.delegate).reply(InternalHelper.unwrapObject(message), options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    this.delegate.reply(InternalHelper.unwrapObject(message), options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
   /**
    * The same as <code>reply(R message, DeliveryOptions)</code> but you can specify handler for the reply - i.e.
@@ -124,7 +124,7 @@ public class Message<T> {
    * @param replyHandler the reply handler for the reply.
    */
   public <R> void reply(Object message, Map<String, Object> options, Handler<AsyncResult<Message<R>>> replyHandler) {
-    ((io.vertx.core.eventbus.Message) this.delegate).reply(InternalHelper.unwrapObject(message), options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+    this.delegate.reply(InternalHelper.unwrapObject(message), options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
       public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> event) {
         AsyncResult<Message<Object>> f
         if (event.succeeded()) {
@@ -145,7 +145,7 @@ public class Message<T> {
    * @param message A message to pass back to the sender
    */
   public void fail(int failureCode, String message) {
-    ((io.vertx.core.eventbus.Message) this.delegate).fail(failureCode, message);
+    this.delegate.fail(failureCode, message);
   }
   private T cached_0;
 }

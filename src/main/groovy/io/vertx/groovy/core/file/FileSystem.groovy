@@ -198,8 +198,8 @@ public class FileSystem {
   /**
    * Change the ownership on the file represented by <code>path</code> to <code>user</code> and {code group}, asynchronously.
    * @param path the path to the file
-   * @param user the user name
-   * @param group the user group
+   * @param user the user name, <code>null</code> will not change the user name
+   * @param group the user group, <code>null</code> will not change the user group name
    * @param handler the handler that will be called on completion
    * @return a reference to this, so the API can be used fluently
    */
@@ -208,7 +208,7 @@ public class FileSystem {
     return this;
   }
   /**
-   * Blocking version of {@link io.vertx.groovy.core.file.FileSystem#chown}
+   * Blocking version of 
    *
    * @param path 
    * @param user 

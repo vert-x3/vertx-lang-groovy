@@ -49,7 +49,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Return the request stream for the server. As HTTP requests are received by the server,
-   * instances of {@link io.vertx.groovy.core.http.HttpServerRequest} will be created and passed to the stream {@link io.vertx.groovy.core.streams.ReadStream#handler}.
+   * instances of {@link io.vertx.groovy.core.http.HttpServerRequest} will be created and passed to the stream .
    * @return the request stream
    */
   public HttpServerRequestStream requestStream() {
@@ -72,7 +72,7 @@ public class HttpServer implements Measured {
   }
   /**
    * Return the websocket stream for the server. If a websocket connect handshake is successful a
-   * new {@link io.vertx.groovy.core.http.ServerWebSocket} instance will be created and passed to the stream {@link io.vertx.groovy.core.streams.ReadStream#handler}.
+   * new {@link io.vertx.groovy.core.http.ServerWebSocket} instance will be created and passed to the stream .
    * @return the websocket stream
    */
   public ServerWebSocketStream websocketStream() {

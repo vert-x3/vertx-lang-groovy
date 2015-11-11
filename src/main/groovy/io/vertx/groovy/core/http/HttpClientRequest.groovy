@@ -201,7 +201,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * Forces the head of the request to be written before {@link io.vertx.groovy.core.http.HttpClientRequest#end} is called on the request or any data is
    * written to it.
    * <p>
-   * This is normally used to implement HTTP 100-continue handling, see {@link io.vertx.groovy.core.http.HttpClientRequest#continueHandler} for
+   * This is normally used to implement HTTP 100-continue handling, see  for
    * more information.
    * @return a reference to this, so the API can be used fluently
    */

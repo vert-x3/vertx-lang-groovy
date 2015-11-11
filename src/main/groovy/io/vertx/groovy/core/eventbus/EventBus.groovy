@@ -237,18 +237,4 @@ public class EventBus implements Measured {
     def ret= InternalHelper.safeCreate(this.delegate.publisher(address, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
-  /**
-   * Start the event bus. This would not normally be called in user code
-   * @param completionHandler 
-   */
-  public void start(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.start(completionHandler);
-  }
-  /**
-   * Close the event bus and release any resources held. This would not normally be called in user code
-   * @param completionHandler may be <code>null</code>
-   */
-  public void close(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.close(completionHandler);
-  }
 }

@@ -70,7 +70,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public ReadStream<T> bodyStream() {
-    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.MessageConsumer) this.delegate).bodyStream(), io.vertx.groovy.core.streams.ReadStreamImpl.class);
+    def ret= InternalHelper.safeCreate(this.delegate.bodyStream(), io.vertx.groovy.core.streams.ReadStreamImpl.class);
     return ret;
   }
   /**
@@ -78,7 +78,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public boolean isRegistered() {
-    def ret = ((io.vertx.core.eventbus.MessageConsumer) this.delegate).isRegistered();
+    def ret = this.delegate.isRegistered();
     return ret;
   }
   /**
@@ -86,7 +86,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public String address() {
-    def ret = ((io.vertx.core.eventbus.MessageConsumer) this.delegate).address();
+    def ret = this.delegate.address();
     return ret;
   }
   /**
@@ -97,7 +97,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return this registration
    */
   public MessageConsumer<T> setMaxBufferedMessages(int maxBufferedMessages) {
-    def ret= InternalHelper.safeCreate(((io.vertx.core.eventbus.MessageConsumer) this.delegate).setMaxBufferedMessages(maxBufferedMessages), io.vertx.groovy.core.eventbus.MessageConsumer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.setMaxBufferedMessages(maxBufferedMessages), io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**
@@ -105,7 +105,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public int getMaxBufferedMessages() {
-    def ret = ((io.vertx.core.eventbus.MessageConsumer) this.delegate).getMaxBufferedMessages();
+    def ret = this.delegate.getMaxBufferedMessages();
     return ret;
   }
   /**
@@ -113,19 +113,19 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @param completionHandler the completion handler
    */
   public void completionHandler(Handler<AsyncResult<Void>> completionHandler) {
-    ((io.vertx.core.eventbus.MessageConsumer) this.delegate).completionHandler(completionHandler);
+    this.delegate.completionHandler(completionHandler);
   }
   /**
    * Unregisters the handler which created this registration
    */
   public void unregister() {
-    ((io.vertx.core.eventbus.MessageConsumer) this.delegate).unregister();
+    this.delegate.unregister();
   }
   /**
    * Unregisters the handler which created this registration
    * @param completionHandler the handler called when the unregister is done. For example in a cluster when all nodes of the event bus have been unregistered.
    */
   public void unregister(Handler<AsyncResult<Void>> completionHandler) {
-    ((io.vertx.core.eventbus.MessageConsumer) this.delegate).unregister(completionHandler);
+    this.delegate.unregister(completionHandler);
   }
 }

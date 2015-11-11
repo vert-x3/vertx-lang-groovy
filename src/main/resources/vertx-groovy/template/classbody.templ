@@ -25,7 +25,7 @@
 	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeParam:method.typeParams}@{typeParam.name}@end{', '}> @end{}@{genConvReturn(method.returnType)} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultDataObject=defaultDataObjectMap[method]}@end{', '}) {\n
 	@if{method.fluent}
 	    @includeNamed{'invokeDelegate';method=method};\n
-			@if{method.returnType instanceof io.vertx.codegen.TypeInfo$Variable}
+			@if{method.returnType.variable}
 	    return (@{method.returnType.name}) this;\n
 			@else{}
 	    return this;\n

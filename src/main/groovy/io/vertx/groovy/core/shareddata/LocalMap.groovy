@@ -43,7 +43,7 @@ public class LocalMap<K,V> {
    */
   public V get(K key) {
     // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(((io.vertx.core.shareddata.LocalMap) this.delegate).get(InternalHelper.unwrapObject(key)));
+    def ret = (V) InternalHelper.wrapObject(this.delegate.get(InternalHelper.unwrapObject(key)));
     return ret;
   }
   /**
@@ -54,7 +54,7 @@ public class LocalMap<K,V> {
    */
   public V put(K key, V value) {
     // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(((io.vertx.core.shareddata.LocalMap) this.delegate).put(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(value)));
+    def ret = (V) InternalHelper.wrapObject(this.delegate.put(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(value)));
     return ret;
   }
   /**
@@ -64,21 +64,21 @@ public class LocalMap<K,V> {
    */
   public V remove(K key) {
     // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(((io.vertx.core.shareddata.LocalMap) this.delegate).remove(InternalHelper.unwrapObject(key)));
+    def ret = (V) InternalHelper.wrapObject(this.delegate.remove(InternalHelper.unwrapObject(key)));
     return ret;
   }
   /**
    * Clear all entries in the map
    */
   public void clear() {
-    ((io.vertx.core.shareddata.LocalMap) this.delegate).clear();
+    this.delegate.clear();
   }
   /**
    * Get the size of the map
    * @return the number of entries in the map
    */
   public int size() {
-    def ret = ((io.vertx.core.shareddata.LocalMap) this.delegate).size();
+    def ret = this.delegate.size();
     return ret;
   }
   /**
@@ -86,7 +86,7 @@ public class LocalMap<K,V> {
    * @return 
    */
   public boolean isEmpty() {
-    def ret = ((io.vertx.core.shareddata.LocalMap) this.delegate).isEmpty();
+    def ret = this.delegate.isEmpty();
     return ret;
   }
   /**
@@ -97,7 +97,7 @@ public class LocalMap<K,V> {
    */
   public V putIfAbsent(K key, V value) {
     // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(((io.vertx.core.shareddata.LocalMap) this.delegate).putIfAbsent(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(value)));
+    def ret = (V) InternalHelper.wrapObject(this.delegate.putIfAbsent(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(value)));
     return ret;
   }
   /**
@@ -107,7 +107,7 @@ public class LocalMap<K,V> {
    * @return true if removed
    */
   public boolean removeIfPresent(K key, V value) {
-    def ret = ((io.vertx.core.shareddata.LocalMap) this.delegate).removeIfPresent(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(value));
+    def ret = this.delegate.removeIfPresent(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(value));
     return ret;
   }
   /**
@@ -118,7 +118,7 @@ public class LocalMap<K,V> {
    * @return true if removed
    */
   public boolean replaceIfPresent(K key, V oldValue, V newValue) {
-    def ret = ((io.vertx.core.shareddata.LocalMap) this.delegate).replaceIfPresent(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(oldValue), InternalHelper.unwrapObject(newValue));
+    def ret = this.delegate.replaceIfPresent(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(oldValue), InternalHelper.unwrapObject(newValue));
     return ret;
   }
   /**
@@ -129,13 +129,13 @@ public class LocalMap<K,V> {
    */
   public V replace(K key, V value) {
     // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(((io.vertx.core.shareddata.LocalMap) this.delegate).replace(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(value)));
+    def ret = (V) InternalHelper.wrapObject(this.delegate.replace(InternalHelper.unwrapObject(key), InternalHelper.unwrapObject(value)));
     return ret;
   }
   /**
    * Close and release the map
    */
   public void close() {
-    ((io.vertx.core.shareddata.LocalMap) this.delegate).close();
+    this.delegate.close();
   }
 }

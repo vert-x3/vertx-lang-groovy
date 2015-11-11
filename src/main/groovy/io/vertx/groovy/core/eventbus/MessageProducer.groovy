@@ -64,7 +64,7 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @return this producer object
    */
   public MessageProducer<T> deliveryOptions(Map<String, Object> options = [:]) {
-    ((io.vertx.core.eventbus.MessageProducer) this.delegate).deliveryOptions(options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    this.delegate.deliveryOptions(options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
     return this;
   }
   /**
@@ -72,7 +72,7 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @return 
    */
   public String address() {
-    def ret = ((io.vertx.core.eventbus.MessageProducer) this.delegate).address();
+    def ret = this.delegate.address();
     return ret;
   }
 }
