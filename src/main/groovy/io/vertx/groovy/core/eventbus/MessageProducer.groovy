@@ -20,6 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
 import io.vertx.core.eventbus.DeliveryOptions
 import io.vertx.groovy.core.streams.WriteStream
+import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
  * Represents a stream of message that can be written to.
@@ -40,6 +41,29 @@ public class MessageProducer<T> implements WriteStream<T> {
    */
   public boolean writeQueueFull() {
     def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
+    return ret;
+  }
+  /**
+   * Synonym for {@link io.vertx.groovy.core.eventbus.MessageProducer#write}.
+   * @param message the message to send
+   * @return reference to this for fluency
+   */
+  public MessageProducer<T> send(T message) {
+    def ret= InternalHelper.safeCreate(this.delegate.send(InternalHelper.unwrapObject(message)), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    return ret;
+  }
+  public <R> MessageProducer<T> send(T message, Handler<AsyncResult<Message<R>>> replyHandler) {
+    def ret= InternalHelper.safeCreate(this.delegate.send(InternalHelper.unwrapObject(message), new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> event) {
+        AsyncResult<Message<Object>> f
+        if (event.succeeded()) {
+          f = InternalHelper.<Message<Object>>result(new Message<Object>(event.result()))
+        } else {
+          f = InternalHelper.<Message<Object>>failure(event.cause())
+        }
+        replyHandler.handle(f)
+      }
+    }), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   public MessageProducer<T> exceptionHandler(Handler<Throwable> handler) {
@@ -74,5 +98,8 @@ public class MessageProducer<T> implements WriteStream<T> {
   public String address() {
     def ret = this.delegate.address();
     return ret;
+  }
+  public void close() {
+    this.delegate.close();
   }
 }

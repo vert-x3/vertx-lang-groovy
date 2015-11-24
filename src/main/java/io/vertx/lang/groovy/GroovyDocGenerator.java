@@ -80,12 +80,8 @@ public class GroovyDocGenerator implements DocGenerator {
       return baselink + "dataobjects.html#" + elt.getSimpleName().toString();
     }
     if (type.getKind() == ClassKind.API) {
-      String baselink = "";
-      if (coordinate != null) {
-        baselink = "../../" + coordinate.getArtifactId() + "/groovy/";
-      }
       ApiTypeInfo api = (ApiTypeInfo) type.getRaw();
-      return baselink + "groovydoc/" + api.translateName("groovy").replace('.', '/') + ".html";
+      return "../../groovydoc/" + api.translateName("groovy").replace('.', '/') + ".html";
     }
     return null;
   }
