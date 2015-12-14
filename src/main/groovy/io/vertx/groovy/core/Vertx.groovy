@@ -425,6 +425,9 @@ public class Vertx implements Measured {
    * A <code>Future</code> instance is passed into <code>blockingCodeHandler</code>. When the blocking code successfully completes,
    * the handler should call the {@link io.vertx.groovy.core.Future#complete} or {@link io.vertx.groovy.core.Future#complete} method, or the {@link io.vertx.groovy.core.Future#fail}
    * method if it failed.
+   * <p>
+   * In the <code>blockingCodeHandler</code> the current context remains the original context and therefore any task
+   * scheduled in the <code>blockingCodeHandler</code> will be executed on the this context and not on the worker thread.
    * @param blockingCodeHandler handler representing the blocking code to run
    * @param ordered if true then if executeBlocking is called several times on the same context, the executions for that context will be executed serially, not in parallel. if false then they will be no ordering guarantees
    * @param resultHandler handler that will be called when the blocking code is complete

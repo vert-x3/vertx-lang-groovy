@@ -35,6 +35,21 @@ public class PacketWritestream implements WriteStream<Buffer> {
     return delegate;
   }
   /**
+   * Ends the stream.
+   * <p>
+   * Once the stream has ended, it cannot be used any more.
+   */
+  public void end() {
+    ((io.vertx.core.streams.WriteStream) this.delegate).end();
+  }
+  /**
+   * Same as {@link io.vertx.groovy.core.streams.WriteStream#end} but writes some data to the stream before ending.
+   * @param t 
+   */
+  public void end(Buffer t) {
+    ((io.vertx.core.streams.WriteStream) this.delegate).end((io.vertx.core.buffer.Buffer)t.getDelegate());
+  }
+  /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.datagram.PacketWritestream#setWriteQueueMaxSize}
    * @return true if write queue is full
    */

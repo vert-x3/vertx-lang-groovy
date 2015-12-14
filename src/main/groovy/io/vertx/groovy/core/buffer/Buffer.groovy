@@ -18,7 +18,9 @@ package io.vertx.groovy.core.buffer;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
+import io.vertx.core.json.JsonArray
 import io.vertx.core.shareddata.impl.ClusterSerializable
+import io.vertx.core.json.JsonObject
 /**
  * Most data is shuffled around inside Vert.x using buffers.
  * <p>
@@ -77,12 +79,36 @@ public class Buffer {
     return ret;
   }
   /**
+   * Returns a <code>String</code> representation of the Buffer with the <code>UTF-8</code>encoding
+   * @return 
+   */
+  public String toString() {
+    def ret = this.delegate.toString();
+    return ret;
+  }
+  /**
    * Returns a <code>String</code> representation of the Buffer with the encoding specified by <code>enc</code>
    * @param enc 
    * @return 
    */
   public String toString(String enc) {
     def ret = this.delegate.toString(enc);
+    return ret;
+  }
+  /**
+   * Returns a Json object representation of the Buffer
+   * @return 
+   */
+  public Map<String, Object> toJsonObject() {
+    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.toJsonObject());
+    return ret;
+  }
+  /**
+   * Returns a Json array representation of the Buffer
+   * @return 
+   */
+  public List<Object> toJsonArray() {
+    def ret = (List<Object>)InternalHelper.wrapObject(this.delegate.toJsonArray());
     return ret;
   }
   /**

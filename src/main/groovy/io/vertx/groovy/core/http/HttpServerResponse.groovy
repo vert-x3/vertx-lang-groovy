@@ -242,7 +242,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @param chunk the buffer to write before ending the response
    */
   public void end(Buffer chunk) {
-    this.delegate.end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerResponse) this.delegate).end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
   }
   /**
    * Ends the response. If no data has been written to the response body,
@@ -251,7 +251,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * Once the response has ended, it cannot be used any more.
    */
   public void end() {
-    this.delegate.end();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerResponse) this.delegate).end();
   }
   /**
    * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} using offset @code{0} which means starting from the beginning of the file.
@@ -374,6 +374,14 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   public HttpServerResponse bodyEndHandler(Handler<Void> handler) {
     this.delegate.bodyEndHandler(handler);
     return this;
+  }
+  /**
+   * @return the total number of bytes written for the body of the response.
+   * @return 
+   */
+  public long bytesWritten() {
+    def ret = this.delegate.bytesWritten();
+    return ret;
   }
   private MultiMap cached_0;
   private MultiMap cached_1;

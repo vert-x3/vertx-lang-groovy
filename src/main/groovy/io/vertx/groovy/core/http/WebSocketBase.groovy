@@ -32,6 +32,7 @@ import io.vertx.groovy.core.net.SocketAddress
 @CompileStatic
 public interface WebSocketBase extends ReadStream<Buffer>,  WriteStream<Buffer> {
   public Object getDelegate();
+  void end(Buffer t);
   boolean writeQueueFull();
   WebSocketBase exceptionHandler(Handler<Throwable> handler);
   WebSocketBase handler(Handler<Buffer> handler);
@@ -49,6 +50,7 @@ public interface WebSocketBase extends ReadStream<Buffer>,  WriteStream<Buffer> 
   WebSocketBase writeBinaryMessage(Buffer data);
   WebSocketBase closeHandler(Handler<Void> handler);
   WebSocketBase frameHandler(Handler<WebSocketFrame> handler);
+  void end();
   void close();
   SocketAddress remoteAddress();
   SocketAddress localAddress();
@@ -62,6 +64,13 @@ class WebSocketBaseImpl implements WebSocketBase {
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * Same as {@link io.vertx.groovy.core.http.WebSocketBase#end} but writes some data to the stream before ending.
+   * @param t 
+   */
+  public void end(Buffer t) {
+    ((io.vertx.core.streams.WriteStream) this.delegate).end((io.vertx.core.buffer.Buffer)t.getDelegate());
   }
   /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.WebSocketBase#setWriteQueueMaxSize}
@@ -191,6 +200,12 @@ class WebSocketBaseImpl implements WebSocketBase {
       }
     });
     return this;
+  }
+  /**
+   * Calls {@link io.vertx.groovy.core.http.WebSocketBase#close}
+   */
+  public void end() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketBase) this.delegate).end();
   }
   /**
    * Close the WebSocket.

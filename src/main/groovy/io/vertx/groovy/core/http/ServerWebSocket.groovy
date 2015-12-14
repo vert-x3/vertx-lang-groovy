@@ -38,6 +38,13 @@ public class ServerWebSocket implements WebSocketBase {
     return delegate;
   }
   /**
+   * Same as {@link io.vertx.groovy.core.http.WebSocketBase#end} but writes some data to the stream before ending.
+   * @param t 
+   */
+  public void end(Buffer t) {
+    ((io.vertx.core.streams.WriteStream) this.delegate).end((io.vertx.core.buffer.Buffer)t.getDelegate());
+  }
+  /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.ServerWebSocket#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
@@ -70,6 +77,12 @@ public class ServerWebSocket implements WebSocketBase {
   public String textHandlerID() {
     def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).textHandlerID();
     return ret;
+  }
+  /**
+   * Calls {@link io.vertx.groovy.core.http.WebSocketBase#close}
+   */
+  public void end() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketBase) this.delegate).end();
   }
   /**
    * Close the WebSocket.

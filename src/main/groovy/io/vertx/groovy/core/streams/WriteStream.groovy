@@ -31,6 +31,8 @@ public interface WriteStream<T> extends StreamBase {
   public Object getDelegate();
   WriteStream<T> exceptionHandler(Handler<Throwable> handler);
   WriteStream<T> write(T data);
+  void end();
+  void end(T t);
   WriteStream<T> setWriteQueueMaxSize(int maxSize);
   boolean writeQueueFull();
   WriteStream<T> drainHandler(Handler<Void> handler);
@@ -64,6 +66,21 @@ class WriteStreamImpl<T> implements WriteStream<T> {
   public WriteStream<T> write(T data) {
     ((io.vertx.core.streams.WriteStream) this.delegate).write(InternalHelper.unwrapObject(data));
     return this;
+  }
+  /**
+   * Ends the stream.
+   * <p>
+   * Once the stream has ended, it cannot be used any more.
+   */
+  public void end() {
+    ((io.vertx.core.streams.WriteStream) this.delegate).end();
+  }
+  /**
+   * Same as {@link io.vertx.groovy.core.streams.WriteStream#end} but writes some data to the stream before ending.
+   * @param t 
+   */
+  public void end(T t) {
+    ((io.vertx.core.streams.WriteStream) this.delegate).end(InternalHelper.unwrapObject(t));
   }
   /**
    * Set the maximum size of the write queue to <code>maxSize</code>. You will still be able to write to the stream even

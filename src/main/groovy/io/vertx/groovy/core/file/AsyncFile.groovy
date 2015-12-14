@@ -41,6 +41,13 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return delegate;
   }
   /**
+   * Same as {@link io.vertx.groovy.core.file.AsyncFile#end} but writes some data to the stream before ending.
+   * @param t 
+   */
+  public void end(Buffer t) {
+    ((io.vertx.core.streams.WriteStream) this.delegate).end((io.vertx.core.buffer.Buffer)t.getDelegate());
+  }
+  /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.file.AsyncFile#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
@@ -83,6 +90,12 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
   public AsyncFile exceptionHandler(Handler<Throwable> handler) {
     ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).exceptionHandler(handler);
     return this;
+  }
+  /**
+   * Close the file, see {@link io.vertx.groovy.core.file.AsyncFile#close}.
+   */
+  public void end() {
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.file.AsyncFile) this.delegate).end();
   }
   /**
    * Close the file. The actual close happens asynchronously.

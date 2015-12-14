@@ -230,7 +230,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @param chunk 
    */
   public void end(Buffer chunk) {
-    this.delegate.end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
   }
   /**
    * Ends the request. If no data has been written to the request body, and {@link io.vertx.groovy.core.http.HttpClientRequest#sendHead} has not been called then
@@ -239,14 +239,15 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * Once the request has ended, it cannot be used any more,
    */
   public void end() {
-    this.delegate.end();
+    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).end();
   }
   /**
-   * Set's the amount of time after which if a response is not received {@link java.util.concurrent.TimeoutException}
-   * will be sent to the exception handler of this request.
+   * Set's the amount of time after which if the request does not return any data within the timeout period an
+   * {@link java.util.concurrent.TimeoutException} will be passed to the exception handler (if provided) and
+   * the request will be closed.
    * <p>
-   *  Calling this method more than once
-   * has the effect of canceling any existing timeout and starting the timeout from scratch.
+   * Calling this method more than once has the effect of canceling any existing timeout and starting
+   * the timeout from scratch.
    * @param timeoutMs The quantity of time in milliseconds.
    * @return a reference to this, so the API can be used fluently
    */
