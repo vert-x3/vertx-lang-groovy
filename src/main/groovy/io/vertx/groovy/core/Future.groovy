@@ -83,8 +83,9 @@ public class Future<T> {
    * If the future has already been completed it will be called immediately. Otherwise it will be called when the
    * future is completed.
    * @param handler the Handler that will be called with the result
+   * @return a reference to this, so it can be used fluently
    */
-  public void setHandler(Handler<AsyncResult<T>> handler) {
+  public Future setHandler(Handler<AsyncResult<T>> handler) {
     this.delegate.setHandler(new Handler<AsyncResult<Object>>() {
       public void handle(AsyncResult<Object> event) {
         AsyncResult<Object> f
@@ -96,6 +97,7 @@ public class Future<T> {
         handler.handle(f)
       }
     });
+    return this;
   }
   /**
    * Set the result. Any handler will be called, if there is one, and the future will be marked as completed.
@@ -112,9 +114,20 @@ public class Future<T> {
   }
   /**
    * Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.
+   * @param throwable the failure cause
+   */
+  public void fail(Throwable throwable) {
+    this.delegate.fail(throwable);
+  }
+  /**
+   * Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.
    * @param failureMessage the failure message
    */
   public void fail(String failureMessage) {
     this.delegate.fail(failureMessage);
+  }
+  public Handler<AsyncResult<T>> handler() {
+    def ret = this.delegate.handler();
+    return ret;
   }
 }

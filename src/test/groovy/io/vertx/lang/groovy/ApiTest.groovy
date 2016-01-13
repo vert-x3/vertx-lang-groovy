@@ -16,6 +16,8 @@
 
 package io.vertx.lang.groovy
 
+import io.vertx.core.Future
+
 import java.util.stream.Collectors;
 
 import com.acme.groovy.pkg.MyInterface
@@ -203,6 +205,28 @@ public class ApiTest {
     })
     obj.methodWithHandlerAsyncResultDataObject(true, { checker.assertAsyncFailure("foobar!", it) })
     assertEquals(2, checker.count);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultStringReturn() {
+    def succeedingHandler = obj.methodWithHandlerAsyncResultStringReturn("the-result", false);
+    succeedingHandler.handle(Future.succeededFuture("the-result"));
+    def failed = false;
+    try {
+      succeedingHandler.handle(Future.succeededFuture("not-expected"));
+    }  catch (Throwable ignore) {
+      failed = true;
+    }
+    assertTrue(failed);
+    def failingHandler = obj.methodWithHandlerAsyncResultStringReturn("an-error", true);
+    failingHandler.handle(Future.failedFuture("an-error"));
+    failed = false;
+    try {
+      failingHandler.handle(Future.succeededFuture("whatever"));
+    } catch (Throwable ignore) {
+      failed = true;
+    }
+    assertTrue(failed);
   }
 
   @Test

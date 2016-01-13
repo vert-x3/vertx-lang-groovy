@@ -87,6 +87,14 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
+   * @return true if this {@link io.vertx.groovy.core.net.NetSocket} is encrypted via SSL/TLS
+   * @return 
+   */
+  public boolean isSSL() {
+    def ret = this.delegate.isSSL();
+    return ret;
+  }
+  /**
    * @return the URI of the request. This is usually a relative URI
    * @return 
    */
