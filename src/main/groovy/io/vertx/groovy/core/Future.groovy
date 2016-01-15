@@ -85,7 +85,7 @@ public class Future<T> {
    * @param handler the Handler that will be called with the result
    * @return a reference to this, so it can be used fluently
    */
-  public Future setHandler(Handler<AsyncResult<T>> handler) {
+  public Future<T> setHandler(Handler<AsyncResult<T>> handler) {
     this.delegate.setHandler(new Handler<AsyncResult<Object>>() {
       public void handle(AsyncResult<Object> event) {
         AsyncResult<Object> f
@@ -126,6 +126,26 @@ public class Future<T> {
   public void fail(String failureMessage) {
     this.delegate.fail(failureMessage);
   }
+  /**
+   * Compose this future with another future.
+   *
+   * When this future succeeds, the handler will be called with the value.
+   *
+   * When this future fails, the failure will be propagated to the <code>next</code> future.
+   * @param handler the handler
+   * @param next the next future
+   */
+  public <U> void compose(Handler<T> handler, Future<U> next) {
+    this.delegate.compose(new Handler<Object>() {
+      public void handle(Object event) {
+        handler.handle(InternalHelper.wrapObject(event))
+      }
+    }, (io.vertx.core.Future<U>)next.getDelegate());
+  }
+  /**
+   * @return an handler completing this future
+   * @return 
+   */
   public Handler<AsyncResult<T>> handler() {
     def ret = this.delegate.handler();
     return ret;

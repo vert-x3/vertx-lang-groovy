@@ -208,6 +208,31 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerStringReturn() {
+    def handler = obj.methodWithHandlerStringReturn("the-result");
+    handler.handle("the-result");
+    def failed = false;
+    try {
+      handler.handle("not-expected");
+    }  catch (Throwable ignore) {
+      failed = true;
+    }
+    assertTrue(failed);
+  }
+
+  @Test
+  public void testMethodWithHandlerGenericReturn() {
+    Object result = null
+    def handler = obj.methodWithHandlerGenericReturn({ res ->
+      result = res
+    });
+    handler.handle("the-result");
+    assertEquals("the-result", result)
+    handler.handle(obj);
+    assertEquals(obj, result)
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultStringReturn() {
     def succeedingHandler = obj.methodWithHandlerAsyncResultStringReturn("the-result", false);
     succeedingHandler.handle(Future.succeededFuture("the-result"));
@@ -227,6 +252,18 @@ public class ApiTest {
       failed = true;
     }
     assertTrue(failed);
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultGenericReturn() {
+    Object result = null
+    def succeedingHandler = obj.methodWithHandlerAsyncResultGenericReturn({ ar ->
+      result = ar.succeeded() ? ar.result() : ar.cause()
+    });
+    succeedingHandler.handle(Future.succeededFuture("the-result"));
+    assertEquals("the-result", result)
+    succeedingHandler.handle(Future.succeededFuture(obj));
+    assertEquals(obj, result)
   }
 
   @Test

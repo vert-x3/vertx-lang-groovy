@@ -33,8 +33,56 @@ public class CompositeFuture extends Future<CompositeFuture> {
   public Object getDelegate() {
     return delegate;
   }
-  public static <T1, T2> CompositeFuture and(Future<T1> f1, Future<T2> f2) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.and((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+  /**
+   * Return a composite future, succeeded when all futures are succeeded, failed when any future is failed.
+   * @param f1 future
+   * @param f2 future
+   * @return the composite future
+   */
+  public static <T1, T2> CompositeFuture all(Future<T1> f1, Future<T2> f2) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  public static <T1, T2, T3> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  public static <T1, T2, T3, T4> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  public static <T1, T2, T3, T4, T5> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  public static <T1, T2, T3, T4, T5, T6> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5, Future<T6> f6) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate(), (io.vertx.core.Future<T6>)f6.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  /**
+   * Return a composite future, succeeded when any futures is succeeded, failed when all futures are failed.
+   * @param f1 future
+   * @param f2 future
+   * @return the composite future
+   */
+  public static <T1, T2> CompositeFuture any(Future<T1> f1, Future<T2> f2) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  public static <T1, T2, T3> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  public static <T1, T2, T3, T4> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  public static <T1, T2, T3, T4, T5> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  public static <T1, T2, T3, T4, T5, T6> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5, Future<T6> f6) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate(), (io.vertx.core.Future<T6>)f6.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   public CompositeFuture setHandler(Handler<AsyncResult<CompositeFuture>> handler) {
