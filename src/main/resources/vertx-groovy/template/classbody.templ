@@ -85,6 +85,26 @@
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@else{method.returnType.kind == CLASS_API}
 		    def ret= InternalHelper.safeCreate(@includeNamed{'invokeDelegate';method=method}, @{genConstructorType(method.returnType.raw)}.class);\n
+		@else{method.returnType.kind == CLASS_HANDLER}
+			@if{method.returnType.args[0].kind == CLASS_ASYNC_RESULT}
+		    def handlerDelegate = @includeNamed{'invokeDelegate';method=method};\n
+		    Handler<AsyncResult<@{method.returnType.args[0].args[0].erased.simpleName}>> ret = new Handler<AsyncResult<@{method.returnType.args[0].args[0].erased.simpleName}>>() {\n
+		      public void handle(AsyncResult<@{method.returnType.args[0].args[0].erased.simpleName}> event) {\n
+		        if (event.succeeded()) {\n
+		          handlerDelegate.handle(InternalHelper.result(@includeNamed{'paramArgument';param=new io.vertx.codegen.ParamInfo(0, 'event.result()', null, method.returnType.args[0].args[0])}));\n
+		        } else {\n
+		          handlerDelegate.handle(InternalHelper.<@{method.returnType.args[0].args[0].erased.name}>failure(event.cause()));\n
+		        }\n
+		      }\n
+		    };\n
+			@else{}
+		    def handlerDelegate = @includeNamed{'invokeDelegate';method=method};\n
+		    Handler<@{method.returnType.args[0].erased.simpleName}> ret = new Handler<@{method.returnType.args[0].erased.simpleName}>() {\n
+		      public void handle(@{method.returnType.args[0].erased.simpleName} event) {\n
+		        handlerDelegate.handle(@includeNamed{'paramArgument';param=new io.vertx.codegen.ParamInfo(0, 'event', null, method.returnType.args[0])});\n
+		      }\n
+		    };\n
+			@end{}
 		@else{}
 		    def ret = @includeNamed{'invokeDelegate';method=method};\n
 		@end{}

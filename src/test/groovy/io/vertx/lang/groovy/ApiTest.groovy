@@ -233,6 +233,12 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithHandlerVertxGenReturn() {
+    def handler = obj.methodWithHandlerVertxGenReturn("wibble");
+    handler.handle(new RefedInterface1(new RefedInterface1Impl().setString("wibble")));
+  }
+
+  @Test
   public void testMethodWithHandlerAsyncResultStringReturn() {
     def succeedingHandler = obj.methodWithHandlerAsyncResultStringReturn("the-result", false);
     succeedingHandler.handle(Future.succeededFuture("the-result"));
@@ -264,6 +270,14 @@ public class ApiTest {
     assertEquals("the-result", result)
     succeedingHandler.handle(Future.succeededFuture(obj));
     assertEquals(obj, result)
+  }
+
+  @Test
+  public void testMethodWithHandlerAsyncResultVertxGenReturn() {
+    def handler = obj.methodWithHandlerAsyncResultVertxGenReturn("wibble", false);
+    handler.handle(Future.succeededFuture(new RefedInterface1(new RefedInterface1Impl().setString("wibble"))));
+    handler = obj.methodWithHandlerAsyncResultVertxGenReturn("oh-no", true);
+    handler.handle(Future.failedFuture("oh-no"));
   }
 
   @Test

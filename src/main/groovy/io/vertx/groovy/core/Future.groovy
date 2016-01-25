@@ -146,8 +146,22 @@ public class Future<T> {
    * @return an handler completing this future
    * @return 
    */
-  public Handler<AsyncResult<T>> handler() {
-    def ret = this.delegate.handler();
+  public Handler<AsyncResult<T>> completer() {
+    if (cached_0 != null) {
+      return cached_0;
+    }
+    def handlerDelegate = this.delegate.completer();
+    Handler<AsyncResult<Object>> ret = new Handler<AsyncResult<Object>>() {
+      public void handle(AsyncResult<Object> event) {
+        if (event.succeeded()) {
+          handlerDelegate.handle(InternalHelper.result(InternalHelper.unwrapObject(event.result())));
+        } else {
+          handlerDelegate.handle(InternalHelper.<java.lang.Object>failure(event.cause()));
+        }
+      }
+    };
+    cached_0 = ret;
     return ret;
   }
+  private Handler<AsyncResult<T>> cached_0;
 }

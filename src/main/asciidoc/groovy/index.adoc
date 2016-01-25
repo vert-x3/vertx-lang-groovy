@@ -315,10 +315,10 @@ _succeeded_ when all the futures are and _failed_ otherwise:
 import io.vertx.groovy.core.Future
 import io.vertx.groovy.core.CompositeFuture
 def httpServerFuture = Future.future()
-httpServer.listen(httpServerFuture.handler())
+httpServer.listen(httpServerFuture.completer())
 
 def netServerFuture = Future.future()
-netServer.listen(netServerFuture.handler())
+netServer.listen(netServerFuture.completer())
 
 CompositeFuture.all(httpServerFuture, netServerFuture).setHandler({ ar ->
   if (ar.succeeded()) {
@@ -330,10 +330,10 @@ CompositeFuture.all(httpServerFuture, netServerFuture).setHandler({ ar ->
 
 ----
 
-The handler returned by `link:../../groovydoc/io/vertx/groovy/core/Future.html#handler()[handler]` completes the future.
+The handler returned by `link:../../groovydoc/io/vertx/groovy/core/Future.html#completer()[completer]` completes the future.
 
 `link:../../groovydoc/io/vertx/groovy/core/CompositeFuture.html#any(io.vertx.core.Future,%20io.vertx.core.Future)[CompositeFuture.any]` takes several futures arguments (up to 6) and returns a future that is
-_failed_ when all the futures are and _succeeded_ otherwise:
+_succeeded_ if one of the futures is, and _failed_ otherwise:
 
 [source,groovy]
 ----
@@ -363,12 +363,12 @@ def fs = vertx.fileSystem()
 def fut1 = Future.future()
 def fut2 = Future.future()
 
-fs.createFile("/foo", fut1.handler())
-fut1.compose({ string ->
-  fs.writeFile("/foo", Buffer.buffer(), fut2.handler())
+fs.createFile("/foo", fut1.completer())
+fut1.compose({ v ->
+  fs.writeFile("/foo", Buffer.buffer(), fut2.completer())
 }, fut2)
-fut2.compose({ integer ->
-  fs.move("/foo", "/bar", startFuture.handler())
+fut2.compose({ v ->
+  fs.move("/foo", "/bar", startFuture.completer())
 }, startFuture)
 
 ----
@@ -1479,7 +1479,28 @@ public class MyCommand extends DefaultCommand {
 }
 ----
 
-Place the jar containing the command into the classpath of your fat-jar (or include it inside) or in the `lib`
+You also need an implementation of `CommandFactory`:
+
+[source, java]
+----
+public class HelloCommandFactory extends DefaultCommandFactory<HelloCommand> {
+  public HelloCommandFactory() {
+   super(HelloCommand.class);
+  }
+}
+----
+
+Then, create the `src/main/resources/META-INF/services/io.vertx.core.spi.launcher.CommandFactory` and add a line
+indicating the fully qualified name of the factory:
+
+----
+io.vertx.core.launcher.example.HelloCommandFactory
+----
+
+Builds the jar containing the command. Be sure to includes the SPI file
+(`META-INF/services/io.vertx.core.spi.launcher.CommandFactory`).
+
+Then, place the jar containing the command into the classpath of your fat-jar (or include it inside) or in the `lib`
 directory of your vert.x distribution, and you would be able to execute:
 
 [source]

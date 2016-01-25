@@ -78,7 +78,7 @@ server.listen(8080, "myhost.com", { res ->
 
 === Getting notified of incoming requests
 
-To be notified when a request arrives you need to set a `link:../../groovydoc/io/vertx/groovy/core/http/HttpServer.html#requestHandler((@io.vertx.codegen.annotations.Nullable :: io.vertx.core.Handler))[requestHandler]`:
+To be notified when a request arrives you need to set a `link:../../groovydoc/io/vertx/groovy/core/http/HttpServer.html#requestHandler(io.vertx.core.Handler)[requestHandler]`:
 
 [source,groovy]
 ----
@@ -1424,7 +1424,7 @@ There are two ways of handling WebSockets on the server side.
 
 ===== WebSocket handler
 
-The first way involves providing a `link:../../groovydoc/io/vertx/groovy/core/http/HttpServer.html#websocketHandler((@io.vertx.codegen.annotations.Nullable :: io.vertx.core.Handler))[websocketHandler]`
+The first way involves providing a `link:../../groovydoc/io/vertx/groovy/core/http/HttpServer.html#websocketHandler(io.vertx.core.Handler)[websocketHandler]`
 on the server instance.
 
 When a WebSocket connection is made to the server, the handler will be called, passing in an instance of

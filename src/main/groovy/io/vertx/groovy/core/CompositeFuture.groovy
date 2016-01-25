@@ -18,10 +18,12 @@ package io.vertx.groovy.core;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
+import java.util.List
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
+ * The composite future wraps a list of {@link io.vertx.groovy.core.Future futures}, it is useful when several futures
+ * needs to be coordinated.
 */
 @CompileStatic
 public class CompositeFuture extends Future<CompositeFuture> {
@@ -43,20 +45,63 @@ public class CompositeFuture extends Future<CompositeFuture> {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#all} but with 3 futures.
+   * @param f1 
+   * @param f2 
+   * @param f3 
+   * @return 
+   */
   public static <T1, T2, T3> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3) {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#all} but with 4 futures.
+   * @param f1 
+   * @param f2 
+   * @param f3 
+   * @param f4 
+   * @return 
+   */
   public static <T1, T2, T3, T4> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4) {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#all} but with 5 futures.
+   * @param f1 
+   * @param f2 
+   * @param f3 
+   * @param f4 
+   * @param f5 
+   * @return 
+   */
   public static <T1, T2, T3, T4, T5> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5) {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#all} but with 6 futures.
+   * @param f1 
+   * @param f2 
+   * @param f3 
+   * @param f4 
+   * @param f5 
+   * @param f6 
+   * @return 
+   */
   public static <T1, T2, T3, T4, T5, T6> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5, Future<T6> f6) {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate(), (io.vertx.core.Future<T6>)f6.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#all} but with a list of futures.
+   * @param futures 
+   * @return 
+   */
+  public static CompositeFuture all(List<Future> futures) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((List<io.vertx.core.Future>)(futures.collect({underpants -> underpants.getDelegate()}))), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -69,20 +114,63 @@ public class CompositeFuture extends Future<CompositeFuture> {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#any} but with 3 futures.
+   * @param f1 
+   * @param f2 
+   * @param f3 
+   * @return 
+   */
   public static <T1, T2, T3> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3) {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#any} but with 4 futures.
+   * @param f1 
+   * @param f2 
+   * @param f3 
+   * @param f4 
+   * @return 
+   */
   public static <T1, T2, T3, T4> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4) {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#any} but with 5 futures.
+   * @param f1 
+   * @param f2 
+   * @param f3 
+   * @param f4 
+   * @param f5 
+   * @return 
+   */
   public static <T1, T2, T3, T4, T5> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5) {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#any} but with 6 futures.
+   * @param f1 
+   * @param f2 
+   * @param f3 
+   * @param f4 
+   * @param f5 
+   * @param f6 
+   * @return 
+   */
   public static <T1, T2, T3, T4, T5, T6> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5, Future<T6> f6) {
     def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate(), (io.vertx.core.Future<T6>)f6.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.CompositeFuture#any} but with a list of futures.
+   * @param futures 
+   * @return 
+   */
+  public static CompositeFuture any(List<Future> futures) {
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((List<io.vertx.core.Future>)(futures.collect({underpants -> underpants.getDelegate()}))), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   public CompositeFuture setHandler(Handler<AsyncResult<CompositeFuture>> handler) {
@@ -99,27 +187,56 @@ public class CompositeFuture extends Future<CompositeFuture> {
     });
     return this;
   }
+  /**
+   * Returns a cause of a wrapped future
+   * @param index the wrapped future index
+   * @return 
+   */
   public Throwable cause(int index) {
     def ret = this.delegate.cause(index);
     return ret;
   }
+  /**
+   * Returns true if a wrapped future is succeeded
+   * @param index the wrapped future index
+   * @return 
+   */
   public boolean succeeded(int index) {
     def ret = this.delegate.succeeded(index);
     return ret;
   }
+  /**
+   * Returns true if a wrapped future is failed
+   * @param index the wrapped future index
+   * @return 
+   */
   public boolean failed(int index) {
     def ret = this.delegate.failed(index);
     return ret;
   }
+  /**
+   * Returns true if a wrapped future is completed
+   * @param index the wrapped future index
+   * @return 
+   */
   public boolean isComplete(int index) {
     def ret = this.delegate.isComplete(index);
     return ret;
   }
+  /**
+   * Returns the result of a wrapped future
+   * @param index the wrapped future index
+   * @return 
+   */
   public <T> T result(int index) {
     // This cast is cleary flawed
     def ret = (T) InternalHelper.wrapObject(this.delegate.result(index));
     return ret;
   }
+  /**
+   * @return the number of wrapped future
+   * @return 
+   */
   public int size() {
     def ret = this.delegate.size();
     return ret;
