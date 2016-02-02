@@ -126,6 +126,23 @@ public class Future<T> {
   public void fail(String failureMessage) {
     this.delegate.fail(failureMessage);
   }
+  public T result() {
+    // This cast is cleary flawed
+    def ret = (T) InternalHelper.wrapObject(this.delegate.result());
+    return ret;
+  }
+  public Throwable cause() {
+    def ret = this.delegate.cause();
+    return ret;
+  }
+  public boolean succeeded() {
+    def ret = this.delegate.succeeded();
+    return ret;
+  }
+  public boolean failed() {
+    def ret = this.delegate.failed();
+    return ret;
+  }
   /**
    * Compose this future with another future.
    *
