@@ -126,19 +126,35 @@ public class Future<T> {
   public void fail(String failureMessage) {
     this.delegate.fail(failureMessage);
   }
+  /**
+   * The result of the operation. This will be null if the operation failed.
+   * @return the result or null if the operation failed.
+   */
   public T result() {
     // This cast is cleary flawed
     def ret = (T) InternalHelper.wrapObject(this.delegate.result());
     return ret;
   }
+  /**
+   * A Throwable describing failure. This will be null if the operation succeeded.
+   * @return the cause or null if the operation succeeded.
+   */
   public Throwable cause() {
     def ret = this.delegate.cause();
     return ret;
   }
+  /**
+   * Did it succeed?
+   * @return true if it succeded or false otherwise
+   */
   public boolean succeeded() {
     def ret = this.delegate.succeeded();
     return ret;
   }
+  /**
+   * Did it fail?
+   * @return true if it failed or false otherwise
+   */
   public boolean failed() {
     def ret = this.delegate.failed();
     return ret;
