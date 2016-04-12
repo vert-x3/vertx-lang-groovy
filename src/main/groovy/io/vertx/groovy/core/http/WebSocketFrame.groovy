@@ -55,7 +55,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame textFrame(String str, boolean isFinal) {
-    def ret = InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.textFrame(str != null ? str : null, isFinal), io.vertx.groovy.core.http.WebSocketFrame.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.textFrame(str, isFinal), io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**

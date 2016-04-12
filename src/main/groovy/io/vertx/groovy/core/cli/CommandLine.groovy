@@ -67,7 +67,7 @@ public class CommandLine {
    * @return the value, <code>null</code> if not set
    */
   public <T> T getOptionValue(String name) {
-    def ret = (T) InternalHelper.wrapObject(delegate.getOptionValue(name != null ? name : null));
+    def ret = (T) InternalHelper.wrapObject(delegate.getOptionValue(name));
     return ret;
   }
   /**
@@ -76,7 +76,7 @@ public class CommandLine {
    * @return the value, <code>null</code> if not set
    */
   public <T> T getArgumentValue(String name) {
-    def ret = (T) InternalHelper.wrapObject(delegate.getArgumentValue(name != null ? name : null));
+    def ret = (T) InternalHelper.wrapObject(delegate.getArgumentValue(name));
     return ret;
   }
   /**
@@ -96,7 +96,7 @@ public class CommandLine {
    * @return <code>true</code> if the flag has been set in the command line, <code>false</code> otherwise.
    */
   public boolean isFlagEnabled(String name) {
-    def ret = delegate.isFlagEnabled(name != null ? name : null);
+    def ret = delegate.isFlagEnabled(name);
     return ret;
   }
   /**

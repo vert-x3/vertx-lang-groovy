@@ -136,7 +136,7 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer listen(int port, String host) {
-    delegate.listen(port, host != null ? host : null);
+    delegate.listen(port, host);
     return this;
   }
   /**
@@ -148,7 +148,7 @@ public class HttpServer implements Measured {
    * @return 
    */
   public HttpServer listen(int port, String host, Handler<AsyncResult<HttpServer>> listenHandler) {
-    delegate.listen(port, host != null ? host : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
+    delegate.listen(port, host, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
       public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
         if (ar.succeeded()) {
           listenHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.http.HttpServer.class)));

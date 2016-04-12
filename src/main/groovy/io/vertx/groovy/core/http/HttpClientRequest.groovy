@@ -179,7 +179,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return 
    */
   public HttpClientRequest setHost(String host) {
-    delegate.setHost(host != null ? host : null);
+    delegate.setHost(host);
     return this;
   }
   /**
@@ -209,7 +209,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest putHeader(String name, String value) {
-    delegate.putHeader(name != null ? name : null, value != null ? value : null);
+    delegate.putHeader(name, value);
     return this;
   }
   /**
@@ -218,7 +218,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest write(String chunk) {
-    delegate.write(chunk != null ? chunk : null);
+    delegate.write(chunk);
     return this;
   }
   /**
@@ -228,7 +228,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest write(String chunk, String enc) {
-    delegate.write(chunk != null ? chunk : null, enc != null ? enc : null);
+    delegate.write(chunk, enc);
     return this;
   }
   /**
@@ -280,7 +280,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @param chunk 
    */
   public void end(String chunk) {
-    delegate.end(chunk != null ? chunk : null);
+    delegate.end(chunk);
   }
   /**
    * Same as {@link io.vertx.groovy.core.http.HttpClientRequest#end} but writes a String with the specified encoding
@@ -288,7 +288,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @param enc 
    */
   public void end(String chunk, String enc) {
-    delegate.end(chunk != null ? chunk : null, enc != null ? enc : null);
+    delegate.end(chunk, enc);
   }
   /**
    * Same as {@link io.vertx.groovy.core.http.HttpClientRequest#end} but writes some data to the request body before ending. If the request is not chunked and

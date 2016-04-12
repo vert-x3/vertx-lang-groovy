@@ -71,7 +71,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public HttpServerFileUpload streamToFileSystem(String filename) {
-    delegate.streamToFileSystem(filename != null ? filename : null);
+    delegate.streamToFileSystem(filename);
     return this;
   }
   /**

@@ -51,7 +51,7 @@ public class MultiMap {
    * @return The first header value or <code>null</code> if there is no such entry
    */
   public String get(String name) {
-    def ret = delegate.get(name != null ? name : null);
+    def ret = delegate.get(name);
     return ret;
   }
   /**
@@ -60,7 +60,7 @@ public class MultiMap {
    * @return A immutable {@link java.util.List} of values which will be empty if no values are found
    */
   public List<String> getAll(String name) {
-    def ret = delegate.getAll(name != null ? name : null);
+    def ret = delegate.getAll(name);
     return ret;
   }
   /**
@@ -69,7 +69,7 @@ public class MultiMap {
    * @return true if at least one entry is found
    */
   public boolean contains(String name) {
-    def ret = delegate.contains(name != null ? name : null);
+    def ret = delegate.contains(name);
     return ret;
   }
   /**
@@ -95,7 +95,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap add(String name, String value) {
-    delegate.add(name != null ? name : null, value != null ? value : null);
+    delegate.add(name, value);
     return this;
   }
   /**
@@ -116,7 +116,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap set(String name, String value) {
-    delegate.set(name != null ? name : null, value != null ? value : null);
+    delegate.set(name, value);
     return this;
   }
   /**
@@ -134,7 +134,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap remove(String name) {
-    delegate.remove(name != null ? name : null);
+    delegate.remove(name);
     return this;
   }
   /**

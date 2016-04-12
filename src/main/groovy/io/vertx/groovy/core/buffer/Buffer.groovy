@@ -64,7 +64,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(String string) {
-    def ret = InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string != null ? string : null), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -75,7 +75,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(String string, String enc) {
-    def ret = InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string != null ? string : null, enc != null ? enc : null), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string, enc), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -92,7 +92,7 @@ public class Buffer {
    * @return 
    */
   public String toString(String enc) {
-    def ret = delegate.toString(enc != null ? enc : null);
+    def ret = delegate.toString(enc);
     return ret;
   }
   /**
@@ -212,7 +212,7 @@ public class Buffer {
    * @return 
    */
   public String getString(int start, int end, String enc) {
-    def ret = delegate.getString(start, end, enc != null ? enc : null);
+    def ret = delegate.getString(start, end, enc);
     return ret;
   }
   /**
@@ -349,7 +349,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendString(String str, String enc) {
-    delegate.appendString(str != null ? str : null, enc != null ? enc : null);
+    delegate.appendString(str, enc);
     return this;
   }
   /**
@@ -360,7 +360,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendString(String str) {
-    delegate.appendString(str != null ? str : null);
+    delegate.appendString(str);
     return this;
   }
   /**
@@ -494,7 +494,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setString(int pos, String str) {
-    delegate.setString(pos, str != null ? str : null);
+    delegate.setString(pos, str);
     return this;
   }
   /**
@@ -506,7 +506,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setString(int pos, String str, String enc) {
-    delegate.setString(pos, str != null ? str : null, enc != null ? enc : null);
+    delegate.setString(pos, str, enc);
     return this;
   }
   /**

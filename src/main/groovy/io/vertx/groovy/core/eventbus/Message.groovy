@@ -140,7 +140,7 @@ public class Message<T> {
    * @param message A message to pass back to the sender
    */
   public void fail(int failureCode, String message) {
-    delegate.fail(failureCode, message != null ? message : null);
+    delegate.fail(failureCode, message);
   }
   private T cached_0;
 }

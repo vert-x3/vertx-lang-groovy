@@ -173,7 +173,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the header value
    */
   public String getHeader(String headerName) {
-    def ret = delegate.getHeader(headerName != null ? headerName : null);
+    def ret = delegate.getHeader(headerName);
     return ret;
   }
   /**
@@ -194,7 +194,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the param value
    */
   public String getParam(String paramName) {
-    def ret = delegate.getParam(paramName != null ? paramName : null);
+    def ret = delegate.getParam(paramName);
     return ret;
   }
   /**
@@ -318,7 +318,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the attribute value
    */
   public String getFormAttribute(String attributeName) {
-    def ret = delegate.getFormAttribute(attributeName != null ? attributeName : null);
+    def ret = delegate.getFormAttribute(attributeName);
     return ret;
   }
   /**

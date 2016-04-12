@@ -96,6 +96,10 @@
     }
   }
 
+  function isSameType(type) {
+    return ((type == CLASS_HANDLER || type == CLASS_ASYNC_RESULT) && isSameType(type.args[0])) || type.kind == CLASS_VOID || type.kind.basic || type.kind == CLASS_ENUM || type.kind == CLASS_THROWABLE;
+  }
+
   function genInvokeDelegate(method) {
     var s = '';
     if (method.staticMethod) {
@@ -116,11 +120,10 @@
       if (index > 0) {
         s = s + ', ';
       }
-      var expr = genConvParam(param.type, param.name);
-      if (param.type.kind == CLASS_PRIMITIVE) {
-        s = s + expr;
+      if (isSameType(param.type)) {
+        s = s + param.name;
       } else {
-        s = s + param.name + ' != null ? ' + expr + ' : null';
+        s = s + param.name + ' != null ? ' + genConvParam(param.type, param.name) + ' : null';
       }
       index = index + 1;
     }
@@ -129,7 +132,9 @@
   }
 
   function genConvReturn(type, expr) {
-    if (type.kind == CLASS_OBJECT) {
+    if (isSameType(type)) {
+      return expr;
+    } else if (type.kind == CLASS_OBJECT) {
       /* This cast is cleary flawed */
       return '(' + type.simpleName + ') InternalHelper.wrapObject(' + expr + ')';
     } else if (type.kind == CLASS_API) {
@@ -183,7 +188,9 @@
   }
 
   function genConvParam(type, expr) {
-    if (type.kind == CLASS_DATA_OBJECT) {
+    if (isSameType(type)) {
+      return expr;
+    } else if (type.kind == CLASS_DATA_OBJECT) {
       return 'new ' + type.name + '(new io.vertx.core.json.JsonObject(' + expr + '))';
     } else if (type.kind.json) {
       return 'new ' + type.name + '(' + expr + ')';
@@ -203,8 +210,6 @@
     } else if (type.kind == CLASS_MAP) {
       var eltType = type.args[1];
       return '(Map)' + expr + '.collectEntries({[it.key,' + genConvParam(eltType, 'it.value') + ']})';
-    } else if (type.kind.basic || type.kind == CLASS_ENUM || type.kind == CLASS_THROWABLE) {
-      return expr;
     } else if (type.kind == CLASS_HANDLER) {
       var eventType = type.args[0].erased;
       if (eventType.kind == CLASS_ASYNC_RESULT) {

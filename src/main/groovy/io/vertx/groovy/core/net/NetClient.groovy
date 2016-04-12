@@ -57,7 +57,7 @@ public class NetClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetClient connect(int port, String host, Handler<AsyncResult<NetSocket>> connectHandler) {
-    delegate.connect(port, host != null ? host : null, connectHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetSocket>>() {
+    delegate.connect(port, host, connectHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetSocket>>() {
       public void handle(AsyncResult<io.vertx.core.net.NetSocket> ar) {
         if (ar.succeeded()) {
           connectHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.net.NetSocket.class)));

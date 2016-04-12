@@ -117,7 +117,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return the header value
    */
   public String getHeader(String headerName) {
-    def ret = delegate.getHeader(headerName != null ? headerName : null);
+    def ret = delegate.getHeader(headerName);
     return ret;
   }
   /**
@@ -126,7 +126,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return the trailer value
    */
   public String getTrailer(String trailerName) {
-    def ret = delegate.getTrailer(trailerName != null ? trailerName : null);
+    def ret = delegate.getTrailer(trailerName);
     return ret;
   }
   /**

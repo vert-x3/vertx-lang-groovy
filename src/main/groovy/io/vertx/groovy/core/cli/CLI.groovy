@@ -51,7 +51,7 @@ public class CLI {
    * @return the created instance of {@link io.vertx.groovy.core.cli.CLI}
    */
   public static CLI create(String name) {
-    def ret = InternalHelper.safeCreate(io.vertx.core.cli.CLI.create(name != null ? name : null), io.vertx.groovy.core.cli.CLI.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.cli.CLI.create(name), io.vertx.groovy.core.cli.CLI.class);
     return ret;
   }
   /**
@@ -87,7 +87,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setName(String name) {
-    delegate.setName(name != null ? name : null);
+    delegate.setName(name);
     return this;
   }
   /**
@@ -99,7 +99,7 @@ public class CLI {
     return ret;
   }
   public CLI setDescription(String desc) {
-    delegate.setDescription(desc != null ? desc : null);
+    delegate.setDescription(desc);
     return this;
   }
   /**
@@ -116,7 +116,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setSummary(String summary) {
-    delegate.setSummary(summary != null ? summary : null);
+    delegate.setSummary(summary);
     return this;
   }
   /**
@@ -215,7 +215,7 @@ public class CLI {
    * @return the <a href="../../../../../../../cheatsheet/Option.html">Option</a>, <code>null</code> if not found (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
    */
   public Map<String, Object> getOption(String name) {
-    def ret = (Map<String, Object>)InternalHelper.wrapObject(delegate.getOption(name != null ? name : null)?.toJson());
+    def ret = (Map<String, Object>)InternalHelper.wrapObject(delegate.getOption(name)?.toJson());
     return ret;
   }
   /**
@@ -224,7 +224,7 @@ public class CLI {
    * @return the <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>, <code>null</code> if not found. (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
    */
   public Map<String, Object> getArgument(String name) {
-    def ret = (Map<String, Object>)InternalHelper.wrapObject(delegate.getArgument(name != null ? name : null)?.toJson());
+    def ret = (Map<String, Object>)InternalHelper.wrapObject(delegate.getArgument(name)?.toJson());
     return ret;
   }
   /**
@@ -242,7 +242,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI removeOption(String name) {
-    delegate.removeOption(name != null ? name : null);
+    delegate.removeOption(name);
     return this;
   }
   /**

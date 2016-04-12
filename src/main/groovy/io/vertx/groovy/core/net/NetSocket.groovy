@@ -125,7 +125,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket write(String str) {
-    delegate.write(str != null ? str : null);
+    delegate.write(str);
     return this;
   }
   /**
@@ -135,7 +135,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket write(String str, String enc) {
-    delegate.write(str != null ? str : null, enc != null ? enc : null);
+    delegate.write(str, enc);
     return this;
   }
   /**
@@ -145,7 +145,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename) {
-    delegate.sendFile(filename != null ? filename : null);
+    delegate.sendFile(filename);
     return this;
   }
   /**
@@ -156,7 +156,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset) {
-    delegate.sendFile(filename != null ? filename : null, offset);
+    delegate.sendFile(filename, offset);
     return this;
   }
   /**
@@ -168,7 +168,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset, long length) {
-    delegate.sendFile(filename != null ? filename : null, offset, length);
+    delegate.sendFile(filename, offset, length);
     return this;
   }
   /**
@@ -179,7 +179,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
-    delegate.sendFile(filename != null ? filename : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.sendFile(filename, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -199,7 +199,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset, Handler<AsyncResult<Void>> resultHandler) {
-    delegate.sendFile(filename != null ? filename : null, offset, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.sendFile(filename, offset, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -220,7 +220,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
-    delegate.sendFile(filename != null ? filename : null, offset, length, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.sendFile(filename, offset, length, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));

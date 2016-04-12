@@ -245,7 +245,7 @@ public class Vertx implements Measured {
    * @return the DNS client
    */
   public DnsClient createDnsClient(int port, String host) {
-    def ret = InternalHelper.safeCreate(delegate.createDnsClient(port, host != null ? host : null), io.vertx.groovy.core.dns.DnsClient.class);
+    def ret = InternalHelper.safeCreate(delegate.createDnsClient(port, host), io.vertx.groovy.core.dns.DnsClient.class);
     return ret;
   }
   /**
@@ -365,7 +365,7 @@ public class Vertx implements Measured {
    * @param name the name.
    */
   public void deployVerticle(String name) {
-    delegate.deployVerticle(name != null ? name : null);
+    delegate.deployVerticle(name);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but the completionHandler will be notified when the deployment is complete.
@@ -378,7 +378,7 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the deployment is complete
    */
   public void deployVerticle(String name, Handler<AsyncResult<String>> completionHandler) {
-    delegate.deployVerticle(name != null ? name : null, completionHandler != null ? new Handler<AsyncResult<java.lang.String>>() {
+    delegate.deployVerticle(name, completionHandler != null ? new Handler<AsyncResult<java.lang.String>>() {
       public void handle(AsyncResult<java.lang.String> ar) {
         if (ar.succeeded()) {
           completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -395,7 +395,7 @@ public class Vertx implements Measured {
    * @param options the deployment options. (see <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a>)
    */
   public void deployVerticle(String name, Map<String, Object> options) {
-    delegate.deployVerticle(name != null ? name : null, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a> are provided to configure the
@@ -405,7 +405,7 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the deployment is complete
    */
   public void deployVerticle(String name, Map<String, Object> options, Handler<AsyncResult<String>> completionHandler) {
-    delegate.deployVerticle(name != null ? name : null, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.String>>() {
+    delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.String>>() {
       public void handle(AsyncResult<java.lang.String> ar) {
         if (ar.succeeded()) {
           completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -422,7 +422,7 @@ public class Vertx implements Measured {
    * @param deploymentID the deployment ID
    */
   public void undeploy(String deploymentID) {
-    delegate.undeploy(deploymentID != null ? deploymentID : null);
+    delegate.undeploy(deploymentID);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx #undeploy(String)} but the completionHandler will be notified when the undeployment is complete.
@@ -430,7 +430,7 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the undeployment is complete
    */
   public void undeploy(String deploymentID, Handler<AsyncResult<Void>> completionHandler) {
-    delegate.undeploy(deploymentID != null ? deploymentID : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.undeploy(deploymentID, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));

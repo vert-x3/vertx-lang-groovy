@@ -56,7 +56,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem copy(String from, String to, Handler<AsyncResult<Void>> handler) {
-    delegate.copy(from != null ? from : null, to != null ? to : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.copy(from, to, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -74,7 +74,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem copyBlocking(String from, String to) {
-    delegate.copyBlocking(from != null ? from : null, to != null ? to : null);
+    delegate.copyBlocking(from, to);
     return this;
   }
   /**
@@ -91,7 +91,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem copyRecursive(String from, String to, boolean recursive, Handler<AsyncResult<Void>> handler) {
-    delegate.copyRecursive(from != null ? from : null, to != null ? to : null, recursive, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.copyRecursive(from, to, recursive, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -110,7 +110,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem copyRecursiveBlocking(String from, String to, boolean recursive) {
-    delegate.copyRecursiveBlocking(from != null ? from : null, to != null ? to : null, recursive);
+    delegate.copyRecursiveBlocking(from, to, recursive);
     return this;
   }
   /**
@@ -123,7 +123,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem move(String from, String to, Handler<AsyncResult<Void>> handler) {
-    delegate.move(from != null ? from : null, to != null ? to : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.move(from, to, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -141,7 +141,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem moveBlocking(String from, String to) {
-    delegate.moveBlocking(from != null ? from : null, to != null ? to : null);
+    delegate.moveBlocking(from, to);
     return this;
   }
   /**
@@ -154,7 +154,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem truncate(String path, long len, Handler<AsyncResult<Void>> handler) {
-    delegate.truncate(path != null ? path : null, len, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.truncate(path, len, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -172,7 +172,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem truncateBlocking(String path, long len) {
-    delegate.truncateBlocking(path != null ? path : null, len);
+    delegate.truncateBlocking(path, len);
     return this;
   }
   /**
@@ -186,7 +186,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chmod(String path, String perms, Handler<AsyncResult<Void>> handler) {
-    delegate.chmod(path != null ? path : null, perms != null ? perms : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.chmod(path, perms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -204,7 +204,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem chmodBlocking(String path, String perms) {
-    delegate.chmodBlocking(path != null ? path : null, perms != null ? perms : null);
+    delegate.chmodBlocking(path, perms);
     return this;
   }
   /**
@@ -221,7 +221,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chmodRecursive(String path, String perms, String dirPerms, Handler<AsyncResult<Void>> handler) {
-    delegate.chmodRecursive(path != null ? path : null, perms != null ? perms : null, dirPerms != null ? dirPerms : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.chmodRecursive(path, perms, dirPerms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -240,7 +240,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem chmodRecursiveBlocking(String path, String perms, String dirPerms) {
-    delegate.chmodRecursiveBlocking(path != null ? path : null, perms != null ? perms : null, dirPerms != null ? dirPerms : null);
+    delegate.chmodRecursiveBlocking(path, perms, dirPerms);
     return this;
   }
   /**
@@ -252,7 +252,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chown(String path, String user, String group, Handler<AsyncResult<Void>> handler) {
-    delegate.chown(path != null ? path : null, user != null ? user : null, group != null ? group : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.chown(path, user, group, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -272,7 +272,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem chownBlocking(String path, String user, String group) {
-    delegate.chownBlocking(path != null ? path : null, user != null ? user : null, group != null ? group : null);
+    delegate.chownBlocking(path, user, group);
     return this;
   }
   /**
@@ -284,7 +284,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem props(String path, Handler<AsyncResult<FileProps>> handler) {
-    delegate.props(path != null ? path : null, handler != null ? new Handler<AsyncResult<io.vertx.core.file.FileProps>>() {
+    delegate.props(path, handler != null ? new Handler<AsyncResult<io.vertx.core.file.FileProps>>() {
       public void handle(AsyncResult<io.vertx.core.file.FileProps> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.file.FileProps.class)));
@@ -301,7 +301,7 @@ public class FileSystem {
    * @return 
    */
   public FileProps propsBlocking(String path) {
-    def ret = InternalHelper.safeCreate(delegate.propsBlocking(path != null ? path : null), io.vertx.groovy.core.file.FileProps.class);
+    def ret = InternalHelper.safeCreate(delegate.propsBlocking(path), io.vertx.groovy.core.file.FileProps.class);
     return ret;
   }
   /**
@@ -313,7 +313,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem lprops(String path, Handler<AsyncResult<FileProps>> handler) {
-    delegate.lprops(path != null ? path : null, handler != null ? new Handler<AsyncResult<io.vertx.core.file.FileProps>>() {
+    delegate.lprops(path, handler != null ? new Handler<AsyncResult<io.vertx.core.file.FileProps>>() {
       public void handle(AsyncResult<io.vertx.core.file.FileProps> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.file.FileProps.class)));
@@ -330,7 +330,7 @@ public class FileSystem {
    * @return 
    */
   public FileProps lpropsBlocking(String path) {
-    def ret = InternalHelper.safeCreate(delegate.lpropsBlocking(path != null ? path : null), io.vertx.groovy.core.file.FileProps.class);
+    def ret = InternalHelper.safeCreate(delegate.lpropsBlocking(path), io.vertx.groovy.core.file.FileProps.class);
     return ret;
   }
   /**
@@ -341,7 +341,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem link(String link, String existing, Handler<AsyncResult<Void>> handler) {
-    delegate.link(link != null ? link : null, existing != null ? existing : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.link(link, existing, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -359,7 +359,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem linkBlocking(String link, String existing) {
-    delegate.linkBlocking(link != null ? link : null, existing != null ? existing : null);
+    delegate.linkBlocking(link, existing);
     return this;
   }
   /**
@@ -370,7 +370,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem symlink(String link, String existing, Handler<AsyncResult<Void>> handler) {
-    delegate.symlink(link != null ? link : null, existing != null ? existing : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.symlink(link, existing, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -388,7 +388,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem symlinkBlocking(String link, String existing) {
-    delegate.symlinkBlocking(link != null ? link : null, existing != null ? existing : null);
+    delegate.symlinkBlocking(link, existing);
     return this;
   }
   /**
@@ -398,7 +398,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem unlink(String link, Handler<AsyncResult<Void>> handler) {
-    delegate.unlink(link != null ? link : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.unlink(link, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -415,7 +415,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem unlinkBlocking(String link) {
-    delegate.unlinkBlocking(link != null ? link : null);
+    delegate.unlinkBlocking(link);
     return this;
   }
   /**
@@ -425,7 +425,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readSymlink(String link, Handler<AsyncResult<String>> handler) {
-    delegate.readSymlink(link != null ? link : null, handler != null ? new Handler<AsyncResult<java.lang.String>>() {
+    delegate.readSymlink(link, handler != null ? new Handler<AsyncResult<java.lang.String>>() {
       public void handle(AsyncResult<java.lang.String> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -442,7 +442,7 @@ public class FileSystem {
    * @return 
    */
   public String readSymlinkBlocking(String link) {
-    def ret = delegate.readSymlinkBlocking(link != null ? link : null);
+    def ret = delegate.readSymlinkBlocking(link);
     return ret;
   }
   /**
@@ -452,7 +452,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem delete(String path, Handler<AsyncResult<Void>> handler) {
-    delegate.delete(path != null ? path : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.delete(path, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -469,7 +469,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem deleteBlocking(String path) {
-    delegate.deleteBlocking(path != null ? path : null);
+    delegate.deleteBlocking(path);
     return this;
   }
   /**
@@ -483,7 +483,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem deleteRecursive(String path, boolean recursive, Handler<AsyncResult<Void>> handler) {
-    delegate.deleteRecursive(path != null ? path : null, recursive, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.deleteRecursive(path, recursive, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -501,7 +501,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem deleteRecursiveBlocking(String path, boolean recursive) {
-    delegate.deleteRecursiveBlocking(path != null ? path : null, recursive);
+    delegate.deleteRecursiveBlocking(path, recursive);
     return this;
   }
   /**
@@ -513,7 +513,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdir(String path, Handler<AsyncResult<Void>> handler) {
-    delegate.mkdir(path != null ? path : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.mkdir(path, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -530,7 +530,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem mkdirBlocking(String path) {
-    delegate.mkdirBlocking(path != null ? path : null);
+    delegate.mkdirBlocking(path);
     return this;
   }
   /**
@@ -548,7 +548,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdir(String path, String perms, Handler<AsyncResult<Void>> handler) {
-    delegate.mkdir(path != null ? path : null, perms != null ? perms : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.mkdir(path, perms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -566,7 +566,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem mkdirBlocking(String path, String perms) {
-    delegate.mkdirBlocking(path != null ? path : null, perms != null ? perms : null);
+    delegate.mkdirBlocking(path, perms);
     return this;
   }
   /**
@@ -578,7 +578,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdirs(String path, Handler<AsyncResult<Void>> handler) {
-    delegate.mkdirs(path != null ? path : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.mkdirs(path, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -595,7 +595,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem mkdirsBlocking(String path) {
-    delegate.mkdirsBlocking(path != null ? path : null);
+    delegate.mkdirsBlocking(path);
     return this;
   }
   /**
@@ -613,7 +613,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdirs(String path, String perms, Handler<AsyncResult<Void>> handler) {
-    delegate.mkdirs(path != null ? path : null, perms != null ? perms : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.mkdirs(path, perms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -631,7 +631,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem mkdirsBlocking(String path, String perms) {
-    delegate.mkdirsBlocking(path != null ? path : null, perms != null ? perms : null);
+    delegate.mkdirsBlocking(path, perms);
     return this;
   }
   /**
@@ -643,7 +643,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readDir(String path, Handler<AsyncResult<List<String>>> handler) {
-    delegate.readDir(path != null ? path : null, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>() {
+    delegate.readDir(path, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>() {
       public void handle(AsyncResult<java.util.List<java.lang.String>> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -660,7 +660,7 @@ public class FileSystem {
    * @return 
    */
   public List<String> readDirBlocking(String path) {
-    def ret = delegate.readDirBlocking(path != null ? path : null);
+    def ret = delegate.readDirBlocking(path);
     return ret;
   }
   /**
@@ -676,7 +676,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readDir(String path, String filter, Handler<AsyncResult<List<String>>> handler) {
-    delegate.readDir(path != null ? path : null, filter != null ? filter : null, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>() {
+    delegate.readDir(path, filter, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>() {
       public void handle(AsyncResult<java.util.List<java.lang.String>> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -694,7 +694,7 @@ public class FileSystem {
    * @return 
    */
   public List<String> readDirBlocking(String path, String filter) {
-    def ret = delegate.readDirBlocking(path != null ? path : null, filter != null ? filter : null);
+    def ret = delegate.readDirBlocking(path, filter);
     return ret;
   }
   /**
@@ -706,7 +706,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readFile(String path, Handler<AsyncResult<Buffer>> handler) {
-    delegate.readFile(path != null ? path : null, handler != null ? new Handler<AsyncResult<io.vertx.core.buffer.Buffer>>() {
+    delegate.readFile(path, handler != null ? new Handler<AsyncResult<io.vertx.core.buffer.Buffer>>() {
       public void handle(AsyncResult<io.vertx.core.buffer.Buffer> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.buffer.Buffer.class)));
@@ -723,7 +723,7 @@ public class FileSystem {
    * @return 
    */
   public Buffer readFileBlocking(String path) {
-    def ret = InternalHelper.safeCreate(delegate.readFileBlocking(path != null ? path : null), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret = InternalHelper.safeCreate(delegate.readFileBlocking(path), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -735,7 +735,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem writeFile(String path, Buffer data, Handler<AsyncResult<Void>> handler) {
-    delegate.writeFile(path != null ? path : null, data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.writeFile(path, data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -753,7 +753,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem writeFileBlocking(String path, Buffer data) {
-    delegate.writeFileBlocking(path != null ? path : null, data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
+    delegate.writeFileBlocking(path, data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   /**
@@ -766,7 +766,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem open(String path, Map<String, Object> options, Handler<AsyncResult<AsyncFile>> handler) {
-    delegate.open(path != null ? path : null, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null, handler != null ? new Handler<AsyncResult<io.vertx.core.file.AsyncFile>>() {
+    delegate.open(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null, handler != null ? new Handler<AsyncResult<io.vertx.core.file.AsyncFile>>() {
       public void handle(AsyncResult<io.vertx.core.file.AsyncFile> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.file.AsyncFile.class)));
@@ -784,7 +784,7 @@ public class FileSystem {
    * @return 
    */
   public AsyncFile openBlocking(String path, Map<String, Object> options) {
-    def ret = InternalHelper.safeCreate(delegate.openBlocking(path != null ? path : null, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.file.AsyncFile.class);
+    def ret = InternalHelper.safeCreate(delegate.openBlocking(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.file.AsyncFile.class);
     return ret;
   }
   /**
@@ -794,7 +794,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem createFile(String path, Handler<AsyncResult<Void>> handler) {
-    delegate.createFile(path != null ? path : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.createFile(path, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -811,7 +811,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem createFileBlocking(String path) {
-    delegate.createFileBlocking(path != null ? path : null);
+    delegate.createFileBlocking(path);
     return this;
   }
   /**
@@ -822,7 +822,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem createFile(String path, String perms, Handler<AsyncResult<Void>> handler) {
-    delegate.createFile(path != null ? path : null, perms != null ? perms : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+    delegate.createFile(path, perms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
       public void handle(AsyncResult<java.lang.Void> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -840,7 +840,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystem createFileBlocking(String path, String perms) {
-    delegate.createFileBlocking(path != null ? path : null, perms != null ? perms : null);
+    delegate.createFileBlocking(path, perms);
     return this;
   }
   /**
@@ -850,7 +850,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem exists(String path, Handler<AsyncResult<Boolean>> handler) {
-    delegate.exists(path != null ? path : null, handler != null ? new Handler<AsyncResult<java.lang.Boolean>>() {
+    delegate.exists(path, handler != null ? new Handler<AsyncResult<java.lang.Boolean>>() {
       public void handle(AsyncResult<java.lang.Boolean> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
@@ -867,7 +867,7 @@ public class FileSystem {
    * @return 
    */
   public boolean existsBlocking(String path) {
-    def ret = delegate.existsBlocking(path != null ? path : null);
+    def ret = delegate.existsBlocking(path);
     return ret;
   }
   /**
@@ -877,7 +877,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem fsProps(String path, Handler<AsyncResult<FileSystemProps>> handler) {
-    delegate.fsProps(path != null ? path : null, handler != null ? new Handler<AsyncResult<io.vertx.core.file.FileSystemProps>>() {
+    delegate.fsProps(path, handler != null ? new Handler<AsyncResult<io.vertx.core.file.FileSystemProps>>() {
       public void handle(AsyncResult<io.vertx.core.file.FileSystemProps> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.file.FileSystemProps.class)));
@@ -894,7 +894,7 @@ public class FileSystem {
    * @return 
    */
   public FileSystemProps fsPropsBlocking(String path) {
-    def ret = InternalHelper.safeCreate(delegate.fsPropsBlocking(path != null ? path : null), io.vertx.groovy.core.file.FileSystemProps.class);
+    def ret = InternalHelper.safeCreate(delegate.fsPropsBlocking(path), io.vertx.groovy.core.file.FileSystemProps.class);
     return ret;
   }
 }

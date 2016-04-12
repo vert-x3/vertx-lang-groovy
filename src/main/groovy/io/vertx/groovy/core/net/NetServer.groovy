@@ -108,7 +108,7 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, String host) {
-    delegate.listen(port, host != null ? host : null);
+    delegate.listen(port, host);
     return this;
   }
   /**
@@ -119,7 +119,7 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, String host, Handler<AsyncResult<NetServer>> listenHandler) {
-    delegate.listen(port, host != null ? host : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
+    delegate.listen(port, host, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
       public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
         if (ar.succeeded()) {
           listenHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.net.NetServer.class)));

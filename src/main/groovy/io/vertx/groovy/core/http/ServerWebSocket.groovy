@@ -167,7 +167,7 @@ public class ServerWebSocket implements WebSocketBase {
     return this;
   }
   public ServerWebSocket writeFinalTextFrame(String text) {
-    ((io.vertx.core.http.ServerWebSocket) delegate).writeFinalTextFrame(text != null ? text : null);
+    ((io.vertx.core.http.ServerWebSocket) delegate).writeFinalTextFrame(text);
     return this;
   }
   public ServerWebSocket writeFinalBinaryFrame(Buffer data) {

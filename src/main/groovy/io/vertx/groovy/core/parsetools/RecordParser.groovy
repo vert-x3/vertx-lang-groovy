@@ -77,7 +77,7 @@ public class RecordParser implements Handler<Buffer> {
    * @return 
    */
   public static RecordParser newDelimited(String delim, Handler<Buffer> output) {
-    def ret = InternalHelper.safeCreate(io.vertx.core.parsetools.RecordParser.newDelimited(delim != null ? delim : null, output != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+    def ret = InternalHelper.safeCreate(io.vertx.core.parsetools.RecordParser.newDelimited(delim, output != null ? new Handler<io.vertx.core.buffer.Buffer>(){
       public void handle(io.vertx.core.buffer.Buffer event) {
         output.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
       }
@@ -126,7 +126,7 @@ public class RecordParser implements Handler<Buffer> {
    * @param delim the new delimeter
    */
   public void delimitedMode(String delim) {
-    delegate.delimitedMode(delim != null ? delim : null);
+    delegate.delimitedMode(delim);
   }
   /**
    * Flip the parser into delimited mode, and where the delimiter can be represented

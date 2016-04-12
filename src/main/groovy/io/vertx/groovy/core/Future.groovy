@@ -64,7 +64,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> failedFuture(String failureMessage) {
-    def ret = InternalHelper.safeCreate(io.vertx.core.Future.failedFuture(failureMessage != null ? failureMessage : null), io.vertx.groovy.core.Future.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.Future.failedFuture(failureMessage), io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
@@ -115,14 +115,14 @@ public class Future<T> {
    * @param throwable the failure cause
    */
   public void fail(Throwable throwable) {
-    delegate.fail(throwable != null ? throwable : null);
+    delegate.fail(throwable);
   }
   /**
    * Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.
    * @param failureMessage the failure message
    */
   public void fail(String failureMessage) {
-    delegate.fail(failureMessage != null ? failureMessage : null);
+    delegate.fail(failureMessage);
   }
   /**
    * The result of the operation. This will be null if the operation failed.

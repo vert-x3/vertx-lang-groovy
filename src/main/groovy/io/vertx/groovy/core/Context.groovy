@@ -217,7 +217,7 @@ public class Context {
    * @return the data
    */
   public <T> T get(String key) {
-    def ret = (T) InternalHelper.wrapObject(delegate.get(key != null ? key : null));
+    def ret = (T) InternalHelper.wrapObject(delegate.get(key));
     return ret;
   }
   /**
@@ -228,7 +228,7 @@ public class Context {
    * @param value the data
    */
   public void put(String key, Object value) {
-    delegate.put(key != null ? key : null, value != null ? InternalHelper.unwrapObject(value) : null);
+    delegate.put(key, value != null ? InternalHelper.unwrapObject(value) : null);
   }
   /**
    * Remove some data from the context.
@@ -236,7 +236,7 @@ public class Context {
    * @return true if removed successfully, false otherwise
    */
   public boolean remove(String key) {
-    def ret = delegate.remove(key != null ? key : null);
+    def ret = delegate.remove(key);
     return ret;
   }
   /**

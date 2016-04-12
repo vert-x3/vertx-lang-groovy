@@ -169,7 +169,7 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase writeFinalTextFrame(String text) {
-    ((io.vertx.core.http.WebSocketBase) delegate).writeFinalTextFrame(text != null ? text : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).writeFinalTextFrame(text);
     return this;
   }
   /**
