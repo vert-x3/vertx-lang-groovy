@@ -18,11 +18,12 @@ package io.vertx.groovy.core.http;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
+import io.vertx.groovy.core.MultiMap
 import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.core.http.HttpVersion
 import io.vertx.groovy.core.streams.WriteStream
 import io.vertx.core.http.HttpMethod
 import io.vertx.groovy.core.streams.ReadStream
-import io.vertx.groovy.core.MultiMap
 import io.vertx.core.Handler
 /**
  * Represents a client-side HTTP request.
@@ -143,6 +144,41 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return ret;
   }
   /**
+   * @return The path part of the uri. For example /somepath/somemorepath/someresource.foo
+   * @return 
+   */
+  public String path() {
+    def ret = this.delegate.path();
+    return ret;
+  }
+  /**
+   * @return the query part of the uri. For example someparam=32&amp;someotherparam=x
+   * @return 
+   */
+  public String query() {
+    def ret = this.delegate.query();
+    return ret;
+  }
+  /**
+   * Set the request host.<p/>
+   *
+   * For HTTP2 it sets the  pseudo header otherwise it sets the  header
+   * @param host 
+   * @return 
+   */
+  public HttpClientRequest setHost(String host) {
+    this.delegate.setHost(host);
+    return this;
+  }
+  /**
+   * @return the request host. For HTTP2 it returns the  pseudo header otherwise it returns the  header
+   * @return 
+   */
+  public String getHost() {
+    def ret = this.delegate.getHost();
+    return ret;
+  }
+  /**
    * @return The HTTP headers
    * @return 
    */
@@ -210,6 +246,16 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   /**
+   * Like {@link io.vertx.groovy.core.http.HttpClientRequest#sendHead} but with an handler after headers have been sent. The handler will be called with
+   * the {@link io.vertx.groovy.core.http.HttpVersion} if it can be determined or null otherwise.<p>
+   * @param completionHandler 
+   * @return 
+   */
+  public HttpClientRequest sendHead(Handler<HttpVersion> completionHandler) {
+    this.delegate.sendHead(null /* Handler<io.vertx.core.http.HttpVersion> with kind ENUM not yet implemented */);
+    return this;
+  }
+  /**
    * Same as {@link io.vertx.groovy.core.http.HttpClientRequest#end} but writes a String in UTF-8 encoding
    * @param chunk 
    */
@@ -255,5 +301,106 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     this.delegate.setTimeout(timeoutMs);
     return this;
   }
+  /**
+   * Set a push handler for this request.<p/>
+   *
+   * The handler is called when the client receives a <i>push promise</i> from the server. The handler can be called
+   * multiple times, for each push promise.<p/>
+   *
+   * The handler is called with a <i>read-only</i> {@link io.vertx.groovy.core.http.HttpClientRequest}, the following methods can be called:<p/>
+   *
+   * <ul>
+   *   <li>{@link io.vertx.groovy.core.http.HttpClientRequest#method}</li>
+   *   <li>{@link io.vertx.groovy.core.http.HttpClientRequest#uri}</li>
+   *   <li>{@link io.vertx.groovy.core.http.HttpClientRequest#headers}</li>
+   *   <li>{@link io.vertx.groovy.core.http.HttpClientRequest#getHost}</li>
+   * </ul>
+   *
+   * In addition the handler should call the {@link io.vertx.groovy.core.http.HttpClientRequest#handler} method to set an handler to
+   * process the response.<p/>
+   * @param handler the handler
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClientRequest pushHandler(Handler<HttpClientRequest> handler) {
+    this.delegate.pushHandler(new Handler<io.vertx.core.http.HttpClientRequest>() {
+      public void handle(io.vertx.core.http.HttpClientRequest event) {
+        handler.handle(new io.vertx.groovy.core.http.HttpClientRequest(event));
+      }
+    });
+    return this;
+  }
+  /**
+   * Reset this stream with the error code <code>0</code>.
+   */
+  public void reset() {
+    this.delegate.reset();
+  }
+  /**
+   * Reset this stream with the error <code>code</code>.
+   * @param code the error code
+   */
+  public void reset(long code) {
+    this.delegate.reset(code);
+  }
+  /**
+   * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request when it is an HTTP/2 connection, null otherwise
+   * @return 
+   */
+  public HttpConnection connection() {
+    if (cached_1 != null) {
+      return cached_1;
+    }
+    def ret= InternalHelper.safeCreate(this.delegate.connection(), io.vertx.groovy.core.http.HttpConnection.class);
+    cached_1 = ret;
+    return ret;
+  }
+  /**
+   * Set a connection handler called when an HTTP/2 connection has been established.
+   * @param handler the handler
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClientRequest connectionHandler(Handler<HttpConnection> handler) {
+    this.delegate.connectionHandler(new Handler<io.vertx.core.http.HttpConnection>() {
+      public void handle(io.vertx.core.http.HttpConnection event) {
+        handler.handle(new io.vertx.groovy.core.http.HttpConnection(event));
+      }
+    });
+    return this;
+  }
+  /**
+   * Write an HTTP/2 frame to the request, allowing to extend the HTTP/2 protocol.<p>
+   *
+   * The frame is sent immediatly and is not subject to flow control.<p>
+   *
+   * This method must be called after the request headers have been sent and only for the protocol HTTP/2.
+   * The {@link io.vertx.groovy.core.http.HttpClientRequest#sendHead} should be used for this purpose.
+   * @param type the 8-bit frame type
+   * @param flags the 8-bit frame flags
+   * @param payload the frame payload
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClientRequest writeFrame(int type, int flags, Buffer payload) {
+    this.delegate.writeFrame(type, flags, (io.vertx.core.buffer.Buffer)payload.getDelegate());
+    return this;
+  }
+  /**
+   * @return the id of the stream of this response,  when it is not yet determined, i.e
+   *         the request has not been yet sent or it is not supported HTTP/1.x
+   * @return 
+   */
+  public int streamId() {
+    def ret = this.delegate.streamId();
+    return ret;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.http.HttpClientRequest#writeFrame} but with an {@link io.vertx.groovy.core.http.HttpFrame}.
+   * @param frame the frame to write
+   * @return 
+   */
+  public HttpClientRequest writeFrame(HttpFrame frame) {
+    this.delegate.writeFrame((io.vertx.core.http.HttpFrame)frame.getDelegate());
+    return this;
+  }
   private MultiMap cached_0;
+  private HttpConnection cached_1;
 }

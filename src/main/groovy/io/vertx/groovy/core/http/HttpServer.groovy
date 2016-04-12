@@ -53,7 +53,11 @@ public class HttpServer implements Measured {
    * @return the request stream
    */
   public HttpServerRequestStream requestStream() {
+    if (cached_0 != null) {
+      return cached_0;
+    }
     def ret= InternalHelper.safeCreate(this.delegate.requestStream(), io.vertx.groovy.core.http.HttpServerRequestStream.class);
+    cached_0 = ret;
     return ret;
   }
   /**
@@ -63,12 +67,26 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer requestHandler(Handler<HttpServerRequest> handler) {
-    def ret= InternalHelper.safeCreate(this.delegate.requestHandler(new Handler<io.vertx.core.http.HttpServerRequest>() {
+    this.delegate.requestHandler(new Handler<io.vertx.core.http.HttpServerRequest>() {
       public void handle(io.vertx.core.http.HttpServerRequest event) {
         handler.handle(new io.vertx.groovy.core.http.HttpServerRequest(event));
       }
-    }), io.vertx.groovy.core.http.HttpServer.class);
-    return ret;
+    });
+    return this;
+  }
+  /**
+   * Set a connection handler for the server. The connection handler is called after an HTTP2 connection has
+   * been negociated.
+   * @param handler 
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServer connectionHandler(Handler<HttpConnection> handler) {
+    this.delegate.connectionHandler(new Handler<io.vertx.core.http.HttpConnection>() {
+      public void handle(io.vertx.core.http.HttpConnection event) {
+        handler.handle(new io.vertx.groovy.core.http.HttpConnection(event));
+      }
+    });
+    return this;
   }
   /**
    * Return the websocket stream for the server. If a websocket connect handshake is successful a
@@ -76,7 +94,11 @@ public class HttpServer implements Measured {
    * @return the websocket stream
    */
   public ServerWebSocketStream websocketStream() {
+    if (cached_1 != null) {
+      return cached_1;
+    }
     def ret= InternalHelper.safeCreate(this.delegate.websocketStream(), io.vertx.groovy.core.http.ServerWebSocketStream.class);
+    cached_1 = ret;
     return ret;
   }
   /**
@@ -86,12 +108,12 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer websocketHandler(Handler<ServerWebSocket> handler) {
-    def ret= InternalHelper.safeCreate(this.delegate.websocketHandler(new Handler<io.vertx.core.http.ServerWebSocket>() {
+    this.delegate.websocketHandler(new Handler<io.vertx.core.http.ServerWebSocket>() {
       public void handle(io.vertx.core.http.ServerWebSocket event) {
         handler.handle(new io.vertx.groovy.core.http.ServerWebSocket(event));
       }
-    }), io.vertx.groovy.core.http.HttpServer.class);
-    return ret;
+    });
+    return this;
   }
   /**
    * Tell the server to start listening. The server will listen on the port and host specified in the
@@ -203,4 +225,15 @@ public class HttpServer implements Measured {
   public void close(Handler<AsyncResult<Void>> completionHandler) {
     this.delegate.close(completionHandler);
   }
+  /**
+   * The actual port the server is listening on. This is useful if you bound the server specifying 0 as port number
+   * signifying an ephemeral port
+   * @return the actual port the server is listening on.
+   */
+  public int actualPort() {
+    def ret = this.delegate.actualPort();
+    return ret;
+  }
+  private HttpServerRequestStream cached_0;
+  private ServerWebSocketStream cached_1;
 }

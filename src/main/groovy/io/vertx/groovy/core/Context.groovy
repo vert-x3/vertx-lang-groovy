@@ -257,4 +257,15 @@ public class Context {
     def ret = this.delegate.getInstanceCount();
     return ret;
   }
+  /**
+   * Set an exception handler called when the context runs an action throwing an uncaught throwable.<p/>
+   *
+   * When this handler is called, {@link io.vertx.groovy.core.Vertx#currentContext} will return this context.
+   * @param handler the exception handler
+   * @return a reference to this, so the API can be used fluently
+   */
+  public Context exceptionHandler(Handler<Throwable> handler) {
+    this.delegate.exceptionHandler(handler);
+    return this;
+  }
 }

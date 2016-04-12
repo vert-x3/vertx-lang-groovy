@@ -471,6 +471,15 @@ public class Vertx implements Measured {
       }
     });
   }
+  /**
+   * Set a default exception handler for {@link io.vertx.groovy.core.Context}, set on  at creation.
+   * @param handler the exception handler
+   * @return a reference to this, so the API can be used fluently
+   */
+  public Vertx exceptionHandler(Handler<Throwable> handler) {
+    this.delegate.exceptionHandler(handler);
+    return this;
+  }
   private FileSystem cached_0;
   private EventBus cached_1;
   private SharedData cached_2;

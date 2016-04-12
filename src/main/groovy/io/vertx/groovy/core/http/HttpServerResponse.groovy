@@ -20,6 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
 import io.vertx.groovy.core.buffer.Buffer
 import io.vertx.groovy.core.streams.WriteStream
+import io.vertx.core.http.HttpMethod
 import io.vertx.groovy.core.MultiMap
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
@@ -382,6 +383,145 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   public long bytesWritten() {
     def ret = this.delegate.bytesWritten();
     return ret;
+  }
+  /**
+   * @return the id of the stream of this response,  for HTTP/1.x
+   * @return 
+   */
+  public int streamId() {
+    def ret = this.delegate.streamId();
+    return ret;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#push} with no headers.
+   * @param method 
+   * @param host 
+   * @param path 
+   * @param handler 
+   * @return 
+   */
+  public HttpServerResponse push(HttpMethod method, String host, String path, Handler<AsyncResult<HttpServerResponse>> handler) {
+    def ret= InternalHelper.safeCreate(this.delegate.push(method, host, path, new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> event) {
+        AsyncResult<HttpServerResponse> f
+        if (event.succeeded()) {
+          f = InternalHelper.<HttpServerResponse>result(new HttpServerResponse(event.result()))
+        } else {
+          f = InternalHelper.<HttpServerResponse>failure(event.cause())
+        }
+        handler.handle(f)
+      }
+    }), io.vertx.groovy.core.http.HttpServerResponse.class);
+    return ret;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#push} with the host copied from the current request.
+   * @param method 
+   * @param path 
+   * @param headers 
+   * @param handler 
+   * @return 
+   */
+  public HttpServerResponse push(HttpMethod method, String path, MultiMap headers, Handler<AsyncResult<HttpServerResponse>> handler) {
+    def ret= InternalHelper.safeCreate(this.delegate.push(method, path, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> event) {
+        AsyncResult<HttpServerResponse> f
+        if (event.succeeded()) {
+          f = InternalHelper.<HttpServerResponse>result(new HttpServerResponse(event.result()))
+        } else {
+          f = InternalHelper.<HttpServerResponse>failure(event.cause())
+        }
+        handler.handle(f)
+      }
+    }), io.vertx.groovy.core.http.HttpServerResponse.class);
+    return ret;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#push} with the host copied from the current request.
+   * @param method 
+   * @param path 
+   * @param handler 
+   * @return 
+   */
+  public HttpServerResponse push(HttpMethod method, String path, Handler<AsyncResult<HttpServerResponse>> handler) {
+    this.delegate.push(method, path, new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> event) {
+        AsyncResult<HttpServerResponse> f
+        if (event.succeeded()) {
+          f = InternalHelper.<HttpServerResponse>result(new HttpServerResponse(event.result()))
+        } else {
+          f = InternalHelper.<HttpServerResponse>failure(event.cause())
+        }
+        handler.handle(f)
+      }
+    });
+    return this;
+  }
+  /**
+   * Push a response to the client.<p/>
+   *
+   * The <code>handler</code> will be notified with a <i>success</i> when the push can be sent and with
+   * a <i>failure</i> when the client has disabled push or reset the push before it has been sent.<p/>
+   *
+   * The <code>handler</code> may be queued if the client has reduced the maximum number of streams the server can push
+   * concurrently.<p/>
+   *
+   * Push can be sent only for peer initiated streams and if the response is not ended.
+   * @param method the method of the promised request
+   * @param host the host of the promised request
+   * @param path the path of the promised request
+   * @param headers the headers of the promised request
+   * @param handler the handler notified when the response can be written
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServerResponse push(HttpMethod method, String host, String path, MultiMap headers, Handler<AsyncResult<HttpServerResponse>> handler) {
+    this.delegate.push(method, host, path, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> event) {
+        AsyncResult<HttpServerResponse> f
+        if (event.succeeded()) {
+          f = InternalHelper.<HttpServerResponse>result(new HttpServerResponse(event.result()))
+        } else {
+          f = InternalHelper.<HttpServerResponse>failure(event.cause())
+        }
+        handler.handle(f)
+      }
+    });
+    return this;
+  }
+  /**
+   * Reset this HTTP/2 stream with the error code <code>0</code>.
+   */
+  public void reset() {
+    this.delegate.reset();
+  }
+  /**
+   * Reset this HTTP/2 stream with the error <code>code</code>.
+   * @param code the error code
+   */
+  public void reset(long code) {
+    this.delegate.reset(code);
+  }
+  /**
+   * Write an HTTP/2 frame to the response, allowing to extend the HTTP/2 protocol.<p>
+   *
+   * The frame is sent immediatly and is not subject to flow control.
+   * @param type the 8-bit frame type
+   * @param flags the 8-bit frame flags
+   * @param payload the frame payload
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServerResponse writeFrame(int type, int flags, Buffer payload) {
+    this.delegate.writeFrame(type, flags, (io.vertx.core.buffer.Buffer)payload.getDelegate());
+    return this;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#writeFrame} but with an {@link io.vertx.groovy.core.http.HttpFrame}.
+   * @param frame the frame to write
+   * @return 
+   */
+  public HttpServerResponse writeFrame(HttpFrame frame) {
+    this.delegate.writeFrame((io.vertx.core.http.HttpFrame)frame.getDelegate());
+    return this;
   }
   private MultiMap cached_0;
   private MultiMap cached_1;

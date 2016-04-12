@@ -95,6 +95,14 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
+   * @return the scheme of the request
+   * @return 
+   */
+  public String scheme() {
+    def ret = this.delegate.scheme();
+    return ret;
+  }
+  /**
    * @return the URI of the request. This is usually a relative URI
    * @return 
    */
@@ -116,6 +124,14 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    */
   public String query() {
     def ret = this.delegate.query();
+    return ret;
+  }
+  /**
+   * @return the request host. For HTTP2 it returns the  pseudo header otherwise it returns the  header
+   * @return 
+   */
+  public String host() {
+    def ret = this.delegate.host();
     return ret;
   }
   /**
@@ -316,6 +332,32 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     def ret = this.delegate.isEnded();
     return ret;
   }
+  /**
+   * Set an unknown frame handler. The handler will get notified when the http stream receives an unknown HTTP/2
+   * frame. HTTP/2 permits extension of the protocol.
+   * @param handler 
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpServerRequest unknownFrameHandler(Handler<HttpFrame> handler) {
+    this.delegate.unknownFrameHandler(new Handler<io.vertx.core.http.HttpFrame>() {
+      public void handle(io.vertx.core.http.HttpFrame event) {
+        handler.handle(new io.vertx.groovy.core.http.HttpFrame(event));
+      }
+    });
+    return this;
+  }
+  /**
+   * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request when it is an HTTP/2 connection, null otherwise
+   * @return 
+   */
+  public HttpConnection connection() {
+    if (cached_7 != null) {
+      return cached_7;
+    }
+    def ret= InternalHelper.safeCreate(this.delegate.connection(), io.vertx.groovy.core.http.HttpConnection.class);
+    cached_7 = ret;
+    return ret;
+  }
   private HttpServerResponse cached_0;
   private MultiMap cached_1;
   private MultiMap cached_2;
@@ -323,4 +365,5 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   private SocketAddress cached_4;
   private NetSocket cached_5;
   private MultiMap cached_6;
+  private HttpConnection cached_7;
 }

@@ -20,6 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
 import java.util.List
 import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.core.http.HttpVersion
 import io.vertx.groovy.core.streams.ReadStream
 import io.vertx.groovy.core.MultiMap
 import io.vertx.core.Handler
@@ -65,6 +66,14 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   public HttpClientResponse endHandler(Handler<Void> endHandler) {
     ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).endHandler(endHandler);
     return this;
+  }
+  /**
+   * @return the version of the response
+   * @return 
+   */
+  public HttpVersion version() {
+    def ret = this.delegate.version();
+    return ret;
   }
   /**
    * @return the status code of the response
@@ -148,6 +157,20 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     this.delegate.bodyHandler(new Handler<io.vertx.core.buffer.Buffer>() {
       public void handle(io.vertx.core.buffer.Buffer event) {
         bodyHandler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
+      }
+    });
+    return this;
+  }
+  /**
+   * Set an unknown frame handler. The handler will get notified when the http stream receives an unknown HTTP/2
+   * frame. HTTP/2 permits extension of the protocol.
+   * @param handler 
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClientResponse unknownFrameHandler(Handler<HttpFrame> handler) {
+    this.delegate.unknownFrameHandler(new Handler<io.vertx.core.http.HttpFrame>() {
+      public void handle(io.vertx.core.http.HttpFrame event) {
+        handler.handle(new io.vertx.groovy.core.http.HttpFrame(event));
       }
     });
     return this;
