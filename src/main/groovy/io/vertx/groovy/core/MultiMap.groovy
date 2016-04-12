@@ -41,7 +41,7 @@ public class MultiMap {
    * @return the multi-map
    */
   public static MultiMap caseInsensitiveMultiMap() {
-    def ret= InternalHelper.safeCreate(io.vertx.core.MultiMap.caseInsensitiveMultiMap(), io.vertx.groovy.core.MultiMap.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.MultiMap.caseInsensitiveMultiMap(), io.vertx.groovy.core.MultiMap.class);
     return ret;
   }
   /**
@@ -51,7 +51,7 @@ public class MultiMap {
    * @return The first header value or <code>null</code> if there is no such entry
    */
   public String get(String name) {
-    def ret = this.delegate.get(name != null ? name : null);
+    def ret = delegate.get(name != null ? name : null);
     return ret;
   }
   /**
@@ -60,7 +60,7 @@ public class MultiMap {
    * @return A immutable {@link java.util.List} of values which will be empty if no values are found
    */
   public List<String> getAll(String name) {
-    def ret = this.delegate.getAll(name != null ? name : null);
+    def ret = delegate.getAll(name != null ? name : null);
     return ret;
   }
   /**
@@ -69,7 +69,7 @@ public class MultiMap {
    * @return true if at least one entry is found
    */
   public boolean contains(String name) {
-    def ret = this.delegate.contains(name != null ? name : null);
+    def ret = delegate.contains(name != null ? name : null);
     return ret;
   }
   /**
@@ -77,7 +77,7 @@ public class MultiMap {
    * @return 
    */
   public boolean isEmpty() {
-    def ret = this.delegate.isEmpty();
+    def ret = delegate.isEmpty();
     return ret;
   }
   /**
@@ -85,7 +85,7 @@ public class MultiMap {
    * @return A {@link java.util.Set} of all names
    */
   public Set<String> names() {
-    def ret = this.delegate.names();
+    def ret = delegate.names();
     return ret;
   }
   /**
@@ -95,7 +95,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap add(String name, String value) {
-    this.delegate.add(name != null ? name : null, value != null ? value : null);
+    delegate.add(name != null ? name : null, value != null ? value : null);
     return this;
   }
   /**
@@ -104,7 +104,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap addAll(MultiMap map) {
-    this.delegate.addAll(map != null ? (io.vertx.core.MultiMap)map.getDelegate() : null);
+    delegate.addAll(map != null ? (io.vertx.core.MultiMap)map.getDelegate() : null);
     return this;
   }
   /**
@@ -116,7 +116,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap set(String name, String value) {
-    this.delegate.set(name != null ? name : null, value != null ? value : null);
+    delegate.set(name != null ? name : null, value != null ? value : null);
     return this;
   }
   /**
@@ -125,7 +125,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap setAll(MultiMap map) {
-    this.delegate.setAll(map != null ? (io.vertx.core.MultiMap)map.getDelegate() : null);
+    delegate.setAll(map != null ? (io.vertx.core.MultiMap)map.getDelegate() : null);
     return this;
   }
   /**
@@ -134,7 +134,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap remove(String name) {
-    this.delegate.remove(name != null ? name : null);
+    delegate.remove(name != null ? name : null);
     return this;
   }
   /**
@@ -142,7 +142,7 @@ public class MultiMap {
    * @return a reference to this, so the API can be used fluently
    */
   public MultiMap clear() {
-    this.delegate.clear();
+    delegate.clear();
     return this;
   }
   /**
@@ -150,7 +150,7 @@ public class MultiMap {
    * @return 
    */
   public int size() {
-    def ret = this.delegate.size();
+    def ret = delegate.size();
     return ret;
   }
 }

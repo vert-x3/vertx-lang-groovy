@@ -39,7 +39,7 @@ public class HttpFrame {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret = this.delegate.type();
+    def ret = delegate.type();
     cached_0 = ret;
     return ret;
   }
@@ -51,7 +51,7 @@ public class HttpFrame {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret = this.delegate.flags();
+    def ret = delegate.flags();
     cached_1 = ret;
     return ret;
   }
@@ -63,7 +63,7 @@ public class HttpFrame {
     if (cached_2 != null) {
       return cached_2;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.payload(), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret = InternalHelper.safeCreate(delegate.payload(), io.vertx.groovy.core.buffer.Buffer.class);
     cached_2 = ret;
     return ret;
   }

@@ -43,12 +43,11 @@ class StreamBaseImpl implements StreamBase {
    * @return a reference to this, so the API can be used fluently
    */
   public StreamBase exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.StreamBase) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
 }

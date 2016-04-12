@@ -35,7 +35,7 @@ public class MxRecord {
    * @return 
    */
   public int priority() {
-    def ret = this.delegate.priority();
+    def ret = delegate.priority();
     return ret;
   }
   /**
@@ -43,7 +43,7 @@ public class MxRecord {
    * @return 
    */
   public String name() {
-    def ret = this.delegate.name();
+    def ret = delegate.name();
     return ret;
   }
 }

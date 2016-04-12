@@ -36,20 +36,20 @@ public class SendContext<T> {
    * @return 
    */
   public Message<T> message() {
-    def ret= InternalHelper.safeCreate(this.delegate.message(), io.vertx.groovy.core.eventbus.Message.class);
+    def ret = InternalHelper.safeCreate(delegate.message(), io.vertx.groovy.core.eventbus.Message.class);
     return ret;
   }
   /**
    * Call the next interceptor
    */
   public void next() {
-    this.delegate.next();
+    delegate.next();
   }
   /**
    * @return true if the message is being sent (point to point) or False if the message is being published
    */
   public boolean send() {
-    def ret = this.delegate.send();
+    def ret = delegate.send();
     return ret;
   }
 }

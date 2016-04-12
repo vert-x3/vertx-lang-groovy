@@ -39,38 +39,35 @@ public class WebSocketStream implements ReadStream<WebSocket> {
     return delegate;
   }
   public WebSocketStream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.WebSocketStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public WebSocketStream handler(Handler<WebSocket> handler) {
-    ((io.vertx.core.http.WebSocketStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.http.WebSocket>(){
-    public void handle(io.vertx.core.http.WebSocket event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketStream) delegate).handler(handler != null ? new Handler<io.vertx.core.http.WebSocket>(){
+      public void handle(io.vertx.core.http.WebSocket event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
+      }
+    } : null);
     return this;
   }
   public WebSocketStream pause() {
-    ((io.vertx.core.http.WebSocketStream) this.delegate).pause();
+    ((io.vertx.core.http.WebSocketStream) delegate).pause();
     return this;
   }
   public WebSocketStream resume() {
-    ((io.vertx.core.http.WebSocketStream) this.delegate).resume();
+    ((io.vertx.core.http.WebSocketStream) delegate).resume();
     return this;
   }
   public WebSocketStream endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.WebSocketStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
 }

@@ -44,7 +44,7 @@ public class HttpServer implements Measured {
    * @return true if the metrics are enabled
    */
   public boolean isMetricsEnabled() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).isMetricsEnabled();
+    def ret = ((io.vertx.core.metrics.Measured) delegate).isMetricsEnabled();
     return ret;
   }
   /**
@@ -56,7 +56,7 @@ public class HttpServer implements Measured {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.requestStream(), io.vertx.groovy.core.http.HttpServerRequestStream.class);
+    def ret = InternalHelper.safeCreate(delegate.requestStream(), io.vertx.groovy.core.http.HttpServerRequestStream.class);
     cached_0 = ret;
     return ret;
   }
@@ -67,12 +67,11 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer requestHandler(Handler<HttpServerRequest> handler) {
-    this.delegate.requestHandler(handler != null ? new Handler<io.vertx.core.http.HttpServerRequest>(){
-    public void handle(io.vertx.core.http.HttpServerRequest event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.requestHandler(handler != null ? new Handler<io.vertx.core.http.HttpServerRequest>(){
+      public void handle(io.vertx.core.http.HttpServerRequest event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.HttpServerRequest.class));
+      }
+    } : null);
     return this;
   }
   /**
@@ -82,12 +81,11 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer connectionHandler(Handler<HttpConnection> handler) {
-    this.delegate.connectionHandler(handler != null ? new Handler<io.vertx.core.http.HttpConnection>(){
-    public void handle(io.vertx.core.http.HttpConnection event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.connectionHandler(handler != null ? new Handler<io.vertx.core.http.HttpConnection>(){
+      public void handle(io.vertx.core.http.HttpConnection event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.HttpConnection.class));
+      }
+    } : null);
     return this;
   }
   /**
@@ -99,7 +97,7 @@ public class HttpServer implements Measured {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.websocketStream(), io.vertx.groovy.core.http.ServerWebSocketStream.class);
+    def ret = InternalHelper.safeCreate(delegate.websocketStream(), io.vertx.groovy.core.http.ServerWebSocketStream.class);
     cached_1 = ret;
     return ret;
   }
@@ -110,12 +108,11 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer websocketHandler(Handler<ServerWebSocket> handler) {
-    this.delegate.websocketHandler(handler != null ? new Handler<io.vertx.core.http.ServerWebSocket>(){
-    public void handle(io.vertx.core.http.ServerWebSocket event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.websocketHandler(handler != null ? new Handler<io.vertx.core.http.ServerWebSocket>(){
+      public void handle(io.vertx.core.http.ServerWebSocket event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.ServerWebSocket.class));
+      }
+    } : null);
     return this;
   }
   /**
@@ -126,7 +123,7 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer listen() {
-    this.delegate.listen();
+    delegate.listen();
     return this;
   }
   /**
@@ -139,7 +136,7 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer listen(int port, String host) {
-    this.delegate.listen(port != null ? port : null, host != null ? host : null);
+    delegate.listen(port, host != null ? host : null);
     return this;
   }
   /**
@@ -151,12 +148,15 @@ public class HttpServer implements Measured {
    * @return 
    */
   public HttpServer listen(int port, String host, Handler<AsyncResult<HttpServer>> listenHandler) {
-    this.delegate.listen(port != null ? port : null, host != null ? host : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>(){
-    public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
-      listenHandler.handle(null);
-    }
-  }
- : null);
+    delegate.listen(port, host != null ? host : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
+        if (ar.succeeded()) {
+          listenHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.http.HttpServer.class)));
+        } else {
+          listenHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -166,7 +166,7 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer listen(int port) {
-    this.delegate.listen(port != null ? port : null);
+    delegate.listen(port);
     return this;
   }
   /**
@@ -176,12 +176,15 @@ public class HttpServer implements Measured {
    * @return 
    */
   public HttpServer listen(int port, Handler<AsyncResult<HttpServer>> listenHandler) {
-    this.delegate.listen(port != null ? port : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>(){
-    public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
-      listenHandler.handle(null);
-    }
-  }
- : null);
+    delegate.listen(port, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
+        if (ar.succeeded()) {
+          listenHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.http.HttpServer.class)));
+        } else {
+          listenHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -190,12 +193,15 @@ public class HttpServer implements Measured {
    * @return 
    */
   public HttpServer listen(Handler<AsyncResult<HttpServer>> listenHandler) {
-    this.delegate.listen(listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>(){
-    public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
-      listenHandler.handle(null);
-    }
-  }
- : null);
+    delegate.listen(listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
+      public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
+        if (ar.succeeded()) {
+          listenHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.http.HttpServer.class)));
+        } else {
+          listenHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -204,19 +210,22 @@ public class HttpServer implements Measured {
    * The close happens asynchronously and the server may not be closed until some time after the call has returned.
    */
   public void close() {
-    this.delegate.close();
+    delegate.close();
   }
   /**
    * Like {@link io.vertx.groovy.core.http.HttpServer#close} but supplying a handler that will be called when the server is actually closed (or has failed).
    * @param completionHandler the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      completionHandler.handle(null);
-    }
-  }
- : null);
+    delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * The actual port the server is listening on. This is useful if you bound the server specifying 0 as port number
@@ -224,7 +233,7 @@ public class HttpServer implements Measured {
    * @return the actual port the server is listening on.
    */
   public int actualPort() {
-    def ret = this.delegate.actualPort();
+    def ret = delegate.actualPort();
     return ret;
   }
   private HttpServerRequestStream cached_0;

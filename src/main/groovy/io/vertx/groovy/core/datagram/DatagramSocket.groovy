@@ -50,7 +50,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return true if the metrics are enabled
    */
   public boolean isMetricsEnabled() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).isMetricsEnabled();
+    def ret = ((io.vertx.core.metrics.Measured) delegate).isMetricsEnabled();
     return ret;
   }
   /**
@@ -63,12 +63,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(Buffer packet, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.send(packet != null ? (io.vertx.core.buffer.Buffer)packet.getDelegate() : null, port != null ? port : null, host != null ? host : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.send(packet != null ? (io.vertx.core.buffer.Buffer)packet.getDelegate() : null, port, host != null ? host : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -79,7 +82,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return the write stream for sending packets
    */
   public PacketWritestream sender(int port, String host) {
-    def ret= InternalHelper.safeCreate(this.delegate.sender(port != null ? port : null, host != null ? host : null), io.vertx.groovy.core.datagram.PacketWritestream.class);
+    def ret = InternalHelper.safeCreate(delegate.sender(port, host != null ? host : null), io.vertx.groovy.core.datagram.PacketWritestream.class);
     return ret;
   }
   /**
@@ -92,12 +95,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(String str, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.send(str != null ? str : null, port != null ? port : null, host != null ? host : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.send(str != null ? str : null, port, host != null ? host : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -111,12 +117,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket send(String str, String enc, int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.send(str != null ? str : null, enc != null ? enc : null, port != null ? port : null, host != null ? host : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.send(str != null ? str : null, enc != null ? enc : null, port, host != null ? host : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -125,18 +134,21 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @param handler the handler to notify once complete
    */
   public void close(Handler<AsyncResult<Void>> handler) {
-    this.delegate.close(handler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.close(handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Closes the {@link io.vertx.groovy.core.datagram.DatagramSocket}. The close itself is asynchronous.
    */
   public void close() {
-    this.delegate.close();
+    delegate.close();
   }
   /**
    * Return the {@link io.vertx.groovy.core.net.SocketAddress} to which
@@ -147,7 +159,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
+    def ret = InternalHelper.safeCreate(delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }
@@ -159,12 +171,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket listenMulticastGroup(String multicastAddress, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.listenMulticastGroup(multicastAddress != null ? multicastAddress : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.listenMulticastGroup(multicastAddress != null ? multicastAddress : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -177,12 +192,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket listenMulticastGroup(String multicastAddress, String networkInterface, String source, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.listenMulticastGroup(multicastAddress != null ? multicastAddress : null, networkInterface != null ? networkInterface : null, source != null ? source : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.listenMulticastGroup(multicastAddress != null ? multicastAddress : null, networkInterface != null ? networkInterface : null, source != null ? source : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -193,12 +211,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket unlistenMulticastGroup(String multicastAddress, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.unlistenMulticastGroup(multicastAddress != null ? multicastAddress : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.unlistenMulticastGroup(multicastAddress != null ? multicastAddress : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -211,12 +232,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket unlistenMulticastGroup(String multicastAddress, String networkInterface, String source, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.unlistenMulticastGroup(multicastAddress != null ? multicastAddress : null, networkInterface != null ? networkInterface : null, source != null ? source : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.unlistenMulticastGroup(multicastAddress != null ? multicastAddress : null, networkInterface != null ? networkInterface : null, source != null ? source : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -228,12 +252,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket blockMulticastGroup(String multicastAddress, String sourceToBlock, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.blockMulticastGroup(multicastAddress != null ? multicastAddress : null, sourceToBlock != null ? sourceToBlock : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.blockMulticastGroup(multicastAddress != null ? multicastAddress : null, sourceToBlock != null ? sourceToBlock : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -246,12 +273,15 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket blockMulticastGroup(String multicastAddress, String networkInterface, String sourceToBlock, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.blockMulticastGroup(multicastAddress != null ? multicastAddress : null, networkInterface != null ? networkInterface : null, sourceToBlock != null ? sourceToBlock : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.blockMulticastGroup(multicastAddress != null ? multicastAddress : null, networkInterface != null ? networkInterface : null, sourceToBlock != null ? sourceToBlock : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -262,47 +292,47 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public DatagramSocket listen(int port, String host, Handler<AsyncResult<DatagramSocket>> handler) {
-    this.delegate.listen(port != null ? port : null, host != null ? host : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.listen(port, host != null ? host : null, handler != null ? new Handler<AsyncResult<io.vertx.core.datagram.DatagramSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.datagram.DatagramSocket> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.datagram.DatagramSocket.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   public DatagramSocket pause() {
-    ((io.vertx.core.datagram.DatagramSocket) this.delegate).pause();
+    ((io.vertx.core.datagram.DatagramSocket) delegate).pause();
     return this;
   }
   public DatagramSocket resume() {
-    ((io.vertx.core.datagram.DatagramSocket) this.delegate).resume();
+    ((io.vertx.core.datagram.DatagramSocket) delegate).resume();
     return this;
   }
   public DatagramSocket endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.datagram.DatagramSocket) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.datagram.DatagramSocket) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   public DatagramSocket handler(Handler<DatagramPacket> handler) {
-    ((io.vertx.core.datagram.DatagramSocket) this.delegate).handler(handler != null ? new Handler<io.vertx.core.datagram.DatagramPacket>(){
-    public void handle(io.vertx.core.datagram.DatagramPacket event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.datagram.DatagramSocket) delegate).handler(handler != null ? new Handler<io.vertx.core.datagram.DatagramPacket>(){
+      public void handle(io.vertx.core.datagram.DatagramPacket event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.datagram.DatagramPacket.class));
+      }
+    } : null);
     return this;
   }
   public DatagramSocket exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.datagram.DatagramSocket) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.datagram.DatagramSocket) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   private SocketAddress cached_0;

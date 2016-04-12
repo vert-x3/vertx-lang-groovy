@@ -49,12 +49,15 @@ public class SharedData {
    * @param resultHandler the map will be returned asynchronously in this handler
    */
   public <K, V> void getClusterWideMap(String name, Handler<AsyncResult<AsyncMap<K,V>>> resultHandler) {
-    this.delegate.getClusterWideMap(name != null ? name : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.shareddata.AsyncMap<java.lang.Object,java.lang.Object>>>(){
-    public void handle(AsyncResult<io.vertx.core.shareddata.AsyncMap<java.lang.Object,java.lang.Object>> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.getClusterWideMap(name != null ? name : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.shareddata.AsyncMap<java.lang.Object,java.lang.Object>>>() {
+      public void handle(AsyncResult<io.vertx.core.shareddata.AsyncMap<java.lang.Object,java.lang.Object>> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.shareddata.AsyncMap.class)));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Get a cluster wide lock with the specified name. The lock will be passed to the handler when it is available.
@@ -62,12 +65,15 @@ public class SharedData {
    * @param resultHandler the handler
    */
   public void getLock(String name, Handler<AsyncResult<Lock>> resultHandler) {
-    this.delegate.getLock(name != null ? name : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.shareddata.Lock>>(){
-    public void handle(AsyncResult<io.vertx.core.shareddata.Lock> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.getLock(name != null ? name : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.shareddata.Lock>>() {
+      public void handle(AsyncResult<io.vertx.core.shareddata.Lock> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.shareddata.Lock.class)));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.shareddata.SharedData#getLock} but specifying a timeout. If the lock is not obtained within the timeout
@@ -77,12 +83,15 @@ public class SharedData {
    * @param resultHandler the handler
    */
   public void getLockWithTimeout(String name, long timeout, Handler<AsyncResult<Lock>> resultHandler) {
-    this.delegate.getLockWithTimeout(name != null ? name : null, timeout != null ? timeout : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.shareddata.Lock>>(){
-    public void handle(AsyncResult<io.vertx.core.shareddata.Lock> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.getLockWithTimeout(name != null ? name : null, timeout, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.shareddata.Lock>>() {
+      public void handle(AsyncResult<io.vertx.core.shareddata.Lock> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.shareddata.Lock.class)));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Get a cluster wide counter. The counter will be passed to the handler.
@@ -90,12 +99,15 @@ public class SharedData {
    * @param resultHandler the handler
    */
   public void getCounter(String name, Handler<AsyncResult<Counter>> resultHandler) {
-    this.delegate.getCounter(name != null ? name : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.shareddata.Counter>>(){
-    public void handle(AsyncResult<io.vertx.core.shareddata.Counter> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.getCounter(name != null ? name : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.shareddata.Counter>>() {
+      public void handle(AsyncResult<io.vertx.core.shareddata.Counter> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.shareddata.Counter.class)));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Return a <code>LocalMap</code> with the specific <code>name</code>.
@@ -103,7 +115,7 @@ public class SharedData {
    * @return the msp
    */
   public <K, V> LocalMap<K,V> getLocalMap(String name) {
-    def ret= InternalHelper.safeCreate(this.delegate.getLocalMap(name != null ? name : null), io.vertx.groovy.core.shareddata.LocalMap.class);
+    def ret = InternalHelper.safeCreate(delegate.getLocalMap(name != null ? name : null), io.vertx.groovy.core.shareddata.LocalMap.class);
     return ret;
   }
 }

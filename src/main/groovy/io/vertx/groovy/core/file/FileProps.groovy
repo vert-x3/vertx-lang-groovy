@@ -36,7 +36,7 @@ public class FileProps {
    * @return 
    */
   public long creationTime() {
-    def ret = this.delegate.creationTime();
+    def ret = delegate.creationTime();
     return ret;
   }
   /**
@@ -44,7 +44,7 @@ public class FileProps {
    * @return 
    */
   public long lastAccessTime() {
-    def ret = this.delegate.lastAccessTime();
+    def ret = delegate.lastAccessTime();
     return ret;
   }
   /**
@@ -52,7 +52,7 @@ public class FileProps {
    * @return 
    */
   public long lastModifiedTime() {
-    def ret = this.delegate.lastModifiedTime();
+    def ret = delegate.lastModifiedTime();
     return ret;
   }
   /**
@@ -60,7 +60,7 @@ public class FileProps {
    * @return 
    */
   public boolean isDirectory() {
-    def ret = this.delegate.isDirectory();
+    def ret = delegate.isDirectory();
     return ret;
   }
   /**
@@ -68,7 +68,7 @@ public class FileProps {
    * @return 
    */
   public boolean isOther() {
-    def ret = this.delegate.isOther();
+    def ret = delegate.isOther();
     return ret;
   }
   /**
@@ -76,7 +76,7 @@ public class FileProps {
    * @return 
    */
   public boolean isRegularFile() {
-    def ret = this.delegate.isRegularFile();
+    def ret = delegate.isRegularFile();
     return ret;
   }
   /**
@@ -84,7 +84,7 @@ public class FileProps {
    * @return 
    */
   public boolean isSymbolicLink() {
-    def ret = this.delegate.isSymbolicLink();
+    def ret = delegate.isSymbolicLink();
     return ret;
   }
   /**
@@ -92,7 +92,7 @@ public class FileProps {
    * @return 
    */
   public long size() {
-    def ret = this.delegate.size();
+    def ret = delegate.size();
     return ret;
   }
 }

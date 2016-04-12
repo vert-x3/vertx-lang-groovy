@@ -44,38 +44,35 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     return delegate;
   }
   public HttpClientResponse resume() {
-    ((io.vertx.core.http.HttpClientResponse) this.delegate).resume();
+    ((io.vertx.core.http.HttpClientResponse) delegate).resume();
     return this;
   }
   public HttpClientResponse exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.HttpClientResponse) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpClientResponse) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public HttpClientResponse handler(Handler<Buffer> handler) {
-    ((io.vertx.core.http.HttpClientResponse) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
-    public void handle(io.vertx.core.buffer.Buffer event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpClientResponse) delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+      public void handle(io.vertx.core.buffer.Buffer event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
+      }
+    } : null);
     return this;
   }
   public HttpClientResponse pause() {
-    ((io.vertx.core.http.HttpClientResponse) this.delegate).pause();
+    ((io.vertx.core.http.HttpClientResponse) delegate).pause();
     return this;
   }
   public HttpClientResponse endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.HttpClientResponse) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpClientResponse) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -83,7 +80,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return 
    */
   public HttpVersion version() {
-    def ret = this.delegate.version();
+    def ret = delegate.version();
     return ret;
   }
   /**
@@ -91,7 +88,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return 
    */
   public int statusCode() {
-    def ret = this.delegate.statusCode();
+    def ret = delegate.statusCode();
     return ret;
   }
   /**
@@ -99,7 +96,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return 
    */
   public String statusMessage() {
-    def ret = this.delegate.statusMessage();
+    def ret = delegate.statusMessage();
     return ret;
   }
   /**
@@ -110,7 +107,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.groovy.core.MultiMap.class);
+    def ret = InternalHelper.safeCreate(delegate.headers(), io.vertx.groovy.core.MultiMap.class);
     cached_0 = ret;
     return ret;
   }
@@ -120,7 +117,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return the header value
    */
   public String getHeader(String headerName) {
-    def ret = this.delegate.getHeader(headerName != null ? headerName : null);
+    def ret = delegate.getHeader(headerName != null ? headerName : null);
     return ret;
   }
   /**
@@ -129,7 +126,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return the trailer value
    */
   public String getTrailer(String trailerName) {
-    def ret = this.delegate.getTrailer(trailerName != null ? trailerName : null);
+    def ret = delegate.getTrailer(trailerName != null ? trailerName : null);
     return ret;
   }
   /**
@@ -140,7 +137,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.trailers(), io.vertx.groovy.core.MultiMap.class);
+    def ret = InternalHelper.safeCreate(delegate.trailers(), io.vertx.groovy.core.MultiMap.class);
     cached_1 = ret;
     return ret;
   }
@@ -152,7 +149,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_2 != null) {
       return cached_2;
     }
-    def ret = this.delegate.cookies();
+    def ret = delegate.cookies();
     cached_2 = ret;
     return ret;
   }
@@ -165,12 +162,11 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return 
    */
   public HttpClientResponse bodyHandler(Handler<Buffer> bodyHandler) {
-    this.delegate.bodyHandler(bodyHandler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
-    public void handle(io.vertx.core.buffer.Buffer event) {
-      bodyHandler.handle(null);
-    }
-  }
- : null);
+    delegate.bodyHandler(bodyHandler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+      public void handle(io.vertx.core.buffer.Buffer event) {
+        bodyHandler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
+      }
+    } : null);
     return this;
   }
   /**
@@ -180,12 +176,11 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientResponse unknownFrameHandler(Handler<HttpFrame> handler) {
-    this.delegate.unknownFrameHandler(handler != null ? new Handler<io.vertx.core.http.HttpFrame>(){
-    public void handle(io.vertx.core.http.HttpFrame event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.unknownFrameHandler(handler != null ? new Handler<io.vertx.core.http.HttpFrame>(){
+      public void handle(io.vertx.core.http.HttpFrame event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.HttpFrame.class));
+      }
+    } : null);
     return this;
   }
   /**
@@ -201,7 +196,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     if (cached_3 != null) {
       return cached_3;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.netSocket(), io.vertx.groovy.core.net.NetSocket.class);
+    def ret = InternalHelper.safeCreate(delegate.netSocket(), io.vertx.groovy.core.net.NetSocket.class);
     cached_3 = ret;
     return ret;
   }

@@ -31,11 +31,11 @@ public class SocketAddress {
     return delegate;
   }
   public String host() {
-    def ret = this.delegate.host();
+    def ret = delegate.host();
     return ret;
   }
   public int port() {
-    def ret = this.delegate.port();
+    def ret = delegate.port();
     return ret;
   }
 }

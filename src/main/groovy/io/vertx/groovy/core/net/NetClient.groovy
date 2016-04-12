@@ -43,7 +43,7 @@ public class NetClient implements Measured {
    * @return true if the metrics are enabled
    */
   public boolean isMetricsEnabled() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).isMetricsEnabled();
+    def ret = ((io.vertx.core.metrics.Measured) delegate).isMetricsEnabled();
     return ret;
   }
   /**
@@ -57,12 +57,15 @@ public class NetClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetClient connect(int port, String host, Handler<AsyncResult<NetSocket>> connectHandler) {
-    this.delegate.connect(port != null ? port : null, host != null ? host : null, connectHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetSocket>>(){
-    public void handle(AsyncResult<io.vertx.core.net.NetSocket> ar) {
-      connectHandler.handle(null);
-    }
-  }
- : null);
+    delegate.connect(port, host != null ? host : null, connectHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetSocket>>() {
+      public void handle(AsyncResult<io.vertx.core.net.NetSocket> ar) {
+        if (ar.succeeded()) {
+          connectHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.net.NetSocket.class)));
+        } else {
+          connectHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -72,6 +75,6 @@ public class NetClient implements Measured {
    * complete until some time after the method has returned.
    */
   public void close() {
-    this.delegate.close();
+    delegate.close();
   }
 }

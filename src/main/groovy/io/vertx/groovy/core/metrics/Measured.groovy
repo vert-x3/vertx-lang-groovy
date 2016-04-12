@@ -41,7 +41,7 @@ class MeasuredImpl implements Measured {
    * @return true if the metrics are enabled
    */
   public boolean isMetricsEnabled() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).isMetricsEnabled();
+    def ret = ((io.vertx.core.metrics.Measured) delegate).isMetricsEnabled();
     return ret;
   }
 }

@@ -42,38 +42,35 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
     return delegate;
   }
   public MessageConsumer<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.StreamBase) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public MessageConsumer<T> handler(Handler<Message<T>> handler) {
-    ((io.vertx.core.streams.ReadStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>(){
-    public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.ReadStream) delegate).handler(handler != null ? new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>(){
+      public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.eventbus.Message.class));
+      }
+    } : null);
     return this;
   }
   public MessageConsumer<T> pause() {
-    ((io.vertx.core.streams.ReadStream) this.delegate).pause();
+    ((io.vertx.core.streams.ReadStream) delegate).pause();
     return this;
   }
   public MessageConsumer<T> resume() {
-    ((io.vertx.core.streams.ReadStream) this.delegate).resume();
+    ((io.vertx.core.streams.ReadStream) delegate).resume();
     return this;
   }
   public MessageConsumer<T> endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -81,7 +78,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public ReadStream<T> bodyStream() {
-    def ret= InternalHelper.safeCreate(this.delegate.bodyStream(), io.vertx.groovy.core.streams.ReadStreamImpl.class);
+    def ret = InternalHelper.safeCreate(delegate.bodyStream(), io.vertx.groovy.core.streams.ReadStreamImpl.class);
     return ret;
   }
   /**
@@ -89,7 +86,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public boolean isRegistered() {
-    def ret = this.delegate.isRegistered();
+    def ret = delegate.isRegistered();
     return ret;
   }
   /**
@@ -97,7 +94,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public String address() {
-    def ret = this.delegate.address();
+    def ret = delegate.address();
     return ret;
   }
   /**
@@ -108,7 +105,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return this registration
    */
   public MessageConsumer<T> setMaxBufferedMessages(int maxBufferedMessages) {
-    def ret= InternalHelper.safeCreate(this.delegate.setMaxBufferedMessages(maxBufferedMessages != null ? maxBufferedMessages : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
+    def ret = InternalHelper.safeCreate(delegate.setMaxBufferedMessages(maxBufferedMessages), io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**
@@ -116,7 +113,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return 
    */
   public int getMaxBufferedMessages() {
-    def ret = this.delegate.getMaxBufferedMessages();
+    def ret = delegate.getMaxBufferedMessages();
     return ret;
   }
   /**
@@ -124,29 +121,35 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @param completionHandler the completion handler
    */
   public void completionHandler(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.completionHandler(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      completionHandler.handle(null);
-    }
-  }
- : null);
+    delegate.completionHandler(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Unregisters the handler which created this registration
    */
   public void unregister() {
-    this.delegate.unregister();
+    delegate.unregister();
   }
   /**
    * Unregisters the handler which created this registration
    * @param completionHandler the handler called when the unregister is done. For example in a cluster when all nodes of the event bus have been unregistered.
    */
   public void unregister(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.unregister(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      completionHandler.handle(null);
-    }
-  }
- : null);
+    delegate.unregister(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
 }

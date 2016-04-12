@@ -46,7 +46,7 @@ public class Message<T> {
    * @return 
    */
   public String address() {
-    def ret = this.delegate.address();
+    def ret = delegate.address();
     return ret;
   }
   /**
@@ -54,7 +54,7 @@ public class Message<T> {
    * @return the headers
    */
   public MultiMap headers() {
-    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.groovy.core.MultiMap.class);
+    def ret = InternalHelper.safeCreate(delegate.headers(), io.vertx.groovy.core.MultiMap.class);
     return ret;
   }
   /**
@@ -65,8 +65,7 @@ public class Message<T> {
     if (cached_0 != null) {
       return cached_0;
     }
-    // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(this.delegate.body());
+    def ret = (T) InternalHelper.wrapObject(delegate.body());
     cached_0 = ret;
     return ret;
   }
@@ -75,7 +74,7 @@ public class Message<T> {
    * @return the reply address, or null, if message was sent without a reply handler.
    */
   public String replyAddress() {
-    def ret = this.delegate.replyAddress();
+    def ret = delegate.replyAddress();
     return ret;
   }
   /**
@@ -87,7 +86,7 @@ public class Message<T> {
    * @param message the message to reply with.
    */
   public void reply(Object message) {
-    this.delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null);
+    delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null);
   }
   /**
    * The same as <code>reply(R message)</code> but you can specify handler for the reply - i.e.
@@ -96,12 +95,15 @@ public class Message<T> {
    * @param replyHandler the reply handler for the reply.
    */
   public <R> void reply(Object message, Handler<AsyncResult<Message<R>>> replyHandler) {
-    this.delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>(){
-    public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
-      replyHandler.handle(null);
-    }
-  }
- : null);
+    delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
+        if (ar.succeeded()) {
+          replyHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.eventbus.Message.class)));
+        } else {
+          replyHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Link {@link io.vertx.groovy.core.eventbus.Message#reply} but allows you to specify delivery options for the reply.
@@ -109,7 +111,7 @@ public class Message<T> {
    * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    */
   public void reply(Object message, Map<String, Object> options) {
-    this.delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
   /**
    * The same as <code>reply(R message, DeliveryOptions)</code> but you can specify handler for the reply - i.e.
@@ -119,12 +121,15 @@ public class Message<T> {
    * @param replyHandler the reply handler for the reply.
    */
   public <R> void reply(Object message, Map<String, Object> options, Handler<AsyncResult<Message<R>>> replyHandler) {
-    this.delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>(){
-    public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
-      replyHandler.handle(null);
-    }
-  }
- : null);
+    delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
+        if (ar.succeeded()) {
+          replyHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.eventbus.Message.class)));
+        } else {
+          replyHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Signal to the sender that processing of this message failed.
@@ -135,7 +140,7 @@ public class Message<T> {
    * @param message A message to pass back to the sender
    */
   public void fail(int failureCode, String message) {
-    this.delegate.fail(failureCode != null ? failureCode : null, message != null ? message : null);
+    delegate.fail(failureCode, message != null ? message : null);
   }
   private T cached_0;
 }

@@ -38,7 +38,7 @@ public class NetServer implements Measured {
    * @return true if the metrics are enabled
    */
   public boolean isMetricsEnabled() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).isMetricsEnabled();
+    def ret = ((io.vertx.core.metrics.Measured) delegate).isMetricsEnabled();
     return ret;
   }
   /**
@@ -48,7 +48,7 @@ public class NetServer implements Measured {
    * @return the connect stream
    */
   public NetSocketStream connectStream() {
-    def ret= InternalHelper.safeCreate(this.delegate.connectStream(), io.vertx.groovy.core.net.NetSocketStream.class);
+    def ret = InternalHelper.safeCreate(delegate.connectStream(), io.vertx.groovy.core.net.NetSocketStream.class);
     return ret;
   }
   /**
@@ -59,12 +59,11 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer connectHandler(Handler<NetSocket> handler) {
-    def ret= InternalHelper.safeCreate(this.delegate.connectHandler(handler != null ? new Handler<io.vertx.core.net.NetSocket>(){
-    public void handle(io.vertx.core.net.NetSocket event) {
-      handler.handle(null);
-    }
-  }
- : null), io.vertx.groovy.core.net.NetServer.class);
+    def ret = InternalHelper.safeCreate(delegate.connectHandler(handler != null ? new Handler<io.vertx.core.net.NetSocket>(){
+      public void handle(io.vertx.core.net.NetSocket event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.net.NetSocket.class));
+      }
+    } : null), io.vertx.groovy.core.net.NetServer.class);
     return ret;
   }
   /**
@@ -75,7 +74,7 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen() {
-    this.delegate.listen();
+    delegate.listen();
     return this;
   }
   /**
@@ -84,12 +83,15 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(Handler<AsyncResult<NetServer>> listenHandler) {
-    this.delegate.listen(listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>(){
-    public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
-      listenHandler.handle(null);
-    }
-  }
- : null);
+    delegate.listen(listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
+      public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
+        if (ar.succeeded()) {
+          listenHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.net.NetServer.class)));
+        } else {
+          listenHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -106,7 +108,7 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, String host) {
-    this.delegate.listen(port != null ? port : null, host != null ? host : null);
+    delegate.listen(port, host != null ? host : null);
     return this;
   }
   /**
@@ -117,12 +119,15 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, String host, Handler<AsyncResult<NetServer>> listenHandler) {
-    this.delegate.listen(port != null ? port : null, host != null ? host : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>(){
-    public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
-      listenHandler.handle(null);
-    }
-  }
- : null);
+    delegate.listen(port, host != null ? host : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
+      public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
+        if (ar.succeeded()) {
+          listenHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.net.NetServer.class)));
+        } else {
+          listenHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -136,7 +141,7 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port) {
-    this.delegate.listen(port != null ? port : null);
+    delegate.listen(port);
     return this;
   }
   /**
@@ -146,12 +151,15 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, Handler<AsyncResult<NetServer>> listenHandler) {
-    this.delegate.listen(port != null ? port : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>(){
-    public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
-      listenHandler.handle(null);
-    }
-  }
- : null);
+    delegate.listen(port, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
+      public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
+        if (ar.succeeded()) {
+          listenHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.net.NetServer.class)));
+        } else {
+          listenHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -159,19 +167,22 @@ public class NetServer implements Measured {
    * method has returned.
    */
   public void close() {
-    this.delegate.close();
+    delegate.close();
   }
   /**
    * Like {@link io.vertx.groovy.core.net.NetServer#close} but supplying a handler that will be notified when close is complete.
    * @param completionHandler the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      completionHandler.handle(null);
-    }
-  }
- : null);
+    delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * The actual port the server is listening on. This is useful if you bound the server specifying 0 as port number
@@ -179,7 +190,7 @@ public class NetServer implements Measured {
    * @return the actual port the server is listening on.
    */
   public int actualPort() {
-    def ret = this.delegate.actualPort();
+    def ret = delegate.actualPort();
     return ret;
   }
 }

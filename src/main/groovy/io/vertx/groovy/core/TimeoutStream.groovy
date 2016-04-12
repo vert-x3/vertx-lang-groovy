@@ -38,38 +38,35 @@ public class TimeoutStream implements ReadStream<Long> {
     return delegate;
   }
   public TimeoutStream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.TimeoutStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.TimeoutStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public TimeoutStream handler(Handler<Long> handler) {
-    ((io.vertx.core.TimeoutStream) this.delegate).handler(handler != null ? new Handler<java.lang.Long>(){
-    public void handle(java.lang.Long event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.TimeoutStream) delegate).handler(handler != null ? new Handler<java.lang.Long>(){
+      public void handle(java.lang.Long event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public TimeoutStream pause() {
-    ((io.vertx.core.TimeoutStream) this.delegate).pause();
+    ((io.vertx.core.TimeoutStream) delegate).pause();
     return this;
   }
   public TimeoutStream resume() {
-    ((io.vertx.core.TimeoutStream) this.delegate).resume();
+    ((io.vertx.core.TimeoutStream) delegate).resume();
     return this;
   }
   public TimeoutStream endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.TimeoutStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.TimeoutStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -77,6 +74,6 @@ public class TimeoutStream implements ReadStream<Long> {
    * argument.
    */
   public void cancel() {
-    this.delegate.cancel();
+    delegate.cancel();
   }
 }

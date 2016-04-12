@@ -35,7 +35,7 @@ public class SrvRecord {
    * @return 
    */
   public int priority() {
-    def ret = this.delegate.priority();
+    def ret = delegate.priority();
     return ret;
   }
   /**
@@ -43,7 +43,7 @@ public class SrvRecord {
    * @return 
    */
   public int weight() {
-    def ret = this.delegate.weight();
+    def ret = delegate.weight();
     return ret;
   }
   /**
@@ -51,7 +51,7 @@ public class SrvRecord {
    * @return 
    */
   public int port() {
-    def ret = this.delegate.port();
+    def ret = delegate.port();
     return ret;
   }
   /**
@@ -59,7 +59,7 @@ public class SrvRecord {
    * @return 
    */
   public String name() {
-    def ret = this.delegate.name();
+    def ret = delegate.name();
     return ret;
   }
   /**
@@ -67,7 +67,7 @@ public class SrvRecord {
    * @return 
    */
   public String protocol() {
-    def ret = this.delegate.protocol();
+    def ret = delegate.protocol();
     return ret;
   }
   /**
@@ -75,7 +75,7 @@ public class SrvRecord {
    * @return 
    */
   public String service() {
-    def ret = this.delegate.service();
+    def ret = delegate.service();
     return ret;
   }
   /**
@@ -83,7 +83,7 @@ public class SrvRecord {
    * @return 
    */
   public String target() {
-    def ret = this.delegate.target();
+    def ret = delegate.target();
     return ret;
   }
 }

@@ -40,47 +40,45 @@ public class PacketWritestream implements WriteStream<Buffer> {
    * Once the stream has ended, it cannot be used any more.
    */
   public void end() {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end();
+    ((io.vertx.core.streams.WriteStream) delegate).end();
   }
   /**
    * Same as {@link io.vertx.groovy.core.streams.WriteStream#end} but writes some data to the stream before ending.
    * @param t 
    */
   public void end(Buffer t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
+    ((io.vertx.core.streams.WriteStream) delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
   }
   /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.datagram.PacketWritestream#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
-    def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
+    def ret = ((io.vertx.core.streams.WriteStream) delegate).writeQueueFull();
     return ret;
   }
   public PacketWritestream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.datagram.PacketWritestream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.datagram.PacketWritestream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public PacketWritestream write(Buffer data) {
-    ((io.vertx.core.datagram.PacketWritestream) this.delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
+    ((io.vertx.core.datagram.PacketWritestream) delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   public PacketWritestream setWriteQueueMaxSize(int maxSize) {
-    ((io.vertx.core.datagram.PacketWritestream) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
+    ((io.vertx.core.datagram.PacketWritestream) delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public PacketWritestream drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.datagram.PacketWritestream) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.datagram.PacketWritestream) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
 }

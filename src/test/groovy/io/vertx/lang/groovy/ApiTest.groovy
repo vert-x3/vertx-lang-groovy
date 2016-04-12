@@ -913,10 +913,16 @@ public class ApiTest {
     refed1.setString("foo")
     RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl())
     refed2.setString("bar")
-    obj.methodWithMapParams((Map<String, String>)[foo: "bar", eek: "wibble"], (Map<String, Byte>)[foo: (byte)2, eek: (byte)3],
-      (Map<String, Short>)[foo: (short)12, eek: (short)13],
-      (Map<String, Integer>)[foo: 1234, eek: 1345], (Map<String, Long>)[foo: 123l, eek: 456l], (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
-      (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]], (Map<String, RefedInterface1>)[foo: refed1, eek: refed2])
+    obj.methodWithMapParams(
+        (Map<String, String>)[foo: "bar", eek: "wibble"],
+        (Map<String, Byte>)[foo: (byte)2, eek: (byte)3],
+        (Map<String, Short>)[foo: (short)12, eek: (short)13],
+        (Map<String, Integer>)[foo: 1234, eek: 1345],
+        (Map<String, Long>)[foo: 123l, eek: 456l],
+        (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
+        (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]],
+        (Map<String, RefedInterface1>)[foo: refed1, eek: refed2]
+    )
   }
 
   @Test

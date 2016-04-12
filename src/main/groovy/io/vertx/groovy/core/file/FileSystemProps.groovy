@@ -35,7 +35,7 @@ public class FileSystemProps {
    * @return 
    */
   public long totalSpace() {
-    def ret = this.delegate.totalSpace();
+    def ret = delegate.totalSpace();
     return ret;
   }
   /**
@@ -43,7 +43,7 @@ public class FileSystemProps {
    * @return 
    */
   public long unallocatedSpace() {
-    def ret = this.delegate.unallocatedSpace();
+    def ret = delegate.unallocatedSpace();
     return ret;
   }
   /**
@@ -51,7 +51,7 @@ public class FileSystemProps {
    * @return 
    */
   public long usableSpace() {
-    def ret = this.delegate.usableSpace();
+    def ret = delegate.usableSpace();
     return ret;
   }
 }

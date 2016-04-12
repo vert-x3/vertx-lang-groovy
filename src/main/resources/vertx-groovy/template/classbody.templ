@@ -24,90 +24,21 @@
 	@end{}
 	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeParam:method.typeParams}@{typeParam.name}@end{', '}> @end{}@{genConvReturnType(method.returnType)} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultDataObject=defaultDataObjectMap[method]}@end{', '}) {\n
 	@if{method.fluent}
-	    @includeNamed{'invokeDelegate';method=method};\n
+	    @{genInvokeDelegate(method)};\n
 			@if{method.returnType.variable}
 	    return (@{method.returnType.name}) this;\n
 			@else{}
 	    return this;\n
 			@end{}
 	@else{method.returnType.name.equals('void')}
-	    @includeNamed{'invokeDelegate';method=method};\n
+	    @{genInvokeDelegate(method)};\n
 	@else{}
 		@if{method.cacheReturn}
 		    if (cached_@{cacheDecls.size()} != null) {\n
 		      return cached_@{cacheDecls.size()};\n
 		    }\n
 		@end{}
-		@if{method.returnType.kind == CLASS_OBJECT}
-		    // This cast is cleary flawed\n
-		    def ret = (@{method.returnType.simpleName}) InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
-		@else{method.returnType.kind == CLASS_JSON_OBJECT}
-		    def ret = (Map<String, Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
-		@else{method.returnType.kind == CLASS_DATA_OBJECT}
-		    def ret = (Map<String, Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method}?.toJson());\n
-		@else{method.returnType.kind == CLASS_JSON_ARRAY}
-		    def ret = (List<Object>)InternalHelper.wrapObject(@includeNamed{'invokeDelegate';method=method});\n
-		@else{method.returnType.kind == CLASS_LIST}
-			@if{method.returnType.args[0].kind == CLASS_JSON_OBJECT}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)});\n
-			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)});\n
-			@else{method.returnType.args[0].kind == CLASS_DATA_OBJECT}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> (Map<String, Object>)InternalHelper.wrapObject(underpants?.toJson())}) as List;\n
-			@else{method.returnType.args[0].kind == CLASS_API}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{genConstructor(method.returnType.args[0], "underpants")}});\n
-		  @else{}
-		    def ret = @includeNamed{'invokeDelegate';method=method};\n
-			@end{}
-		@else{method.returnType.kind == CLASS_SET}
-			@if{method.returnType.args[0].kind == CLASS_JSON_OBJECT}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)}) as Set;\n
-			@else{method.returnType.args[0].kind == CLASS_JSON_ARRAY}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> InternalHelper.wrapObject(underpants)}) as Set;\n
-			@else{method.returnType.args[0].kind == CLASS_DATA_OBJECT}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> (Map<String, Object>)InternalHelper.wrapObject(underpants?.toJson())}) as Set;\n
-			@else{method.returnType.args[0].kind == CLASS_API}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collect({underpants -> @{genConstructor(method.returnType.args[0], "underpants")}}) as Set;\n
-			@else{}
-		    def ret = @includeNamed{'invokeDelegate';method=method};\n
-			@end{}
-		@else{method.returnType.kind == CLASS_MAP}
-			@if{method.returnType.args[1].kind == CLASS_JSON_OBJECT}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, InternalHelper.wrapObject(v)]});\n
-			@else{method.returnType.args[1].kind == CLASS_JSON_ARRAY}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, InternalHelper.wrapObject(v)]});\n
-			@else{method.returnType.args[1].kind == CLASS_API}
-		    def ret = @includeNamed{'invokeDelegate';method=method}?.collectEntries({k, v -> [k, @{genConstructor(method.returnType.args[0], "v")}]});\n
-			@else{}
-		    def ret = @includeNamed{'invokeDelegate';method=method};\n
-			@end{}
-		@else{method.returnType.kind == CLASS_ENUM}
-		    def ret = @includeNamed{'invokeDelegate';method=method};\n
-		@else{method.returnType.kind == CLASS_API}
-		    def ret= InternalHelper.safeCreate(@includeNamed{'invokeDelegate';method=method}, @{genConstructorType(method.returnType.raw)}.class);\n
-		@else{method.returnType.kind == CLASS_HANDLER}
-			@if{method.returnType.args[0].kind == CLASS_ASYNC_RESULT}
-		    def handlerDelegate = @includeNamed{'invokeDelegate';method=method};\n
-		    Handler<AsyncResult<@{method.returnType.args[0].args[0].erased.simpleName}>> ret = new Handler<AsyncResult<@{method.returnType.args[0].args[0].erased.simpleName}>>() {\n
-		      public void handle(AsyncResult<@{method.returnType.args[0].args[0].erased.simpleName}> event) {\n
-		        if (event.succeeded()) {\n
-		          handlerDelegate.handle(InternalHelper.result(@includeNamed{'paramArgument';param=new io.vertx.codegen.ParamInfo(0, 'event.result()', null, method.returnType.args[0].args[0])}));\n
-		        } else {\n
-		          handlerDelegate.handle(InternalHelper.<@{method.returnType.args[0].args[0].erased.name}>failure(event.cause()));\n
-		        }\n
-		      }\n
-		    };\n
-			@else{}
-		    def handlerDelegate = @includeNamed{'invokeDelegate';method=method};\n
-		    Handler<@{method.returnType.args[0].erased.simpleName}> ret = new Handler<@{method.returnType.args[0].erased.simpleName}>() {\n
-		      public void handle(@{method.returnType.args[0].erased.simpleName} event) {\n
-		        handlerDelegate.handle(@includeNamed{'paramArgument';param=new io.vertx.codegen.ParamInfo(0, 'event', null, method.returnType.args[0])});\n
-		      }\n
-		    };\n
-			@end{}
-		@else{}
-		    def ret = @includeNamed{'invokeDelegate';method=method};\n
-		@end{}
+		    def ret = @{genConvReturn(method.returnType, genInvokeDelegate(method))};\n
 		@if{method.cacheReturn}
 		    cached_@{cacheDecls.size()} = ret;\n
 			@code{cacheDecls.add('private' + (method.staticMethod ? ' static' : '') + ' ' + genConvReturnType(method.returnType) + ' cached_' + cacheDecls.size())}

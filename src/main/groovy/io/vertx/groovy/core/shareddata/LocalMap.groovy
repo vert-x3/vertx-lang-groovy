@@ -42,8 +42,7 @@ public class LocalMap<K,V> {
    * @return the value, or null if none
    */
   public V get(K key) {
-    // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(this.delegate.get(key != null ? InternalHelper.unwrapObject(key) : null));
+    def ret = (V) InternalHelper.wrapObject(delegate.get(key != null ? InternalHelper.unwrapObject(key) : null));
     return ret;
   }
   /**
@@ -53,8 +52,7 @@ public class LocalMap<K,V> {
    * @return return the old value, or null if none
    */
   public V put(K key, V value) {
-    // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(this.delegate.put(key != null ? InternalHelper.unwrapObject(key) : null, value != null ? InternalHelper.unwrapObject(value) : null));
+    def ret = (V) InternalHelper.wrapObject(delegate.put(key != null ? InternalHelper.unwrapObject(key) : null, value != null ? InternalHelper.unwrapObject(value) : null));
     return ret;
   }
   /**
@@ -63,22 +61,21 @@ public class LocalMap<K,V> {
    * @return the old value
    */
   public V remove(K key) {
-    // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(this.delegate.remove(key != null ? InternalHelper.unwrapObject(key) : null));
+    def ret = (V) InternalHelper.wrapObject(delegate.remove(key != null ? InternalHelper.unwrapObject(key) : null));
     return ret;
   }
   /**
    * Clear all entries in the map
    */
   public void clear() {
-    this.delegate.clear();
+    delegate.clear();
   }
   /**
    * Get the size of the map
    * @return the number of entries in the map
    */
   public int size() {
-    def ret = this.delegate.size();
+    def ret = delegate.size();
     return ret;
   }
   /**
@@ -86,7 +83,7 @@ public class LocalMap<K,V> {
    * @return 
    */
   public boolean isEmpty() {
-    def ret = this.delegate.isEmpty();
+    def ret = delegate.isEmpty();
     return ret;
   }
   /**
@@ -96,8 +93,7 @@ public class LocalMap<K,V> {
    * @return the old value or null, if none
    */
   public V putIfAbsent(K key, V value) {
-    // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(this.delegate.putIfAbsent(key != null ? InternalHelper.unwrapObject(key) : null, value != null ? InternalHelper.unwrapObject(value) : null));
+    def ret = (V) InternalHelper.wrapObject(delegate.putIfAbsent(key != null ? InternalHelper.unwrapObject(key) : null, value != null ? InternalHelper.unwrapObject(value) : null));
     return ret;
   }
   /**
@@ -107,7 +103,7 @@ public class LocalMap<K,V> {
    * @return true if removed
    */
   public boolean removeIfPresent(K key, V value) {
-    def ret = this.delegate.removeIfPresent(key != null ? InternalHelper.unwrapObject(key) : null, value != null ? InternalHelper.unwrapObject(value) : null);
+    def ret = delegate.removeIfPresent(key != null ? InternalHelper.unwrapObject(key) : null, value != null ? InternalHelper.unwrapObject(value) : null);
     return ret;
   }
   /**
@@ -118,7 +114,7 @@ public class LocalMap<K,V> {
    * @return true if removed
    */
   public boolean replaceIfPresent(K key, V oldValue, V newValue) {
-    def ret = this.delegate.replaceIfPresent(key != null ? InternalHelper.unwrapObject(key) : null, oldValue != null ? InternalHelper.unwrapObject(oldValue) : null, newValue != null ? InternalHelper.unwrapObject(newValue) : null);
+    def ret = delegate.replaceIfPresent(key != null ? InternalHelper.unwrapObject(key) : null, oldValue != null ? InternalHelper.unwrapObject(oldValue) : null, newValue != null ? InternalHelper.unwrapObject(newValue) : null);
     return ret;
   }
   /**
@@ -128,14 +124,13 @@ public class LocalMap<K,V> {
    * @return the old value
    */
   public V replace(K key, V value) {
-    // This cast is cleary flawed
-    def ret = (V) InternalHelper.wrapObject(this.delegate.replace(key != null ? InternalHelper.unwrapObject(key) : null, value != null ? InternalHelper.unwrapObject(value) : null));
+    def ret = (V) InternalHelper.wrapObject(delegate.replace(key != null ? InternalHelper.unwrapObject(key) : null, value != null ? InternalHelper.unwrapObject(value) : null));
     return ret;
   }
   /**
    * Close and release the map
    */
   public void close() {
-    this.delegate.close();
+    delegate.close();
   }
 }

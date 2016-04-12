@@ -34,38 +34,35 @@ public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
     return delegate;
   }
   public HttpServerRequestStream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerRequestStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public HttpServerRequestStream handler(Handler<HttpServerRequest> handler) {
-    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.http.HttpServerRequest>(){
-    public void handle(io.vertx.core.http.HttpServerRequest event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerRequestStream) delegate).handler(handler != null ? new Handler<io.vertx.core.http.HttpServerRequest>(){
+      public void handle(io.vertx.core.http.HttpServerRequest event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.HttpServerRequest.class));
+      }
+    } : null);
     return this;
   }
   public HttpServerRequestStream pause() {
-    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).pause();
+    ((io.vertx.core.http.HttpServerRequestStream) delegate).pause();
     return this;
   }
   public HttpServerRequestStream resume() {
-    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).resume();
+    ((io.vertx.core.http.HttpServerRequestStream) delegate).resume();
     return this;
   }
   public HttpServerRequestStream endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerRequestStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
 }

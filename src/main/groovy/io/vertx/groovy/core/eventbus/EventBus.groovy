@@ -46,7 +46,7 @@ public class EventBus implements Measured {
    * @return true if the metrics are enabled
    */
   public boolean isMetricsEnabled() {
-    def ret = ((io.vertx.core.metrics.Measured) this.delegate).isMetricsEnabled();
+    def ret = ((io.vertx.core.metrics.Measured) delegate).isMetricsEnabled();
     return ret;
   }
   /**
@@ -58,7 +58,7 @@ public class EventBus implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus send(String address, Object message) {
-    this.delegate.send(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null);
+    delegate.send(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null);
     return this;
   }
   /**
@@ -70,12 +70,15 @@ public class EventBus implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public <T> EventBus send(String address, Object message, Handler<AsyncResult<Message<T>>> replyHandler) {
-    this.delegate.send(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>(){
-    public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
-      replyHandler.handle(null);
-    }
-  }
- : null);
+    delegate.send(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
+        if (ar.succeeded()) {
+          replyHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.eventbus.Message.class)));
+        } else {
+          replyHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -86,7 +89,7 @@ public class EventBus implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus send(String address, Object message, Map<String, Object> options) {
-    this.delegate.send(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    delegate.send(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
     return this;
   }
   /**
@@ -99,12 +102,15 @@ public class EventBus implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public <T> EventBus send(String address, Object message, Map<String, Object> options, Handler<AsyncResult<Message<T>>> replyHandler) {
-    this.delegate.send(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>(){
-    public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
-      replyHandler.handle(null);
-    }
-  }
- : null);
+    delegate.send(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
+        if (ar.succeeded()) {
+          replyHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.eventbus.Message.class)));
+        } else {
+          replyHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -115,7 +121,7 @@ public class EventBus implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus publish(String address, Object message) {
-    this.delegate.publish(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null);
+    delegate.publish(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null);
     return this;
   }
   /**
@@ -126,7 +132,7 @@ public class EventBus implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus publish(String address, Object message, Map<String, Object> options) {
-    this.delegate.publish(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    delegate.publish(address != null ? address : null, message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
     return this;
   }
   /**
@@ -139,7 +145,7 @@ public class EventBus implements Measured {
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> consumer(String address) {
-    def ret= InternalHelper.safeCreate(this.delegate.consumer(address != null ? address : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
+    def ret = InternalHelper.safeCreate(delegate.consumer(address != null ? address : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**
@@ -149,12 +155,11 @@ public class EventBus implements Measured {
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> consumer(String address, Handler<Message<T>> handler) {
-    def ret= InternalHelper.safeCreate(this.delegate.consumer(address != null ? address : null, handler != null ? new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>(){
-    public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
-      handler.handle(null);
-    }
-  }
- : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
+    def ret = InternalHelper.safeCreate(delegate.consumer(address != null ? address : null, handler != null ? new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>(){
+      public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.eventbus.Message.class));
+      }
+    } : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**
@@ -163,7 +168,7 @@ public class EventBus implements Measured {
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> localConsumer(String address) {
-    def ret= InternalHelper.safeCreate(this.delegate.localConsumer(address != null ? address : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
+    def ret = InternalHelper.safeCreate(delegate.localConsumer(address != null ? address : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**
@@ -173,12 +178,11 @@ public class EventBus implements Measured {
    * @return the event bus message consumer
    */
   public <T> MessageConsumer<T> localConsumer(String address, Handler<Message<T>> handler) {
-    def ret= InternalHelper.safeCreate(this.delegate.localConsumer(address != null ? address : null, handler != null ? new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>(){
-    public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
-      handler.handle(null);
-    }
-  }
- : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
+    def ret = InternalHelper.safeCreate(delegate.localConsumer(address != null ? address : null, handler != null ? new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>(){
+      public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.eventbus.Message.class));
+      }
+    } : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**
@@ -191,7 +195,7 @@ public class EventBus implements Measured {
    * @return The sender
    */
   public <T> MessageProducer<T> sender(String address) {
-    def ret= InternalHelper.safeCreate(this.delegate.sender(address != null ? address : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    def ret = InternalHelper.safeCreate(delegate.sender(address != null ? address : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   /**
@@ -202,7 +206,7 @@ public class EventBus implements Measured {
    * @return The sender
    */
   public <T> MessageProducer<T> sender(String address, Map<String, Object> options) {
-    def ret= InternalHelper.safeCreate(this.delegate.sender(address != null ? address : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    def ret = InternalHelper.safeCreate(delegate.sender(address != null ? address : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   /**
@@ -215,7 +219,7 @@ public class EventBus implements Measured {
    * @return The publisher
    */
   public <T> MessageProducer<T> publisher(String address) {
-    def ret= InternalHelper.safeCreate(this.delegate.publisher(address != null ? address : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    def ret = InternalHelper.safeCreate(delegate.publisher(address != null ? address : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   /**
@@ -226,7 +230,7 @@ public class EventBus implements Measured {
    * @return The publisher
    */
   public <T> MessageProducer<T> publisher(String address, Map<String, Object> options) {
-    def ret= InternalHelper.safeCreate(this.delegate.publisher(address != null ? address : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    def ret = InternalHelper.safeCreate(delegate.publisher(address != null ? address : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   /**
@@ -235,12 +239,11 @@ public class EventBus implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus addInterceptor(Handler<SendContext> interceptor) {
-    def ret= InternalHelper.safeCreate(this.delegate.addInterceptor(interceptor != null ? new Handler<io.vertx.core.eventbus.SendContext>(){
-    public void handle(io.vertx.core.eventbus.SendContext event) {
-      interceptor.handle(null);
-    }
-  }
- : null), io.vertx.groovy.core.eventbus.EventBus.class);
+    def ret = InternalHelper.safeCreate(delegate.addInterceptor(interceptor != null ? new Handler<io.vertx.core.eventbus.SendContext>(){
+      public void handle(io.vertx.core.eventbus.SendContext event) {
+        interceptor.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.eventbus.SendContext.class));
+      }
+    } : null), io.vertx.groovy.core.eventbus.EventBus.class);
     return ret;
   }
   /**
@@ -249,12 +252,11 @@ public class EventBus implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public EventBus removeInterceptor(Handler<SendContext> interceptor) {
-    def ret= InternalHelper.safeCreate(this.delegate.removeInterceptor(interceptor != null ? new Handler<io.vertx.core.eventbus.SendContext>(){
-    public void handle(io.vertx.core.eventbus.SendContext event) {
-      interceptor.handle(null);
-    }
-  }
- : null), io.vertx.groovy.core.eventbus.EventBus.class);
+    def ret = InternalHelper.safeCreate(delegate.removeInterceptor(interceptor != null ? new Handler<io.vertx.core.eventbus.SendContext>(){
+      public void handle(io.vertx.core.eventbus.SendContext event) {
+        interceptor.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.eventbus.SendContext.class));
+      }
+    } : null), io.vertx.groovy.core.eventbus.EventBus.class);
     return ret;
   }
 }

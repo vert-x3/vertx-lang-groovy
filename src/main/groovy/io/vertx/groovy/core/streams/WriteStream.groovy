@@ -53,12 +53,11 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.WriteStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -69,7 +68,7 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> write(T data) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).write(data != null ? InternalHelper.unwrapObject(data) : null);
+    ((io.vertx.core.streams.WriteStream) delegate).write(data != null ? InternalHelper.unwrapObject(data) : null);
     return this;
   }
   /**
@@ -78,14 +77,14 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * Once the stream has ended, it cannot be used any more.
    */
   public void end() {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end();
+    ((io.vertx.core.streams.WriteStream) delegate).end();
   }
   /**
    * Same as {@link io.vertx.groovy.core.streams.WriteStream#end} but writes some data to the stream before ending.
    * @param t 
    */
   public void end(T t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? InternalHelper.unwrapObject(t) : null);
+    ((io.vertx.core.streams.WriteStream) delegate).end(t != null ? InternalHelper.unwrapObject(t) : null);
   }
   /**
    * Set the maximum size of the write queue to <code>maxSize</code>. You will still be able to write to the stream even
@@ -95,7 +94,7 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> setWriteQueueMaxSize(int maxSize) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
+    ((io.vertx.core.streams.WriteStream) delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   /**
@@ -103,7 +102,7 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
-    def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
+    def ret = ((io.vertx.core.streams.WriteStream) delegate).writeQueueFull();
     return ret;
   }
   /**
@@ -113,12 +112,11 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.WriteStream) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
 }

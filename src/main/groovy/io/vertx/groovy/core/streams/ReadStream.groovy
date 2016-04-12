@@ -50,12 +50,11 @@ class ReadStreamImpl<T> implements ReadStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.StreamBase) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -64,12 +63,11 @@ class ReadStreamImpl<T> implements ReadStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> handler(Handler<T> handler) {
-    ((io.vertx.core.streams.ReadStream) this.delegate).handler(handler != null ? new Handler<java.lang.Object>(){
-    public void handle(java.lang.Object event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.ReadStream) delegate).handler(handler != null ? new Handler<java.lang.Object>(){
+      public void handle(java.lang.Object event) {
+        handler.handle((Object) InternalHelper.wrapObject(event));
+      }
+    } : null);
     return this;
   }
   /**
@@ -77,7 +75,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> pause() {
-    ((io.vertx.core.streams.ReadStream) this.delegate).pause();
+    ((io.vertx.core.streams.ReadStream) delegate).pause();
     return this;
   }
   /**
@@ -85,7 +83,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> resume() {
-    ((io.vertx.core.streams.ReadStream) this.delegate).resume();
+    ((io.vertx.core.streams.ReadStream) delegate).resume();
     return this;
   }
   /**
@@ -94,12 +92,11 @@ class ReadStreamImpl<T> implements ReadStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
 }

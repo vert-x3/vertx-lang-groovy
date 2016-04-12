@@ -98,12 +98,11 @@ public class Context {
    * @param action the action to run
    */
   public void runOnContext(Handler<Void> action) {
-    this.delegate.runOnContext(action != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      action.handle(null);
-    }
-  }
- : null);
+    delegate.runOnContext(action != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        action.handle(event);
+      }
+    } : null);
   }
   /**
    * Safely execute some blocking code.
@@ -121,17 +120,19 @@ public class Context {
    * @param resultHandler handler that will be called when the blocking code is complete
    */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, boolean ordered, Handler<AsyncResult<T>> resultHandler) {
-    this.delegate.executeBlocking(blockingCodeHandler != null ? new Handler<io.vertx.core.Future<java.lang.Object>>(){
-    public void handle(io.vertx.core.Future<java.lang.Object> event) {
-      blockingCodeHandler.handle(null);
-    }
-  }
- : null, ordered != null ? ordered : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
-    public void handle(AsyncResult<java.lang.Object> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.executeBlocking(blockingCodeHandler != null ? new Handler<io.vertx.core.Future<java.lang.Object>>(){
+      public void handle(io.vertx.core.Future<java.lang.Object> event) {
+        blockingCodeHandler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.Future.class));
+      }
+    } : null, ordered, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>() {
+      public void handle(AsyncResult<java.lang.Object> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture((Object) InternalHelper.wrapObject(ar.result())));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Invoke {@link io.vertx.groovy.core.Context#executeBlocking} with order = true.
@@ -139,24 +140,26 @@ public class Context {
    * @param resultHandler handler that will be called when the blocking code is complete
    */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, Handler<AsyncResult<T>> resultHandler) {
-    this.delegate.executeBlocking(blockingCodeHandler != null ? new Handler<io.vertx.core.Future<java.lang.Object>>(){
-    public void handle(io.vertx.core.Future<java.lang.Object> event) {
-      blockingCodeHandler.handle(null);
-    }
-  }
- : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
-    public void handle(AsyncResult<java.lang.Object> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.executeBlocking(blockingCodeHandler != null ? new Handler<io.vertx.core.Future<java.lang.Object>>(){
+      public void handle(io.vertx.core.Future<java.lang.Object> event) {
+        blockingCodeHandler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.Future.class));
+      }
+    } : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>() {
+      public void handle(AsyncResult<java.lang.Object> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture((Object) InternalHelper.wrapObject(ar.result())));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * If the context is associated with a Verticle deployment, this returns the deployment ID of that deployment.
    * @return the deployment ID of the deployment or null if not a Verticle deployment
    */
   public String deploymentID() {
-    def ret = this.delegate.deploymentID();
+    def ret = delegate.deploymentID();
     return ret;
   }
   /**
@@ -165,7 +168,7 @@ public class Context {
    * @return the configuration of the deployment or null if not a Verticle deployment
    */
   public Map<String, Object> config() {
-    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.config());
+    def ret = (Map<String, Object>)InternalHelper.wrapObject(delegate.config());
     return ret;
   }
   /**
@@ -173,7 +176,7 @@ public class Context {
    * @return 
    */
   public List<String> processArgs() {
-    def ret = this.delegate.processArgs();
+    def ret = delegate.processArgs();
     return ret;
   }
   /**
@@ -185,7 +188,7 @@ public class Context {
    * @return true if false otherwise
    */
   public boolean isEventLoopContext() {
-    def ret = this.delegate.isEventLoopContext();
+    def ret = delegate.isEventLoopContext();
     return ret;
   }
   /**
@@ -197,7 +200,7 @@ public class Context {
    * @return true if the current context is a worker context, false otherwise
    */
   public boolean isWorkerContext() {
-    def ret = this.delegate.isWorkerContext();
+    def ret = delegate.isWorkerContext();
     return ret;
   }
   /**
@@ -205,7 +208,7 @@ public class Context {
    * @return true if the current context is a multi-threaded worker context, false otherwise
    */
   public boolean isMultiThreadedWorkerContext() {
-    def ret = this.delegate.isMultiThreadedWorkerContext();
+    def ret = delegate.isMultiThreadedWorkerContext();
     return ret;
   }
   /**
@@ -214,8 +217,7 @@ public class Context {
    * @return the data
    */
   public <T> T get(String key) {
-    // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(this.delegate.get(key != null ? key : null));
+    def ret = (T) InternalHelper.wrapObject(delegate.get(key != null ? key : null));
     return ret;
   }
   /**
@@ -226,7 +228,7 @@ public class Context {
    * @param value the data
    */
   public void put(String key, Object value) {
-    this.delegate.put(key != null ? key : null, value != null ? InternalHelper.unwrapObject(value) : null);
+    delegate.put(key != null ? key : null, value != null ? InternalHelper.unwrapObject(value) : null);
   }
   /**
    * Remove some data from the context.
@@ -234,7 +236,7 @@ public class Context {
    * @return true if removed successfully, false otherwise
    */
   public boolean remove(String key) {
-    def ret = this.delegate.remove(key != null ? key : null);
+    def ret = delegate.remove(key != null ? key : null);
     return ret;
   }
   /**
@@ -242,7 +244,7 @@ public class Context {
    * @return 
    */
   public Vertx owner() {
-    def ret= InternalHelper.safeCreate(this.delegate.owner(), io.vertx.groovy.core.Vertx.class);
+    def ret = InternalHelper.safeCreate(delegate.owner(), io.vertx.groovy.core.Vertx.class);
     return ret;
   }
   /**
@@ -251,7 +253,7 @@ public class Context {
    * @return 
    */
   public int getInstanceCount() {
-    def ret = this.delegate.getInstanceCount();
+    def ret = delegate.getInstanceCount();
     return ret;
   }
   /**
@@ -262,12 +264,11 @@ public class Context {
    * @return a reference to this, so the API can be used fluently
    */
   public Context exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
 }

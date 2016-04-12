@@ -39,12 +39,15 @@ public class AsyncMap<K,V> {
    * @param resultHandler - this will be called some time later with the async result.
    */
   public void get(K k, Handler<AsyncResult<V>> resultHandler) {
-    this.delegate.get(k != null ? InternalHelper.unwrapObject(k) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
-    public void handle(AsyncResult<java.lang.Object> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.get(k != null ? InternalHelper.unwrapObject(k) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>() {
+      public void handle(AsyncResult<java.lang.Object> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture((Object) InternalHelper.wrapObject(ar.result())));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Put a value in the map, asynchronously.
@@ -53,12 +56,15 @@ public class AsyncMap<K,V> {
    * @param completionHandler - this will be called some time later to signify the value has been put
    */
   public void put(K k, V v, Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      completionHandler.handle(null);
-    }
-  }
- : null);
+    delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.shareddata.AsyncMap#put} but specifying a timeout. If the value cannot be put within the timeout a
@@ -69,12 +75,15 @@ public class AsyncMap<K,V> {
    * @param completionHandler the handler
    */
   public void put(K k, V v, long ttl, Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, ttl != null ? ttl : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      completionHandler.handle(null);
-    }
-  }
- : null);
+    delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, ttl, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Put the entry only if there is no entry with the key already present. If key already present then the existing
@@ -84,12 +93,15 @@ public class AsyncMap<K,V> {
    * @param completionHandler the handler
    */
   public void putIfAbsent(K k, V v, Handler<AsyncResult<V>> completionHandler) {
-    this.delegate.putIfAbsent(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
-    public void handle(AsyncResult<java.lang.Object> ar) {
-      completionHandler.handle(null);
-    }
-  }
- : null);
+    delegate.putIfAbsent(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Object>>() {
+      public void handle(AsyncResult<java.lang.Object> ar) {
+        if (ar.succeeded()) {
+          completionHandler.handle(io.vertx.core.Future.succeededFuture((Object) InternalHelper.wrapObject(ar.result())));
+        } else {
+          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Link {@link io.vertx.groovy.core.shareddata.AsyncMap#putIfAbsent} but specifying a timeout. If the value cannot be put within the timeout a
@@ -100,12 +112,15 @@ public class AsyncMap<K,V> {
    * @param completionHandler the handler
    */
   public void putIfAbsent(K k, V v, long ttl, Handler<AsyncResult<V>> completionHandler) {
-    this.delegate.putIfAbsent(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, ttl != null ? ttl : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
-    public void handle(AsyncResult<java.lang.Object> ar) {
-      completionHandler.handle(null);
-    }
-  }
- : null);
+    delegate.putIfAbsent(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, ttl, completionHandler != null ? new Handler<AsyncResult<java.lang.Object>>() {
+      public void handle(AsyncResult<java.lang.Object> ar) {
+        if (ar.succeeded()) {
+          completionHandler.handle(io.vertx.core.Future.succeededFuture((Object) InternalHelper.wrapObject(ar.result())));
+        } else {
+          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Remove a value from the map, asynchronously.
@@ -113,12 +128,15 @@ public class AsyncMap<K,V> {
    * @param resultHandler - this will be called some time later to signify the value has been removed
    */
   public void remove(K k, Handler<AsyncResult<V>> resultHandler) {
-    this.delegate.remove(k != null ? InternalHelper.unwrapObject(k) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
-    public void handle(AsyncResult<java.lang.Object> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.remove(k != null ? InternalHelper.unwrapObject(k) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>() {
+      public void handle(AsyncResult<java.lang.Object> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture((Object) InternalHelper.wrapObject(ar.result())));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Remove a value from the map, only if entry already exists with same value.
@@ -127,12 +145,15 @@ public class AsyncMap<K,V> {
    * @param resultHandler - this will be called some time later to signify the value has been removed
    */
   public void removeIfPresent(K k, V v, Handler<AsyncResult<Boolean>> resultHandler) {
-    this.delegate.removeIfPresent(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Boolean>>(){
-    public void handle(AsyncResult<java.lang.Boolean> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.removeIfPresent(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Boolean>>() {
+      public void handle(AsyncResult<java.lang.Boolean> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Replace the entry only if it is currently mapped to some value
@@ -141,12 +162,15 @@ public class AsyncMap<K,V> {
    * @param resultHandler the result handler will be passed the previous value
    */
   public void replace(K k, V v, Handler<AsyncResult<V>> resultHandler) {
-    this.delegate.replace(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
-    public void handle(AsyncResult<java.lang.Object> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.replace(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>() {
+      public void handle(AsyncResult<java.lang.Object> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture((Object) InternalHelper.wrapObject(ar.result())));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Replace the entry only if it is currently mapped to a specific value
@@ -156,35 +180,44 @@ public class AsyncMap<K,V> {
    * @param resultHandler the result handler
    */
   public void replaceIfPresent(K k, V oldValue, V newValue, Handler<AsyncResult<Boolean>> resultHandler) {
-    this.delegate.replaceIfPresent(k != null ? InternalHelper.unwrapObject(k) : null, oldValue != null ? InternalHelper.unwrapObject(oldValue) : null, newValue != null ? InternalHelper.unwrapObject(newValue) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Boolean>>(){
-    public void handle(AsyncResult<java.lang.Boolean> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.replaceIfPresent(k != null ? InternalHelper.unwrapObject(k) : null, oldValue != null ? InternalHelper.unwrapObject(oldValue) : null, newValue != null ? InternalHelper.unwrapObject(newValue) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Boolean>>() {
+      public void handle(AsyncResult<java.lang.Boolean> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Clear all entries in the map
    * @param resultHandler called on completion
    */
   public void clear(Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.clear(resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.clear(resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Provide the number of entries in the map
    * @param resultHandler handler which will receive the number of entries
    */
   public void size(Handler<AsyncResult<Integer>> resultHandler) {
-    this.delegate.size(resultHandler != null ? new Handler<AsyncResult<java.lang.Integer>>(){
-    public void handle(AsyncResult<java.lang.Integer> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.size(resultHandler != null ? new Handler<AsyncResult<java.lang.Integer>>() {
+      public void handle(AsyncResult<java.lang.Integer> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
 }

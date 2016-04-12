@@ -45,79 +45,75 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @param t 
    */
   public void end(Buffer t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
+    ((io.vertx.core.streams.WriteStream) delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
   }
   /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.file.AsyncFile#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
-    def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
+    def ret = ((io.vertx.core.streams.WriteStream) delegate).writeQueueFull();
     return ret;
   }
   public AsyncFile handler(Handler<Buffer> handler) {
-    ((io.vertx.core.file.AsyncFile) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
-    public void handle(io.vertx.core.buffer.Buffer event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.file.AsyncFile) delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+      public void handle(io.vertx.core.buffer.Buffer event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
+      }
+    } : null);
     return this;
   }
   public AsyncFile pause() {
-    ((io.vertx.core.file.AsyncFile) this.delegate).pause();
+    ((io.vertx.core.file.AsyncFile) delegate).pause();
     return this;
   }
   public AsyncFile resume() {
-    ((io.vertx.core.file.AsyncFile) this.delegate).resume();
+    ((io.vertx.core.file.AsyncFile) delegate).resume();
     return this;
   }
   public AsyncFile endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.file.AsyncFile) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.file.AsyncFile) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   public AsyncFile write(Buffer data) {
-    ((io.vertx.core.file.AsyncFile) this.delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
+    ((io.vertx.core.file.AsyncFile) delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   public AsyncFile setWriteQueueMaxSize(int maxSize) {
-    ((io.vertx.core.file.AsyncFile) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
+    ((io.vertx.core.file.AsyncFile) delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public AsyncFile drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.file.AsyncFile) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.file.AsyncFile) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public AsyncFile exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.file.AsyncFile) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.file.AsyncFile) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
    * Close the file, see {@link io.vertx.groovy.core.file.AsyncFile#close}.
    */
   public void end() {
-    ((io.vertx.core.file.AsyncFile) this.delegate).end();
+    ((io.vertx.core.file.AsyncFile) delegate).end();
   }
   /**
    * Close the file. The actual close happens asynchronously.
    */
   public void close() {
-    this.delegate.close();
+    delegate.close();
   }
   /**
    * Close the file. The actual close happens asynchronously.
@@ -125,12 +121,15 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @param handler the handler
    */
   public void close(Handler<AsyncResult<Void>> handler) {
-    this.delegate.close(handler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.close(handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Write a {@link io.vertx.groovy.core.buffer.Buffer} to the file at position <code>position</code> in the file, asynchronously.
@@ -148,12 +147,15 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public AsyncFile write(Buffer buffer, long position, Handler<AsyncResult<Void>> handler) {
-    this.delegate.write(buffer != null ? (io.vertx.core.buffer.Buffer)buffer.getDelegate() : null, position != null ? position : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.write(buffer != null ? (io.vertx.core.buffer.Buffer)buffer.getDelegate() : null, position, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -173,12 +175,15 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public AsyncFile read(Buffer buffer, int offset, long position, int length, Handler<AsyncResult<Buffer>> handler) {
-    this.delegate.read(buffer != null ? (io.vertx.core.buffer.Buffer)buffer.getDelegate() : null, offset != null ? offset : null, position != null ? position : null, length != null ? length : null, handler != null ? new Handler<AsyncResult<io.vertx.core.buffer.Buffer>>(){
-    public void handle(AsyncResult<io.vertx.core.buffer.Buffer> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.read(buffer != null ? (io.vertx.core.buffer.Buffer)buffer.getDelegate() : null, offset, position, length, handler != null ? new Handler<AsyncResult<io.vertx.core.buffer.Buffer>>() {
+      public void handle(AsyncResult<io.vertx.core.buffer.Buffer> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.buffer.Buffer.class)));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -190,7 +195,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public AsyncFile flush() {
-    this.delegate.flush();
+    delegate.flush();
     return this;
   }
   /**
@@ -199,12 +204,15 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return 
    */
   public AsyncFile flush(Handler<AsyncResult<Void>> handler) {
-    this.delegate.flush(handler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.flush(handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -213,7 +221,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public AsyncFile setReadPos(long readPos) {
-    this.delegate.setReadPos(readPos != null ? readPos : null);
+    delegate.setReadPos(readPos);
     return this;
   }
   /**
@@ -222,7 +230,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public AsyncFile setWritePos(long writePos) {
-    this.delegate.setWritePos(writePos != null ? writePos : null);
+    delegate.setWritePos(writePos);
     return this;
   }
   /**
@@ -232,7 +240,7 @@ public class AsyncFile implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public AsyncFile setReadBufferSize(int readBufferSize) {
-    this.delegate.setReadBufferSize(readBufferSize != null ? readBufferSize : null);
+    delegate.setReadBufferSize(readBufferSize);
     return this;
   }
 }

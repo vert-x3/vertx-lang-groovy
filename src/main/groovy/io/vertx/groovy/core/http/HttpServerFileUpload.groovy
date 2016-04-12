@@ -34,38 +34,35 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
     return delegate;
   }
   public HttpServerFileUpload exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerFileUpload) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public HttpServerFileUpload handler(Handler<Buffer> handler) {
-    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
-    public void handle(io.vertx.core.buffer.Buffer event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerFileUpload) delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+      public void handle(io.vertx.core.buffer.Buffer event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
+      }
+    } : null);
     return this;
   }
   public HttpServerFileUpload endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerFileUpload) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   public HttpServerFileUpload pause() {
-    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).pause();
+    ((io.vertx.core.http.HttpServerFileUpload) delegate).pause();
     return this;
   }
   public HttpServerFileUpload resume() {
-    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).resume();
+    ((io.vertx.core.http.HttpServerFileUpload) delegate).resume();
     return this;
   }
   /**
@@ -74,7 +71,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public HttpServerFileUpload streamToFileSystem(String filename) {
-    this.delegate.streamToFileSystem(filename != null ? filename : null);
+    delegate.streamToFileSystem(filename != null ? filename : null);
     return this;
   }
   /**
@@ -82,7 +79,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public String filename() {
-    def ret = this.delegate.filename();
+    def ret = delegate.filename();
     return ret;
   }
   /**
@@ -90,7 +87,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public String name() {
-    def ret = this.delegate.name();
+    def ret = delegate.name();
     return ret;
   }
   /**
@@ -98,7 +95,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public String contentType() {
-    def ret = this.delegate.contentType();
+    def ret = delegate.contentType();
     return ret;
   }
   /**
@@ -106,7 +103,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public String contentTransferEncoding() {
-    def ret = this.delegate.contentTransferEncoding();
+    def ret = delegate.contentTransferEncoding();
     return ret;
   }
   /**
@@ -114,7 +111,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public String charset() {
-    def ret = this.delegate.charset();
+    def ret = delegate.charset();
     return ret;
   }
   /**
@@ -123,7 +120,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return the size of the upload (in bytes)
    */
   public long size() {
-    def ret = this.delegate.size();
+    def ret = delegate.size();
     return ret;
   }
   /**
@@ -131,7 +128,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public boolean isSizeAvailable() {
-    def ret = this.delegate.isSizeAvailable();
+    def ret = delegate.isSizeAvailable();
     return ret;
   }
 }

@@ -45,7 +45,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame binaryFrame(Buffer data, boolean isFinal) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.binaryFrame(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, isFinal != null ? isFinal : null), io.vertx.groovy.core.http.WebSocketFrame.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.binaryFrame(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, isFinal), io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -55,7 +55,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame textFrame(String str, boolean isFinal) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.textFrame(str != null ? str : null, isFinal != null ? isFinal : null), io.vertx.groovy.core.http.WebSocketFrame.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.textFrame(str != null ? str : null, isFinal), io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -65,7 +65,7 @@ public class WebSocketFrame {
    * @return the frame
    */
   public static WebSocketFrame continuationFrame(Buffer data, boolean isFinal) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.continuationFrame(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, isFinal != null ? isFinal : null), io.vertx.groovy.core.http.WebSocketFrame.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.http.WebSocketFrame.continuationFrame(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, isFinal), io.vertx.groovy.core.http.WebSocketFrame.class);
     return ret;
   }
   /**
@@ -73,7 +73,7 @@ public class WebSocketFrame {
    * @return 
    */
   public boolean isText() {
-    def ret = this.delegate.isText();
+    def ret = delegate.isText();
     return ret;
   }
   /**
@@ -81,7 +81,7 @@ public class WebSocketFrame {
    * @return 
    */
   public boolean isBinary() {
-    def ret = this.delegate.isBinary();
+    def ret = delegate.isBinary();
     return ret;
   }
   /**
@@ -89,7 +89,7 @@ public class WebSocketFrame {
    * @return 
    */
   public boolean isContinuation() {
-    def ret = this.delegate.isContinuation();
+    def ret = delegate.isContinuation();
     return ret;
   }
   /**
@@ -101,7 +101,7 @@ public class WebSocketFrame {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret = this.delegate.textData();
+    def ret = delegate.textData();
     cached_0 = ret;
     return ret;
   }
@@ -113,7 +113,7 @@ public class WebSocketFrame {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.binaryData(), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret = InternalHelper.safeCreate(delegate.binaryData(), io.vertx.groovy.core.buffer.Buffer.class);
     cached_1 = ret;
     return ret;
   }
@@ -122,7 +122,7 @@ public class WebSocketFrame {
    * @return 
    */
   public boolean isFinal() {
-    def ret = this.delegate.isFinal();
+    def ret = delegate.isFinal();
     return ret;
   }
   private String cached_0;

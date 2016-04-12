@@ -38,48 +38,60 @@ public class Counter {
    * @param resultHandler handler which will be passed the value
    */
   public void get(Handler<AsyncResult<Long>> resultHandler) {
-    this.delegate.get(resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>(){
-    public void handle(AsyncResult<java.lang.Long> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.get(resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>() {
+      public void handle(AsyncResult<java.lang.Long> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Increment the counter atomically and return the new count
    * @param resultHandler handler which will be passed the value
    */
   public void incrementAndGet(Handler<AsyncResult<Long>> resultHandler) {
-    this.delegate.incrementAndGet(resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>(){
-    public void handle(AsyncResult<java.lang.Long> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.incrementAndGet(resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>() {
+      public void handle(AsyncResult<java.lang.Long> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Increment the counter atomically and return the value before the increment.
    * @param resultHandler handler which will be passed the value
    */
   public void getAndIncrement(Handler<AsyncResult<Long>> resultHandler) {
-    this.delegate.getAndIncrement(resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>(){
-    public void handle(AsyncResult<java.lang.Long> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.getAndIncrement(resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>() {
+      public void handle(AsyncResult<java.lang.Long> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Decrement the counter atomically and return the new count
    * @param resultHandler handler which will be passed the value
    */
   public void decrementAndGet(Handler<AsyncResult<Long>> resultHandler) {
-    this.delegate.decrementAndGet(resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>(){
-    public void handle(AsyncResult<java.lang.Long> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.decrementAndGet(resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>() {
+      public void handle(AsyncResult<java.lang.Long> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Add the value to the counter atomically and return the new count
@@ -87,12 +99,15 @@ public class Counter {
    * @param resultHandler handler which will be passed the value
    */
   public void addAndGet(long value, Handler<AsyncResult<Long>> resultHandler) {
-    this.delegate.addAndGet(value != null ? value : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>(){
-    public void handle(AsyncResult<java.lang.Long> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.addAndGet(value, resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>() {
+      public void handle(AsyncResult<java.lang.Long> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Add the value to the counter atomically and return the value before the add
@@ -100,12 +115,15 @@ public class Counter {
    * @param resultHandler handler which will be passed the value
    */
   public void getAndAdd(long value, Handler<AsyncResult<Long>> resultHandler) {
-    this.delegate.getAndAdd(value != null ? value : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>(){
-    public void handle(AsyncResult<java.lang.Long> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.getAndAdd(value, resultHandler != null ? new Handler<AsyncResult<java.lang.Long>>() {
+      public void handle(AsyncResult<java.lang.Long> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
   /**
    * Set the counter to the specified value only if the current value is the expectec value. This happens
@@ -115,11 +133,14 @@ public class Counter {
    * @param resultHandler the handler will be passed true on success
    */
   public void compareAndSet(long expected, long value, Handler<AsyncResult<Boolean>> resultHandler) {
-    this.delegate.compareAndSet(expected != null ? expected : null, value != null ? value : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Boolean>>(){
-    public void handle(AsyncResult<java.lang.Boolean> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.compareAndSet(expected, value, resultHandler != null ? new Handler<AsyncResult<java.lang.Boolean>>() {
+      public void handle(AsyncResult<java.lang.Boolean> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
   }
 }

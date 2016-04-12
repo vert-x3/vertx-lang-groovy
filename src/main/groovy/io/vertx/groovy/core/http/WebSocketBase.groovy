@@ -70,66 +70,62 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @param t 
    */
   public void end(Buffer t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
+    ((io.vertx.core.streams.WriteStream) delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
   }
   /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.http.WebSocketBase#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
-    def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
+    def ret = ((io.vertx.core.streams.WriteStream) delegate).writeQueueFull();
     return ret;
   }
   public WebSocketBase exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public WebSocketBase handler(Handler<Buffer> handler) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
-    public void handle(io.vertx.core.buffer.Buffer event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+      public void handle(io.vertx.core.buffer.Buffer event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
+      }
+    } : null);
     return this;
   }
   public WebSocketBase pause() {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).pause();
+    ((io.vertx.core.http.WebSocketBase) delegate).pause();
     return this;
   }
   public WebSocketBase resume() {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).resume();
+    ((io.vertx.core.http.WebSocketBase) delegate).resume();
     return this;
   }
   public WebSocketBase endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   public WebSocketBase write(Buffer data) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   public WebSocketBase setWriteQueueMaxSize(int maxSize) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public WebSocketBase drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -142,7 +138,7 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return the binary handler id
    */
   public String binaryHandlerID() {
-    def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).binaryHandlerID();
+    def ret = ((io.vertx.core.http.WebSocketBase) delegate).binaryHandlerID();
     return ret;
   }
   /**
@@ -155,7 +151,7 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return 
    */
   public String textHandlerID() {
-    def ret = ((io.vertx.core.http.WebSocketBase) this.delegate).textHandlerID();
+    def ret = ((io.vertx.core.http.WebSocketBase) delegate).textHandlerID();
     return ret;
   }
   /**
@@ -164,7 +160,7 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase writeFrame(WebSocketFrame frame) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).writeFrame(frame != null ? (io.vertx.core.http.WebSocketFrame)frame.getDelegate() : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).writeFrame(frame != null ? (io.vertx.core.http.WebSocketFrame)frame.getDelegate() : null);
     return this;
   }
   /**
@@ -173,7 +169,7 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase writeFinalTextFrame(String text) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).writeFinalTextFrame(text != null ? text : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).writeFinalTextFrame(text != null ? text : null);
     return this;
   }
   /**
@@ -182,7 +178,7 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase writeFinalBinaryFrame(Buffer data) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).writeFinalBinaryFrame(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).writeFinalBinaryFrame(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   /**
@@ -192,7 +188,7 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase writeBinaryMessage(Buffer data) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).writeBinaryMessage(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).writeBinaryMessage(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   /**
@@ -201,12 +197,11 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase closeHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).closeHandler(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).closeHandler(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -215,25 +210,24 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase frameHandler(Handler<WebSocketFrame> handler) {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).frameHandler(handler != null ? new Handler<io.vertx.core.http.WebSocketFrame>(){
-    public void handle(io.vertx.core.http.WebSocketFrame event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).frameHandler(handler != null ? new Handler<io.vertx.core.http.WebSocketFrame>(){
+      public void handle(io.vertx.core.http.WebSocketFrame event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocketFrame.class));
+      }
+    } : null);
     return this;
   }
   /**
    * Calls {@link io.vertx.groovy.core.http.WebSocketBase#close}
    */
   public void end() {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).end();
+    ((io.vertx.core.http.WebSocketBase) delegate).end();
   }
   /**
    * Close the WebSocket.
    */
   public void close() {
-    ((io.vertx.core.http.WebSocketBase) this.delegate).close();
+    ((io.vertx.core.http.WebSocketBase) delegate).close();
   }
   /**
    * @return the remote address for this socket
@@ -243,7 +237,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) this.delegate).remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
+    def ret = InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) delegate).remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }
@@ -255,7 +249,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) this.delegate).localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
+    def ret = InternalHelper.safeCreate(((io.vertx.core.http.WebSocketBase) delegate).localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_1 = ret;
     return ret;
   }

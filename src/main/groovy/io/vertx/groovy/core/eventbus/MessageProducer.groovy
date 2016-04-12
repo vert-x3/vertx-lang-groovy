@@ -40,14 +40,14 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @param t 
    */
   public void end(T t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? InternalHelper.unwrapObject(t) : null);
+    ((io.vertx.core.streams.WriteStream) delegate).end(t != null ? InternalHelper.unwrapObject(t) : null);
   }
   /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.eventbus.MessageProducer#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
-    def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
+    def ret = ((io.vertx.core.streams.WriteStream) delegate).writeQueueFull();
     return ret;
   }
   /**
@@ -56,42 +56,43 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @return reference to this for fluency
    */
   public MessageProducer<T> send(T message) {
-    def ret= InternalHelper.safeCreate(this.delegate.send(message != null ? InternalHelper.unwrapObject(message) : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    def ret = InternalHelper.safeCreate(delegate.send(message != null ? InternalHelper.unwrapObject(message) : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   public <R> MessageProducer<T> send(T message, Handler<AsyncResult<Message<R>>> replyHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.send(message != null ? InternalHelper.unwrapObject(message) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>(){
-    public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
-      replyHandler.handle(null);
-    }
-  }
- : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    def ret = InternalHelper.safeCreate(delegate.send(message != null ? InternalHelper.unwrapObject(message) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
+        if (ar.succeeded()) {
+          replyHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.eventbus.Message.class)));
+        } else {
+          replyHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   public MessageProducer<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.WriteStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public MessageProducer<T> write(T data) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).write(data != null ? InternalHelper.unwrapObject(data) : null);
+    ((io.vertx.core.streams.WriteStream) delegate).write(data != null ? InternalHelper.unwrapObject(data) : null);
     return this;
   }
   public MessageProducer<T> setWriteQueueMaxSize(int maxSize) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
+    ((io.vertx.core.streams.WriteStream) delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public MessageProducer<T> drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.WriteStream) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -100,7 +101,7 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @return this producer object
    */
   public MessageProducer<T> deliveryOptions(Map<String, Object> options = [:]) {
-    this.delegate.deliveryOptions(options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    delegate.deliveryOptions(options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
     return this;
   }
   /**
@@ -108,19 +109,19 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @return 
    */
   public String address() {
-    def ret = this.delegate.address();
+    def ret = delegate.address();
     return ret;
   }
   /**
    * Closes the producer, calls {@link io.vertx.groovy.core.eventbus.MessageProducer#close}
    */
   public void end() {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end();
+    ((io.vertx.core.streams.WriteStream) delegate).end();
   }
   /**
    * Closes the producer, this method should be called when the message producer is not used anymore.
    */
   public void close() {
-    this.delegate.close();
+    delegate.close();
   }
 }

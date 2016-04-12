@@ -47,38 +47,35 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return delegate;
   }
   public HttpServerRequest exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.HttpServerRequest) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerRequest) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public HttpServerRequest handler(Handler<Buffer> handler) {
-    ((io.vertx.core.http.HttpServerRequest) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
-    public void handle(io.vertx.core.buffer.Buffer event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerRequest) delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+      public void handle(io.vertx.core.buffer.Buffer event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
+      }
+    } : null);
     return this;
   }
   public HttpServerRequest pause() {
-    ((io.vertx.core.http.HttpServerRequest) this.delegate).pause();
+    ((io.vertx.core.http.HttpServerRequest) delegate).pause();
     return this;
   }
   public HttpServerRequest resume() {
-    ((io.vertx.core.http.HttpServerRequest) this.delegate).resume();
+    ((io.vertx.core.http.HttpServerRequest) delegate).resume();
     return this;
   }
   public HttpServerRequest endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.HttpServerRequest) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.http.HttpServerRequest) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -86,7 +83,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public HttpVersion version() {
-    def ret = this.delegate.version();
+    def ret = delegate.version();
     return ret;
   }
   /**
@@ -94,7 +91,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public HttpMethod method() {
-    def ret = this.delegate.method();
+    def ret = delegate.method();
     return ret;
   }
   /**
@@ -102,7 +99,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public boolean isSSL() {
-    def ret = this.delegate.isSSL();
+    def ret = delegate.isSSL();
     return ret;
   }
   /**
@@ -110,7 +107,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public String scheme() {
-    def ret = this.delegate.scheme();
+    def ret = delegate.scheme();
     return ret;
   }
   /**
@@ -118,7 +115,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public String uri() {
-    def ret = this.delegate.uri();
+    def ret = delegate.uri();
     return ret;
   }
   /**
@@ -126,7 +123,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public String path() {
-    def ret = this.delegate.path();
+    def ret = delegate.path();
     return ret;
   }
   /**
@@ -134,7 +131,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public String query() {
-    def ret = this.delegate.query();
+    def ret = delegate.query();
     return ret;
   }
   /**
@@ -142,7 +139,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public String host() {
-    def ret = this.delegate.host();
+    def ret = delegate.host();
     return ret;
   }
   /**
@@ -154,7 +151,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.response(), io.vertx.groovy.core.http.HttpServerResponse.class);
+    def ret = InternalHelper.safeCreate(delegate.response(), io.vertx.groovy.core.http.HttpServerResponse.class);
     cached_0 = ret;
     return ret;
   }
@@ -166,7 +163,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.headers(), io.vertx.groovy.core.MultiMap.class);
+    def ret = InternalHelper.safeCreate(delegate.headers(), io.vertx.groovy.core.MultiMap.class);
     cached_1 = ret;
     return ret;
   }
@@ -176,7 +173,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the header value
    */
   public String getHeader(String headerName) {
-    def ret = this.delegate.getHeader(headerName != null ? headerName : null);
+    def ret = delegate.getHeader(headerName != null ? headerName : null);
     return ret;
   }
   /**
@@ -187,7 +184,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_2 != null) {
       return cached_2;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.params(), io.vertx.groovy.core.MultiMap.class);
+    def ret = InternalHelper.safeCreate(delegate.params(), io.vertx.groovy.core.MultiMap.class);
     cached_2 = ret;
     return ret;
   }
@@ -197,7 +194,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the param value
    */
   public String getParam(String paramName) {
-    def ret = this.delegate.getParam(paramName != null ? paramName : null);
+    def ret = delegate.getParam(paramName != null ? paramName : null);
     return ret;
   }
   /**
@@ -208,7 +205,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_3 != null) {
       return cached_3;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
+    def ret = InternalHelper.safeCreate(delegate.remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_3 = ret;
     return ret;
   }
@@ -220,7 +217,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_4 != null) {
       return cached_4;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
+    def ret = InternalHelper.safeCreate(delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_4 = ret;
     return ret;
   }
@@ -229,7 +226,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public String absoluteURI() {
-    def ret = this.delegate.absoluteURI();
+    def ret = delegate.absoluteURI();
     return ret;
   }
   /**
@@ -241,12 +238,11 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public HttpServerRequest bodyHandler(Handler<Buffer> bodyHandler) {
-    this.delegate.bodyHandler(bodyHandler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
-    public void handle(io.vertx.core.buffer.Buffer event) {
-      bodyHandler.handle(null);
-    }
-  }
- : null);
+    delegate.bodyHandler(bodyHandler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+      public void handle(io.vertx.core.buffer.Buffer event) {
+        bodyHandler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
+      }
+    } : null);
     return this;
   }
   /**
@@ -263,7 +259,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_5 != null) {
       return cached_5;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.netSocket(), io.vertx.groovy.core.net.NetSocket.class);
+    def ret = InternalHelper.safeCreate(delegate.netSocket(), io.vertx.groovy.core.net.NetSocket.class);
     cached_5 = ret;
     return ret;
   }
@@ -274,7 +270,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest setExpectMultipart(boolean expect) {
-    this.delegate.setExpectMultipart(expect != null ? expect : null);
+    delegate.setExpectMultipart(expect);
     return this;
   }
   /**
@@ -282,7 +278,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public boolean isExpectMultipart() {
-    def ret = this.delegate.isExpectMultipart();
+    def ret = delegate.isExpectMultipart();
     return ret;
   }
   /**
@@ -292,12 +288,11 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest uploadHandler(Handler<HttpServerFileUpload> uploadHandler) {
-    this.delegate.uploadHandler(uploadHandler != null ? new Handler<io.vertx.core.http.HttpServerFileUpload>(){
-    public void handle(io.vertx.core.http.HttpServerFileUpload event) {
-      uploadHandler.handle(null);
-    }
-  }
- : null);
+    delegate.uploadHandler(uploadHandler != null ? new Handler<io.vertx.core.http.HttpServerFileUpload>(){
+      public void handle(io.vertx.core.http.HttpServerFileUpload event) {
+        uploadHandler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.HttpServerFileUpload.class));
+      }
+    } : null);
     return this;
   }
   /**
@@ -313,7 +308,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_6 != null) {
       return cached_6;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.formAttributes(), io.vertx.groovy.core.MultiMap.class);
+    def ret = InternalHelper.safeCreate(delegate.formAttributes(), io.vertx.groovy.core.MultiMap.class);
     cached_6 = ret;
     return ret;
   }
@@ -323,7 +318,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the attribute value
    */
   public String getFormAttribute(String attributeName) {
-    def ret = this.delegate.getFormAttribute(attributeName != null ? attributeName : null);
+    def ret = delegate.getFormAttribute(attributeName != null ? attributeName : null);
     return ret;
   }
   /**
@@ -334,7 +329,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the WebSocket
    */
   public ServerWebSocket upgrade() {
-    def ret= InternalHelper.safeCreate(this.delegate.upgrade(), io.vertx.groovy.core.http.ServerWebSocket.class);
+    def ret = InternalHelper.safeCreate(delegate.upgrade(), io.vertx.groovy.core.http.ServerWebSocket.class);
     return ret;
   }
   /**
@@ -342,7 +337,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return true if ended
    */
   public boolean isEnded() {
-    def ret = this.delegate.isEnded();
+    def ret = delegate.isEnded();
     return ret;
   }
   /**
@@ -352,12 +347,11 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest unknownFrameHandler(Handler<HttpFrame> handler) {
-    this.delegate.unknownFrameHandler(handler != null ? new Handler<io.vertx.core.http.HttpFrame>(){
-    public void handle(io.vertx.core.http.HttpFrame event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.unknownFrameHandler(handler != null ? new Handler<io.vertx.core.http.HttpFrame>(){
+      public void handle(io.vertx.core.http.HttpFrame event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.HttpFrame.class));
+      }
+    } : null);
     return this;
   }
   /**
@@ -368,7 +362,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     if (cached_7 != null) {
       return cached_7;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.connection(), io.vertx.groovy.core.http.HttpConnection.class);
+    def ret = InternalHelper.safeCreate(delegate.connection(), io.vertx.groovy.core.http.HttpConnection.class);
     cached_7 = ret;
     return ret;
   }

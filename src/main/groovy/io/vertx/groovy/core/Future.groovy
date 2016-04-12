@@ -38,7 +38,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> future() {
-    def ret= InternalHelper.safeCreate(io.vertx.core.Future.future(), io.vertx.groovy.core.Future.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.Future.future(), io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
@@ -46,7 +46,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> succeededFuture() {
-    def ret= InternalHelper.safeCreate(io.vertx.core.Future.succeededFuture(), io.vertx.groovy.core.Future.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.Future.succeededFuture(), io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
@@ -55,7 +55,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> succeededFuture(T result) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.Future.succeededFuture(result != null ? InternalHelper.unwrapObject(result) : null), io.vertx.groovy.core.Future.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.Future.succeededFuture(result != null ? InternalHelper.unwrapObject(result) : null), io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
@@ -64,7 +64,7 @@ public class Future<T> {
    * @return the future
    */
   public static <T> Future<T> failedFuture(String failureMessage) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.Future.failedFuture(failureMessage != null ? failureMessage : null), io.vertx.groovy.core.Future.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.Future.failedFuture(failureMessage != null ? failureMessage : null), io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
@@ -74,7 +74,7 @@ public class Future<T> {
    * @return true if completed, false if not
    */
   public boolean isComplete() {
-    def ret = this.delegate.isComplete();
+    def ret = delegate.isComplete();
     return ret;
   }
   /**
@@ -86,12 +86,15 @@ public class Future<T> {
    * @return a reference to this, so it can be used fluently
    */
   public Future<T> setHandler(Handler<AsyncResult<T>> handler) {
-    this.delegate.setHandler(handler != null ? new Handler<AsyncResult<java.lang.Object>>(){
-    public void handle(AsyncResult<java.lang.Object> ar) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.setHandler(handler != null ? new Handler<AsyncResult<java.lang.Object>>() {
+      public void handle(AsyncResult<java.lang.Object> ar) {
+        if (ar.succeeded()) {
+          handler.handle(io.vertx.core.Future.succeededFuture((Object) InternalHelper.wrapObject(ar.result())));
+        } else {
+          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -99,35 +102,34 @@ public class Future<T> {
    * @param result the result
    */
   public void complete(T result) {
-    this.delegate.complete(result != null ? InternalHelper.unwrapObject(result) : null);
+    delegate.complete(result != null ? InternalHelper.unwrapObject(result) : null);
   }
   /**
    * Set a null result. Any handler will be called, if there is one, and the future will be marked as completed.
    */
   public void complete() {
-    this.delegate.complete();
+    delegate.complete();
   }
   /**
    * Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.
    * @param throwable the failure cause
    */
   public void fail(Throwable throwable) {
-    this.delegate.fail(throwable != null ? throwable : null);
+    delegate.fail(throwable != null ? throwable : null);
   }
   /**
    * Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.
    * @param failureMessage the failure message
    */
   public void fail(String failureMessage) {
-    this.delegate.fail(failureMessage != null ? failureMessage : null);
+    delegate.fail(failureMessage != null ? failureMessage : null);
   }
   /**
    * The result of the operation. This will be null if the operation failed.
    * @return the result or null if the operation failed.
    */
   public T result() {
-    // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(this.delegate.result());
+    def ret = (T) InternalHelper.wrapObject(delegate.result());
     return ret;
   }
   /**
@@ -135,7 +137,7 @@ public class Future<T> {
    * @return the cause or null if the operation succeeded.
    */
   public Throwable cause() {
-    def ret = this.delegate.cause();
+    def ret = delegate.cause();
     return ret;
   }
   /**
@@ -143,7 +145,7 @@ public class Future<T> {
    * @return true if it succeded or false otherwise
    */
   public boolean succeeded() {
-    def ret = this.delegate.succeeded();
+    def ret = delegate.succeeded();
     return ret;
   }
   /**
@@ -151,7 +153,7 @@ public class Future<T> {
    * @return true if it failed or false otherwise
    */
   public boolean failed() {
-    def ret = this.delegate.failed();
+    def ret = delegate.failed();
     return ret;
   }
   /**
@@ -164,12 +166,11 @@ public class Future<T> {
    * @param next the next future
    */
   public <U> void compose(Handler<T> handler, Future<U> next) {
-    this.delegate.compose(handler != null ? new Handler<java.lang.Object>(){
-    public void handle(java.lang.Object event) {
-      handler.handle(null);
-    }
-  }
- : null, next != null ? (io.vertx.core.Future<U>)next.getDelegate() : null);
+    delegate.compose(handler != null ? new Handler<java.lang.Object>(){
+      public void handle(java.lang.Object event) {
+        handler.handle((Object) InternalHelper.wrapObject(event));
+      }
+    } : null, next != null ? (io.vertx.core.Future<U>)next.getDelegate() : null);
   }
   /**
    * @return an handler completing this future
@@ -179,13 +180,12 @@ public class Future<T> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def handlerDelegate = this.delegate.completer();
-    Handler<AsyncResult<Object>> ret = new Handler<AsyncResult<Object>>() {
-      public void handle(AsyncResult<Object> event) {
-        if (event.succeeded()) {
-          handlerDelegate.handle(InternalHelper.result(InternalHelper.unwrapObject(event.result())));
-        } else {
-          handlerDelegate.handle(InternalHelper.<java.lang.Object>failure(event.cause()));
+    def ret = new Handler<AsyncResult<Object>>() {
+      public void handle(AsyncResult<Object> ar_) {
+        if (ar_.succeeded()) {
+          delegate.completer().handle(io.vertx.core.Future.succeededFuture(InternalHelper.unwrapObject(ar_.result())));
+        } else  {
+          delegate.completer().handle(io.vertx.core.Future.failedFuture(ar_.cause()));
         }
       }
     };

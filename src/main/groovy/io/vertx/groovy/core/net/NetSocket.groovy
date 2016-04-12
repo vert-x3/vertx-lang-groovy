@@ -48,66 +48,62 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @param t 
    */
   public void end(Buffer t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
+    ((io.vertx.core.streams.WriteStream) delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
   }
   /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.net.NetSocket#setWriteQueueMaxSize}
    * @return true if write queue is full
    */
   public boolean writeQueueFull() {
-    def ret = ((io.vertx.core.streams.WriteStream) this.delegate).writeQueueFull();
+    def ret = ((io.vertx.core.streams.WriteStream) delegate).writeQueueFull();
     return ret;
   }
   public NetSocket exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-    public void handle(java.lang.Throwable event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.WriteStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+      public void handle(java.lang.Throwable event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   public NetSocket handler(Handler<Buffer> handler) {
-    ((io.vertx.core.streams.ReadStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
-    public void handle(io.vertx.core.buffer.Buffer event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.ReadStream) delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+      public void handle(io.vertx.core.buffer.Buffer event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.buffer.Buffer.class));
+      }
+    } : null);
     return this;
   }
   public NetSocket pause() {
-    ((io.vertx.core.streams.ReadStream) this.delegate).pause();
+    ((io.vertx.core.streams.ReadStream) delegate).pause();
     return this;
   }
   public NetSocket resume() {
-    ((io.vertx.core.streams.ReadStream) this.delegate).resume();
+    ((io.vertx.core.streams.ReadStream) delegate).resume();
     return this;
   }
   public NetSocket endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      endHandler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        endHandler.handle(event);
+      }
+    } : null);
     return this;
   }
   public NetSocket write(Buffer data) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
+    ((io.vertx.core.streams.WriteStream) delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   public NetSocket setWriteQueueMaxSize(int maxSize) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
+    ((io.vertx.core.streams.WriteStream) delegate).setWriteQueueMaxSize(maxSize);
     return this;
   }
   public NetSocket drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    ((io.vertx.core.streams.WriteStream) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -120,7 +116,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return the write handler ID
    */
   public String writeHandlerID() {
-    def ret = this.delegate.writeHandlerID();
+    def ret = delegate.writeHandlerID();
     return ret;
   }
   /**
@@ -129,7 +125,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket write(String str) {
-    this.delegate.write(str != null ? str : null);
+    delegate.write(str != null ? str : null);
     return this;
   }
   /**
@@ -139,7 +135,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket write(String str, String enc) {
-    this.delegate.write(str != null ? str : null, enc != null ? enc : null);
+    delegate.write(str != null ? str : null, enc != null ? enc : null);
     return this;
   }
   /**
@@ -149,7 +145,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename) {
-    this.delegate.sendFile(filename != null ? filename : null);
+    delegate.sendFile(filename != null ? filename : null);
     return this;
   }
   /**
@@ -160,7 +156,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset) {
-    this.delegate.sendFile(filename != null ? filename : null, offset != null ? offset : null);
+    delegate.sendFile(filename != null ? filename : null, offset);
     return this;
   }
   /**
@@ -172,7 +168,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset, long length) {
-    this.delegate.sendFile(filename != null ? filename : null, offset != null ? offset : null, length != null ? length : null);
+    delegate.sendFile(filename != null ? filename : null, offset, length);
     return this;
   }
   /**
@@ -183,12 +179,15 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename != null ? filename : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.sendFile(filename != null ? filename : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -200,12 +199,15 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename != null ? filename : null, offset != null ? offset : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.sendFile(filename != null ? filename : null, offset, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -218,12 +220,15 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename != null ? filename : null, offset != null ? offset : null, length != null ? length : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
-    public void handle(AsyncResult<java.lang.Void> ar) {
-      resultHandler.handle(null);
-    }
-  }
- : null);
+    delegate.sendFile(filename != null ? filename : null, offset, length, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
+      public void handle(AsyncResult<java.lang.Void> ar) {
+        if (ar.succeeded()) {
+          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
+        } else {
+          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+        }
+      }
+    } : null);
     return this;
   }
   /**
@@ -234,7 +239,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     if (cached_0 != null) {
       return cached_0;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
+    def ret = InternalHelper.safeCreate(delegate.remoteAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_0 = ret;
     return ret;
   }
@@ -246,7 +251,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     if (cached_1 != null) {
       return cached_1;
     }
-    def ret= InternalHelper.safeCreate(this.delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
+    def ret = InternalHelper.safeCreate(delegate.localAddress(), io.vertx.groovy.core.net.SocketAddress.class);
     cached_1 = ret;
     return ret;
   }
@@ -254,13 +259,13 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * Calls {@link io.vertx.groovy.core.net.NetSocket#close}
    */
   public void end() {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end();
+    ((io.vertx.core.streams.WriteStream) delegate).end();
   }
   /**
    * Close the NetSocket
    */
   public void close() {
-    this.delegate.close();
+    delegate.close();
   }
   /**
    * Set a handler that will be called when the NetSocket is closed
@@ -268,12 +273,11 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket closeHandler(Handler<Void> handler) {
-    this.delegate.closeHandler(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.closeHandler(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -282,12 +286,11 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket upgradeToSsl(Handler<Void> handler) {
-    this.delegate.upgradeToSsl(handler != null ? new Handler<java.lang.Void>(){
-    public void handle(java.lang.Void event) {
-      handler.handle(null);
-    }
-  }
- : null);
+    delegate.upgradeToSsl(handler != null ? new Handler<java.lang.Void>(){
+      public void handle(java.lang.Void event) {
+        handler.handle(event);
+      }
+    } : null);
     return this;
   }
   /**
@@ -295,7 +298,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return 
    */
   public boolean isSsl() {
-    def ret = this.delegate.isSsl();
+    def ret = delegate.isSsl();
     return ret;
   }
   private SocketAddress cached_0;
