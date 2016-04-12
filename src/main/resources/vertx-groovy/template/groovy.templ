@@ -24,67 +24,37 @@ package @{type.raw.translatePackageName("groovy")};\n
 @comment{'the current index of the cache'}
 @code{cacheDecls=new java.util.ArrayList()}
 
+@code{
+  function genParamDecl(type) {
+    if (type.kind == CLASS_DATA_OBJECT || type.kind == CLASS_JSON_OBJECT) {
+      return 'Map<String, Object>';
+    } else if (type.kind == CLASS_JSON_ARRAY) {
+      return 'List<Object>';
+    } else if (type.kind == CLASS_HANDLER) {
+      var eventType = type.args[0];
+      if (eventType.kind == CLASS_ASYNC_RESULT) {
+        var resultType = eventType.args[0];
+        return 'Handler<AsyncResult<' + genParamDecl(resultType) + '>>';
+      } else {
+        return 'Handler<' + genParamDecl(eventType) + '>';
+      }
+    } else if (type.kind == CLASS_LIST) {
+      return 'List<' + genParamDecl(type.args[0]) + '>';
+    } else if (type.kind == CLASS_SET) {
+      return 'Set<' + genParamDecl(type.args[0]) + '>';
+    } else if (type.kind == CLASS_MAP) {
+      return 'Map<String, ' + genParamDecl(type.args[1]) + '>';
+    } else {
+      return type.simpleName;
+    }
+  }
+}
+
 @declare{'paramTemplate'}
 	@if{param.type.kind == CLASS_DATA_OBJECT}
 		Map<String, Object> @{param.name}@if{defaultDataObject} = [:]@end{}
-	@else{param.type.kind == CLASS_JSON_OBJECT}
-		Map<String, Object> @{param.name}
-	@else{param.type.kind == CLASS_JSON_ARRAY}
-		List<Object> @{param.name}
-	@else{param.type.kind == CLASS_HANDLER && (param.type.args[0].kind.json || param.type.args[0].kind == CLASS_DATA_OBJECT)}
-		@if{param.type.args[0].kind == CLASS_JSON_OBJECT || param.type.args[0].kind == CLASS_DATA_OBJECT}
-			@code{groovyJsonType='Map<String, Object>'}
-		@else{}
-			@code{groovyJsonType='List<Object>'}
-		@end{}
-		Handler<@{groovyJsonType}> @{param.name}
-	@else{param.type.kind == CLASS_HANDLER && param.type.args[0].kind.collection && (param.type.args[0].args[0].kind.json || param.type.args[0].args[0].kind == CLASS_DATA_OBJECT)}
-		@if{param.type.args[0].args[0].kind == CLASS_JSON_OBJECT || param.type.args[0].args[0].kind == CLASS_DATA_OBJECT}
-			@code{groovyJsonType='Map<String, Object>'}
-		@else{}
-			@code{groovyJsonType='List<Object>'}
-		@end{}
-		Handler<@{param.type.args[0].raw.simpleName}<@{groovyJsonType}>> @{param.name}
-	@else{param.type.kind == CLASS_HANDLER && param.type.args[0].kind == CLASS_ASYNC_RESULT && (param.type.args[0].args[0].kind.json || param.type.args[0].args[0].kind == CLASS_DATA_OBJECT)}
-		@if{param.type.args[0].args[0].kind == CLASS_JSON_OBJECT || param.type.args[0].args[0].kind == CLASS_DATA_OBJECT}
-			@code{groovyJsonType='Map<String, Object>'}
-		@else{}
-			@code{groovyJsonType='List<Object>'}
-		@end{}
-		Handler<AsyncResult<@{groovyJsonType}>> @{param.name}
-	@else{param.type.kind == CLASS_HANDLER && param.type.args[0].kind == CLASS_ASYNC_RESULT && param.type.args[0].args[0].kind.collection && (param.type.args[0].args[0].args[0].kind.json || param.type.args[0].args[0].args[0].kind == CLASS_DATA_OBJECT)}
-		@if{param.type.args[0].args[0].args[0].kind == CLASS_JSON_OBJECT || param.type.args[0].args[0].args[0].kind == CLASS_DATA_OBJECT}
-			@code{groovyJsonType='Map<String, Object>'}
-		@else{}
-			@code{groovyJsonType='List<Object>'}
-		@end{}
-		Handler<AsyncResult<@{param.type.args[0].args[0].raw.simpleName}<@{groovyJsonType}>>> @{param.name}
-	@else{param.type.kind == CLASS_LIST}
-		@if{param.type.args[0].kind == CLASS_JSON_OBJECT || param.type.args[0].kind == CLASS_DATA_OBJECT}
-			List<Map<String, Object>> @{param.name}
-		@else{param.type.args[0].kind == CLASS_JSON_ARRAY}
-			List<List<Object>> @{param.name}
-		@else{}
-			@{param.type.simpleName} @{param.name}
-		@end{}
-	@else{param.type.kind == CLASS_SET}
-		@if{param.type.args[0].kind == CLASS_JSON_OBJECT || param.type.args[0].kind == CLASS_DATA_OBJECT}
-			Set<Map<String, Object>> @{param.name}
-		@else{param.type.args[0].kind == CLASS_JSON_ARRAY}
-			Set<List<Object>> @{param.name}
-		@else{}
-			@{param.type.simpleName} @{param.name}
-		@end{}
-	@else{param.type.kind == CLASS_MAP}
-		@if{param.type.args[1].kind == CLASS_JSON_OBJECT}
-			Map<String, Map<String, Object>> @{param.name}
-		@else{param.type.args[1].kind == CLASS_JSON_ARRAY}
-			Map<String, List<Object>> @{param.name}
-		@else{}
-			@{param.type.simpleName} @{param.name}
-		@end{}
 	@else{}
-		@{param.type.simpleName} @{param.name}
+		@{genParamDecl(param.type)} @{param.name}
 	@end{}
 @end{}
 
