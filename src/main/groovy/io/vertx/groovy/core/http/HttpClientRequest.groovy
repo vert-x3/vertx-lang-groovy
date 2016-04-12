@@ -70,11 +70,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return ret;
   }
   public HttpClientRequest exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.HttpClientRequest) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.HttpClientRequest) delegate).exceptionHandler(handler);
     return this;
   }
   /**
@@ -91,11 +87,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   public HttpClientRequest drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.HttpClientRequest) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.HttpClientRequest) delegate).drainHandler(handler);
     return this;
   }
   public HttpClientRequest handler(Handler<HttpClientResponse> handler) {
@@ -115,11 +107,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   public HttpClientRequest endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.HttpClientRequest) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.HttpClientRequest) delegate).endHandler(endHandler);
     return this;
   }
   /**
@@ -242,11 +230,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest continueHandler(Handler<Void> handler) {
-    delegate.continueHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    delegate.continueHandler(handler);
     return this;
   }
   /**
@@ -268,11 +252,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return 
    */
   public HttpClientRequest sendHead(Handler<HttpVersion> completionHandler) {
-    delegate.sendHead(completionHandler != null ? new Handler<io.vertx.core.http.HttpVersion>(){
-      public void handle(io.vertx.core.http.HttpVersion event) {
-        completionHandler.handle(event);
-      }
-    } : null);
+    delegate.sendHead(completionHandler);
     return this;
   }
   /**

@@ -174,15 +174,7 @@ public class NetServer implements Measured {
    * @param completionHandler the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
-    delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.close(completionHandler);
   }
   /**
    * The actual port the server is listening on. This is useful if you bound the server specifying 0 as port number

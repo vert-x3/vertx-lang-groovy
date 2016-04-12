@@ -97,7 +97,7 @@
   }
 
   function isSameType(type) {
-    return ((type == CLASS_HANDLER || type == CLASS_ASYNC_RESULT) && isSameType(type.args[0])) || type.kind == CLASS_VOID || type.kind.basic || type.kind == CLASS_ENUM || type.kind == CLASS_THROWABLE;
+    return ((type.kind == CLASS_HANDLER || type.kind == CLASS_ASYNC_RESULT) && isSameType(type.args[0])) || type.kind == CLASS_VOID || type.kind.basic || type.kind == CLASS_ENUM || type.kind == CLASS_THROWABLE;
   }
 
   function genInvokeDelegate(method) {

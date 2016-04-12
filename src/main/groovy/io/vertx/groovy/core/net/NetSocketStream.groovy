@@ -34,11 +34,7 @@ public class NetSocketStream implements ReadStream<NetSocket> {
     return delegate;
   }
   public NetSocketStream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.net.NetSocketStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.net.NetSocketStream) delegate).exceptionHandler(handler);
     return this;
   }
   public NetSocketStream handler(Handler<NetSocket> handler) {
@@ -58,11 +54,7 @@ public class NetSocketStream implements ReadStream<NetSocket> {
     return this;
   }
   public NetSocketStream endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.net.NetSocketStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.net.NetSocketStream) delegate).endHandler(endHandler);
     return this;
   }
 }

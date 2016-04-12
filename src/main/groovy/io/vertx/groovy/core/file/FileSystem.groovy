@@ -56,15 +56,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem copy(String from, String to, Handler<AsyncResult<Void>> handler) {
-    delegate.copy(from, to, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.copy(from, to, handler);
     return this;
   }
   /**
@@ -91,15 +83,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem copyRecursive(String from, String to, boolean recursive, Handler<AsyncResult<Void>> handler) {
-    delegate.copyRecursive(from, to, recursive, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.copyRecursive(from, to, recursive, handler);
     return this;
   }
   /**
@@ -123,15 +107,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem move(String from, String to, Handler<AsyncResult<Void>> handler) {
-    delegate.move(from, to, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.move(from, to, handler);
     return this;
   }
   /**
@@ -154,15 +130,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem truncate(String path, long len, Handler<AsyncResult<Void>> handler) {
-    delegate.truncate(path, len, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.truncate(path, len, handler);
     return this;
   }
   /**
@@ -186,15 +154,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chmod(String path, String perms, Handler<AsyncResult<Void>> handler) {
-    delegate.chmod(path, perms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.chmod(path, perms, handler);
     return this;
   }
   /**
@@ -221,15 +181,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chmodRecursive(String path, String perms, String dirPerms, Handler<AsyncResult<Void>> handler) {
-    delegate.chmodRecursive(path, perms, dirPerms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.chmodRecursive(path, perms, dirPerms, handler);
     return this;
   }
   /**
@@ -252,15 +204,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem chown(String path, String user, String group, Handler<AsyncResult<Void>> handler) {
-    delegate.chown(path, user, group, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.chown(path, user, group, handler);
     return this;
   }
   /**
@@ -341,15 +285,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem link(String link, String existing, Handler<AsyncResult<Void>> handler) {
-    delegate.link(link, existing, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.link(link, existing, handler);
     return this;
   }
   /**
@@ -370,15 +306,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem symlink(String link, String existing, Handler<AsyncResult<Void>> handler) {
-    delegate.symlink(link, existing, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.symlink(link, existing, handler);
     return this;
   }
   /**
@@ -398,15 +326,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem unlink(String link, Handler<AsyncResult<Void>> handler) {
-    delegate.unlink(link, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.unlink(link, handler);
     return this;
   }
   /**
@@ -425,15 +345,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem readSymlink(String link, Handler<AsyncResult<String>> handler) {
-    delegate.readSymlink(link, handler != null ? new Handler<AsyncResult<java.lang.String>>() {
-      public void handle(AsyncResult<java.lang.String> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.readSymlink(link, handler);
     return this;
   }
   /**
@@ -452,15 +364,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem delete(String path, Handler<AsyncResult<Void>> handler) {
-    delegate.delete(path, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.delete(path, handler);
     return this;
   }
   /**
@@ -483,15 +387,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem deleteRecursive(String path, boolean recursive, Handler<AsyncResult<Void>> handler) {
-    delegate.deleteRecursive(path, recursive, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.deleteRecursive(path, recursive, handler);
     return this;
   }
   /**
@@ -513,15 +409,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdir(String path, Handler<AsyncResult<Void>> handler) {
-    delegate.mkdir(path, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.mkdir(path, handler);
     return this;
   }
   /**
@@ -548,15 +436,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdir(String path, String perms, Handler<AsyncResult<Void>> handler) {
-    delegate.mkdir(path, perms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.mkdir(path, perms, handler);
     return this;
   }
   /**
@@ -578,15 +458,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdirs(String path, Handler<AsyncResult<Void>> handler) {
-    delegate.mkdirs(path, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.mkdirs(path, handler);
     return this;
   }
   /**
@@ -613,15 +485,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem mkdirs(String path, String perms, Handler<AsyncResult<Void>> handler) {
-    delegate.mkdirs(path, perms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.mkdirs(path, perms, handler);
     return this;
   }
   /**
@@ -735,15 +599,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem writeFile(String path, Buffer data, Handler<AsyncResult<Void>> handler) {
-    delegate.writeFile(path, data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.writeFile(path, data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, handler);
     return this;
   }
   /**
@@ -794,15 +650,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem createFile(String path, Handler<AsyncResult<Void>> handler) {
-    delegate.createFile(path, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.createFile(path, handler);
     return this;
   }
   /**
@@ -822,15 +670,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem createFile(String path, String perms, Handler<AsyncResult<Void>> handler) {
-    delegate.createFile(path, perms, handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.createFile(path, perms, handler);
     return this;
   }
   /**
@@ -850,15 +690,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem exists(String path, Handler<AsyncResult<Boolean>> handler) {
-    delegate.exists(path, handler != null ? new Handler<AsyncResult<java.lang.Boolean>>() {
-      public void handle(AsyncResult<java.lang.Boolean> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.exists(path, handler);
     return this;
   }
   /**

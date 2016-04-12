@@ -115,11 +115,7 @@ public class ServerWebSocket implements WebSocketBase {
     return ret;
   }
   public ServerWebSocket exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.ServerWebSocket) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.ServerWebSocket) delegate).exceptionHandler(handler);
     return this;
   }
   public ServerWebSocket handler(Handler<Buffer> handler) {
@@ -139,11 +135,7 @@ public class ServerWebSocket implements WebSocketBase {
     return this;
   }
   public ServerWebSocket endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.ServerWebSocket) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.ServerWebSocket) delegate).endHandler(endHandler);
     return this;
   }
   public ServerWebSocket write(Buffer data) {
@@ -155,11 +147,7 @@ public class ServerWebSocket implements WebSocketBase {
     return this;
   }
   public ServerWebSocket drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.ServerWebSocket) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.ServerWebSocket) delegate).drainHandler(handler);
     return this;
   }
   public ServerWebSocket writeFrame(WebSocketFrame frame) {
@@ -179,11 +167,7 @@ public class ServerWebSocket implements WebSocketBase {
     return this;
   }
   public ServerWebSocket closeHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.ServerWebSocket) delegate).closeHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.ServerWebSocket) delegate).closeHandler(handler);
     return this;
   }
   public ServerWebSocket frameHandler(Handler<WebSocketFrame> handler) {

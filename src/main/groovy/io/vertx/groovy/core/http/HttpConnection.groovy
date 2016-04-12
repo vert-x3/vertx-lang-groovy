@@ -90,11 +90,7 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection shutdownHandler(Handler<Void> handler) {
-    delegate.shutdownHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    delegate.shutdownHandler(handler);
     return this;
   }
   /**
@@ -122,11 +118,7 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection closeHandler(Handler<Void> handler) {
-    delegate.closeHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    delegate.closeHandler(handler);
     return this;
   }
   /**
@@ -161,15 +153,7 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection updateSettings(Map<String, Object> settings = [:], Handler<AsyncResult<Void>> completionHandler) {
-    delegate.updateSettings(settings != null ? new io.vertx.core.http.Http2Settings(new io.vertx.core.json.JsonObject(settings)) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.updateSettings(settings != null ? new io.vertx.core.http.Http2Settings(new io.vertx.core.json.JsonObject(settings)) : null, completionHandler);
     return this;
   }
   /**
@@ -230,11 +214,7 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection exceptionHandler(Handler<Throwable> handler) {
-    delegate.exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    delegate.exceptionHandler(handler);
     return this;
   }
 }

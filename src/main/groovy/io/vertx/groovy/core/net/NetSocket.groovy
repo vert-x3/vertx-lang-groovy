@@ -59,11 +59,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return ret;
   }
   public NetSocket exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.WriteStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.WriteStream) delegate).exceptionHandler(handler);
     return this;
   }
   public NetSocket handler(Handler<Buffer> handler) {
@@ -83,11 +79,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   public NetSocket endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler);
     return this;
   }
   public NetSocket write(Buffer data) {
@@ -99,11 +91,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
     return this;
   }
   public NetSocket drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.streams.WriteStream) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.WriteStream) delegate).drainHandler(handler);
     return this;
   }
   /**
@@ -179,15 +167,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
-    delegate.sendFile(filename, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.sendFile(filename, resultHandler);
     return this;
   }
   /**
@@ -199,15 +179,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset, Handler<AsyncResult<Void>> resultHandler) {
-    delegate.sendFile(filename, offset, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.sendFile(filename, offset, resultHandler);
     return this;
   }
   /**
@@ -220,15 +192,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
-    delegate.sendFile(filename, offset, length, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.sendFile(filename, offset, length, resultHandler);
     return this;
   }
   /**
@@ -273,11 +237,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket closeHandler(Handler<Void> handler) {
-    delegate.closeHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    delegate.closeHandler(handler);
     return this;
   }
   /**
@@ -286,11 +246,7 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public NetSocket upgradeToSsl(Handler<Void> handler) {
-    delegate.upgradeToSsl(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    delegate.upgradeToSsl(handler);
     return this;
   }
   /**

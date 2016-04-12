@@ -42,11 +42,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
     return delegate;
   }
   public MessageConsumer<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.StreamBase) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.StreamBase) delegate).exceptionHandler(handler);
     return this;
   }
   public MessageConsumer<T> handler(Handler<Message<T>> handler) {
@@ -66,11 +62,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
     return this;
   }
   public MessageConsumer<T> endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler);
     return this;
   }
   /**
@@ -121,15 +113,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @param completionHandler the completion handler
    */
   public void completionHandler(Handler<AsyncResult<Void>> completionHandler) {
-    delegate.completionHandler(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.completionHandler(completionHandler);
   }
   /**
    * Unregisters the handler which created this registration
@@ -142,14 +126,6 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @param completionHandler the handler called when the unregister is done. For example in a cluster when all nodes of the event bus have been unregistered.
    */
   public void unregister(Handler<AsyncResult<Void>> completionHandler) {
-    delegate.unregister(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.unregister(completionHandler);
   }
 }

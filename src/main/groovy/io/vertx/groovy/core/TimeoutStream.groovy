@@ -38,19 +38,11 @@ public class TimeoutStream implements ReadStream<Long> {
     return delegate;
   }
   public TimeoutStream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.TimeoutStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.TimeoutStream) delegate).exceptionHandler(handler);
     return this;
   }
   public TimeoutStream handler(Handler<Long> handler) {
-    ((io.vertx.core.TimeoutStream) delegate).handler(handler != null ? new Handler<java.lang.Long>(){
-      public void handle(java.lang.Long event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.TimeoutStream) delegate).handler(handler);
     return this;
   }
   public TimeoutStream pause() {
@@ -62,11 +54,7 @@ public class TimeoutStream implements ReadStream<Long> {
     return this;
   }
   public TimeoutStream endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.TimeoutStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.TimeoutStream) delegate).endHandler(endHandler);
     return this;
   }
   /**

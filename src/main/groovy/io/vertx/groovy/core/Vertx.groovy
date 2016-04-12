@@ -268,11 +268,7 @@ public class Vertx implements Measured {
    * @return the unique ID of the timer
    */
   public long setTimer(long delay, Handler<Long> handler) {
-    def ret = delegate.setTimer(delay, handler != null ? new Handler<java.lang.Long>(){
-      public void handle(java.lang.Long event) {
-        handler.handle(event);
-      }
-    } : null);
+    def ret = delegate.setTimer(delay, handler);
     return ret;
   }
   /**
@@ -293,11 +289,7 @@ public class Vertx implements Measured {
    * @return the unique ID of the timer
    */
   public long setPeriodic(long delay, Handler<Long> handler) {
-    def ret = delegate.setPeriodic(delay, handler != null ? new Handler<java.lang.Long>(){
-      public void handle(java.lang.Long event) {
-        handler.handle(event);
-      }
-    } : null);
+    def ret = delegate.setPeriodic(delay, handler);
     return ret;
   }
   /**
@@ -325,11 +317,7 @@ public class Vertx implements Measured {
    * @param action - a handler representing the action to execute
    */
   public void runOnContext(Handler<Void> action) {
-    delegate.runOnContext(action != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        action.handle(event);
-      }
-    } : null);
+    delegate.runOnContext(action);
   }
   /**
    * Stop the the Vertx instance and release any resources held by it.
@@ -346,15 +334,7 @@ public class Vertx implements Measured {
    * @param completionHandler The handler will be notified when the close is complete.
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
-    delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.close(completionHandler);
   }
   /**
    * Deploy a verticle instance given a name.
@@ -378,15 +358,7 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the deployment is complete
    */
   public void deployVerticle(String name, Handler<AsyncResult<String>> completionHandler) {
-    delegate.deployVerticle(name, completionHandler != null ? new Handler<AsyncResult<java.lang.String>>() {
-      public void handle(AsyncResult<java.lang.String> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.deployVerticle(name, completionHandler);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a> are provided to configure the
@@ -405,15 +377,7 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the deployment is complete
    */
   public void deployVerticle(String name, Map<String, Object> options, Handler<AsyncResult<String>> completionHandler) {
-    delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.String>>() {
-      public void handle(AsyncResult<java.lang.String> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler);
   }
   /**
    * Undeploy a verticle deployment.
@@ -430,15 +394,7 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the undeployment is complete
    */
   public void undeploy(String deploymentID, Handler<AsyncResult<Void>> completionHandler) {
-    delegate.undeploy(deploymentID, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.undeploy(deploymentID, completionHandler);
   }
   /**
    * Return a Set of deployment IDs for the currently deployed deploymentIDs.
@@ -515,11 +471,7 @@ public class Vertx implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public Vertx exceptionHandler(Handler<Throwable> handler) {
-    delegate.exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    delegate.exceptionHandler(handler);
     return this;
   }
   private FileSystem cached_0;

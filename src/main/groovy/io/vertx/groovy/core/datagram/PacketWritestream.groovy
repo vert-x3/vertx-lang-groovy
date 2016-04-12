@@ -58,11 +58,7 @@ public class PacketWritestream implements WriteStream<Buffer> {
     return ret;
   }
   public PacketWritestream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.datagram.PacketWritestream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.datagram.PacketWritestream) delegate).exceptionHandler(handler);
     return this;
   }
   public PacketWritestream write(Buffer data) {
@@ -74,11 +70,7 @@ public class PacketWritestream implements WriteStream<Buffer> {
     return this;
   }
   public PacketWritestream drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.datagram.PacketWritestream) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.datagram.PacketWritestream) delegate).drainHandler(handler);
     return this;
   }
 }

@@ -50,11 +50,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.StreamBase) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.StreamBase) delegate).exceptionHandler(handler);
     return this;
   }
   /**
@@ -92,11 +88,7 @@ class ReadStreamImpl<T> implements ReadStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public ReadStream<T> endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.ReadStream) delegate).endHandler(endHandler);
     return this;
   }
 }

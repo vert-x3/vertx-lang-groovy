@@ -34,11 +34,7 @@ public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
     return delegate;
   }
   public HttpServerRequestStream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.HttpServerRequestStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.HttpServerRequestStream) delegate).exceptionHandler(handler);
     return this;
   }
   public HttpServerRequestStream handler(Handler<HttpServerRequest> handler) {
@@ -58,11 +54,7 @@ public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
     return this;
   }
   public HttpServerRequestStream endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.HttpServerRequestStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.HttpServerRequestStream) delegate).endHandler(endHandler);
     return this;
   }
 }

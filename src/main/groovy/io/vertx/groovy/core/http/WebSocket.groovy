@@ -111,11 +111,7 @@ public class WebSocket implements WebSocketBase {
     return ret;
   }
   public WebSocket exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.WebSocketBase) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).exceptionHandler(handler);
     return this;
   }
   public WebSocket handler(Handler<Buffer> handler) {
@@ -135,11 +131,7 @@ public class WebSocket implements WebSocketBase {
     return this;
   }
   public WebSocket endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.WebSocketBase) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).endHandler(endHandler);
     return this;
   }
   public WebSocket write(Buffer data) {
@@ -151,11 +143,7 @@ public class WebSocket implements WebSocketBase {
     return this;
   }
   public WebSocket drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.WebSocketBase) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).drainHandler(handler);
     return this;
   }
   public WebSocket writeFrame(WebSocketFrame frame) {
@@ -175,11 +163,7 @@ public class WebSocket implements WebSocketBase {
     return this;
   }
   public WebSocket closeHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.WebSocketBase) delegate).closeHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).closeHandler(handler);
     return this;
   }
   public WebSocket frameHandler(Handler<WebSocketFrame> handler) {

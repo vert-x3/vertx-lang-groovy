@@ -134,15 +134,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
    * @param handler the handler to notify once complete
    */
   public void close(Handler<AsyncResult<Void>> handler) {
-    delegate.close(handler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          handler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          handler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.close(handler);
   }
   /**
    * Closes the {@link io.vertx.groovy.core.datagram.DatagramSocket}. The close itself is asynchronous.
@@ -312,11 +304,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   public DatagramSocket endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.datagram.DatagramSocket) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.datagram.DatagramSocket) delegate).endHandler(endHandler);
     return this;
   }
   public DatagramSocket handler(Handler<DatagramPacket> handler) {
@@ -328,11 +316,7 @@ public class DatagramSocket implements ReadStream<DatagramPacket>,  Measured {
     return this;
   }
   public DatagramSocket exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.datagram.DatagramSocket) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.datagram.DatagramSocket) delegate).exceptionHandler(handler);
     return this;
   }
   private SocketAddress cached_0;

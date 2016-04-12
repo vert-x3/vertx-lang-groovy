@@ -962,11 +962,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -997,11 +993,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1036,11 +1028,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1073,11 +1061,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1116,11 +1100,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1157,11 +1137,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1202,11 +1178,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1245,11 +1217,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1278,11 +1246,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1313,11 +1277,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1352,11 +1312,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**
@@ -1393,11 +1349,7 @@ public class HttpClient implements Measured {
       public void handle(io.vertx.core.http.WebSocket event) {
         wsConnect.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.WebSocket.class));
       }
-    } : null, failureHandler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        failureHandler.handle(event);
-      }
-    } : null);
+    } : null, failureHandler);
     return this;
   }
   /**

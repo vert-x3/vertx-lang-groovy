@@ -81,11 +81,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     return ret;
   }
   public WebSocketBase exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.WebSocketBase) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).exceptionHandler(handler);
     return this;
   }
   public WebSocketBase handler(Handler<Buffer> handler) {
@@ -105,11 +101,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     return this;
   }
   public WebSocketBase endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.WebSocketBase) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).endHandler(endHandler);
     return this;
   }
   public WebSocketBase write(Buffer data) {
@@ -121,11 +113,7 @@ class WebSocketBaseImpl implements WebSocketBase {
     return this;
   }
   public WebSocketBase drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.WebSocketBase) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).drainHandler(handler);
     return this;
   }
   /**
@@ -197,11 +185,7 @@ class WebSocketBaseImpl implements WebSocketBase {
    * @return a reference to this, so the API can be used fluently
    */
   public WebSocketBase closeHandler(Handler<Void> handler) {
-    ((io.vertx.core.http.WebSocketBase) delegate).closeHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketBase) delegate).closeHandler(handler);
     return this;
   }
   /**

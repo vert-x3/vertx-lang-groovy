@@ -72,11 +72,7 @@ public class MessageProducer<T> implements WriteStream<T> {
     return ret;
   }
   public MessageProducer<T> exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.streams.WriteStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.WriteStream) delegate).exceptionHandler(handler);
     return this;
   }
   public MessageProducer<T> write(T data) {
@@ -88,11 +84,7 @@ public class MessageProducer<T> implements WriteStream<T> {
     return this;
   }
   public MessageProducer<T> drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.streams.WriteStream) delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.streams.WriteStream) delegate).drainHandler(handler);
     return this;
   }
   /**

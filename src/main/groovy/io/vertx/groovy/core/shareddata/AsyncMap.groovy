@@ -56,15 +56,7 @@ public class AsyncMap<K,V> {
    * @param completionHandler - this will be called some time later to signify the value has been put
    */
   public void put(K k, V v, Handler<AsyncResult<Void>> completionHandler) {
-    delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, completionHandler);
   }
   /**
    * Like {@link io.vertx.groovy.core.shareddata.AsyncMap#put} but specifying a timeout. If the value cannot be put within the timeout a
@@ -75,15 +67,7 @@ public class AsyncMap<K,V> {
    * @param completionHandler the handler
    */
   public void put(K k, V v, long ttl, Handler<AsyncResult<Void>> completionHandler) {
-    delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, ttl, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          completionHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          completionHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, ttl, completionHandler);
   }
   /**
    * Put the entry only if there is no entry with the key already present. If key already present then the existing
@@ -145,15 +129,7 @@ public class AsyncMap<K,V> {
    * @param resultHandler - this will be called some time later to signify the value has been removed
    */
   public void removeIfPresent(K k, V v, Handler<AsyncResult<Boolean>> resultHandler) {
-    delegate.removeIfPresent(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Boolean>>() {
-      public void handle(AsyncResult<java.lang.Boolean> ar) {
-        if (ar.succeeded()) {
-          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.removeIfPresent(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, resultHandler);
   }
   /**
    * Replace the entry only if it is currently mapped to some value
@@ -180,44 +156,20 @@ public class AsyncMap<K,V> {
    * @param resultHandler the result handler
    */
   public void replaceIfPresent(K k, V oldValue, V newValue, Handler<AsyncResult<Boolean>> resultHandler) {
-    delegate.replaceIfPresent(k != null ? InternalHelper.unwrapObject(k) : null, oldValue != null ? InternalHelper.unwrapObject(oldValue) : null, newValue != null ? InternalHelper.unwrapObject(newValue) : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Boolean>>() {
-      public void handle(AsyncResult<java.lang.Boolean> ar) {
-        if (ar.succeeded()) {
-          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.replaceIfPresent(k != null ? InternalHelper.unwrapObject(k) : null, oldValue != null ? InternalHelper.unwrapObject(oldValue) : null, newValue != null ? InternalHelper.unwrapObject(newValue) : null, resultHandler);
   }
   /**
    * Clear all entries in the map
    * @param resultHandler called on completion
    */
   public void clear(Handler<AsyncResult<Void>> resultHandler) {
-    delegate.clear(resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>() {
-      public void handle(AsyncResult<java.lang.Void> ar) {
-        if (ar.succeeded()) {
-          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.clear(resultHandler);
   }
   /**
    * Provide the number of entries in the map
    * @param resultHandler handler which will receive the number of entries
    */
   public void size(Handler<AsyncResult<Integer>> resultHandler) {
-    delegate.size(resultHandler != null ? new Handler<AsyncResult<java.lang.Integer>>() {
-      public void handle(AsyncResult<java.lang.Integer> ar) {
-        if (ar.succeeded()) {
-          resultHandler.handle(io.vertx.core.Future.succeededFuture(ar.result()));
-        } else {
-          resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
-        }
-      }
-    } : null);
+    delegate.size(resultHandler);
   }
 }

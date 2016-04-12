@@ -98,11 +98,7 @@ public class Context {
    * @param action the action to run
    */
   public void runOnContext(Handler<Void> action) {
-    delegate.runOnContext(action != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        action.handle(event);
-      }
-    } : null);
+    delegate.runOnContext(action);
   }
   /**
    * Safely execute some blocking code.
@@ -264,11 +260,7 @@ public class Context {
    * @return a reference to this, so the API can be used fluently
    */
   public Context exceptionHandler(Handler<Throwable> handler) {
-    delegate.exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    delegate.exceptionHandler(handler);
     return this;
   }
 }

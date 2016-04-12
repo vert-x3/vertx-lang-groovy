@@ -39,11 +39,7 @@ public class WebSocketStream implements ReadStream<WebSocket> {
     return delegate;
   }
   public WebSocketStream exceptionHandler(Handler<Throwable> handler) {
-    ((io.vertx.core.http.WebSocketStream) delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
-      public void handle(java.lang.Throwable event) {
-        handler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketStream) delegate).exceptionHandler(handler);
     return this;
   }
   public WebSocketStream handler(Handler<WebSocket> handler) {
@@ -63,11 +59,7 @@ public class WebSocketStream implements ReadStream<WebSocket> {
     return this;
   }
   public WebSocketStream endHandler(Handler<Void> endHandler) {
-    ((io.vertx.core.http.WebSocketStream) delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
-      public void handle(java.lang.Void event) {
-        endHandler.handle(event);
-      }
-    } : null);
+    ((io.vertx.core.http.WebSocketStream) delegate).endHandler(endHandler);
     return this;
   }
 }
