@@ -51,7 +51,7 @@ public class CLI {
    * @return the created instance of {@link io.vertx.groovy.core.cli.CLI}
    */
   public static CLI create(String name) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.cli.CLI.create(name), io.vertx.groovy.core.cli.CLI.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.cli.CLI.create(name != null ? name : null), io.vertx.groovy.core.cli.CLI.class);
     return ret;
   }
   /**
@@ -60,7 +60,7 @@ public class CLI {
    * @return the creates command line
    */
   public CommandLine parse(List<String> arguments) {
-    def ret= InternalHelper.safeCreate(this.delegate.parse(arguments), io.vertx.groovy.core.cli.CommandLine.class);
+    def ret= InternalHelper.safeCreate(this.delegate.parse(arguments != null ? arguments.collect({it}) : null), io.vertx.groovy.core.cli.CommandLine.class);
     return ret;
   }
   /**
@@ -70,7 +70,7 @@ public class CLI {
    * @return the creates command line
    */
   public CommandLine parse(List<String> arguments, boolean validate) {
-    def ret= InternalHelper.safeCreate(this.delegate.parse(arguments, validate), io.vertx.groovy.core.cli.CommandLine.class);
+    def ret= InternalHelper.safeCreate(this.delegate.parse(arguments != null ? arguments.collect({it}) : null, validate != null ? validate : null), io.vertx.groovy.core.cli.CommandLine.class);
     return ret;
   }
   /**
@@ -87,7 +87,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setName(String name) {
-    this.delegate.setName(name);
+    this.delegate.setName(name != null ? name : null);
     return this;
   }
   /**
@@ -99,7 +99,7 @@ public class CLI {
     return ret;
   }
   public CLI setDescription(String desc) {
-    this.delegate.setDescription(desc);
+    this.delegate.setDescription(desc != null ? desc : null);
     return this;
   }
   /**
@@ -116,7 +116,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setSummary(String summary) {
-    this.delegate.setSummary(summary);
+    this.delegate.setSummary(summary != null ? summary : null);
     return this;
   }
   /**
@@ -134,7 +134,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setHidden(boolean hidden) {
-    this.delegate.setHidden(hidden);
+    this.delegate.setHidden(hidden != null ? hidden : null);
     return this;
   }
   /**
@@ -161,7 +161,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addOptions(List<Map<String, Object>> options) {
-    this.delegate.addOptions(options.collect({underpants -> new Option(new JsonObject(underpants))}));
+    this.delegate.addOptions(options != null ? options.collect({new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(it))}) : null);
     return this;
   }
   /**
@@ -170,7 +170,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setOptions(List<Map<String, Object>> options) {
-    this.delegate.setOptions(options.collect({underpants -> new Option(new JsonObject(underpants))}));
+    this.delegate.setOptions(options != null ? options.collect({new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(it))}) : null);
     return this;
   }
   /**
@@ -197,7 +197,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addArguments(List<Map<String, Object>> args) {
-    this.delegate.addArguments(args.collect({underpants -> new Argument(new JsonObject(underpants))}));
+    this.delegate.addArguments(args != null ? args.collect({new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(it))}) : null);
     return this;
   }
   /**
@@ -206,7 +206,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setArguments(List<Map<String, Object>> args) {
-    this.delegate.setArguments(args.collect({underpants -> new Argument(new JsonObject(underpants))}));
+    this.delegate.setArguments(args != null ? args.collect({new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(it))}) : null);
     return this;
   }
   /**
@@ -215,7 +215,7 @@ public class CLI {
    * @return the <a href="../../../../../../../cheatsheet/Option.html">Option</a>, <code>null</code> if not found (see <a href="../../../../../../../cheatsheet/Option.html">Option</a>)
    */
   public Map<String, Object> getOption(String name) {
-    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getOption(name)?.toJson());
+    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getOption(name != null ? name : null)?.toJson());
     return ret;
   }
   /**
@@ -224,7 +224,7 @@ public class CLI {
    * @return the <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>, <code>null</code> if not found. (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
    */
   public Map<String, Object> getArgument(String name) {
-    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getArgument(name)?.toJson());
+    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getArgument(name != null ? name : null)?.toJson());
     return ret;
   }
   /**
@@ -233,7 +233,7 @@ public class CLI {
    * @return the <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>, <code>null</code> if not found. (see <a href="../../../../../../../cheatsheet/Argument.html">Argument</a>)
    */
   public Map<String, Object> getArgument(int index) {
-    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getArgument(index)?.toJson());
+    def ret = (Map<String, Object>)InternalHelper.wrapObject(this.delegate.getArgument(index != null ? index : null)?.toJson());
     return ret;
   }
   /**
@@ -242,7 +242,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI removeOption(String name) {
-    this.delegate.removeOption(name);
+    this.delegate.removeOption(name != null ? name : null);
     return this;
   }
   /**
@@ -251,7 +251,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI removeArgument(int index) {
-    this.delegate.removeArgument(index);
+    this.delegate.removeArgument(index != null ? index : null);
     return this;
   }
 }

@@ -70,7 +70,12 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return ret;
   }
   public HttpClientRequest exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -79,35 +84,46 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return 
    */
   public HttpClientRequest write(Buffer data) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).write((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   public HttpClientRequest setWriteQueueMaxSize(int maxSize) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).setWriteQueueMaxSize(maxSize);
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
     return this;
   }
   public HttpClientRequest drainHandler(Handler<Void> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).drainHandler(handler);
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpClientRequest handler(Handler<HttpClientResponse> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).handler(new Handler<io.vertx.core.http.HttpClientResponse>() {
-      public void handle(io.vertx.core.http.HttpClientResponse event) {
-        handler.handle(new io.vertx.groovy.core.http.HttpClientResponse(event));
-      }
-    });
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).handler(handler != null ? new Handler<io.vertx.core.http.HttpClientResponse>(){
+    public void handle(io.vertx.core.http.HttpClientResponse event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpClientRequest pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).pause();
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).pause();
     return this;
   }
   public HttpClientRequest resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).resume();
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).resume();
     return this;
   }
   public HttpClientRequest endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -116,7 +132,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest setChunked(boolean chunked) {
-    this.delegate.setChunked(chunked);
+    this.delegate.setChunked(chunked != null ? chunked : null);
     return this;
   }
   /**
@@ -167,7 +183,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return 
    */
   public HttpClientRequest setHost(String host) {
-    this.delegate.setHost(host);
+    this.delegate.setHost(host != null ? host : null);
     return this;
   }
   /**
@@ -197,7 +213,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest putHeader(String name, String value) {
-    this.delegate.putHeader(name, value);
+    this.delegate.putHeader(name != null ? name : null, value != null ? value : null);
     return this;
   }
   /**
@@ -206,7 +222,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest write(String chunk) {
-    this.delegate.write(chunk);
+    this.delegate.write(chunk != null ? chunk : null);
     return this;
   }
   /**
@@ -216,7 +232,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest write(String chunk, String enc) {
-    this.delegate.write(chunk, enc);
+    this.delegate.write(chunk != null ? chunk : null, enc != null ? enc : null);
     return this;
   }
   /**
@@ -230,7 +246,12 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest continueHandler(Handler<Void> handler) {
-    this.delegate.continueHandler(handler);
+    this.delegate.continueHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -252,7 +273,12 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return 
    */
   public HttpClientRequest sendHead(Handler<HttpVersion> completionHandler) {
-    this.delegate.sendHead(null /* Handler<io.vertx.core.http.HttpVersion> with kind ENUM not yet implemented */);
+    this.delegate.sendHead(completionHandler != null ? new Handler<io.vertx.core.http.HttpVersion>(){
+    public void handle(io.vertx.core.http.HttpVersion event) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -260,7 +286,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @param chunk 
    */
   public void end(String chunk) {
-    this.delegate.end(chunk);
+    this.delegate.end(chunk != null ? chunk : null);
   }
   /**
    * Same as {@link io.vertx.groovy.core.http.HttpClientRequest#end} but writes a String with the specified encoding
@@ -268,7 +294,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @param enc 
    */
   public void end(String chunk, String enc) {
-    this.delegate.end(chunk, enc);
+    this.delegate.end(chunk != null ? chunk : null, enc != null ? enc : null);
   }
   /**
    * Same as {@link io.vertx.groovy.core.http.HttpClientRequest#end} but writes some data to the request body before ending. If the request is not chunked and
@@ -276,7 +302,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @param chunk 
    */
   public void end(Buffer chunk) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).end(chunk != null ? (io.vertx.core.buffer.Buffer)chunk.getDelegate() : null);
   }
   /**
    * Ends the request. If no data has been written to the request body, and {@link io.vertx.groovy.core.http.HttpClientRequest#sendHead} has not been called then
@@ -285,7 +311,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * Once the request has ended, it cannot be used any more,
    */
   public void end() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientRequest) this.delegate).end();
+    ((io.vertx.core.http.HttpClientRequest) this.delegate).end();
   }
   /**
    * Set's the amount of time after which if the request does not return any data within the timeout period an
@@ -298,7 +324,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest setTimeout(long timeoutMs) {
-    this.delegate.setTimeout(timeoutMs);
+    this.delegate.setTimeout(timeoutMs != null ? timeoutMs : null);
     return this;
   }
   /**
@@ -322,11 +348,12 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest pushHandler(Handler<HttpClientRequest> handler) {
-    this.delegate.pushHandler(new Handler<io.vertx.core.http.HttpClientRequest>() {
-      public void handle(io.vertx.core.http.HttpClientRequest event) {
-        handler.handle(new io.vertx.groovy.core.http.HttpClientRequest(event));
-      }
-    });
+    this.delegate.pushHandler(handler != null ? new Handler<io.vertx.core.http.HttpClientRequest>(){
+    public void handle(io.vertx.core.http.HttpClientRequest event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -340,7 +367,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @param code the error code
    */
   public void reset(long code) {
-    this.delegate.reset(code);
+    this.delegate.reset(code != null ? code : null);
   }
   /**
    * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request when it is an HTTP/2 connection, null otherwise
@@ -360,11 +387,12 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest connectionHandler(Handler<HttpConnection> handler) {
-    this.delegate.connectionHandler(new Handler<io.vertx.core.http.HttpConnection>() {
-      public void handle(io.vertx.core.http.HttpConnection event) {
-        handler.handle(new io.vertx.groovy.core.http.HttpConnection(event));
-      }
-    });
+    this.delegate.connectionHandler(handler != null ? new Handler<io.vertx.core.http.HttpConnection>(){
+    public void handle(io.vertx.core.http.HttpConnection event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -380,7 +408,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientRequest writeFrame(int type, int flags, Buffer payload) {
-    this.delegate.writeFrame(type, flags, (io.vertx.core.buffer.Buffer)payload.getDelegate());
+    this.delegate.writeFrame(type != null ? type : null, flags != null ? flags : null, payload != null ? (io.vertx.core.buffer.Buffer)payload.getDelegate() : null);
     return this;
   }
   /**
@@ -398,7 +426,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @return 
    */
   public HttpClientRequest writeFrame(HttpFrame frame) {
-    this.delegate.writeFrame((io.vertx.core.http.HttpFrame)frame.getDelegate());
+    this.delegate.writeFrame(frame != null ? (io.vertx.core.http.HttpFrame)frame.getDelegate() : null);
     return this;
   }
   private MultiMap cached_0;

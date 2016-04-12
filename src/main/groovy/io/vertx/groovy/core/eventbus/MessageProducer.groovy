@@ -40,7 +40,7 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @param t 
    */
   public void end(T t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end(InternalHelper.unwrapObject(t));
+    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? InternalHelper.unwrapObject(t) : null);
   }
   /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.eventbus.MessageProducer#setWriteQueueMaxSize}
@@ -56,37 +56,42 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @return reference to this for fluency
    */
   public MessageProducer<T> send(T message) {
-    def ret= InternalHelper.safeCreate(this.delegate.send(InternalHelper.unwrapObject(message)), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.send(message != null ? InternalHelper.unwrapObject(message) : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   public <R> MessageProducer<T> send(T message, Handler<AsyncResult<Message<R>>> replyHandler) {
-    def ret= InternalHelper.safeCreate(this.delegate.send(InternalHelper.unwrapObject(message), new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
-      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> event) {
-        AsyncResult<Message<Object>> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Message<Object>>result(new Message<Object>(event.result()))
-        } else {
-          f = InternalHelper.<Message<Object>>failure(event.cause())
-        }
-        replyHandler.handle(f)
-      }
-    }), io.vertx.groovy.core.eventbus.MessageProducer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.send(message != null ? InternalHelper.unwrapObject(message) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>(){
+    public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
+      replyHandler.handle(null);
+    }
+  }
+ : null), io.vertx.groovy.core.eventbus.MessageProducer.class);
     return ret;
   }
   public MessageProducer<T> exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public MessageProducer<T> write(T data) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).write(InternalHelper.unwrapObject(data));
+    ((io.vertx.core.streams.WriteStream) this.delegate).write(data != null ? InternalHelper.unwrapObject(data) : null);
     return this;
   }
   public MessageProducer<T> setWriteQueueMaxSize(int maxSize) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize);
+    ((io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
     return this;
   }
   public MessageProducer<T> drainHandler(Handler<Void> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler);
+    ((io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -110,7 +115,7 @@ public class MessageProducer<T> implements WriteStream<T> {
    * Closes the producer, calls {@link io.vertx.groovy.core.eventbus.MessageProducer#close}
    */
   public void end() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).end();
+    ((io.vertx.core.streams.WriteStream) this.delegate).end();
   }
   /**
    * Closes the producer, this method should be called when the message producer is not used anymore.

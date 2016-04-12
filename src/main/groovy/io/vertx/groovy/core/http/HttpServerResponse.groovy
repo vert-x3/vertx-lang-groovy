@@ -62,19 +62,29 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return ret;
   }
   public HttpServerResponse exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerResponse) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.http.HttpServerResponse) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpServerResponse write(Buffer data) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerResponse) this.delegate).write((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ((io.vertx.core.http.HttpServerResponse) this.delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   public HttpServerResponse setWriteQueueMaxSize(int maxSize) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerResponse) this.delegate).setWriteQueueMaxSize(maxSize);
+    ((io.vertx.core.http.HttpServerResponse) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
     return this;
   }
   public HttpServerResponse drainHandler(Handler<Void> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerResponse) this.delegate).drainHandler(handler);
+    ((io.vertx.core.http.HttpServerResponse) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -92,7 +102,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setStatusCode(int statusCode) {
-    this.delegate.setStatusCode(statusCode);
+    this.delegate.setStatusCode(statusCode != null ? statusCode : null);
     return this;
   }
   /**
@@ -110,7 +120,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setStatusMessage(String statusMessage) {
-    this.delegate.setStatusMessage(statusMessage);
+    this.delegate.setStatusMessage(statusMessage != null ? statusMessage : null);
     return this;
   }
   /**
@@ -129,7 +139,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse setChunked(boolean chunked) {
-    this.delegate.setChunked(chunked);
+    this.delegate.setChunked(chunked != null ? chunked : null);
     return this;
   }
   /**
@@ -159,7 +169,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse putHeader(String name, String value) {
-    this.delegate.putHeader(name, value);
+    this.delegate.putHeader(name != null ? name : null, value != null ? value : null);
     return this;
   }
   /**
@@ -181,7 +191,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse putTrailer(String name, String value) {
-    this.delegate.putTrailer(name, value);
+    this.delegate.putTrailer(name != null ? name : null, value != null ? value : null);
     return this;
   }
   /**
@@ -191,7 +201,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse closeHandler(Handler<Void> handler) {
-    this.delegate.closeHandler(handler);
+    this.delegate.closeHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -201,7 +216,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse write(String chunk, String enc) {
-    this.delegate.write(chunk, enc);
+    this.delegate.write(chunk != null ? chunk : null, enc != null ? enc : null);
     return this;
   }
   /**
@@ -210,7 +225,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse write(String chunk) {
-    this.delegate.write(chunk);
+    this.delegate.write(chunk != null ? chunk : null);
     return this;
   }
   /**
@@ -227,7 +242,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @param chunk the string to write before ending the response
    */
   public void end(String chunk) {
-    this.delegate.end(chunk);
+    this.delegate.end(chunk != null ? chunk : null);
   }
   /**
    * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes a String with the specified encoding before ending the response.
@@ -235,7 +250,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @param enc the encoding to use
    */
   public void end(String chunk, String enc) {
-    this.delegate.end(chunk, enc);
+    this.delegate.end(chunk != null ? chunk : null, enc != null ? enc : null);
   }
   /**
    * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#end} but writes some data to the response body before ending. If the response is not chunked and
@@ -243,7 +258,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @param chunk the buffer to write before ending the response
    */
   public void end(Buffer chunk) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerResponse) this.delegate).end((io.vertx.core.buffer.Buffer)chunk.getDelegate());
+    ((io.vertx.core.http.HttpServerResponse) this.delegate).end(chunk != null ? (io.vertx.core.buffer.Buffer)chunk.getDelegate() : null);
   }
   /**
    * Ends the response. If no data has been written to the response body,
@@ -252,7 +267,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * Once the response has ended, it cannot be used any more.
    */
   public void end() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerResponse) this.delegate).end();
+    ((io.vertx.core.http.HttpServerResponse) this.delegate).end();
   }
   /**
    * Same as {@link io.vertx.groovy.core.http.HttpServerResponse#sendFile} using offset @code{0} which means starting from the beginning of the file.
@@ -260,7 +275,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename) {
-    this.delegate.sendFile(filename);
+    this.delegate.sendFile(filename != null ? filename : null);
     return this;
   }
   /**
@@ -271,7 +286,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename, long offset) {
-    this.delegate.sendFile(filename, offset);
+    this.delegate.sendFile(filename != null ? filename : null, offset != null ? offset : null);
     return this;
   }
   /**
@@ -286,7 +301,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename, long offset, long length) {
-    this.delegate.sendFile(filename, offset, length);
+    this.delegate.sendFile(filename != null ? filename : null, offset != null ? offset : null, length != null ? length : null);
     return this;
   }
   /**
@@ -297,7 +312,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename, resultHandler);
+    this.delegate.sendFile(filename != null ? filename : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      resultHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -309,7 +329,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename, long offset, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename, offset, resultHandler);
+    this.delegate.sendFile(filename != null ? filename : null, offset != null ? offset : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      resultHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -322,7 +347,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
-    this.delegate.sendFile(filename, offset, length, resultHandler);
+    this.delegate.sendFile(filename != null ? filename : null, offset != null ? offset : null, length != null ? length : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      resultHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -362,7 +392,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse headersEndHandler(Handler<Void> handler) {
-    this.delegate.headersEndHandler(handler);
+    this.delegate.headersEndHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -373,7 +408,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse bodyEndHandler(Handler<Void> handler) {
-    this.delegate.bodyEndHandler(handler);
+    this.delegate.bodyEndHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -401,17 +441,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return 
    */
   public HttpServerResponse push(HttpMethod method, String host, String path, Handler<AsyncResult<HttpServerResponse>> handler) {
-    def ret= InternalHelper.safeCreate(this.delegate.push(method, host, path, new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>() {
-      public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> event) {
-        AsyncResult<HttpServerResponse> f
-        if (event.succeeded()) {
-          f = InternalHelper.<HttpServerResponse>result(new HttpServerResponse(event.result()))
-        } else {
-          f = InternalHelper.<HttpServerResponse>failure(event.cause())
-        }
-        handler.handle(f)
-      }
-    }), io.vertx.groovy.core.http.HttpServerResponse.class);
+    def ret= InternalHelper.safeCreate(this.delegate.push(method != null ? method : null, host != null ? host : null, path != null ? path : null, handler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>(){
+    public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> ar) {
+      handler.handle(null);
+    }
+  }
+ : null), io.vertx.groovy.core.http.HttpServerResponse.class);
     return ret;
   }
   /**
@@ -423,17 +458,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return 
    */
   public HttpServerResponse push(HttpMethod method, String path, MultiMap headers, Handler<AsyncResult<HttpServerResponse>> handler) {
-    def ret= InternalHelper.safeCreate(this.delegate.push(method, path, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>() {
-      public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> event) {
-        AsyncResult<HttpServerResponse> f
-        if (event.succeeded()) {
-          f = InternalHelper.<HttpServerResponse>result(new HttpServerResponse(event.result()))
-        } else {
-          f = InternalHelper.<HttpServerResponse>failure(event.cause())
-        }
-        handler.handle(f)
-      }
-    }), io.vertx.groovy.core.http.HttpServerResponse.class);
+    def ret= InternalHelper.safeCreate(this.delegate.push(method != null ? method : null, path != null ? path : null, headers != null ? (io.vertx.core.MultiMap)headers.getDelegate() : null, handler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>(){
+    public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> ar) {
+      handler.handle(null);
+    }
+  }
+ : null), io.vertx.groovy.core.http.HttpServerResponse.class);
     return ret;
   }
   /**
@@ -444,17 +474,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return 
    */
   public HttpServerResponse push(HttpMethod method, String path, Handler<AsyncResult<HttpServerResponse>> handler) {
-    this.delegate.push(method, path, new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>() {
-      public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> event) {
-        AsyncResult<HttpServerResponse> f
-        if (event.succeeded()) {
-          f = InternalHelper.<HttpServerResponse>result(new HttpServerResponse(event.result()))
-        } else {
-          f = InternalHelper.<HttpServerResponse>failure(event.cause())
-        }
-        handler.handle(f)
-      }
-    });
+    this.delegate.push(method != null ? method : null, path != null ? path : null, handler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>(){
+    public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -475,17 +500,12 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse push(HttpMethod method, String host, String path, MultiMap headers, Handler<AsyncResult<HttpServerResponse>> handler) {
-    this.delegate.push(method, host, path, (io.vertx.core.MultiMap)headers.getDelegate(), new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>() {
-      public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> event) {
-        AsyncResult<HttpServerResponse> f
-        if (event.succeeded()) {
-          f = InternalHelper.<HttpServerResponse>result(new HttpServerResponse(event.result()))
-        } else {
-          f = InternalHelper.<HttpServerResponse>failure(event.cause())
-        }
-        handler.handle(f)
-      }
-    });
+    this.delegate.push(method != null ? method : null, host != null ? host : null, path != null ? path : null, headers != null ? (io.vertx.core.MultiMap)headers.getDelegate() : null, handler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServerResponse>>(){
+    public void handle(AsyncResult<io.vertx.core.http.HttpServerResponse> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -499,7 +519,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @param code the error code
    */
   public void reset(long code) {
-    this.delegate.reset(code);
+    this.delegate.reset(code != null ? code : null);
   }
   /**
    * Write an HTTP/2 frame to the response, allowing to extend the HTTP/2 protocol.<p>
@@ -511,7 +531,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerResponse writeFrame(int type, int flags, Buffer payload) {
-    this.delegate.writeFrame(type, flags, (io.vertx.core.buffer.Buffer)payload.getDelegate());
+    this.delegate.writeFrame(type != null ? type : null, flags != null ? flags : null, payload != null ? (io.vertx.core.buffer.Buffer)payload.getDelegate() : null);
     return this;
   }
   /**
@@ -520,7 +540,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @return 
    */
   public HttpServerResponse writeFrame(HttpFrame frame) {
-    this.delegate.writeFrame((io.vertx.core.http.HttpFrame)frame.getDelegate());
+    this.delegate.writeFrame(frame != null ? (io.vertx.core.http.HttpFrame)frame.getDelegate() : null);
     return this;
   }
   private MultiMap cached_0;

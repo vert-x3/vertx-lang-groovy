@@ -57,17 +57,12 @@ public class NetClient implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetClient connect(int port, String host, Handler<AsyncResult<NetSocket>> connectHandler) {
-    this.delegate.connect(port, host, new Handler<AsyncResult<io.vertx.core.net.NetSocket>>() {
-      public void handle(AsyncResult<io.vertx.core.net.NetSocket> event) {
-        AsyncResult<NetSocket> f
-        if (event.succeeded()) {
-          f = InternalHelper.<NetSocket>result(new NetSocket(event.result()))
-        } else {
-          f = InternalHelper.<NetSocket>failure(event.cause())
-        }
-        connectHandler.handle(f)
-      }
-    });
+    this.delegate.connect(port != null ? port : null, host != null ? host : null, connectHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetSocket>>(){
+    public void handle(AsyncResult<io.vertx.core.net.NetSocket> ar) {
+      connectHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**

@@ -34,27 +34,38 @@ public class NetSocketStream implements ReadStream<NetSocket> {
     return delegate;
   }
   public NetSocketStream exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.net.NetSocketStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public NetSocketStream handler(Handler<NetSocket> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).handler(new Handler<io.vertx.core.net.NetSocket>() {
-      public void handle(io.vertx.core.net.NetSocket event) {
-        handler.handle(new io.vertx.groovy.core.net.NetSocket(event));
-      }
-    });
+    ((io.vertx.core.net.NetSocketStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.net.NetSocket>(){
+    public void handle(io.vertx.core.net.NetSocket event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public NetSocketStream pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).pause();
+    ((io.vertx.core.net.NetSocketStream) this.delegate).pause();
     return this;
   }
   public NetSocketStream resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).resume();
+    ((io.vertx.core.net.NetSocketStream) this.delegate).resume();
     return this;
   }
   public NetSocketStream endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.net.NetSocketStream) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.net.NetSocketStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }

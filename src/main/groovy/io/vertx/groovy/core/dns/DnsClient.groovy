@@ -42,7 +42,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently
    */
   public DnsClient lookup(String name, Handler<AsyncResult<String>> handler) {
-    this.delegate.lookup(name, handler);
+    this.delegate.lookup(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.lang.String>>(){
+    public void handle(AsyncResult<java.lang.String> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -52,7 +57,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently
    */
   public DnsClient lookup4(String name, Handler<AsyncResult<String>> handler) {
-    this.delegate.lookup4(name, handler);
+    this.delegate.lookup4(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.lang.String>>(){
+    public void handle(AsyncResult<java.lang.String> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -62,7 +72,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently
    */
   public DnsClient lookup6(String name, Handler<AsyncResult<String>> handler) {
-    this.delegate.lookup6(name, handler);
+    this.delegate.lookup6(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.lang.String>>(){
+    public void handle(AsyncResult<java.lang.String> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -72,7 +87,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently
    */
   public DnsClient resolveA(String name, Handler<AsyncResult<List<String>>> handler) {
-    this.delegate.resolveA(name, handler);
+    this.delegate.resolveA(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>(){
+    public void handle(AsyncResult<java.util.List<java.lang.String>> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -82,7 +102,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently
    */
   public DnsClient resolveAAAA(String name, Handler<AsyncResult<List<String>>> handler) {
-    this.delegate.resolveAAAA(name, handler);
+    this.delegate.resolveAAAA(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>(){
+    public void handle(AsyncResult<java.util.List<java.lang.String>> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -92,7 +117,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently.
    */
   public DnsClient resolveCNAME(String name, Handler<AsyncResult<List<String>>> handler) {
-    this.delegate.resolveCNAME(name, handler);
+    this.delegate.resolveCNAME(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>(){
+    public void handle(AsyncResult<java.util.List<java.lang.String>> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -102,20 +132,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently.
    */
   public DnsClient resolveMX(String name, Handler<AsyncResult<List<MxRecord>>> handler) {
-    this.delegate.resolveMX(name, new Handler<AsyncResult<List<io.vertx.core.dns.MxRecord>>>() {
-      public void handle(AsyncResult<List<io.vertx.core.dns.MxRecord>> event) {
-        AsyncResult<List<MxRecord>> f
-        if (event.succeeded()) {
-          f = InternalHelper.<List<MxRecord>>result(event.result().collect({
-            io.vertx.core.dns.MxRecord element ->
-            new io.vertx.groovy.core.dns.MxRecord(element)
-          }) as List)
-        } else {
-          f = InternalHelper.<List<MxRecord>>failure(event.cause())
-        }
-        handler.handle(f)
-      }
-    });
+    this.delegate.resolveMX(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.util.List<io.vertx.core.dns.MxRecord>>>(){
+    public void handle(AsyncResult<java.util.List<io.vertx.core.dns.MxRecord>> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -125,7 +147,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently.
    */
   public DnsClient resolveTXT(String name, Handler<AsyncResult<List<String>>> handler) {
-    this.delegate.resolveTXT(name, handler);
+    this.delegate.resolveTXT(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>(){
+    public void handle(AsyncResult<java.util.List<java.lang.String>> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -135,7 +162,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently.
    */
   public DnsClient resolvePTR(String name, Handler<AsyncResult<String>> handler) {
-    this.delegate.resolvePTR(name, handler);
+    this.delegate.resolvePTR(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.lang.String>>(){
+    public void handle(AsyncResult<java.lang.String> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -145,7 +177,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently.
    */
   public DnsClient resolveNS(String name, Handler<AsyncResult<List<String>>> handler) {
-    this.delegate.resolveNS(name, handler);
+    this.delegate.resolveNS(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.util.List<java.lang.String>>>(){
+    public void handle(AsyncResult<java.util.List<java.lang.String>> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -155,20 +192,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently.
    */
   public DnsClient resolveSRV(String name, Handler<AsyncResult<List<SrvRecord>>> handler) {
-    this.delegate.resolveSRV(name, new Handler<AsyncResult<List<io.vertx.core.dns.SrvRecord>>>() {
-      public void handle(AsyncResult<List<io.vertx.core.dns.SrvRecord>> event) {
-        AsyncResult<List<SrvRecord>> f
-        if (event.succeeded()) {
-          f = InternalHelper.<List<SrvRecord>>result(event.result().collect({
-            io.vertx.core.dns.SrvRecord element ->
-            new io.vertx.groovy.core.dns.SrvRecord(element)
-          }) as List)
-        } else {
-          f = InternalHelper.<List<SrvRecord>>failure(event.cause())
-        }
-        handler.handle(f)
-      }
-    });
+    this.delegate.resolveSRV(name != null ? name : null, handler != null ? new Handler<AsyncResult<java.util.List<io.vertx.core.dns.SrvRecord>>>(){
+    public void handle(AsyncResult<java.util.List<io.vertx.core.dns.SrvRecord>> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -179,7 +208,12 @@ public class DnsClient {
    * @return a reference to this, so the API can be used fluently.
    */
   public DnsClient reverseLookup(String ipaddress, Handler<AsyncResult<String>> handler) {
-    this.delegate.reverseLookup(ipaddress, handler);
+    this.delegate.reverseLookup(ipaddress != null ? ipaddress : null, handler != null ? new Handler<AsyncResult<java.lang.String>>(){
+    public void handle(AsyncResult<java.lang.String> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }

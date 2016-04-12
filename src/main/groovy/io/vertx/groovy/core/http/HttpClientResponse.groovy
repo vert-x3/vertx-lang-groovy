@@ -44,27 +44,38 @@ public class HttpClientResponse implements ReadStream<Buffer> {
     return delegate;
   }
   public HttpClientResponse resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).resume();
+    ((io.vertx.core.http.HttpClientResponse) this.delegate).resume();
     return this;
   }
   public HttpClientResponse exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.http.HttpClientResponse) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpClientResponse handler(Handler<Buffer> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
-      public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
-      }
-    });
+    ((io.vertx.core.http.HttpClientResponse) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+    public void handle(io.vertx.core.buffer.Buffer event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpClientResponse pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).pause();
+    ((io.vertx.core.http.HttpClientResponse) this.delegate).pause();
     return this;
   }
   public HttpClientResponse endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpClientResponse) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.http.HttpClientResponse) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -109,7 +120,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return the header value
    */
   public String getHeader(String headerName) {
-    def ret = this.delegate.getHeader(headerName);
+    def ret = this.delegate.getHeader(headerName != null ? headerName : null);
     return ret;
   }
   /**
@@ -118,7 +129,7 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return the trailer value
    */
   public String getTrailer(String trailerName) {
-    def ret = this.delegate.getTrailer(trailerName);
+    def ret = this.delegate.getTrailer(trailerName != null ? trailerName : null);
     return ret;
   }
   /**
@@ -154,11 +165,12 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return 
    */
   public HttpClientResponse bodyHandler(Handler<Buffer> bodyHandler) {
-    this.delegate.bodyHandler(new Handler<io.vertx.core.buffer.Buffer>() {
-      public void handle(io.vertx.core.buffer.Buffer event) {
-        bodyHandler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
-      }
-    });
+    this.delegate.bodyHandler(bodyHandler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+    public void handle(io.vertx.core.buffer.Buffer event) {
+      bodyHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -168,11 +180,12 @@ public class HttpClientResponse implements ReadStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpClientResponse unknownFrameHandler(Handler<HttpFrame> handler) {
-    this.delegate.unknownFrameHandler(new Handler<io.vertx.core.http.HttpFrame>() {
-      public void handle(io.vertx.core.http.HttpFrame event) {
-        handler.handle(new io.vertx.groovy.core.http.HttpFrame(event));
-      }
-    });
+    this.delegate.unknownFrameHandler(handler != null ? new Handler<io.vertx.core.http.HttpFrame>(){
+    public void handle(io.vertx.core.http.HttpFrame event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**

@@ -55,7 +55,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(int initialSizeHint) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(initialSizeHint), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(initialSizeHint != null ? initialSizeHint : null), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -64,7 +64,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(String string) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string != null ? string : null), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -75,7 +75,7 @@ public class Buffer {
    * @return the buffer
    */
   public static Buffer buffer(String string, String enc) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string, enc), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.buffer.Buffer.buffer(string != null ? string : null, enc != null ? enc : null), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -92,7 +92,7 @@ public class Buffer {
    * @return 
    */
   public String toString(String enc) {
-    def ret = this.delegate.toString(enc);
+    def ret = this.delegate.toString(enc != null ? enc : null);
     return ret;
   }
   /**
@@ -117,7 +117,7 @@ public class Buffer {
    * @return 
    */
   public byte getByte(int pos) {
-    def ret = this.delegate.getByte(pos);
+    def ret = this.delegate.getByte(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -126,7 +126,7 @@ public class Buffer {
    * @return 
    */
   public short getUnsignedByte(int pos) {
-    def ret = this.delegate.getUnsignedByte(pos);
+    def ret = this.delegate.getUnsignedByte(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -135,7 +135,7 @@ public class Buffer {
    * @return 
    */
   public int getInt(int pos) {
-    def ret = this.delegate.getInt(pos);
+    def ret = this.delegate.getInt(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -144,7 +144,7 @@ public class Buffer {
    * @return 
    */
   public long getUnsignedInt(int pos) {
-    def ret = this.delegate.getUnsignedInt(pos);
+    def ret = this.delegate.getUnsignedInt(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -153,7 +153,7 @@ public class Buffer {
    * @return 
    */
   public long getLong(int pos) {
-    def ret = this.delegate.getLong(pos);
+    def ret = this.delegate.getLong(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -162,7 +162,7 @@ public class Buffer {
    * @return 
    */
   public double getDouble(int pos) {
-    def ret = this.delegate.getDouble(pos);
+    def ret = this.delegate.getDouble(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -171,7 +171,7 @@ public class Buffer {
    * @return 
    */
   public float getFloat(int pos) {
-    def ret = this.delegate.getFloat(pos);
+    def ret = this.delegate.getFloat(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -180,7 +180,7 @@ public class Buffer {
    * @return 
    */
   public short getShort(int pos) {
-    def ret = this.delegate.getShort(pos);
+    def ret = this.delegate.getShort(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -189,7 +189,7 @@ public class Buffer {
    * @return 
    */
   public int getUnsignedShort(int pos) {
-    def ret = this.delegate.getUnsignedShort(pos);
+    def ret = this.delegate.getUnsignedShort(pos != null ? pos : null);
     return ret;
   }
   /**
@@ -200,7 +200,7 @@ public class Buffer {
    * @return 
    */
   public Buffer getBuffer(int start, int end) {
-    def ret= InternalHelper.safeCreate(this.delegate.getBuffer(start, end), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.getBuffer(start != null ? start : null, end != null ? end : null), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -212,7 +212,7 @@ public class Buffer {
    * @return 
    */
   public String getString(int start, int end, String enc) {
-    def ret = this.delegate.getString(start, end, enc);
+    def ret = this.delegate.getString(start != null ? start : null, end != null ? end : null, enc != null ? enc : null);
     return ret;
   }
   /**
@@ -223,7 +223,7 @@ public class Buffer {
    * @return 
    */
   public String getString(int start, int end) {
-    def ret = this.delegate.getString(start, end);
+    def ret = this.delegate.getString(start != null ? start : null, end != null ? end : null);
     return ret;
   }
   /**
@@ -234,7 +234,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendBuffer(Buffer buff) {
-    this.delegate.appendBuffer((io.vertx.core.buffer.Buffer)buff.getDelegate());
+    this.delegate.appendBuffer(buff != null ? (io.vertx.core.buffer.Buffer)buff.getDelegate() : null);
     return this;
   }
   /**
@@ -247,7 +247,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendBuffer(Buffer buff, int offset, int len) {
-    this.delegate.appendBuffer((io.vertx.core.buffer.Buffer)buff.getDelegate(), offset, len);
+    this.delegate.appendBuffer(buff != null ? (io.vertx.core.buffer.Buffer)buff.getDelegate() : null, offset != null ? offset : null, len != null ? len : null);
     return this;
   }
   /**
@@ -257,7 +257,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendByte(byte b) {
-    this.delegate.appendByte(b);
+    this.delegate.appendByte(b != null ? b : null);
     return this;
   }
   /**
@@ -267,7 +267,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendUnsignedByte(short b) {
-    this.delegate.appendUnsignedByte(b);
+    this.delegate.appendUnsignedByte(b != null ? b : null);
     return this;
   }
   /**
@@ -277,7 +277,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendInt(int i) {
-    this.delegate.appendInt(i);
+    this.delegate.appendInt(i != null ? i : null);
     return this;
   }
   /**
@@ -287,7 +287,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendUnsignedInt(long i) {
-    this.delegate.appendUnsignedInt(i);
+    this.delegate.appendUnsignedInt(i != null ? i : null);
     return this;
   }
   /**
@@ -297,7 +297,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendLong(long l) {
-    this.delegate.appendLong(l);
+    this.delegate.appendLong(l != null ? l : null);
     return this;
   }
   /**
@@ -307,7 +307,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendShort(short s) {
-    this.delegate.appendShort(s);
+    this.delegate.appendShort(s != null ? s : null);
     return this;
   }
   /**
@@ -317,7 +317,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendUnsignedShort(int s) {
-    this.delegate.appendUnsignedShort(s);
+    this.delegate.appendUnsignedShort(s != null ? s : null);
     return this;
   }
   /**
@@ -327,7 +327,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendFloat(float f) {
-    this.delegate.appendFloat(f);
+    this.delegate.appendFloat(f != null ? f : null);
     return this;
   }
   /**
@@ -337,7 +337,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendDouble(double d) {
-    this.delegate.appendDouble(d);
+    this.delegate.appendDouble(d != null ? d : null);
     return this;
   }
   /**
@@ -349,7 +349,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendString(String str, String enc) {
-    this.delegate.appendString(str, enc);
+    this.delegate.appendString(str != null ? str : null, enc != null ? enc : null);
     return this;
   }
   /**
@@ -360,7 +360,7 @@ public class Buffer {
    * @return 
    */
   public Buffer appendString(String str) {
-    this.delegate.appendString(str);
+    this.delegate.appendString(str != null ? str : null);
     return this;
   }
   /**
@@ -371,7 +371,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setByte(int pos, byte b) {
-    this.delegate.setByte(pos, b);
+    this.delegate.setByte(pos != null ? pos : null, b != null ? b : null);
     return this;
   }
   /**
@@ -382,7 +382,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setUnsignedByte(int pos, short b) {
-    def ret= InternalHelper.safeCreate(this.delegate.setUnsignedByte(pos, b), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.setUnsignedByte(pos != null ? pos : null, b != null ? b : null), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
   /**
@@ -393,7 +393,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setInt(int pos, int i) {
-    this.delegate.setInt(pos, i);
+    this.delegate.setInt(pos != null ? pos : null, i != null ? i : null);
     return this;
   }
   /**
@@ -404,7 +404,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setUnsignedInt(int pos, long i) {
-    this.delegate.setUnsignedInt(pos, i);
+    this.delegate.setUnsignedInt(pos != null ? pos : null, i != null ? i : null);
     return this;
   }
   /**
@@ -415,7 +415,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setLong(int pos, long l) {
-    this.delegate.setLong(pos, l);
+    this.delegate.setLong(pos != null ? pos : null, l != null ? l : null);
     return this;
   }
   /**
@@ -426,7 +426,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setDouble(int pos, double d) {
-    this.delegate.setDouble(pos, d);
+    this.delegate.setDouble(pos != null ? pos : null, d != null ? d : null);
     return this;
   }
   /**
@@ -437,7 +437,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setFloat(int pos, float f) {
-    this.delegate.setFloat(pos, f);
+    this.delegate.setFloat(pos != null ? pos : null, f != null ? f : null);
     return this;
   }
   /**
@@ -448,7 +448,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setShort(int pos, short s) {
-    this.delegate.setShort(pos, s);
+    this.delegate.setShort(pos != null ? pos : null, s != null ? s : null);
     return this;
   }
   /**
@@ -459,7 +459,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setUnsignedShort(int pos, int s) {
-    this.delegate.setUnsignedShort(pos, s);
+    this.delegate.setUnsignedShort(pos != null ? pos : null, s != null ? s : null);
     return this;
   }
   /**
@@ -470,7 +470,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setBuffer(int pos, Buffer b) {
-    this.delegate.setBuffer(pos, (io.vertx.core.buffer.Buffer)b.getDelegate());
+    this.delegate.setBuffer(pos != null ? pos : null, b != null ? (io.vertx.core.buffer.Buffer)b.getDelegate() : null);
     return this;
   }
   /**
@@ -483,7 +483,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setBuffer(int pos, Buffer b, int offset, int len) {
-    this.delegate.setBuffer(pos, (io.vertx.core.buffer.Buffer)b.getDelegate(), offset, len);
+    this.delegate.setBuffer(pos != null ? pos : null, b != null ? (io.vertx.core.buffer.Buffer)b.getDelegate() : null, offset != null ? offset : null, len != null ? len : null);
     return this;
   }
   /**
@@ -494,7 +494,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setString(int pos, String str) {
-    this.delegate.setString(pos, str);
+    this.delegate.setString(pos != null ? pos : null, str != null ? str : null);
     return this;
   }
   /**
@@ -506,7 +506,7 @@ public class Buffer {
    * @return 
    */
   public Buffer setString(int pos, String str, String enc) {
-    this.delegate.setString(pos, str, enc);
+    this.delegate.setString(pos != null ? pos : null, str != null ? str : null, enc != null ? enc : null);
     return this;
   }
   /**
@@ -545,7 +545,7 @@ public class Buffer {
    * @return 
    */
   public Buffer slice(int start, int end) {
-    def ret= InternalHelper.safeCreate(this.delegate.slice(start, end), io.vertx.groovy.core.buffer.Buffer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.slice(start != null ? start : null, end != null ? end : null), io.vertx.groovy.core.buffer.Buffer.class);
     return ret;
   }
 }

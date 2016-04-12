@@ -47,27 +47,38 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return delegate;
   }
   public HttpServerRequest exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.http.HttpServerRequest) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpServerRequest handler(Handler<Buffer> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
-      public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
-      }
-    });
+    ((io.vertx.core.http.HttpServerRequest) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+    public void handle(io.vertx.core.buffer.Buffer event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpServerRequest pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).pause();
+    ((io.vertx.core.http.HttpServerRequest) this.delegate).pause();
     return this;
   }
   public HttpServerRequest resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).resume();
+    ((io.vertx.core.http.HttpServerRequest) this.delegate).resume();
     return this;
   }
   public HttpServerRequest endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequest) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.http.HttpServerRequest) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -165,7 +176,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the header value
    */
   public String getHeader(String headerName) {
-    def ret = this.delegate.getHeader(headerName);
+    def ret = this.delegate.getHeader(headerName != null ? headerName : null);
     return ret;
   }
   /**
@@ -186,7 +197,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the param value
    */
   public String getParam(String paramName) {
-    def ret = this.delegate.getParam(paramName);
+    def ret = this.delegate.getParam(paramName != null ? paramName : null);
     return ret;
   }
   /**
@@ -230,11 +241,12 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return 
    */
   public HttpServerRequest bodyHandler(Handler<Buffer> bodyHandler) {
-    this.delegate.bodyHandler(new Handler<io.vertx.core.buffer.Buffer>() {
-      public void handle(io.vertx.core.buffer.Buffer event) {
-        bodyHandler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
-      }
-    });
+    this.delegate.bodyHandler(bodyHandler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+    public void handle(io.vertx.core.buffer.Buffer event) {
+      bodyHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -262,7 +274,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest setExpectMultipart(boolean expect) {
-    this.delegate.setExpectMultipart(expect);
+    this.delegate.setExpectMultipart(expect != null ? expect : null);
     return this;
   }
   /**
@@ -280,11 +292,12 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest uploadHandler(Handler<HttpServerFileUpload> uploadHandler) {
-    this.delegate.uploadHandler(new Handler<io.vertx.core.http.HttpServerFileUpload>() {
-      public void handle(io.vertx.core.http.HttpServerFileUpload event) {
-        uploadHandler.handle(new io.vertx.groovy.core.http.HttpServerFileUpload(event));
-      }
-    });
+    this.delegate.uploadHandler(uploadHandler != null ? new Handler<io.vertx.core.http.HttpServerFileUpload>(){
+    public void handle(io.vertx.core.http.HttpServerFileUpload event) {
+      uploadHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -310,7 +323,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return the attribute value
    */
   public String getFormAttribute(String attributeName) {
-    def ret = this.delegate.getFormAttribute(attributeName);
+    def ret = this.delegate.getFormAttribute(attributeName != null ? attributeName : null);
     return ret;
   }
   /**
@@ -339,11 +352,12 @@ public class HttpServerRequest implements ReadStream<Buffer> {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServerRequest unknownFrameHandler(Handler<HttpFrame> handler) {
-    this.delegate.unknownFrameHandler(new Handler<io.vertx.core.http.HttpFrame>() {
-      public void handle(io.vertx.core.http.HttpFrame event) {
-        handler.handle(new io.vertx.groovy.core.http.HttpFrame(event));
-      }
-    });
+    this.delegate.unknownFrameHandler(handler != null ? new Handler<io.vertx.core.http.HttpFrame>(){
+    public void handle(io.vertx.core.http.HttpFrame event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**

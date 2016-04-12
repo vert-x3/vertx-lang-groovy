@@ -34,27 +34,38 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
     return delegate;
   }
   public HttpServerFileUpload exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpServerFileUpload handler(Handler<Buffer> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).handler(new Handler<io.vertx.core.buffer.Buffer>() {
-      public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
-      }
-    });
+    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).handler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+    public void handle(io.vertx.core.buffer.Buffer event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpServerFileUpload endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpServerFileUpload pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).pause();
+    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).pause();
     return this;
   }
   public HttpServerFileUpload resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerFileUpload) this.delegate).resume();
+    ((io.vertx.core.http.HttpServerFileUpload) this.delegate).resume();
     return this;
   }
   /**
@@ -63,7 +74,7 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
    * @return 
    */
   public HttpServerFileUpload streamToFileSystem(String filename) {
-    this.delegate.streamToFileSystem(filename);
+    this.delegate.streamToFileSystem(filename != null ? filename : null);
     return this;
   }
   /**

@@ -42,27 +42,38 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
     return delegate;
   }
   public MessageConsumer<T> exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public MessageConsumer<T> handler(Handler<Message<T>> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).handler(new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>() {
-      public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
-        handler.handle(new io.vertx.groovy.core.eventbus.Message(event));
-      }
-    });
+    ((io.vertx.core.streams.ReadStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.eventbus.Message<java.lang.Object>>(){
+    public void handle(io.vertx.core.eventbus.Message<java.lang.Object> event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public MessageConsumer<T> pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).pause();
+    ((io.vertx.core.streams.ReadStream) this.delegate).pause();
     return this;
   }
   public MessageConsumer<T> resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).resume();
+    ((io.vertx.core.streams.ReadStream) this.delegate).resume();
     return this;
   }
   public MessageConsumer<T> endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -97,7 +108,7 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @return this registration
    */
   public MessageConsumer<T> setMaxBufferedMessages(int maxBufferedMessages) {
-    def ret= InternalHelper.safeCreate(this.delegate.setMaxBufferedMessages(maxBufferedMessages), io.vertx.groovy.core.eventbus.MessageConsumer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.setMaxBufferedMessages(maxBufferedMessages != null ? maxBufferedMessages : null), io.vertx.groovy.core.eventbus.MessageConsumer.class);
     return ret;
   }
   /**
@@ -113,7 +124,12 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @param completionHandler the completion handler
    */
   public void completionHandler(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.completionHandler(completionHandler);
+    this.delegate.completionHandler(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Unregisters the handler which created this registration
@@ -126,6 +142,11 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
    * @param completionHandler the handler called when the unregister is done. For example in a cluster when all nodes of the event bus have been unregistered.
    */
   public void unregister(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.unregister(completionHandler);
+    this.delegate.unregister(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
   }
 }

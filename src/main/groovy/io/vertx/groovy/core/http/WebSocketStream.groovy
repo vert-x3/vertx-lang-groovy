@@ -39,27 +39,38 @@ public class WebSocketStream implements ReadStream<WebSocket> {
     return delegate;
   }
   public WebSocketStream exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.http.WebSocketStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public WebSocketStream handler(Handler<WebSocket> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).handler(new Handler<io.vertx.core.http.WebSocket>() {
-      public void handle(io.vertx.core.http.WebSocket event) {
-        handler.handle(new io.vertx.groovy.core.http.WebSocket(event));
-      }
-    });
+    ((io.vertx.core.http.WebSocketStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.http.WebSocket>(){
+    public void handle(io.vertx.core.http.WebSocket event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public WebSocketStream pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).pause();
+    ((io.vertx.core.http.WebSocketStream) this.delegate).pause();
     return this;
   }
   public WebSocketStream resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).resume();
+    ((io.vertx.core.http.WebSocketStream) this.delegate).resume();
     return this;
   }
   public WebSocketStream endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.WebSocketStream) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.http.WebSocketStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }

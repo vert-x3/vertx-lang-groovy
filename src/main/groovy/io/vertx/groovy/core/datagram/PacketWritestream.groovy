@@ -47,7 +47,7 @@ public class PacketWritestream implements WriteStream<Buffer> {
    * @param t 
    */
   public void end(Buffer t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end((io.vertx.core.buffer.Buffer)t.getDelegate());
+    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? (io.vertx.core.buffer.Buffer)t.getDelegate() : null);
   }
   /**
    * This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link io.vertx.groovy.core.datagram.PacketWritestream#setWriteQueueMaxSize}
@@ -58,19 +58,29 @@ public class PacketWritestream implements WriteStream<Buffer> {
     return ret;
   }
   public PacketWritestream exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.PacketWritestream) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.datagram.PacketWritestream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public PacketWritestream write(Buffer data) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.PacketWritestream) this.delegate).write((io.vertx.core.buffer.Buffer)data.getDelegate());
+    ((io.vertx.core.datagram.PacketWritestream) this.delegate).write(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null);
     return this;
   }
   public PacketWritestream setWriteQueueMaxSize(int maxSize) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.PacketWritestream) this.delegate).setWriteQueueMaxSize(maxSize);
+    ((io.vertx.core.datagram.PacketWritestream) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
     return this;
   }
   public PacketWritestream drainHandler(Handler<Void> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.datagram.PacketWritestream) this.delegate).drainHandler(handler);
+    ((io.vertx.core.datagram.PacketWritestream) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }

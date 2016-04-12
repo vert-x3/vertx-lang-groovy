@@ -53,7 +53,12 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.streams.WriteStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -64,7 +69,7 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> write(T data) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).write(InternalHelper.unwrapObject(data));
+    ((io.vertx.core.streams.WriteStream) this.delegate).write(data != null ? InternalHelper.unwrapObject(data) : null);
     return this;
   }
   /**
@@ -80,7 +85,7 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @param t 
    */
   public void end(T t) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).end(InternalHelper.unwrapObject(t));
+    ((io.vertx.core.streams.WriteStream) this.delegate).end(t != null ? InternalHelper.unwrapObject(t) : null);
   }
   /**
    * Set the maximum size of the write queue to <code>maxSize</code>. You will still be able to write to the stream even
@@ -90,7 +95,7 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> setWriteQueueMaxSize(int maxSize) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize);
+    ((io.vertx.core.streams.WriteStream) this.delegate).setWriteQueueMaxSize(maxSize != null ? maxSize : null);
     return this;
   }
   /**
@@ -108,7 +113,12 @@ class WriteStreamImpl<T> implements WriteStream<T> {
    * @return a reference to this, so the API can be used fluently
    */
   public WriteStream<T> drainHandler(Handler<Void> handler) {
-    ((io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler);
+    ((io.vertx.core.streams.WriteStream) this.delegate).drainHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }

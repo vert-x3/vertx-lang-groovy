@@ -42,7 +42,7 @@ public class CommandLine {
    * @return the command line object
    */
   public static CommandLine create(CLI cli) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.cli.CommandLine.create((io.vertx.core.cli.CLI)cli.getDelegate()), io.vertx.groovy.core.cli.CommandLine.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.cli.CommandLine.create(cli != null ? (io.vertx.core.cli.CLI)cli.getDelegate() : null), io.vertx.groovy.core.cli.CommandLine.class);
     return ret;
   }
   /**
@@ -68,7 +68,7 @@ public class CommandLine {
    */
   public <T> T getOptionValue(String name) {
     // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(this.delegate.getOptionValue(name));
+    def ret = (T) InternalHelper.wrapObject(this.delegate.getOptionValue(name != null ? name : null));
     return ret;
   }
   /**
@@ -78,7 +78,7 @@ public class CommandLine {
    */
   public <T> T getArgumentValue(String name) {
     // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(this.delegate.getArgumentValue(name));
+    def ret = (T) InternalHelper.wrapObject(this.delegate.getArgumentValue(name != null ? name : null));
     return ret;
   }
   /**
@@ -88,7 +88,7 @@ public class CommandLine {
    */
   public <T> T getArgumentValue(int index) {
     // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(this.delegate.getArgumentValue(index));
+    def ret = (T) InternalHelper.wrapObject(this.delegate.getArgumentValue(index != null ? index : null));
     return ret;
   }
   /**
@@ -99,7 +99,7 @@ public class CommandLine {
    * @return <code>true</code> if the flag has been set in the command line, <code>false</code> otherwise.
    */
   public boolean isFlagEnabled(String name) {
-    def ret = this.delegate.isFlagEnabled(name);
+    def ret = this.delegate.isFlagEnabled(name != null ? name : null);
     return ret;
   }
   /**

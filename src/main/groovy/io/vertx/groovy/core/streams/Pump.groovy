@@ -54,7 +54,7 @@ public class Pump {
    * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.streams.Pump.pump((io.vertx.core.streams.ReadStream<T>)rs.getDelegate(), (io.vertx.core.streams.WriteStream<T>)ws.getDelegate()), io.vertx.groovy.core.streams.Pump.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.streams.Pump.pump(rs != null ? (io.vertx.core.streams.ReadStream<T>)rs.getDelegate() : null, ws != null ? (io.vertx.core.streams.WriteStream<T>)ws.getDelegate() : null), io.vertx.groovy.core.streams.Pump.class);
     return ret;
   }
   /**
@@ -66,7 +66,7 @@ public class Pump {
    * @return the pump
    */
   public static <T> Pump pump(ReadStream<T> rs, WriteStream<T> ws, int writeQueueMaxSize) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.streams.Pump.pump((io.vertx.core.streams.ReadStream<T>)rs.getDelegate(), (io.vertx.core.streams.WriteStream<T>)ws.getDelegate(), writeQueueMaxSize), io.vertx.groovy.core.streams.Pump.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.streams.Pump.pump(rs != null ? (io.vertx.core.streams.ReadStream<T>)rs.getDelegate() : null, ws != null ? (io.vertx.core.streams.WriteStream<T>)ws.getDelegate() : null, writeQueueMaxSize != null ? writeQueueMaxSize : null), io.vertx.groovy.core.streams.Pump.class);
     return ret;
   }
   /**
@@ -75,7 +75,7 @@ public class Pump {
    * @return a reference to this, so the API can be used fluently
    */
   public Pump setWriteQueueMaxSize(int maxSize) {
-    this.delegate.setWriteQueueMaxSize(maxSize);
+    this.delegate.setWriteQueueMaxSize(maxSize != null ? maxSize : null);
     return this;
   }
   /**

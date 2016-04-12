@@ -38,23 +38,38 @@ public class TimeoutStream implements ReadStream<Long> {
     return delegate;
   }
   public TimeoutStream exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.TimeoutStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public TimeoutStream handler(Handler<Long> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).handler(handler);
+    ((io.vertx.core.TimeoutStream) this.delegate).handler(handler != null ? new Handler<java.lang.Long>(){
+    public void handle(java.lang.Long event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public TimeoutStream pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).pause();
+    ((io.vertx.core.TimeoutStream) this.delegate).pause();
     return this;
   }
   public TimeoutStream resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).resume();
+    ((io.vertx.core.TimeoutStream) this.delegate).resume();
     return this;
   }
   public TimeoutStream endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.TimeoutStream) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.TimeoutStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**

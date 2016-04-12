@@ -87,7 +87,7 @@ public class Message<T> {
    * @param message the message to reply with.
    */
   public void reply(Object message) {
-    this.delegate.reply(InternalHelper.unwrapObject(message));
+    this.delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null);
   }
   /**
    * The same as <code>reply(R message)</code> but you can specify handler for the reply - i.e.
@@ -96,17 +96,12 @@ public class Message<T> {
    * @param replyHandler the reply handler for the reply.
    */
   public <R> void reply(Object message, Handler<AsyncResult<Message<R>>> replyHandler) {
-    this.delegate.reply(InternalHelper.unwrapObject(message), new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
-      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> event) {
-        AsyncResult<Message<Object>> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Message<Object>>result(new Message<Object>(event.result()))
-        } else {
-          f = InternalHelper.<Message<Object>>failure(event.cause())
-        }
-        replyHandler.handle(f)
-      }
-    });
+    this.delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>(){
+    public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
+      replyHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Link {@link io.vertx.groovy.core.eventbus.Message#reply} but allows you to specify delivery options for the reply.
@@ -114,7 +109,7 @@ public class Message<T> {
    * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    */
   public void reply(Object message, Map<String, Object> options) {
-    this.delegate.reply(InternalHelper.unwrapObject(message), options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    this.delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
   /**
    * The same as <code>reply(R message, DeliveryOptions)</code> but you can specify handler for the reply - i.e.
@@ -124,17 +119,12 @@ public class Message<T> {
    * @param replyHandler the reply handler for the reply.
    */
   public <R> void reply(Object message, Map<String, Object> options, Handler<AsyncResult<Message<R>>> replyHandler) {
-    this.delegate.reply(InternalHelper.unwrapObject(message), options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
-      public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> event) {
-        AsyncResult<Message<Object>> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Message<Object>>result(new Message<Object>(event.result()))
-        } else {
-          f = InternalHelper.<Message<Object>>failure(event.cause())
-        }
-        replyHandler.handle(f)
-      }
-    });
+    this.delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>(){
+    public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
+      replyHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Signal to the sender that processing of this message failed.
@@ -145,7 +135,7 @@ public class Message<T> {
    * @param message A message to pass back to the sender
    */
   public void fail(int failureCode, String message) {
-    this.delegate.fail(failureCode, message);
+    this.delegate.fail(failureCode != null ? failureCode : null, message != null ? message : null);
   }
   private T cached_0;
 }

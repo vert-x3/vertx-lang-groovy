@@ -67,11 +67,12 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer requestHandler(Handler<HttpServerRequest> handler) {
-    this.delegate.requestHandler(new Handler<io.vertx.core.http.HttpServerRequest>() {
-      public void handle(io.vertx.core.http.HttpServerRequest event) {
-        handler.handle(new io.vertx.groovy.core.http.HttpServerRequest(event));
-      }
-    });
+    this.delegate.requestHandler(handler != null ? new Handler<io.vertx.core.http.HttpServerRequest>(){
+    public void handle(io.vertx.core.http.HttpServerRequest event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -81,11 +82,12 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer connectionHandler(Handler<HttpConnection> handler) {
-    this.delegate.connectionHandler(new Handler<io.vertx.core.http.HttpConnection>() {
-      public void handle(io.vertx.core.http.HttpConnection event) {
-        handler.handle(new io.vertx.groovy.core.http.HttpConnection(event));
-      }
-    });
+    this.delegate.connectionHandler(handler != null ? new Handler<io.vertx.core.http.HttpConnection>(){
+    public void handle(io.vertx.core.http.HttpConnection event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -108,11 +110,12 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer websocketHandler(Handler<ServerWebSocket> handler) {
-    this.delegate.websocketHandler(new Handler<io.vertx.core.http.ServerWebSocket>() {
-      public void handle(io.vertx.core.http.ServerWebSocket event) {
-        handler.handle(new io.vertx.groovy.core.http.ServerWebSocket(event));
-      }
-    });
+    this.delegate.websocketHandler(handler != null ? new Handler<io.vertx.core.http.ServerWebSocket>(){
+    public void handle(io.vertx.core.http.ServerWebSocket event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -136,7 +139,7 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer listen(int port, String host) {
-    this.delegate.listen(port, host);
+    this.delegate.listen(port != null ? port : null, host != null ? host : null);
     return this;
   }
   /**
@@ -148,17 +151,12 @@ public class HttpServer implements Measured {
    * @return 
    */
   public HttpServer listen(int port, String host, Handler<AsyncResult<HttpServer>> listenHandler) {
-    this.delegate.listen(port, host, new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
-      public void handle(AsyncResult<io.vertx.core.http.HttpServer> event) {
-        AsyncResult<HttpServer> f
-        if (event.succeeded()) {
-          f = InternalHelper.<HttpServer>result(new HttpServer(event.result()))
-        } else {
-          f = InternalHelper.<HttpServer>failure(event.cause())
-        }
-        listenHandler.handle(f)
-      }
-    });
+    this.delegate.listen(port != null ? port : null, host != null ? host : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>(){
+    public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
+      listenHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -168,7 +166,7 @@ public class HttpServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpServer listen(int port) {
-    this.delegate.listen(port);
+    this.delegate.listen(port != null ? port : null);
     return this;
   }
   /**
@@ -178,17 +176,12 @@ public class HttpServer implements Measured {
    * @return 
    */
   public HttpServer listen(int port, Handler<AsyncResult<HttpServer>> listenHandler) {
-    this.delegate.listen(port, new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
-      public void handle(AsyncResult<io.vertx.core.http.HttpServer> event) {
-        AsyncResult<HttpServer> f
-        if (event.succeeded()) {
-          f = InternalHelper.<HttpServer>result(new HttpServer(event.result()))
-        } else {
-          f = InternalHelper.<HttpServer>failure(event.cause())
-        }
-        listenHandler.handle(f)
-      }
-    });
+    this.delegate.listen(port != null ? port : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>(){
+    public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
+      listenHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -197,17 +190,12 @@ public class HttpServer implements Measured {
    * @return 
    */
   public HttpServer listen(Handler<AsyncResult<HttpServer>> listenHandler) {
-    this.delegate.listen(new Handler<AsyncResult<io.vertx.core.http.HttpServer>>() {
-      public void handle(AsyncResult<io.vertx.core.http.HttpServer> event) {
-        AsyncResult<HttpServer> f
-        if (event.succeeded()) {
-          f = InternalHelper.<HttpServer>result(new HttpServer(event.result()))
-        } else {
-          f = InternalHelper.<HttpServer>failure(event.cause())
-        }
-        listenHandler.handle(f)
-      }
-    });
+    this.delegate.listen(listenHandler != null ? new Handler<AsyncResult<io.vertx.core.http.HttpServer>>(){
+    public void handle(AsyncResult<io.vertx.core.http.HttpServer> ar) {
+      listenHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -223,7 +211,12 @@ public class HttpServer implements Measured {
    * @param completionHandler the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.close(completionHandler);
+    this.delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * The actual port the server is listening on. This is useful if you bound the server specifying 0 as port number

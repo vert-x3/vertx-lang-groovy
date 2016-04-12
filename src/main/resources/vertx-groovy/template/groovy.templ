@@ -24,18 +24,37 @@ package @{type.raw.translatePackageName("groovy")};\n
 @comment{'the current index of the cache'}
 @code{cacheDecls=new java.util.ArrayList()}
 
-@declare{'invokeDelegate'}
-@if{method.staticMethod}@{type.raw}@else{}@includeNamed{'rewriteDelegate';method=method}@end{}.@{method.name}(@foreach{param: method.params}@includeNamed{'paramArgument';param=param}@end{', '})
-@end{}
+@code{
+  function genInvokeDelegate(method) {
+    var s = '';
+    if (method.staticMethod) {
+      s = type.raw.name;
+    } else {
+      if (method.ownerTypes.size() > 1) {
+        /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */
+        s = '((' + method.ownerTypes.iterator().next().name + ') this.delegate)';
+      } else if (method.ownerTypes.iterator().next() == type && concrete) {
+        s = 'this.delegate';
+      } else {
+        s = '((' + method.ownerTypes.iterator().next().name + ') this.delegate)';
+      }
+    }
+    s = s + '.' + method.name + '(';
+    var index = 0;
+    for (param : method.params) {
+      if (index > 0) {
+        s = s + ', ';
+      }
+      s = s + param.name + ' != null ? ' + genConvParam(param.type, param.name) + ' : null';
+      index = index + 1;
+    }
+    s = s + ')';
+    return s;
+  }
+}
 
-@declare{'rewriteDelegate'}
-@if{method.ownerTypes.size() > 1}
-( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (@{method.ownerTypes.iterator().next().name}) this.delegate)
-@else{method.ownerTypes.iterator().next() == type && concrete}
-this.delegate
-@else{}
-((@{method.ownerTypes.iterator().next().name}) this.delegate)
-@end{}
+@declare{'invokeDelegate'}
+@{genInvokeDelegate(method)}
 @end{}
 
 @declare{'paramTemplate'}
@@ -114,6 +133,60 @@ this.delegate
 	        @{callbackName}.handle(f)\n
 	      }\n
 	    }
+@end{}
+
+@code{
+
+  function genConvReturn(type, expr) {
+    return expr;
+  }
+
+  function genConvParam(type, expr) {
+    if (type.kind == CLASS_DATA_OBJECT) {
+      return 'new ' + type.name + '(new io.vertx.core.json.JsonObject(' + expr + '))';
+    } else if (type.kind.json) {
+      return 'new ' + type.name + '(' + expr + ')';
+    } else if (type.kind == CLASS_API) {
+      return '(' + type.name + ')' + expr + '.getDelegate()';
+    } else if (type.kind == CLASS_OBJECT) {
+      return 'InternalHelper.unwrapObject(' + expr + ')';
+    } else if (type.kind == CLASS_LIST || type.kind == CLASS_SET) {
+      var eltType = type.args[0];
+      var ret = expr + '.collect({' + genConvParam(eltType, 'it') + '})';
+      if (type.kind == CLASS_SET) {
+        ret += ' as Set';
+      }
+      return ret;
+    } else if (type.kind == CLASS_MAP) {
+      var eltType = type.args[0];
+      return '(Map)' + expr + '.collectEntries({[it.key,' + genConvParam(eltType, 'it.value') + ']})';
+    } else if (type.kind.basic || type.kind == CLASS_ENUM || type.kind == CLASS_THROWABLE) {
+      return expr;
+    } else if (type.kind == CLASS_HANDLER) {
+      var eventType = type.args[0].erased;
+      if (eventType.kind == CLASS_ASYNC_RESULT) {
+        /* Todo rest - it just compiles */
+        var resultType = eventType.args[0];
+        return 'new Handler<AsyncResult<' + resultType.name + '>>(){\n' +
+               '    public void handle(AsyncResult<' + resultType.name + '> ar) {\n' +
+               '      ' + expr + '.handle(null);\n' +
+               '    }\n' +
+               '  }\n';
+      } else {
+        /* Todo rest - it just compiles */
+        return 'new Handler<' + eventType.name + '>(){\n' +
+               '    public void handle(' + eventType.name + ' event) {\n' +
+               '      ' + expr + '.handle(null);\n' +
+               '    }\n' +
+               '  }\n';
+      }
+    }
+    return 'null';
+  }
+}
+
+@declare{'paramArgument2'}
+@{param.name} != null ? @{genConvParam(param.type, param.name)} : null
 @end{}
 
 @declare{'paramArgument'}

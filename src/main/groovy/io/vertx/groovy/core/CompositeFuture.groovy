@@ -42,7 +42,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return the composite future
    */
   public static <T1, T2> CompositeFuture all(Future<T1> f1, Future<T2> f2) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -53,7 +53,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static <T1, T2, T3> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null, f3 != null ? (io.vertx.core.Future<T3>)f3.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -65,7 +65,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static <T1, T2, T3, T4> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null, f3 != null ? (io.vertx.core.Future<T3>)f3.getDelegate() : null, f4 != null ? (io.vertx.core.Future<T4>)f4.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -78,7 +78,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static <T1, T2, T3, T4, T5> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null, f3 != null ? (io.vertx.core.Future<T3>)f3.getDelegate() : null, f4 != null ? (io.vertx.core.Future<T4>)f4.getDelegate() : null, f5 != null ? (io.vertx.core.Future<T5>)f5.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -92,7 +92,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static <T1, T2, T3, T4, T5, T6> CompositeFuture all(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5, Future<T6> f6) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate(), (io.vertx.core.Future<T6>)f6.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null, f3 != null ? (io.vertx.core.Future<T3>)f3.getDelegate() : null, f4 != null ? (io.vertx.core.Future<T4>)f4.getDelegate() : null, f5 != null ? (io.vertx.core.Future<T5>)f5.getDelegate() : null, f6 != null ? (io.vertx.core.Future<T6>)f6.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -101,7 +101,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static CompositeFuture all(List<Future> futures) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all((List<io.vertx.core.Future>)(futures.collect({underpants -> underpants.getDelegate()}))), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.all(futures != null ? futures.collect({(io.vertx.core.Future)it.getDelegate()}) : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -111,7 +111,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return the composite future
    */
   public static <T1, T2> CompositeFuture any(Future<T1> f1, Future<T2> f2) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -122,7 +122,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static <T1, T2, T3> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null, f3 != null ? (io.vertx.core.Future<T3>)f3.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -134,7 +134,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static <T1, T2, T3, T4> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null, f3 != null ? (io.vertx.core.Future<T3>)f3.getDelegate() : null, f4 != null ? (io.vertx.core.Future<T4>)f4.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -147,7 +147,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static <T1, T2, T3, T4, T5> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null, f3 != null ? (io.vertx.core.Future<T3>)f3.getDelegate() : null, f4 != null ? (io.vertx.core.Future<T4>)f4.getDelegate() : null, f5 != null ? (io.vertx.core.Future<T5>)f5.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -161,7 +161,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static <T1, T2, T3, T4, T5, T6> CompositeFuture any(Future<T1> f1, Future<T2> f2, Future<T3> f3, Future<T4> f4, Future<T5> f5, Future<T6> f6) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((io.vertx.core.Future<T1>)f1.getDelegate(), (io.vertx.core.Future<T2>)f2.getDelegate(), (io.vertx.core.Future<T3>)f3.getDelegate(), (io.vertx.core.Future<T4>)f4.getDelegate(), (io.vertx.core.Future<T5>)f5.getDelegate(), (io.vertx.core.Future<T6>)f6.getDelegate()), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any(f1 != null ? (io.vertx.core.Future<T1>)f1.getDelegate() : null, f2 != null ? (io.vertx.core.Future<T2>)f2.getDelegate() : null, f3 != null ? (io.vertx.core.Future<T3>)f3.getDelegate() : null, f4 != null ? (io.vertx.core.Future<T4>)f4.getDelegate() : null, f5 != null ? (io.vertx.core.Future<T5>)f5.getDelegate() : null, f6 != null ? (io.vertx.core.Future<T6>)f6.getDelegate() : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   /**
@@ -170,21 +170,16 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public static CompositeFuture any(List<Future> futures) {
-    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any((List<io.vertx.core.Future>)(futures.collect({underpants -> underpants.getDelegate()}))), io.vertx.groovy.core.CompositeFuture.class);
+    def ret= InternalHelper.safeCreate(io.vertx.core.CompositeFuture.any(futures != null ? futures.collect({(io.vertx.core.Future)it.getDelegate()}) : null), io.vertx.groovy.core.CompositeFuture.class);
     return ret;
   }
   public CompositeFuture setHandler(Handler<AsyncResult<CompositeFuture>> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.CompositeFuture) this.delegate).setHandler(new Handler<AsyncResult<io.vertx.core.CompositeFuture>>() {
-      public void handle(AsyncResult<io.vertx.core.CompositeFuture> event) {
-        AsyncResult<CompositeFuture> f
-        if (event.succeeded()) {
-          f = InternalHelper.<CompositeFuture>result(new CompositeFuture(event.result()))
-        } else {
-          f = InternalHelper.<CompositeFuture>failure(event.cause())
-        }
-        handler.handle(f)
-      }
-    });
+    ((io.vertx.core.CompositeFuture) this.delegate).setHandler(handler != null ? new Handler<AsyncResult<io.vertx.core.CompositeFuture>>(){
+    public void handle(AsyncResult<io.vertx.core.CompositeFuture> ar) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -193,7 +188,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public Throwable cause(int index) {
-    def ret = this.delegate.cause(index);
+    def ret = this.delegate.cause(index != null ? index : null);
     return ret;
   }
   /**
@@ -202,7 +197,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public boolean succeeded(int index) {
-    def ret = this.delegate.succeeded(index);
+    def ret = this.delegate.succeeded(index != null ? index : null);
     return ret;
   }
   /**
@@ -211,7 +206,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public boolean failed(int index) {
-    def ret = this.delegate.failed(index);
+    def ret = this.delegate.failed(index != null ? index : null);
     return ret;
   }
   /**
@@ -220,7 +215,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @return 
    */
   public boolean isComplete(int index) {
-    def ret = this.delegate.isComplete(index);
+    def ret = this.delegate.isComplete(index != null ? index : null);
     return ret;
   }
   /**
@@ -230,7 +225,7 @@ public class CompositeFuture extends Future<CompositeFuture> {
    */
   public <T> T result(int index) {
     // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(this.delegate.result(index));
+    def ret = (T) InternalHelper.wrapObject(this.delegate.result(index != null ? index : null));
     return ret;
   }
   /**

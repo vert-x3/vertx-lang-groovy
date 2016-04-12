@@ -41,7 +41,7 @@ public class HttpConnection {
    * @return 
    */
   public HttpConnection goAway(long errorCode) {
-    this.delegate.goAway(errorCode);
+    this.delegate.goAway(errorCode != null ? errorCode : null);
     return this;
   }
   /**
@@ -51,7 +51,7 @@ public class HttpConnection {
    * @return 
    */
   public HttpConnection goAway(long errorCode, int lastStreamId) {
-    this.delegate.goAway(errorCode, lastStreamId);
+    this.delegate.goAway(errorCode != null ? errorCode : null, lastStreamId != null ? lastStreamId : null);
     return this;
   }
   /**
@@ -68,7 +68,7 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection goAway(long errorCode, int lastStreamId, Buffer debugData) {
-    this.delegate.goAway(errorCode, lastStreamId, (io.vertx.core.buffer.Buffer)debugData.getDelegate());
+    this.delegate.goAway(errorCode != null ? errorCode : null, lastStreamId != null ? lastStreamId : null, debugData != null ? (io.vertx.core.buffer.Buffer)debugData.getDelegate() : null);
     return this;
   }
   /**
@@ -77,11 +77,12 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection goAwayHandler(Handler<Map<String, Object>> handler) {
-    this.delegate.goAwayHandler(new Handler<GoAway>() {
-      public void handle(GoAway event) {
-        handler.handle((Map<String, Object>)InternalHelper.wrapObject(event?.toJson()));
-      }
-    });
+    this.delegate.goAwayHandler(handler != null ? new Handler<io.vertx.core.http.GoAway>(){
+    public void handle(io.vertx.core.http.GoAway event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -90,7 +91,12 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection shutdownHandler(Handler<Void> handler) {
-    this.delegate.shutdownHandler(handler);
+    this.delegate.shutdownHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -109,7 +115,7 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection shutdown(long timeoutMs) {
-    this.delegate.shutdown(timeoutMs);
+    this.delegate.shutdown(timeoutMs != null ? timeoutMs : null);
     return this;
   }
   /**
@@ -118,7 +124,12 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection closeHandler(Handler<Void> handler) {
-    this.delegate.closeHandler(handler);
+    this.delegate.closeHandler(handler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -153,7 +164,12 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection updateSettings(Map<String, Object> settings = [:], Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.updateSettings(settings != null ? new io.vertx.core.http.Http2Settings(new io.vertx.core.json.JsonObject(settings)) : null, completionHandler);
+    this.delegate.updateSettings(settings != null ? new io.vertx.core.http.Http2Settings(new io.vertx.core.json.JsonObject(settings)) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -170,11 +186,12 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection remoteSettingsHandler(Handler<Map<String, Object>> handler) {
-    this.delegate.remoteSettingsHandler(new Handler<Http2Settings>() {
-      public void handle(Http2Settings event) {
-        handler.handle((Map<String, Object>)InternalHelper.wrapObject(event?.toJson()));
-      }
-    });
+    this.delegate.remoteSettingsHandler(handler != null ? new Handler<io.vertx.core.http.Http2Settings>(){
+    public void handle(io.vertx.core.http.Http2Settings event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -184,17 +201,12 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection ping(Buffer data, Handler<AsyncResult<Buffer>> pongHandler) {
-    this.delegate.ping((io.vertx.core.buffer.Buffer)data.getDelegate(), new Handler<AsyncResult<io.vertx.core.buffer.Buffer>>() {
-      public void handle(AsyncResult<io.vertx.core.buffer.Buffer> event) {
-        AsyncResult<Buffer> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Buffer>result(new Buffer(event.result()))
-        } else {
-          f = InternalHelper.<Buffer>failure(event.cause())
-        }
-        pongHandler.handle(f)
-      }
-    });
+    this.delegate.ping(data != null ? (io.vertx.core.buffer.Buffer)data.getDelegate() : null, pongHandler != null ? new Handler<AsyncResult<io.vertx.core.buffer.Buffer>>(){
+    public void handle(AsyncResult<io.vertx.core.buffer.Buffer> ar) {
+      pongHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -203,11 +215,12 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection pingHandler(Handler<Buffer> handler) {
-    this.delegate.pingHandler(new Handler<io.vertx.core.buffer.Buffer>() {
-      public void handle(io.vertx.core.buffer.Buffer event) {
-        handler.handle(new io.vertx.groovy.core.buffer.Buffer(event));
-      }
-    });
+    this.delegate.pingHandler(handler != null ? new Handler<io.vertx.core.buffer.Buffer>(){
+    public void handle(io.vertx.core.buffer.Buffer event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -216,7 +229,12 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    this.delegate.exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }

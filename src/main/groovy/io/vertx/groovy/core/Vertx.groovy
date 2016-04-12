@@ -103,17 +103,12 @@ public class Vertx implements Measured {
    * @param resultHandler the result handler that will receive the result
    */
   public static void clusteredVertx(Map<String, Object> options = [:], Handler<AsyncResult<Vertx>> resultHandler) {
-    io.vertx.core.Vertx.clusteredVertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null, new Handler<AsyncResult<io.vertx.core.Vertx>>() {
-      public void handle(AsyncResult<io.vertx.core.Vertx> event) {
-        AsyncResult<Vertx> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Vertx>result(new Vertx(event.result()))
-        } else {
-          f = InternalHelper.<Vertx>failure(event.cause())
-        }
-        resultHandler.handle(f)
-      }
-    });
+    io.vertx.core.Vertx.clusteredVertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.Vertx>>(){
+    public void handle(AsyncResult<io.vertx.core.Vertx> ar) {
+      resultHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Gets the current context
@@ -247,7 +242,7 @@ public class Vertx implements Measured {
    * @return the DNS client
    */
   public DnsClient createDnsClient(int port, String host) {
-    def ret= InternalHelper.safeCreate(this.delegate.createDnsClient(port, host), io.vertx.groovy.core.dns.DnsClient.class);
+    def ret= InternalHelper.safeCreate(this.delegate.createDnsClient(port != null ? port : null, host != null ? host : null), io.vertx.groovy.core.dns.DnsClient.class);
     return ret;
   }
   /**
@@ -270,7 +265,12 @@ public class Vertx implements Measured {
    * @return the unique ID of the timer
    */
   public long setTimer(long delay, Handler<Long> handler) {
-    def ret = this.delegate.setTimer(delay, handler);
+    def ret = this.delegate.setTimer(delay != null ? delay : null, handler != null ? new Handler<java.lang.Long>(){
+    public void handle(java.lang.Long event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return ret;
   }
   /**
@@ -280,7 +280,7 @@ public class Vertx implements Measured {
    * @return the timer stream
    */
   public TimeoutStream timerStream(long delay) {
-    def ret= InternalHelper.safeCreate(this.delegate.timerStream(delay), io.vertx.groovy.core.TimeoutStream.class);
+    def ret= InternalHelper.safeCreate(this.delegate.timerStream(delay != null ? delay : null), io.vertx.groovy.core.TimeoutStream.class);
     return ret;
   }
   /**
@@ -291,7 +291,12 @@ public class Vertx implements Measured {
    * @return the unique ID of the timer
    */
   public long setPeriodic(long delay, Handler<Long> handler) {
-    def ret = this.delegate.setPeriodic(delay, handler);
+    def ret = this.delegate.setPeriodic(delay != null ? delay : null, handler != null ? new Handler<java.lang.Long>(){
+    public void handle(java.lang.Long event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return ret;
   }
   /**
@@ -301,7 +306,7 @@ public class Vertx implements Measured {
    * @return the periodic stream
    */
   public TimeoutStream periodicStream(long delay) {
-    def ret= InternalHelper.safeCreate(this.delegate.periodicStream(delay), io.vertx.groovy.core.TimeoutStream.class);
+    def ret= InternalHelper.safeCreate(this.delegate.periodicStream(delay != null ? delay : null), io.vertx.groovy.core.TimeoutStream.class);
     return ret;
   }
   /**
@@ -310,7 +315,7 @@ public class Vertx implements Measured {
    * @return true if the timer was successfully cancelled, or false if the timer does not exist.
    */
   public boolean cancelTimer(long id) {
-    def ret = this.delegate.cancelTimer(id);
+    def ret = this.delegate.cancelTimer(id != null ? id : null);
     return ret;
   }
   /**
@@ -319,7 +324,12 @@ public class Vertx implements Measured {
    * @param action - a handler representing the action to execute
    */
   public void runOnContext(Handler<Void> action) {
-    this.delegate.runOnContext(action);
+    this.delegate.runOnContext(action != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      action.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Stop the the Vertx instance and release any resources held by it.
@@ -336,7 +346,12 @@ public class Vertx implements Measured {
    * @param completionHandler The handler will be notified when the close is complete.
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.close(completionHandler);
+    this.delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Deploy a verticle instance given a name.
@@ -347,7 +362,7 @@ public class Vertx implements Measured {
    * @param name the name.
    */
   public void deployVerticle(String name) {
-    this.delegate.deployVerticle(name);
+    this.delegate.deployVerticle(name != null ? name : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but the completionHandler will be notified when the deployment is complete.
@@ -360,7 +375,12 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the deployment is complete
    */
   public void deployVerticle(String name, Handler<AsyncResult<String>> completionHandler) {
-    this.delegate.deployVerticle(name, completionHandler);
+    this.delegate.deployVerticle(name != null ? name : null, completionHandler != null ? new Handler<AsyncResult<java.lang.String>>(){
+    public void handle(AsyncResult<java.lang.String> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a> are provided to configure the
@@ -369,7 +389,7 @@ public class Vertx implements Measured {
    * @param options the deployment options. (see <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a>)
    */
   public void deployVerticle(String name, Map<String, Object> options) {
-    this.delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    this.delegate.deployVerticle(name != null ? name : null, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a> are provided to configure the
@@ -379,7 +399,12 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the deployment is complete
    */
   public void deployVerticle(String name, Map<String, Object> options, Handler<AsyncResult<String>> completionHandler) {
-    this.delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler);
+    this.delegate.deployVerticle(name != null ? name : null, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler != null ? new Handler<AsyncResult<java.lang.String>>(){
+    public void handle(AsyncResult<java.lang.String> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Undeploy a verticle deployment.
@@ -388,7 +413,7 @@ public class Vertx implements Measured {
    * @param deploymentID the deployment ID
    */
   public void undeploy(String deploymentID) {
-    this.delegate.undeploy(deploymentID);
+    this.delegate.undeploy(deploymentID != null ? deploymentID : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx #undeploy(String)} but the completionHandler will be notified when the undeployment is complete.
@@ -396,7 +421,12 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the undeployment is complete
    */
   public void undeploy(String deploymentID, Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.undeploy(deploymentID, completionHandler);
+    this.delegate.undeploy(deploymentID != null ? deploymentID : null, completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Return a Set of deployment IDs for the currently deployed deploymentIDs.
@@ -433,21 +463,17 @@ public class Vertx implements Measured {
    * @param resultHandler handler that will be called when the blocking code is complete
    */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, boolean ordered, Handler<AsyncResult<T>> resultHandler) {
-    this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {
-      public void handle(io.vertx.core.Future<java.lang.Object> event) {
-        blockingCodeHandler.handle(new io.vertx.groovy.core.Future(event));
-      }
-    }, ordered, new Handler<AsyncResult<Object>>() {
-      public void handle(AsyncResult<Object> event) {
-        AsyncResult<Object> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Object>result(InternalHelper.wrapObject(event.result()))
-        } else {
-          f = InternalHelper.<Object>failure(event.cause())
-        }
-        resultHandler.handle(f)
-      }
-    });
+    this.delegate.executeBlocking(blockingCodeHandler != null ? new Handler<io.vertx.core.Future<java.lang.Object>>(){
+    public void handle(io.vertx.core.Future<java.lang.Object> event) {
+      blockingCodeHandler.handle(null);
+    }
+  }
+ : null, ordered != null ? ordered : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
+    public void handle(AsyncResult<java.lang.Object> ar) {
+      resultHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx#executeBlocking} called with ordered = true.
@@ -455,21 +481,17 @@ public class Vertx implements Measured {
    * @param resultHandler 
    */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, Handler<AsyncResult<T>> resultHandler) {
-    this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {
-      public void handle(io.vertx.core.Future<java.lang.Object> event) {
-        blockingCodeHandler.handle(new io.vertx.groovy.core.Future(event));
-      }
-    }, new Handler<AsyncResult<Object>>() {
-      public void handle(AsyncResult<Object> event) {
-        AsyncResult<Object> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Object>result(InternalHelper.wrapObject(event.result()))
-        } else {
-          f = InternalHelper.<Object>failure(event.cause())
-        }
-        resultHandler.handle(f)
-      }
-    });
+    this.delegate.executeBlocking(blockingCodeHandler != null ? new Handler<io.vertx.core.Future<java.lang.Object>>(){
+    public void handle(io.vertx.core.Future<java.lang.Object> event) {
+      blockingCodeHandler.handle(null);
+    }
+  }
+ : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
+    public void handle(AsyncResult<java.lang.Object> ar) {
+      resultHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Set a default exception handler for {@link io.vertx.groovy.core.Context}, set on  at creation.
@@ -477,7 +499,12 @@ public class Vertx implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public Vertx exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    this.delegate.exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   private FileSystem cached_0;

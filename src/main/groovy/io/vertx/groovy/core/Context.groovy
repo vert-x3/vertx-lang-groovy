@@ -98,7 +98,12 @@ public class Context {
    * @param action the action to run
    */
   public void runOnContext(Handler<Void> action) {
-    this.delegate.runOnContext(action);
+    this.delegate.runOnContext(action != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      action.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Safely execute some blocking code.
@@ -116,21 +121,17 @@ public class Context {
    * @param resultHandler handler that will be called when the blocking code is complete
    */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, boolean ordered, Handler<AsyncResult<T>> resultHandler) {
-    this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {
-      public void handle(io.vertx.core.Future<java.lang.Object> event) {
-        blockingCodeHandler.handle(new io.vertx.groovy.core.Future(event));
-      }
-    }, ordered, new Handler<AsyncResult<Object>>() {
-      public void handle(AsyncResult<Object> event) {
-        AsyncResult<Object> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Object>result(InternalHelper.wrapObject(event.result()))
-        } else {
-          f = InternalHelper.<Object>failure(event.cause())
-        }
-        resultHandler.handle(f)
-      }
-    });
+    this.delegate.executeBlocking(blockingCodeHandler != null ? new Handler<io.vertx.core.Future<java.lang.Object>>(){
+    public void handle(io.vertx.core.Future<java.lang.Object> event) {
+      blockingCodeHandler.handle(null);
+    }
+  }
+ : null, ordered != null ? ordered : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
+    public void handle(AsyncResult<java.lang.Object> ar) {
+      resultHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * Invoke {@link io.vertx.groovy.core.Context#executeBlocking} with order = true.
@@ -138,21 +139,17 @@ public class Context {
    * @param resultHandler handler that will be called when the blocking code is complete
    */
   public <T> void executeBlocking(Handler<Future<T>> blockingCodeHandler, Handler<AsyncResult<T>> resultHandler) {
-    this.delegate.executeBlocking(new Handler<io.vertx.core.Future<java.lang.Object>>() {
-      public void handle(io.vertx.core.Future<java.lang.Object> event) {
-        blockingCodeHandler.handle(new io.vertx.groovy.core.Future(event));
-      }
-    }, new Handler<AsyncResult<Object>>() {
-      public void handle(AsyncResult<Object> event) {
-        AsyncResult<Object> f
-        if (event.succeeded()) {
-          f = InternalHelper.<Object>result(InternalHelper.wrapObject(event.result()))
-        } else {
-          f = InternalHelper.<Object>failure(event.cause())
-        }
-        resultHandler.handle(f)
-      }
-    });
+    this.delegate.executeBlocking(blockingCodeHandler != null ? new Handler<io.vertx.core.Future<java.lang.Object>>(){
+    public void handle(io.vertx.core.Future<java.lang.Object> event) {
+      blockingCodeHandler.handle(null);
+    }
+  }
+ : null, resultHandler != null ? new Handler<AsyncResult<java.lang.Object>>(){
+    public void handle(AsyncResult<java.lang.Object> ar) {
+      resultHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * If the context is associated with a Verticle deployment, this returns the deployment ID of that deployment.
@@ -218,7 +215,7 @@ public class Context {
    */
   public <T> T get(String key) {
     // This cast is cleary flawed
-    def ret = (T) InternalHelper.wrapObject(this.delegate.get(key));
+    def ret = (T) InternalHelper.wrapObject(this.delegate.get(key != null ? key : null));
     return ret;
   }
   /**
@@ -229,7 +226,7 @@ public class Context {
    * @param value the data
    */
   public void put(String key, Object value) {
-    this.delegate.put(key, InternalHelper.unwrapObject(value));
+    this.delegate.put(key != null ? key : null, value != null ? InternalHelper.unwrapObject(value) : null);
   }
   /**
    * Remove some data from the context.
@@ -237,7 +234,7 @@ public class Context {
    * @return true if removed successfully, false otherwise
    */
   public boolean remove(String key) {
-    def ret = this.delegate.remove(key);
+    def ret = this.delegate.remove(key != null ? key : null);
     return ret;
   }
   /**
@@ -265,7 +262,12 @@ public class Context {
    * @return a reference to this, so the API can be used fluently
    */
   public Context exceptionHandler(Handler<Throwable> handler) {
-    this.delegate.exceptionHandler(handler);
+    this.delegate.exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }

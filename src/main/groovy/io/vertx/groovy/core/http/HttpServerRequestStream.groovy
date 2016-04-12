@@ -34,27 +34,38 @@ public class HttpServerRequestStream implements ReadStream<HttpServerRequest> {
     return delegate;
   }
   public HttpServerRequestStream exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpServerRequestStream handler(Handler<HttpServerRequest> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).handler(new Handler<io.vertx.core.http.HttpServerRequest>() {
-      public void handle(io.vertx.core.http.HttpServerRequest event) {
-        handler.handle(new io.vertx.groovy.core.http.HttpServerRequest(event));
-      }
-    });
+    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.http.HttpServerRequest>(){
+    public void handle(io.vertx.core.http.HttpServerRequest event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public HttpServerRequestStream pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).pause();
+    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).pause();
     return this;
   }
   public HttpServerRequestStream resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).resume();
+    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).resume();
     return this;
   }
   public HttpServerRequestStream endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.http.HttpServerRequestStream) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.http.HttpServerRequestStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }

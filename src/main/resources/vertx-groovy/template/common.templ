@@ -79,18 +79,18 @@
     return "new " + genConstructorType(type) + "(" + arg + ")";
   }
   
-  def genConvReturn(type) {
+  def genConvReturnType(type) {
     var kind = type.kind;
     if (kind == CLASS_JSON_OBJECT || kind == CLASS_DATA_OBJECT) {
       return 'Map<String, Object>';
     } else if (kind == CLASS_JSON_ARRAY) {
       return 'List<Object>';
     } else if (kind == CLASS_LIST) {
-      return 'List<' + genConvReturn(type.args[0]) + '>';
+      return 'List<' + genConvReturnType(type.args[0]) + '>';
     } else if (kind == CLASS_SET) {
-      return 'Set<' + genConvReturn(type.args[0]) + '>';
+      return 'Set<' + genConvReturnType(type.args[0]) + '>';
     } else if (kind == CLASS_MAP) {
-      return 'Map<String, List<' + genConvReturn(type.args[1]) + '>>';
+      return 'Map<String, List<' + genConvReturnType(type.args[1]) + '>>';
     } else {
       return type.simpleName;
     }

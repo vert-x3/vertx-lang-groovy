@@ -59,11 +59,12 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer connectHandler(Handler<NetSocket> handler) {
-    def ret= InternalHelper.safeCreate(this.delegate.connectHandler(new Handler<io.vertx.core.net.NetSocket>() {
-      public void handle(io.vertx.core.net.NetSocket event) {
-        handler.handle(new io.vertx.groovy.core.net.NetSocket(event));
-      }
-    }), io.vertx.groovy.core.net.NetServer.class);
+    def ret= InternalHelper.safeCreate(this.delegate.connectHandler(handler != null ? new Handler<io.vertx.core.net.NetSocket>(){
+    public void handle(io.vertx.core.net.NetSocket event) {
+      handler.handle(null);
+    }
+  }
+ : null), io.vertx.groovy.core.net.NetServer.class);
     return ret;
   }
   /**
@@ -83,17 +84,12 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(Handler<AsyncResult<NetServer>> listenHandler) {
-    this.delegate.listen(new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
-      public void handle(AsyncResult<io.vertx.core.net.NetServer> event) {
-        AsyncResult<NetServer> f
-        if (event.succeeded()) {
-          f = InternalHelper.<NetServer>result(new NetServer(event.result()))
-        } else {
-          f = InternalHelper.<NetServer>failure(event.cause())
-        }
-        listenHandler.handle(f)
-      }
-    });
+    this.delegate.listen(listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>(){
+    public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
+      listenHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -110,7 +106,7 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, String host) {
-    this.delegate.listen(port, host);
+    this.delegate.listen(port != null ? port : null, host != null ? host : null);
     return this;
   }
   /**
@@ -121,17 +117,12 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, String host, Handler<AsyncResult<NetServer>> listenHandler) {
-    this.delegate.listen(port, host, new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
-      public void handle(AsyncResult<io.vertx.core.net.NetServer> event) {
-        AsyncResult<NetServer> f
-        if (event.succeeded()) {
-          f = InternalHelper.<NetServer>result(new NetServer(event.result()))
-        } else {
-          f = InternalHelper.<NetServer>failure(event.cause())
-        }
-        listenHandler.handle(f)
-      }
-    });
+    this.delegate.listen(port != null ? port : null, host != null ? host : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>(){
+    public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
+      listenHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -145,7 +136,7 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port) {
-    this.delegate.listen(port);
+    this.delegate.listen(port != null ? port : null);
     return this;
   }
   /**
@@ -155,17 +146,12 @@ public class NetServer implements Measured {
    * @return a reference to this, so the API can be used fluently
    */
   public NetServer listen(int port, Handler<AsyncResult<NetServer>> listenHandler) {
-    this.delegate.listen(port, new Handler<AsyncResult<io.vertx.core.net.NetServer>>() {
-      public void handle(AsyncResult<io.vertx.core.net.NetServer> event) {
-        AsyncResult<NetServer> f
-        if (event.succeeded()) {
-          f = InternalHelper.<NetServer>result(new NetServer(event.result()))
-        } else {
-          f = InternalHelper.<NetServer>failure(event.cause())
-        }
-        listenHandler.handle(f)
-      }
-    });
+    this.delegate.listen(port != null ? port : null, listenHandler != null ? new Handler<AsyncResult<io.vertx.core.net.NetServer>>(){
+    public void handle(AsyncResult<io.vertx.core.net.NetServer> ar) {
+      listenHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   /**
@@ -180,7 +166,12 @@ public class NetServer implements Measured {
    * @param completionHandler the handler
    */
   public void close(Handler<AsyncResult<Void>> completionHandler) {
-    this.delegate.close(completionHandler);
+    this.delegate.close(completionHandler != null ? new Handler<AsyncResult<java.lang.Void>>(){
+    public void handle(AsyncResult<java.lang.Void> ar) {
+      completionHandler.handle(null);
+    }
+  }
+ : null);
   }
   /**
    * The actual port the server is listening on. This is useful if you bound the server specifying 0 as port number

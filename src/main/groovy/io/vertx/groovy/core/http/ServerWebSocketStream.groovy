@@ -34,27 +34,38 @@ public class ServerWebSocketStream implements ReadStream<ServerWebSocket> {
     return delegate;
   }
   public ServerWebSocketStream exceptionHandler(Handler<Throwable> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler);
+    ((io.vertx.core.streams.StreamBase) this.delegate).exceptionHandler(handler != null ? new Handler<java.lang.Throwable>(){
+    public void handle(java.lang.Throwable event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public ServerWebSocketStream handler(Handler<ServerWebSocket> handler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).handler(new Handler<io.vertx.core.http.ServerWebSocket>() {
-      public void handle(io.vertx.core.http.ServerWebSocket event) {
-        handler.handle(new io.vertx.groovy.core.http.ServerWebSocket(event));
-      }
-    });
+    ((io.vertx.core.streams.ReadStream) this.delegate).handler(handler != null ? new Handler<io.vertx.core.http.ServerWebSocket>(){
+    public void handle(io.vertx.core.http.ServerWebSocket event) {
+      handler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
   public ServerWebSocketStream pause() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).pause();
+    ((io.vertx.core.streams.ReadStream) this.delegate).pause();
     return this;
   }
   public ServerWebSocketStream resume() {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).resume();
+    ((io.vertx.core.streams.ReadStream) this.delegate).resume();
     return this;
   }
   public ServerWebSocketStream endHandler(Handler<Void> endHandler) {
-    ( /* Work around for https://jira.codehaus.org/browse/GROOVY-6970 */ (io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler);
+    ((io.vertx.core.streams.ReadStream) this.delegate).endHandler(endHandler != null ? new Handler<java.lang.Void>(){
+    public void handle(java.lang.Void event) {
+      endHandler.handle(null);
+    }
+  }
+ : null);
     return this;
   }
 }
