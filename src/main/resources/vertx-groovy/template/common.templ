@@ -230,6 +230,15 @@
                '      }\n' +
                '    }';
       }
+    } else if (type.kind == CLASS_FUNCTION) {
+      var argType = type.args[0].erased;
+      var retType = type.args[1].erased;
+      return 'new java.util.function.Function<' + argType.name + ', ' + retType.name + '>(){\n' +
+             '      public ' + retType.name + ' apply(' + argType.name + ' arg_) {\n' +
+             '        def ret = ' + expr + '.apply(' + genConvReturn(argType, 'arg_') + ');\n' +
+             '        return ret != null ? ' + genConvParam(retType, 'ret') + ' : null;\n' +
+             '      }\n' +
+             '    }';
     }
     return 'null';
   }

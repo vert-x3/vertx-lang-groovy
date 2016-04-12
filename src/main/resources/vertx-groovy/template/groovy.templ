@@ -38,6 +38,8 @@ package @{type.raw.translatePackageName("groovy")};\n
       } else {
         return 'Handler<' + genParamDecl(eventType) + '>';
       }
+    } else if (type.kind == CLASS_FUNCTION) {
+      return 'java.util.function.Function<' + genParamDecl(type.args[0]) + ', ' + genParamDecl(type.args[1]) + '>';
     } else if (type.kind == CLASS_LIST) {
       return 'List<' + genParamDecl(type.args[0]) + '>';
     } else if (type.kind == CLASS_SET) {
