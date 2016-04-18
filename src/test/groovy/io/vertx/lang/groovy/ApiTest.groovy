@@ -16,6 +16,7 @@
 
 package io.vertx.lang.groovy
 
+import io.vertx.codegen.testmodel.DataObjectWithOnlyJsonObjectConstructor
 import io.vertx.core.Future
 
 import java.util.stream.Collectors;
@@ -27,6 +28,8 @@ import io.vertx.codegen.testmodel.RefedInterface1Impl
 import io.vertx.codegen.testmodel.TestEnum
 import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.codegen.testmodel.TestDataObject
+import io.vertx.codegen.testmodel.DataObjectTCK;
+import io.vertx.codegen.testmodel.DataObjectTCKImpl;
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
 import io.vertx.core.json.JsonObject;
@@ -46,6 +49,7 @@ import static org.junit.Assert.*
 public class ApiTest {
 
   final TestInterface obj = new TestInterface(new TestInterfaceImpl());
+  final DataObjectTCK dataObjectTCK = new DataObjectTCKImpl();
 
   @Test
   public void testMethodWithBasicParams() {
@@ -1411,5 +1415,11 @@ public class ApiTest {
     testInterface.methodWithBasicParams((byte) 123, (short) 12345, 1234567, 1265615234l, 12.345f, 12.34566d, true, 'X' as char, "foobar");
     SubInterface sub = my.sub();
     assertEquals("olleh", sub.reverse("hello"))
+  }
+
+  @Test
+  public void testMethodWithOnlyJsonObjectConstructor() {
+    def dataObject = new DataObjectWithOnlyJsonObjectConstructor(new JsonObject().put("foo", "bar"));
+    dataObjectTCK.methodWithOnlyJsonObjectConstructorDataObject(dataObject);
   }
 }
