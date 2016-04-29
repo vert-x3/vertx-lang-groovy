@@ -87,6 +87,14 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
+   * @return the HTTP method as sent by the client
+   * @return 
+   */
+  public String rawMethod() {
+    def ret = delegate.rawMethod();
+    return ret;
+  }
+  /**
    * @return true if this {@link io.vertx.groovy.core.net.NetSocket} is encrypted via SSL/TLS
    * @return 
    */

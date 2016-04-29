@@ -96,7 +96,9 @@ public class CompositeFuture extends Future<CompositeFuture> {
     return ret;
   }
   /**
-   * Like {@link io.vertx.groovy.core.CompositeFuture#all} but with a list of futures.
+   * Like {@link io.vertx.groovy.core.CompositeFuture#all} but with a list of futures.<p>
+   *
+   * When the list is empty, the returned future will be already completed.
    * @param futures 
    * @return 
    */
@@ -165,7 +167,9 @@ public class CompositeFuture extends Future<CompositeFuture> {
     return ret;
   }
   /**
-   * Like {@link io.vertx.groovy.core.CompositeFuture#any} but with a list of futures.
+   * Like {@link io.vertx.groovy.core.CompositeFuture#any} but with a list of futures.<p>
+   *
+   * When the list is empty, the returned future will be already completed.
    * @param futures 
    * @return 
    */

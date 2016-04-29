@@ -136,6 +136,23 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return ret;
   }
   /**
+   * @return the raw value of the method this request sends
+   * @return 
+   */
+  public String getRawMethod() {
+    def ret = delegate.getRawMethod();
+    return ret;
+  }
+  /**
+   * Set the value the method to send when the method  is used.
+   * @param method the raw method
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpClientRequest setRawMethod(String method) {
+    delegate.setRawMethod(method);
+    return this;
+  }
+  /**
    * @return The URI of the request.
    * @return 
    */

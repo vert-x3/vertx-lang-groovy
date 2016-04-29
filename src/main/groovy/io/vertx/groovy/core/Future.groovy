@@ -20,6 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
+import java.util.function.Function
 /**
  * Represents the result of an action that may, or may not, have occurred yet.
  * <p>
@@ -157,20 +158,83 @@ public class Future<T> {
     return ret;
   }
   /**
-   * Compose this future with another future.
+   * Compose this future with a provided <code>next</code> future.<p>
    *
-   * When this future succeeds, the handler will be called with the value.
+   * When this future succeeds, the <code>handler</code> will be called with the completed value, this handler
+   * should complete the next future.<p>
    *
-   * When this future fails, the failure will be propagated to the <code>next</code> future.
+   * If the <code>handler</code> throws an exception, the returned future will be failed with this exception.<p>
+   *
+   * When this future fails, the failure will be propagated to the <code>next</code> future and the <code>handler</code>
+   * will not be called.
    * @param handler the handler
-   * @param next the next future
+   * @param composed the composed future
+   * @return the composed future, used for chaining
    */
-  public <U> void compose(Handler<T> handler, Future<U> next) {
-    delegate.compose(handler != null ? new Handler<java.lang.Object>(){
+  public <U> Future<U> compose(Handler<T> handler, Future<U> composed) {
+    def ret = InternalHelper.safeCreate(delegate.compose(handler != null ? new Handler<java.lang.Object>(){
       public void handle(java.lang.Object event) {
         handler.handle((Object) InternalHelper.wrapObject(event));
       }
-    } : null, next != null ? (io.vertx.core.Future<U>)next.getDelegate() : null);
+    } : null, composed != null ? (io.vertx.core.Future<U>)composed.getDelegate() : null), io.vertx.groovy.core.Future.class);
+    return ret;
+  }
+  /**
+   * Compose this future with a <code>mapper</code> function.<p>
+   *
+   * When this future succeeds, the <code>mapper</code> will be called with the completed value and this mapper
+   * returns a future. This returned future completion will trigger the future returned by this method call.<p>
+   *
+   * If the <code>mapper</code> throws an exception, the returned future will be failed with this exception.<p>
+   *
+   * When this future fails, the failure will be propagated to the returned future and the <code>mapper</code>
+   * will not be called.
+   * @param mapper the mapper function
+   * @return the composed future
+   */
+  public <U> Future<U> compose(java.util.function.Function<T, Future<U>> mapper) {
+    def ret = InternalHelper.safeCreate(delegate.compose(mapper != null ? new java.util.function.Function<java.lang.Object, io.vertx.core.Future<java.lang.Object>>(){
+      public io.vertx.core.Future<java.lang.Object> apply(java.lang.Object arg_) {
+        def ret = mapper.apply((Object) InternalHelper.wrapObject(arg_));
+        return ret != null ? (io.vertx.core.Future<java.lang.Object>)ret.getDelegate() : null;
+      }
+    } : null), io.vertx.groovy.core.Future.class);
+    return ret;
+  }
+  /**
+   * Apply a <code>mapper</code> function on this future.<p>
+   *
+   * When this future succeeds, the <code>mapper</code> will be called with the completed value and this mapper
+   * returns a value. This value will complete the future returned by this method call.<p>
+   *
+   * If the <code>mapper</code> throws an exception, the returned future will be failed with this exception.<p>
+   *
+   * When this future fails, the failure will be propagated to the returned future and the <code>mapper</code>
+   * will not be called.
+   * @param mapper the mapper function
+   * @return the mapped future
+   */
+  public <U> Future<U> map(java.util.function.Function<T, U> mapper) {
+    def ret = InternalHelper.safeCreate(delegate.map(mapper != null ? new java.util.function.Function<java.lang.Object, java.lang.Object>(){
+      public java.lang.Object apply(java.lang.Object arg_) {
+        def ret = mapper.apply((Object) InternalHelper.wrapObject(arg_));
+        return ret != null ? InternalHelper.unwrapObject(ret) : null;
+      }
+    } : null), io.vertx.groovy.core.Future.class);
+    return ret;
+  }
+  /**
+   * Map the result of a future to a specific <code>value</code>.<p>
+   *
+   * When this future succeeds, this <code>value</code> will complete the future returned by this method call.<p>
+   *
+   * When this future fails, the failure will be propagated to the returned future.
+   * @param value the value that eventually completes the mapped future
+   * @return the mapped future
+   */
+  public <V> Future<V> map(V value) {
+    def ret = InternalHelper.safeCreate(delegate.map(value != null ? InternalHelper.unwrapObject(value) : null), io.vertx.groovy.core.Future.class);
+    return ret;
   }
   /**
    * @return an handler completing this future
