@@ -466,6 +466,43 @@ public class Vertx implements Measured {
     } : null);
   }
   /**
+   * Like {@link io.vertx.groovy.core.Vertx#createWorkerExecutor} but with the <a href="../../../../../../cheatsheet/VertxOptions.html">VertxOptions</a> <code>poolSize</code>.
+   * @param name 
+   * @return 
+   */
+  public WorkerExecutor createWorkerExecutor(String name) {
+    def ret = InternalHelper.safeCreate(delegate.createWorkerExecutor(name), io.vertx.groovy.core.WorkerExecutor.class);
+    return ret;
+  }
+  /**
+   * Like {@link io.vertx.groovy.core.Vertx#createWorkerExecutor} but with the <a href="../../../../../../cheatsheet/VertxOptions.html">VertxOptions</a> <code>maxExecuteTime</code>.
+   * @param name 
+   * @param poolSize 
+   * @return 
+   */
+  public WorkerExecutor createWorkerExecutor(String name, int poolSize) {
+    def ret = InternalHelper.safeCreate(delegate.createWorkerExecutor(name, poolSize), io.vertx.groovy.core.WorkerExecutor.class);
+    return ret;
+  }
+  /**
+   * Create a named worker executor, the executor should be closed when it's not needed anymore to release
+   * resources.<p/>
+   *
+   * This method can be called mutiple times with the same <code>name</code>. Executors with the same name will share
+   * the same worker pool. The worker pool size and max execute time are set when the worker pool is created and
+   * won't change after.<p>
+   *
+   * The worker pool is released when all the {@link io.vertx.groovy.core.WorkerExecutor} sharing the same name are closed.
+   * @param name the name of the worker executor
+   * @param poolSize the size of the pool
+   * @param maxExecuteTime the value of max worker execute time, in ms
+   * @return the named worker executor
+   */
+  public WorkerExecutor createWorkerExecutor(String name, int poolSize, long maxExecuteTime) {
+    def ret = InternalHelper.safeCreate(delegate.createWorkerExecutor(name, poolSize, maxExecuteTime), io.vertx.groovy.core.WorkerExecutor.class);
+    return ret;
+  }
+  /**
    * Set a default exception handler for {@link io.vertx.groovy.core.Context}, set on  at creation.
    * @param handler the exception handler
    * @return a reference to this, so the API can be used fluently
