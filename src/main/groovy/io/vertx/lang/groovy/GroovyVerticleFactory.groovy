@@ -129,7 +129,10 @@ public class GroovyVerticleFactory implements VerticleFactory {
     }
 
     CompilerConfiguration compilerCfg = new CompilerConfiguration(CompilerConfiguration.DEFAULT);
-    compilerCfg.configure(properties);
+    if(properties.size() != 0){
+        compilerCfg.configure(properties);
+    }
+
     if (customizer != null) {
       Object result = customizer.call(compilerCfg);
       // Expectation: If result isn't a CompilerConfiguration, the original one has been modified
