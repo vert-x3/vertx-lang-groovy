@@ -24,7 +24,14 @@ import io.vertx.core.http.Http2Settings
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
- * Represents an HTTP/2 connection.<p/>
+ * Represents an HTTP connection.
+ * <p/>
+ * HTTP/1.x connection provides an limited implementation, the following methods are implemented:
+ * <ul>
+ *   <li>{@link io.vertx.groovy.core.http.HttpConnection#close}</li>
+ *   <li>{@link io.vertx.groovy.core.http.HttpConnection#closeHandler}</li>
+ *   <li>{@link io.vertx.groovy.core.http.HttpConnection#exceptionHandler}</li>
+ * </ul>
 */
 @CompileStatic
 public class HttpConnection {
@@ -34,6 +41,27 @@ public class HttpConnection {
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * @return the current connection window size or <code>-1</code> for HTTP/1.x
+   * @return 
+   */
+  public int getWindowSize() {
+    def ret = delegate.getWindowSize();
+    return ret;
+  }
+  /**
+   * Update the current connection wide window size to a new size.
+   * <p/>
+   * Increasing this value, gives better performance when several data streams are multiplexed
+   * <p/>
+   * This is not implemented for HTTP/1.x.
+   * @param windowSize the new window size
+   * @return a reference to this, so the API can be used fluently
+   */
+  public HttpConnection setWindowSize(int windowSize) {
+    delegate.setWindowSize(windowSize);
+    return this;
   }
   /**
    * Like {@link io.vertx.groovy.core.http.HttpConnection#goAway} with a last stream id <code>2^31-1</code>.
@@ -55,13 +83,15 @@ public class HttpConnection {
     return this;
   }
   /**
-   * Send a go away frame to the remote endpoint of the connection.<p/>
-   *
+   * Send a go away frame to the remote endpoint of the connection.
+   * <p/>
    * <ul>
-   *   <li>a  frame is sent to the to the remote endpoint with the <code>errorCode</code> and {@@code debugData}</li>
+   *   <li>a  frame is sent to the to the remote endpoint with the <code>errorCode</code> and <code>debugData</code></li>
    *   <li>any stream created after the stream identified by <code>lastStreamId</code> will be closed</li>
-   *   <li>for an  is different than  when all the remaining streams are closed this connection will be closed automatically</li>
+   *   <li>for an  is different than <code>0</code> when all the remaining streams are closed this connection will be closed automatically</li>
    * </ul>
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param errorCode the  error code
    * @param lastStreamId the last stream id
    * @param debugData additional debug data sent to the remote endpoint
@@ -73,6 +103,8 @@ public class HttpConnection {
   }
   /**
    * Set an handler called when a  frame is received.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
@@ -86,6 +118,8 @@ public class HttpConnection {
   }
   /**
    * Set an handler called when a  frame has been sent or received and all connections are closed.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
@@ -96,6 +130,8 @@ public class HttpConnection {
   /**
    * Initiate a connection shutdown, a go away frame is sent and the connection is closed when all current active streams
    * are closed or after a time out of 30 seconds.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection shutdown() {
@@ -105,6 +141,8 @@ public class HttpConnection {
   /**
    * Initiate a connection shutdown, a go away frame is sent and the connection is closed when all current streams
    * will be closed or the <code>timeout</code> is fired.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param timeoutMs the timeout in milliseconds
    * @return a reference to this, so the API can be used fluently
    */
@@ -122,13 +160,15 @@ public class HttpConnection {
     return this;
   }
   /**
-   * Close the connection and all the currently active streams. A  frame will be sent before.<p/>
+   * Close the connection and all the currently active streams.
+   * <p/>
+   * An HTTP/2 connection will send a  frame before.
    */
   public void close() {
     delegate.close();
   }
   /**
-   * @return the latest server settings acknowledged by the remote endpoint
+   * @return the latest server settings acknowledged by the remote endpoint - this is not implemented for HTTP/1.x
    * @return  (see <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a>)
    */
   public Map<String, Object> settings() {
@@ -137,6 +177,8 @@ public class HttpConnection {
   }
   /**
    * Send to the remote endpoint an update of the server settings.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param settings the new settings (see <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a>)
    * @return a reference to this, so the API can be used fluently
    */
@@ -145,9 +187,11 @@ public class HttpConnection {
     return this;
   }
   /**
-   * Send to the remote endpoint an update of this endpoint settings.<p/>
-   *
+   * Send to the remote endpoint an update of this endpoint settings
+   * <p/>
    * The <code>completionHandler</code> will be notified when the remote endpoint has acknowledged the settings.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param settings the new settings (see <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a>)
    * @param completionHandler the handler notified when the settings have been acknowledged by the remote endpoint
    * @return a reference to this, so the API can be used fluently
@@ -157,7 +201,7 @@ public class HttpConnection {
     return this;
   }
   /**
-   * @return the current remote endpoint settings for this connection
+   * @return the current remote endpoint settings for this connection - this is not implemented for HTTP/1.x
    * @return  (see <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a>)
    */
   public Map<String, Object> remoteSettings() {
@@ -166,6 +210,8 @@ public class HttpConnection {
   }
   /**
    * Set an handler that is called when remote endpoint <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a> are updated.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param handler the handler for remote endpoint settings
    * @return a reference to this, so the API can be used fluently
    */
@@ -179,6 +225,8 @@ public class HttpConnection {
   }
   /**
    * Send a  frame to the remote endpoint.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param data the 8 bytes data of the frame
    * @param pongHandler an async result handler notified with pong reply or the failure
    * @return a reference to this, so the API can be used fluently
@@ -197,6 +245,8 @@ public class HttpConnection {
   }
   /**
    * Set an handler notified when a  frame is received from the remote endpoint.
+   * <p/>
+   * This is not implemented for HTTP/1.x.
    * @param handler the handler to be called when a  is received
    * @return a reference to this, so the API can be used fluently
    */

@@ -466,22 +466,22 @@ public class Vertx implements Measured {
     } : null);
   }
   /**
-   * Like {@link io.vertx.groovy.core.Vertx#createWorkerExecutor} but with the <a href="../../../../../../cheatsheet/VertxOptions.html">VertxOptions</a> <code>poolSize</code>.
+   * Like {@link io.vertx.groovy.core.Vertx#createSharedWorkerExecutor} but with the <a href="../../../../../../cheatsheet/VertxOptions.html">VertxOptions</a> <code>poolSize</code>.
    * @param name 
    * @return 
    */
-  public WorkerExecutor createWorkerExecutor(String name) {
-    def ret = InternalHelper.safeCreate(delegate.createWorkerExecutor(name), io.vertx.groovy.core.WorkerExecutor.class);
+  public WorkerExecutor createSharedWorkerExecutor(String name) {
+    def ret = InternalHelper.safeCreate(delegate.createSharedWorkerExecutor(name), io.vertx.groovy.core.WorkerExecutor.class);
     return ret;
   }
   /**
-   * Like {@link io.vertx.groovy.core.Vertx#createWorkerExecutor} but with the <a href="../../../../../../cheatsheet/VertxOptions.html">VertxOptions</a> <code>maxExecuteTime</code>.
+   * Like {@link io.vertx.groovy.core.Vertx#createSharedWorkerExecutor} but with the <a href="../../../../../../cheatsheet/VertxOptions.html">VertxOptions</a> <code>maxExecuteTime</code>.
    * @param name 
    * @param poolSize 
    * @return 
    */
-  public WorkerExecutor createWorkerExecutor(String name, int poolSize) {
-    def ret = InternalHelper.safeCreate(delegate.createWorkerExecutor(name, poolSize), io.vertx.groovy.core.WorkerExecutor.class);
+  public WorkerExecutor createSharedWorkerExecutor(String name, int poolSize) {
+    def ret = InternalHelper.safeCreate(delegate.createSharedWorkerExecutor(name, poolSize), io.vertx.groovy.core.WorkerExecutor.class);
     return ret;
   }
   /**
@@ -498,8 +498,8 @@ public class Vertx implements Measured {
    * @param maxExecuteTime the value of max worker execute time, in ms
    * @return the named worker executor
    */
-  public WorkerExecutor createWorkerExecutor(String name, int poolSize, long maxExecuteTime) {
-    def ret = InternalHelper.safeCreate(delegate.createWorkerExecutor(name, poolSize, maxExecuteTime), io.vertx.groovy.core.WorkerExecutor.class);
+  public WorkerExecutor createSharedWorkerExecutor(String name, int poolSize, long maxExecuteTime) {
+    def ret = InternalHelper.safeCreate(delegate.createSharedWorkerExecutor(name, poolSize, maxExecuteTime), io.vertx.groovy.core.WorkerExecutor.class);
     return ret;
   }
   /**

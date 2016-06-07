@@ -360,7 +360,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     delegate.reset(code);
   }
   /**
-   * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request when it is an HTTP/2 connection, null otherwise
+   * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request
    * @return 
    */
   public HttpConnection connection() {
@@ -372,7 +372,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return ret;
   }
   /**
-   * Set a connection handler called when an HTTP/2 connection has been established.
+   * Set a connection handler called when an HTTP connection has been established.
    * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
@@ -396,8 +396,8 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
    * @param payload the frame payload
    * @return a reference to this, so the API can be used fluently
    */
-  public HttpClientRequest writeFrame(int type, int flags, Buffer payload) {
-    delegate.writeFrame(type, flags, payload != null ? (io.vertx.core.buffer.Buffer)payload.getDelegate() : null);
+  public HttpClientRequest writeCustomFrame(int type, int flags, Buffer payload) {
+    delegate.writeCustomFrame(type, flags, payload != null ? (io.vertx.core.buffer.Buffer)payload.getDelegate() : null);
     return this;
   }
   /**
@@ -410,12 +410,12 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return ret;
   }
   /**
-   * Like {@link io.vertx.groovy.core.http.HttpClientRequest#writeFrame} but with an {@link io.vertx.groovy.core.http.HttpFrame}.
+   * Like {@link io.vertx.groovy.core.http.HttpClientRequest#writeCustomFrame} but with an {@link io.vertx.groovy.core.http.HttpFrame}.
    * @param frame the frame to write
    * @return 
    */
-  public HttpClientRequest writeFrame(HttpFrame frame) {
-    delegate.writeFrame(frame != null ? (io.vertx.core.http.HttpFrame)frame.getDelegate() : null);
+  public HttpClientRequest writeCustomFrame(HttpFrame frame) {
+    delegate.writeCustomFrame(frame != null ? (io.vertx.core.http.HttpFrame)frame.getDelegate() : null);
     return this;
   }
   private MultiMap cached_0;

@@ -502,17 +502,17 @@ public class HttpServerResponse implements WriteStream<Buffer> {
    * @param payload the frame payload
    * @return a reference to this, so the API can be used fluently
    */
-  public HttpServerResponse writeFrame(int type, int flags, Buffer payload) {
-    delegate.writeFrame(type, flags, payload != null ? (io.vertx.core.buffer.Buffer)payload.getDelegate() : null);
+  public HttpServerResponse writeCustomFrame(int type, int flags, Buffer payload) {
+    delegate.writeCustomFrame(type, flags, payload != null ? (io.vertx.core.buffer.Buffer)payload.getDelegate() : null);
     return this;
   }
   /**
-   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#writeFrame} but with an {@link io.vertx.groovy.core.http.HttpFrame}.
+   * Like {@link io.vertx.groovy.core.http.HttpServerResponse#writeCustomFrame} but with an {@link io.vertx.groovy.core.http.HttpFrame}.
    * @param frame the frame to write
    * @return 
    */
-  public HttpServerResponse writeFrame(HttpFrame frame) {
-    delegate.writeFrame(frame != null ? (io.vertx.core.http.HttpFrame)frame.getDelegate() : null);
+  public HttpServerResponse writeCustomFrame(HttpFrame frame) {
+    delegate.writeCustomFrame(frame != null ? (io.vertx.core.http.HttpFrame)frame.getDelegate() : null);
     return this;
   }
   private MultiMap cached_0;

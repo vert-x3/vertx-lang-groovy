@@ -37,6 +37,8 @@ public class CompositeFuture extends Future<CompositeFuture> {
   }
   /**
    * Return a composite future, succeeded when all futures are succeeded, failed when any future is failed.
+   * <p/>
+   * The returned future fails as soon as one of <code>f1</code> or <code>f2</code> fails.
    * @param f1 future
    * @param f2 future
    * @return the composite future
@@ -108,6 +110,8 @@ public class CompositeFuture extends Future<CompositeFuture> {
   }
   /**
    * Return a composite future, succeeded when any futures is succeeded, failed when all futures are failed.
+   * <p/>
+   * The returned future succeeds as soon as one of <code>f1</code> or <code>f2</code> succeeds.
    * @param f1 future
    * @param f2 future
    * @return the composite future

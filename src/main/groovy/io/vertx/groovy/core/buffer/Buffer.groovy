@@ -139,6 +139,15 @@ public class Buffer {
     return ret;
   }
   /**
+   * Gets a 32-bit integer at the specified absolute <code>index</code> in this buffer with Little Endian Byte Order.
+   * @param pos 
+   * @return 
+   */
+  public int getIntLE(int pos) {
+    def ret = delegate.getIntLE(pos);
+    return ret;
+  }
+  /**
    * Returns the unsigned <code>int</code> at position <code>pos</code> in the Buffer, as a <code>long</code>.
    * @param pos 
    * @return 
@@ -148,12 +157,30 @@ public class Buffer {
     return ret;
   }
   /**
+   * Returns the unsigned <code>int</code> at position <code>pos</code> in the Buffer, as a <code>long</code> in Little Endian Byte Order.
+   * @param pos 
+   * @return 
+   */
+  public long getUnsignedIntLE(int pos) {
+    def ret = delegate.getUnsignedIntLE(pos);
+    return ret;
+  }
+  /**
    * Returns the <code>long</code> at position <code>pos</code> in the Buffer.
    * @param pos 
    * @return 
    */
   public long getLong(int pos) {
     def ret = delegate.getLong(pos);
+    return ret;
+  }
+  /**
+   * Gets a 64-bit long integer at the specified absolute <code>index</code> in this buffer in Little Endian Byte Order.
+   * @param pos 
+   * @return 
+   */
+  public long getLongLE(int pos) {
+    def ret = delegate.getLongLE(pos);
     return ret;
   }
   /**
@@ -184,12 +211,66 @@ public class Buffer {
     return ret;
   }
   /**
+   * Gets a 16-bit short integer at the specified absolute <code>index</code> in this buffer in Little Endian Byte Order.
+   * @param pos 
+   * @return 
+   */
+  public short getShortLE(int pos) {
+    def ret = delegate.getShortLE(pos);
+    return ret;
+  }
+  /**
    * Returns the unsigned <code>short</code> at position <code>pos</code> in the Buffer, as an <code>int</code>.
    * @param pos 
    * @return 
    */
   public int getUnsignedShort(int pos) {
     def ret = delegate.getUnsignedShort(pos);
+    return ret;
+  }
+  /**
+   * Gets an unsigned 16-bit short integer at the specified absolute <code>index</code> in this buffer in Little Endian Byte Order.
+   * @param pos 
+   * @return 
+   */
+  public int getUnsignedShortLE(int pos) {
+    def ret = delegate.getUnsignedShortLE(pos);
+    return ret;
+  }
+  /**
+   * Gets a 24-bit medium integer at the specified absolute <code>index</code> in this buffer.
+   * @param pos 
+   * @return 
+   */
+  public int getMedium(int pos) {
+    def ret = delegate.getMedium(pos);
+    return ret;
+  }
+  /**
+   * Gets a 24-bit medium integer at the specified absolute <code>index</code> in this buffer in the Little Endian Byte Order.
+   * @param pos 
+   * @return 
+   */
+  public int getMediumLE(int pos) {
+    def ret = delegate.getMediumLE(pos);
+    return ret;
+  }
+  /**
+   * Gets an unsigned 24-bit medium integer at the specified absolute <code>index</code> in this buffer.
+   * @param pos 
+   * @return 
+   */
+  public int getUnsignedMedium(int pos) {
+    def ret = delegate.getUnsignedMedium(pos);
+    return ret;
+  }
+  /**
+   * Gets an unsigned 24-bit medium integer at the specified absolute <code>index</code> in this buffer in Little Endian Byte Order.
+   * @param pos 
+   * @return 
+   */
+  public int getUnsignedMediumLE(int pos) {
+    def ret = delegate.getUnsignedMediumLE(pos);
     return ret;
   }
   /**
@@ -281,6 +362,16 @@ public class Buffer {
     return this;
   }
   /**
+   * Appends the specified <code>int</code> to the end of the Buffer in the Little Endian Byte Order. The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param i 
+   * @return 
+   */
+  public Buffer appendIntLE(int i) {
+    delegate.appendIntLE(i);
+    return this;
+  }
+  /**
    * Appends the specified unsigned <code>int</code> to the end of the Buffer. The buffer will expand as necessary to accommodate any bytes written.<p>
    * Returns a reference to <code>this</code> so multiple operations can be appended together.
    * @param i 
@@ -288,6 +379,36 @@ public class Buffer {
    */
   public Buffer appendUnsignedInt(long i) {
     delegate.appendUnsignedInt(i);
+    return this;
+  }
+  /**
+   * Appends the specified unsigned <code>int</code> to the end of the Buffer in the Little Endian Byte Order. The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param i 
+   * @return 
+   */
+  public Buffer appendUnsignedIntLE(long i) {
+    delegate.appendUnsignedIntLE(i);
+    return this;
+  }
+  /**
+   * Appends the specified 24bit <code>int</code> to the end of the Buffer. The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param i 
+   * @return 
+   */
+  public Buffer appendMedium(int i) {
+    delegate.appendMedium(i);
+    return this;
+  }
+  /**
+   * Appends the specified 24bit <code>int</code> to the end of the Buffer in the Little Endian Byte Order. The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param i 
+   * @return 
+   */
+  public Buffer appendMediumLE(int i) {
+    delegate.appendMediumLE(i);
     return this;
   }
   /**
@@ -301,6 +422,16 @@ public class Buffer {
     return this;
   }
   /**
+   * Appends the specified <code>long</code> to the end of the Buffer in the Little Endian Byte Order. The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param l 
+   * @return 
+   */
+  public Buffer appendLongLE(long l) {
+    delegate.appendLongLE(l);
+    return this;
+  }
+  /**
    * Appends the specified <code>short</code> to the end of the Buffer.The buffer will expand as necessary to accommodate any bytes written.<p>
    * Returns a reference to <code>this</code> so multiple operations can be appended together.
    * @param s 
@@ -311,6 +442,16 @@ public class Buffer {
     return this;
   }
   /**
+   * Appends the specified <code>short</code> to the end of the Buffer in the Little Endian Byte Order.The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param s 
+   * @return 
+   */
+  public Buffer appendShortLE(short s) {
+    delegate.appendShortLE(s);
+    return this;
+  }
+  /**
    * Appends the specified unsigned <code>short</code> to the end of the Buffer.The buffer will expand as necessary to accommodate any bytes written.<p>
    * Returns a reference to <code>this</code> so multiple operations can be appended together.
    * @param s 
@@ -318,6 +459,16 @@ public class Buffer {
    */
   public Buffer appendUnsignedShort(int s) {
     delegate.appendUnsignedShort(s);
+    return this;
+  }
+  /**
+   * Appends the specified unsigned <code>short</code> to the end of the Buffer in the Little Endian Byte Order.The buffer will expand as necessary to accommodate any bytes written.<p>
+   * Returns a reference to <code>this</code> so multiple operations can be appended together.
+   * @param s 
+   * @return 
+   */
+  public Buffer appendUnsignedShortLE(int s) {
+    delegate.appendUnsignedShortLE(s);
     return this;
   }
   /**
@@ -382,8 +533,8 @@ public class Buffer {
    * @return 
    */
   public Buffer setUnsignedByte(int pos, short b) {
-    def ret = InternalHelper.safeCreate(delegate.setUnsignedByte(pos, b), io.vertx.groovy.core.buffer.Buffer.class);
-    return ret;
+    delegate.setUnsignedByte(pos, b);
+    return this;
   }
   /**
    * Sets the <code>int</code> at position <code>pos</code> in the Buffer to the value <code>i</code>.<p>
@@ -394,6 +545,17 @@ public class Buffer {
    */
   public Buffer setInt(int pos, int i) {
     delegate.setInt(pos, i);
+    return this;
+  }
+  /**
+   * Sets the <code>int</code> at position <code>pos</code> in the Buffer to the value <code>i</code> in the Little Endian Byte Order.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param i 
+   * @return 
+   */
+  public Buffer setIntLE(int pos, int i) {
+    delegate.setIntLE(pos, i);
     return this;
   }
   /**
@@ -408,6 +570,39 @@ public class Buffer {
     return this;
   }
   /**
+   * Sets the unsigned <code>int</code> at position <code>pos</code> in the Buffer to the value <code>i</code> in the Little Endian Byte Order.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param i 
+   * @return 
+   */
+  public Buffer setUnsignedIntLE(int pos, long i) {
+    delegate.setUnsignedIntLE(pos, i);
+    return this;
+  }
+  /**
+   * Sets the 24bit <code>int</code> at position <code>pos</code> in the Buffer to the value <code>i</code>.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param i 
+   * @return 
+   */
+  public Buffer setMedium(int pos, int i) {
+    delegate.setMedium(pos, i);
+    return this;
+  }
+  /**
+   * Sets the 24bit <code>int</code> at position <code>pos</code> in the Buffer to the value <code>i</code>. in the Little Endian Byte Order<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param i 
+   * @return 
+   */
+  public Buffer setMediumLE(int pos, int i) {
+    delegate.setMediumLE(pos, i);
+    return this;
+  }
+  /**
    * Sets the <code>long</code> at position <code>pos</code> in the Buffer to the value <code>l</code>.<p>
    * The buffer will expand as necessary to accommodate any value written.
    * @param pos 
@@ -416,6 +611,17 @@ public class Buffer {
    */
   public Buffer setLong(int pos, long l) {
     delegate.setLong(pos, l);
+    return this;
+  }
+  /**
+   * Sets the <code>long</code> at position <code>pos</code> in the Buffer to the value <code>l</code> in the Little Endian Byte Order.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param l 
+   * @return 
+   */
+  public Buffer setLongLE(int pos, long l) {
+    delegate.setLongLE(pos, l);
     return this;
   }
   /**
@@ -452,6 +658,17 @@ public class Buffer {
     return this;
   }
   /**
+   * Sets the <code>short</code> at position <code>pos</code> in the Buffer to the value <code>s</code> in the Little Endian Byte Order.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param s 
+   * @return 
+   */
+  public Buffer setShortLE(int pos, short s) {
+    delegate.setShortLE(pos, s);
+    return this;
+  }
+  /**
    * Sets the unsigned <code>short</code> at position <code>pos</code> in the Buffer to the value <code>s</code>.<p>
    * The buffer will expand as necessary to accommodate any value written.
    * @param pos 
@@ -460,6 +677,17 @@ public class Buffer {
    */
   public Buffer setUnsignedShort(int pos, int s) {
     delegate.setUnsignedShort(pos, s);
+    return this;
+  }
+  /**
+   * Sets the unsigned <code>short</code> at position <code>pos</code> in the Buffer to the value <code>s</code> in the Little Endian Byte Order.<p>
+   * The buffer will expand as necessary to accommodate any value written.
+   * @param pos 
+   * @param s 
+   * @return 
+   */
+  public Buffer setUnsignedShortLE(int pos, int s) {
+    delegate.setUnsignedShortLE(pos, s);
     return this;
   }
   /**

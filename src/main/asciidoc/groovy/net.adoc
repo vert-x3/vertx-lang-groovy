@@ -388,6 +388,57 @@ def client = vertx.createNetClient(options)
 
 By default, multiple connection attempts are disabled.
 
+[[logging_network_activity]]
+=== Logging network activity
+
+For debugging purposes, network activity can be logged:
+
+[source,groovy]
+----
+
+def options = [
+  logActivity:true
+]
+
+def server = vertx.createNetServer(options)
+
+----
+
+for the client
+
+[source,groovy]
+----
+
+def options = [
+  logActivity:true
+]
+
+def client = vertx.createNetClient(options)
+
+----
+
+Network activity is logged by Netty with the `DEBUG` level and with the `io.netty.handler.logging.LoggingHandler`
+name. When using network activity logging there are a few things to keep in mind:
+
+- logging is not performed by Vert.x logging but by Netty
+- this is *not* a production feature
+
+Netty will try to locate the following logger implementations, in the following order:
+
+- Slf4j
+- Log4j
+- JDK
+
+The presense of the slf4j or log4j classes on the classpath is enough to pick up the logging implementation.
+
+The logger implementation can be forced to a specific implementation by setting Netty's internal logger implementation directly:
+
+[source,java]
+----
+// Force logging to SLF4J
+InternalLoggerFactory.setDefaultFactory(Log4JLoggerFactory.INSTANCE);
+----
+
 [[ssl]]
 === Configuring servers and clients to work with SSL/TLS
 
@@ -968,7 +1019,7 @@ The default SSL/TLS engine implementation is provided by the JDK.
 The engine implementation can be configured to use https://www.openssl.org[OpenSSL] instead. OpenSSL provides
 better performances and CPU usage than the JDK engine, as well as JDK version independence.
 
-OpenSSL requires to configure `link:../dataobjects.html#TCPSSLOptions#setSslEngine(io.vertx.core.net.SSLEngine)[sslEngine]` to `link:todo[OPENSSL]`
+OpenSSL requires to configure `link:../dataobjects.html#TCPSSLOptions#setOpenSslEngineOptions(io.vertx.core.net.OpenSSLEngineOptions)[openSslEngineOptions]`
 and use http://netty.io/wiki/forked-tomcat-native.html[netty-tcnative] jar on the classpath. Using tcnative may require
 OpenSSL to be installed on your OS depending on the tcnative implementation.
 
@@ -1010,3 +1061,32 @@ ALPN version for the JVM running it:
 ----
 -javaagent:/path/to/alpn/agent
 ----
+
+=== Using a proxy for client connections
+
+The `link:../../groovydoc/io/vertx/groovy/core/net/NetClient.html[NetClient]` supports either a HTTP/1.x _CONNECT_, _SOCKS4a_ or _SOCKS5_ proxy.
+
+The proxy can be configured in the `link:../dataobjects.html#NetClientOptions[NetClientOptions]` by setting a
+`link:../dataobjects.html#ProxyOptions[ProxyOptions]` object containing proxy type, hostname, port and optionally username and password.
+
+Here's an example:
+
+[source,groovy]
+
+----
+import io.vertx.core.net.ProxyType
+def options = [
+  proxyOptions:[
+    type:ProxyType.SOCKS5,
+    host:"localhost",
+    port:1080,
+    username:"username",
+    password:"secret"
+  ]
+]
+def client = vertx.createNetClient(options)
+
+----
+
+The DNS resolution is always done on the proxy server, to achieve the functionality of a SOCKS4 client, it is necessary
+to resolve the DNS address locally.

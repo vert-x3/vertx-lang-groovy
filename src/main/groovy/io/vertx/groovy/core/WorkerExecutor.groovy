@@ -18,6 +18,7 @@ package io.vertx.groovy.core;
 import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
+import io.vertx.groovy.core.metrics.Measured
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 /**
@@ -27,13 +28,21 @@ import io.vertx.core.Handler
  * {@link io.vertx.groovy.core.Vertx} but on a separate worker pool.<p>
 */
 @CompileStatic
-public class WorkerExecutor {
+public class WorkerExecutor implements Measured {
   private final def io.vertx.core.WorkerExecutor delegate;
   public WorkerExecutor(Object delegate) {
     this.delegate = (io.vertx.core.WorkerExecutor) delegate;
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * Whether the metrics are enabled for this measured object
+   * @return true if the metrics are enabled
+   */
+  public boolean isMetricsEnabled() {
+    def ret = ((io.vertx.core.metrics.Measured) delegate).isMetricsEnabled();
+    return ret;
   }
   /**
    * Safely execute some blocking code.

@@ -341,13 +341,13 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return ret;
   }
   /**
-   * Set an unknown frame handler. The handler will get notified when the http stream receives an unknown HTTP/2
+   * Set a custom frame handler. The handler will get notified when the http stream receives an custom HTTP/2
    * frame. HTTP/2 permits extension of the protocol.
    * @param handler 
    * @return a reference to this, so the API can be used fluently
    */
-  public HttpServerRequest unknownFrameHandler(Handler<HttpFrame> handler) {
-    delegate.unknownFrameHandler(handler != null ? new Handler<io.vertx.core.http.HttpFrame>(){
+  public HttpServerRequest customFrameHandler(Handler<HttpFrame> handler) {
+    delegate.customFrameHandler(handler != null ? new Handler<io.vertx.core.http.HttpFrame>(){
       public void handle(io.vertx.core.http.HttpFrame event) {
         handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.http.HttpFrame.class));
       }
@@ -355,7 +355,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return this;
   }
   /**
-   * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request when it is an HTTP/2 connection, null otherwise
+   * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request
    * @return 
    */
   public HttpConnection connection() {
