@@ -151,7 +151,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addOption(Map<String, Object> option = [:]) {
-    delegate.addOption(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    delegate.addOption(option != null ? new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(option)) : null);
     return this;
   }
   /**
@@ -161,7 +161,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addOptions(List<Map<String, Object>> options) {
-    delegate.addOptions(options != null ? (List)options.collect({new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(it))}) : null);
+    delegate.addOptions(options != null ? (List)options.collect({new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(it))}) : null);
     return this;
   }
   /**
@@ -170,7 +170,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setOptions(List<Map<String, Object>> options) {
-    delegate.setOptions(options != null ? (List)options.collect({new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(it))}) : null);
+    delegate.setOptions(options != null ? (List)options.collect({new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(it))}) : null);
     return this;
   }
   /**
@@ -187,7 +187,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addArgument(Map<String, Object> arg = [:]) {
-    delegate.addArgument(arg != null ? new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(arg)) : null);
+    delegate.addArgument(arg != null ? new io.vertx.core.cli.Argument(io.vertx.lang.groovy.InternalHelper.toJsonObject(arg)) : null);
     return this;
   }
   /**
@@ -197,7 +197,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI addArguments(List<Map<String, Object>> args) {
-    delegate.addArguments(args != null ? (List)args.collect({new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(it))}) : null);
+    delegate.addArguments(args != null ? (List)args.collect({new io.vertx.core.cli.Argument(io.vertx.lang.groovy.InternalHelper.toJsonObject(it))}) : null);
     return this;
   }
   /**
@@ -206,7 +206,7 @@ public class CLI {
    * @return the current {@link io.vertx.groovy.core.cli.CLI} instance
    */
   public CLI setArguments(List<Map<String, Object>> args) {
-    delegate.setArguments(args != null ? (List)args.collect({new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(it))}) : null);
+    delegate.setArguments(args != null ? (List)args.collect({new io.vertx.core.cli.Argument(io.vertx.lang.groovy.InternalHelper.toJsonObject(it))}) : null);
     return this;
   }
   /**

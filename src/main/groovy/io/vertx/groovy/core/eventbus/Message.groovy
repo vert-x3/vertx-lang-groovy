@@ -111,7 +111,7 @@ public class Message<T> {
    * @param options the delivery options (see <a href="../../../../../../../cheatsheet/DeliveryOptions.html">DeliveryOptions</a>)
    */
   public void reply(Object message, Map<String, Object> options) {
-    delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null);
   }
   /**
    * The same as <code>reply(R message, DeliveryOptions)</code> but you can specify handler for the reply - i.e.
@@ -121,7 +121,7 @@ public class Message<T> {
    * @param replyHandler the reply handler for the reply.
    */
   public <R> void reply(Object message, Map<String, Object> options, Handler<AsyncResult<Message<R>>> replyHandler) {
-    delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
+    delegate.reply(message != null ? InternalHelper.unwrapObject(message) : null, options != null ? new io.vertx.core.eventbus.DeliveryOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null, replyHandler != null ? new Handler<AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>>>() {
       public void handle(AsyncResult<io.vertx.core.eventbus.Message<java.lang.Object>> ar) {
         if (ar.succeeded()) {
           replyHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.eventbus.Message.class)));

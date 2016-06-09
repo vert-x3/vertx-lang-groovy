@@ -191,7 +191,7 @@
     if (isSameType(type)) {
       return expr;
     } else if (type.kind == CLASS_DATA_OBJECT) {
-      return 'new ' + type.name + '(new io.vertx.core.json.JsonObject(' + expr + '))';
+      return 'new ' + type.name + '(io.vertx.lang.groovy.InternalHelper.toJsonObject(' + expr + '))';
     } else if (type.kind.json) {
       return 'new ' + type.name + '(' + expr + ')';
     } else if (type.kind == CLASS_API) {

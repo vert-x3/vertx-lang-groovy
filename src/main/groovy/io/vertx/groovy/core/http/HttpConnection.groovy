@@ -183,7 +183,7 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection updateSettings(Map<String, Object> settings = [:]) {
-    delegate.updateSettings(settings != null ? new io.vertx.core.http.Http2Settings(new io.vertx.core.json.JsonObject(settings)) : null);
+    delegate.updateSettings(settings != null ? new io.vertx.core.http.Http2Settings(io.vertx.lang.groovy.InternalHelper.toJsonObject(settings)) : null);
     return this;
   }
   /**
@@ -197,7 +197,7 @@ public class HttpConnection {
    * @return a reference to this, so the API can be used fluently
    */
   public HttpConnection updateSettings(Map<String, Object> settings = [:], Handler<AsyncResult<Void>> completionHandler) {
-    delegate.updateSettings(settings != null ? new io.vertx.core.http.Http2Settings(new io.vertx.core.json.JsonObject(settings)) : null, completionHandler);
+    delegate.updateSettings(settings != null ? new io.vertx.core.http.Http2Settings(io.vertx.lang.groovy.InternalHelper.toJsonObject(settings)) : null, completionHandler);
     return this;
   }
   /**

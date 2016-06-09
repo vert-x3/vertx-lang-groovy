@@ -622,7 +622,7 @@ public class FileSystem {
    * @return a reference to this, so the API can be used fluently
    */
   public FileSystem open(String path, Map<String, Object> options, Handler<AsyncResult<AsyncFile>> handler) {
-    delegate.open(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null, handler != null ? new Handler<AsyncResult<io.vertx.core.file.AsyncFile>>() {
+    delegate.open(path, options != null ? new io.vertx.core.file.OpenOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null, handler != null ? new Handler<AsyncResult<io.vertx.core.file.AsyncFile>>() {
       public void handle(AsyncResult<io.vertx.core.file.AsyncFile> ar) {
         if (ar.succeeded()) {
           handler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.file.AsyncFile.class)));
@@ -640,7 +640,7 @@ public class FileSystem {
    * @return 
    */
   public AsyncFile openBlocking(String path, Map<String, Object> options) {
-    def ret = InternalHelper.safeCreate(delegate.openBlocking(path, options != null ? new io.vertx.core.file.OpenOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.file.AsyncFile.class);
+    def ret = InternalHelper.safeCreate(delegate.openBlocking(path, options != null ? new io.vertx.core.file.OpenOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null), io.vertx.groovy.core.file.AsyncFile.class);
     return ret;
   }
   /**

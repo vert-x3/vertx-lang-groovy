@@ -105,7 +105,7 @@ public class CommandLine {
    * @return <code>true</code> if the option has received a value,  otherwise.
    */
   public boolean isOptionAssigned(Map<String, Object> option = [:]) {
-    def ret = delegate.isOptionAssigned(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    def ret = delegate.isOptionAssigned(option != null ? new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(option)) : null);
     return ret;
   }
   /**
@@ -114,7 +114,7 @@ public class CommandLine {
    * @return the list of values, empty if none
    */
   public List<String> getRawValues(Map<String, Object> option = [:]) {
-    def ret = delegate.getRawValues(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    def ret = delegate.getRawValues(option != null ? new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(option)) : null);
     return ret;
   }
   /**
@@ -123,7 +123,7 @@ public class CommandLine {
    * @return the list of values, empty if none
    */
   public List<String> getRawValuesForOption(Map<String, Object> option = [:]) {
-    def ret = delegate.getRawValuesForOption(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    def ret = delegate.getRawValuesForOption(option != null ? new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(option)) : null);
     return ret;
   }
   /**
@@ -132,7 +132,7 @@ public class CommandLine {
    * @return the list of values, empty if none
    */
   public List<String> getRawValuesForArgument(Map<String, Object> argument = [:]) {
-    def ret = delegate.getRawValuesForArgument(argument != null ? new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(argument)) : null);
+    def ret = delegate.getRawValuesForArgument(argument != null ? new io.vertx.core.cli.Argument(io.vertx.lang.groovy.InternalHelper.toJsonObject(argument)) : null);
     return ret;
   }
   /**
@@ -141,7 +141,7 @@ public class CommandLine {
    * @return the value, <code>null</code> if none.
    */
   public String getRawValueForOption(Map<String, Object> option = [:]) {
-    def ret = delegate.getRawValueForOption(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    def ret = delegate.getRawValueForOption(option != null ? new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(option)) : null);
     return ret;
   }
   /**
@@ -150,7 +150,7 @@ public class CommandLine {
    * @return  if the option accepts more values,  otherwise.
    */
   public boolean acceptMoreValues(Map<String, Object> option = [:]) {
-    def ret = delegate.acceptMoreValues(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    def ret = delegate.acceptMoreValues(option != null ? new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(option)) : null);
     return ret;
   }
   /**
@@ -159,7 +159,7 @@ public class CommandLine {
    * @return the value, <code>null</code> if none.
    */
   public String getRawValueForArgument(Map<String, Object> arg = [:]) {
-    def ret = delegate.getRawValueForArgument(arg != null ? new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(arg)) : null);
+    def ret = delegate.getRawValueForArgument(arg != null ? new io.vertx.core.cli.Argument(io.vertx.lang.groovy.InternalHelper.toJsonObject(arg)) : null);
     return ret;
   }
   /**
@@ -168,7 +168,7 @@ public class CommandLine {
    * @return <code>true</code> if the argument has received a value,  otherwise.
    */
   public boolean isArgumentAssigned(Map<String, Object> arg = [:]) {
-    def ret = delegate.isArgumentAssigned(arg != null ? new io.vertx.core.cli.Argument(new io.vertx.core.json.JsonObject(arg)) : null);
+    def ret = delegate.isArgumentAssigned(arg != null ? new io.vertx.core.cli.Argument(io.vertx.lang.groovy.InternalHelper.toJsonObject(arg)) : null);
     return ret;
   }
   /**
@@ -177,7 +177,7 @@ public class CommandLine {
    * @return <code>true</code> if the user command line has used the option
    */
   public boolean isSeenInCommandLine(Map<String, Object> option = [:]) {
-    def ret = delegate.isSeenInCommandLine(option != null ? new io.vertx.core.cli.Option(new io.vertx.core.json.JsonObject(option)) : null);
+    def ret = delegate.isSeenInCommandLine(option != null ? new io.vertx.core.cli.Option(io.vertx.lang.groovy.InternalHelper.toJsonObject(option)) : null);
     return ret;
   }
   /**

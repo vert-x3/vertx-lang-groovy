@@ -75,4 +75,34 @@ public class InternalHelper {
     return null
   }
 
+  public static JsonObject toJsonObject(Map<String, Object> map) {
+    adaptMap(map);
+    return new JsonObject(map)
+  }
+
+  private static void adaptMap(Map<String, Object> map) {
+    for (Map.Entry<String, Object> entry : map.entrySet()) {
+      Object  val = entry.getValue();
+      if (val instanceof Buffer) {
+        entry.setValue(Base64.getEncoder().encodeToString(((io.vertx.core.buffer.Buffer)val.getDelegate()).getBytes()));
+      } else if (val instanceof Map) {
+        adaptMap(val);
+      } else if (val instanceof List) {
+        adaptList(val);
+      }
+    }
+  }
+
+  private static void adaptList(List list) {
+    for (int i = 0;i < list.size();i++) {
+      Object val = list[i];
+      if (val instanceof Buffer) {
+        list[i] = Base64.getEncoder().encodeToString(((io.vertx.core.buffer.Buffer)val.getDelegate()).getBytes());
+      } else if (val instanceof Map) {
+        adaptMap(val);
+      } else if (val instanceof List) {
+        adaptList(val);
+      }
+    }
+  }
 }

@@ -93,7 +93,7 @@ public class MessageProducer<T> implements WriteStream<T> {
    * @return this producer object
    */
   public MessageProducer<T> deliveryOptions(Map<String, Object> options = [:]) {
-    delegate.deliveryOptions(options != null ? new io.vertx.core.eventbus.DeliveryOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    delegate.deliveryOptions(options != null ? new io.vertx.core.eventbus.DeliveryOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null);
     return this;
   }
   /**

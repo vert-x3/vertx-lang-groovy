@@ -92,7 +92,7 @@ public class Vertx implements Measured {
    * @return the instance
    */
   public static Vertx vertx(Map<String, Object> options) {
-    def ret = InternalHelper.safeCreate(io.vertx.core.Vertx.vertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.Vertx.class);
+    def ret = InternalHelper.safeCreate(io.vertx.core.Vertx.vertx(options != null ? new io.vertx.core.VertxOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null), io.vertx.groovy.core.Vertx.class);
     return ret;
   }
   /**
@@ -103,7 +103,7 @@ public class Vertx implements Measured {
    * @param resultHandler the result handler that will receive the result
    */
   public static void clusteredVertx(Map<String, Object> options = [:], Handler<AsyncResult<Vertx>> resultHandler) {
-    io.vertx.core.Vertx.clusteredVertx(options != null ? new io.vertx.core.VertxOptions(new io.vertx.core.json.JsonObject(options)) : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.Vertx>>() {
+    io.vertx.core.Vertx.clusteredVertx(options != null ? new io.vertx.core.VertxOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null, resultHandler != null ? new Handler<AsyncResult<io.vertx.core.Vertx>>() {
       public void handle(AsyncResult<io.vertx.core.Vertx> ar) {
         if (ar.succeeded()) {
           resultHandler.handle(io.vertx.core.Future.succeededFuture(InternalHelper.safeCreate(ar.result(), io.vertx.groovy.core.Vertx.class)));
@@ -135,7 +135,7 @@ public class Vertx implements Measured {
    * @return the server
    */
   public NetServer createNetServer(Map<String, Object> options) {
-    def ret = InternalHelper.safeCreate(delegate.createNetServer(options != null ? new io.vertx.core.net.NetServerOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.net.NetServer.class);
+    def ret = InternalHelper.safeCreate(delegate.createNetServer(options != null ? new io.vertx.core.net.NetServerOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null), io.vertx.groovy.core.net.NetServer.class);
     return ret;
   }
   /**
@@ -152,7 +152,7 @@ public class Vertx implements Measured {
    * @return the client
    */
   public NetClient createNetClient(Map<String, Object> options) {
-    def ret = InternalHelper.safeCreate(delegate.createNetClient(options != null ? new io.vertx.core.net.NetClientOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.net.NetClient.class);
+    def ret = InternalHelper.safeCreate(delegate.createNetClient(options != null ? new io.vertx.core.net.NetClientOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null), io.vertx.groovy.core.net.NetClient.class);
     return ret;
   }
   /**
@@ -169,7 +169,7 @@ public class Vertx implements Measured {
    * @return the server
    */
   public HttpServer createHttpServer(Map<String, Object> options) {
-    def ret = InternalHelper.safeCreate(delegate.createHttpServer(options != null ? new io.vertx.core.http.HttpServerOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.http.HttpServer.class);
+    def ret = InternalHelper.safeCreate(delegate.createHttpServer(options != null ? new io.vertx.core.http.HttpServerOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null), io.vertx.groovy.core.http.HttpServer.class);
     return ret;
   }
   /**
@@ -186,7 +186,7 @@ public class Vertx implements Measured {
    * @return the client
    */
   public HttpClient createHttpClient(Map<String, Object> options) {
-    def ret = InternalHelper.safeCreate(delegate.createHttpClient(options != null ? new io.vertx.core.http.HttpClientOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.http.HttpClient.class);
+    def ret = InternalHelper.safeCreate(delegate.createHttpClient(options != null ? new io.vertx.core.http.HttpClientOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null), io.vertx.groovy.core.http.HttpClient.class);
     return ret;
   }
   /**
@@ -203,7 +203,7 @@ public class Vertx implements Measured {
    * @return the socket
    */
   public DatagramSocket createDatagramSocket(Map<String, Object> options) {
-    def ret = InternalHelper.safeCreate(delegate.createDatagramSocket(options != null ? new io.vertx.core.datagram.DatagramSocketOptions(new io.vertx.core.json.JsonObject(options)) : null), io.vertx.groovy.core.datagram.DatagramSocket.class);
+    def ret = InternalHelper.safeCreate(delegate.createDatagramSocket(options != null ? new io.vertx.core.datagram.DatagramSocketOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null), io.vertx.groovy.core.datagram.DatagramSocket.class);
     return ret;
   }
   /**
@@ -367,7 +367,7 @@ public class Vertx implements Measured {
    * @param options the deployment options. (see <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a>)
    */
   public void deployVerticle(String name, Map<String, Object> options) {
-    delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null);
+    delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null);
   }
   /**
    * Like {@link io.vertx.groovy.core.Vertx#deployVerticle} but <a href="../../../../../../cheatsheet/DeploymentOptions.html">DeploymentOptions</a> are provided to configure the
@@ -377,7 +377,7 @@ public class Vertx implements Measured {
    * @param completionHandler a handler which will be notified when the deployment is complete
    */
   public void deployVerticle(String name, Map<String, Object> options, Handler<AsyncResult<String>> completionHandler) {
-    delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(new io.vertx.core.json.JsonObject(options)) : null, completionHandler);
+    delegate.deployVerticle(name, options != null ? new io.vertx.core.DeploymentOptions(io.vertx.lang.groovy.InternalHelper.toJsonObject(options)) : null, completionHandler);
   }
   /**
    * Undeploy a verticle deployment.

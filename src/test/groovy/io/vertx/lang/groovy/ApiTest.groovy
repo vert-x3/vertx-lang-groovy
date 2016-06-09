@@ -19,8 +19,6 @@ package io.vertx.lang.groovy
 import io.vertx.codegen.testmodel.DataObjectWithOnlyJsonObjectConstructor
 import io.vertx.core.Future
 
-import java.util.stream.Collectors;
-
 import com.acme.groovy.pkg.MyInterface
 import com.acme.groovy.pkg.sub.SubInterface
 
@@ -28,18 +26,17 @@ import io.vertx.codegen.testmodel.RefedInterface1Impl
 import io.vertx.codegen.testmodel.TestEnum
 import io.vertx.codegen.testmodel.TestInterfaceImpl
 import io.vertx.codegen.testmodel.TestDataObject
-import io.vertx.codegen.testmodel.DataObjectTCK;
 import io.vertx.codegen.testmodel.DataObjectTCKImpl;
 import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
-import io.vertx.core.json.JsonObject;
 import io.vertx.groovy.codegen.testmodel.ConcreteHandlerUserTypeExtension
+import io.vertx.groovy.codegen.testmodel.DataObjectTCK
 import io.vertx.groovy.codegen.testmodel.GenericRefedInterface
 import io.vertx.groovy.codegen.testmodel.RefedInterface1
 import io.vertx.groovy.codegen.testmodel.RefedInterface2
 import io.vertx.groovy.codegen.testmodel.TestInterface
 import io.vertx.groovy.codegen.testmodel.Factory
-
+import io.vertx.groovy.core.buffer.Buffer
 import org.junit.Test
 
 import static org.junit.Assert.*
@@ -49,7 +46,7 @@ import static org.junit.Assert.*
 public class ApiTest {
 
   final TestInterface obj = new TestInterface(new TestInterfaceImpl());
-  final DataObjectTCK dataObjectTCK = new DataObjectTCKImpl();
+  final DataObjectTCK dataObjectTCK = new DataObjectTCK(new DataObjectTCKImpl());
 
   @Test
   public void testMethodWithBasicParams() {
@@ -1419,7 +1416,17 @@ public class ApiTest {
 
   @Test
   public void testMethodWithOnlyJsonObjectConstructor() {
-    def dataObject = new DataObjectWithOnlyJsonObjectConstructor(new JsonObject().put("foo", "bar"));
-    dataObjectTCK.methodWithOnlyJsonObjectConstructorDataObject(dataObject);
+    dataObjectTCK.methodWithOnlyJsonObjectConstructorDataObject([foo:"bar"]);
+  }
+
+  @Test
+  public void testDataObjectWithBuffer() {
+    dataObjectTCK.setDataObjectWithBuffer([
+        buffer: Buffer.buffer("Hello World"),
+        buffers: [Buffer.buffer("one"), Buffer.buffer("two")],
+        nested: [
+            buffer: Buffer.buffer("Bye World")
+        ]
+    ]);
   }
 }
