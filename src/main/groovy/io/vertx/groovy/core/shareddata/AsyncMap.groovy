@@ -59,8 +59,8 @@ public class AsyncMap<K,V> {
     delegate.put(k != null ? InternalHelper.unwrapObject(k) : null, v != null ? InternalHelper.unwrapObject(v) : null, completionHandler);
   }
   /**
-   * Like {@link io.vertx.groovy.core.shareddata.AsyncMap#put} but specifying a timeout. If the value cannot be put within the timeout a
-   * failure will be passed to the handler
+   * Like {@link io.vertx.groovy.core.shareddata.AsyncMap#put} but specifying a time to live for the entry. Entry will expire and get evicted after the
+   * ttl.
    * @param k the key
    * @param v the value
    * @param ttl The time to live (in ms) for the entry
@@ -88,8 +88,8 @@ public class AsyncMap<K,V> {
     } : null);
   }
   /**
-   * Link {@link io.vertx.groovy.core.shareddata.AsyncMap#putIfAbsent} but specifying a timeout. If the value cannot be put within the timeout a
-   * failure will be passed to the handler
+   * Link {@link io.vertx.groovy.core.shareddata.AsyncMap#putIfAbsent} but specifying a time to live for the entry. Entry will expire and get evicted
+   * after the ttl.
    * @param k the key
    * @param v the value
    * @param ttl The time to live (in ms) for the entry

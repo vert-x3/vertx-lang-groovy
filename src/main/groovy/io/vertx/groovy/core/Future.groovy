@@ -160,30 +160,31 @@ public class Future<T> {
   /**
    * Compose this future with a provided <code>next</code> future.<p>
    *
-   * When this future succeeds, the <code>handler</code> will be called with the completed value, this handler
-   * should complete the next future.<p>
+   * When this (the one on which <code>compose</code> is called) future succeeds, the <code>handler</code> will be called with
+   * the completed value, this handler should complete the next future.<p>
    *
    * If the <code>handler</code> throws an exception, the returned future will be failed with this exception.<p>
    *
    * When this future fails, the failure will be propagated to the <code>next</code> future and the <code>handler</code>
    * will not be called.
    * @param handler the handler
-   * @param composed the composed future
-   * @return the composed future, used for chaining
+   * @param next the next future
+   * @return the next future, used for chaining
    */
-  public <U> Future<U> compose(Handler<T> handler, Future<U> composed) {
+  public <U> Future<U> compose(Handler<T> handler, Future<U> next) {
     def ret = InternalHelper.safeCreate(delegate.compose(handler != null ? new Handler<java.lang.Object>(){
       public void handle(java.lang.Object event) {
         handler.handle((Object) InternalHelper.wrapObject(event));
       }
-    } : null, composed != null ? (io.vertx.core.Future<U>)composed.getDelegate() : null), io.vertx.groovy.core.Future.class);
+    } : null, next != null ? (io.vertx.core.Future<U>)next.getDelegate() : null), io.vertx.groovy.core.Future.class);
     return ret;
   }
   /**
    * Compose this future with a <code>mapper</code> function.<p>
    *
-   * When this future succeeds, the <code>mapper</code> will be called with the completed value and this mapper
-   * returns a future. This returned future completion will trigger the future returned by this method call.<p>
+   * When this future (the one on which <code>compose</code> is called) succeeds, the <code>mapper</code> will be called with
+   * the completed value and this mapper returns another future object. This returned future completion will complete
+   * the future returned by this method call.<p>
    *
    * If the <code>mapper</code> throws an exception, the returned future will be failed with this exception.<p>
    *
