@@ -47,7 +47,6 @@ public class CommandLine {
   }
   /**
    * @return the model of this command line object.
-   * @return 
    */
   public CLI cli() {
     def ret = InternalHelper.safeCreate(delegate.cli(), io.vertx.groovy.core.cli.CLI.class);
@@ -55,7 +54,6 @@ public class CommandLine {
   }
   /**
    * @return the ordered list of arguments. Arguments are command line arguments not matching an option.
-   * @return 
    */
   public List<String> allArguments() {
     def ret = delegate.allArguments();

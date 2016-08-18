@@ -88,7 +88,6 @@ public class WebSocket implements WebSocketBase {
   }
   /**
    * @return the remote address for this socket
-   * @return 
    */
   public SocketAddress remoteAddress() {
     if (cached_0 != null) {
@@ -100,7 +99,6 @@ public class WebSocket implements WebSocketBase {
   }
   /**
    * @return the local address for this socket
-   * @return 
    */
   public SocketAddress localAddress() {
     if (cached_1 != null) {

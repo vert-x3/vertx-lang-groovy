@@ -75,7 +75,6 @@ public class CLI {
   }
   /**
    * @return the CLI name.
-   * @return 
    */
   public String getName() {
     def ret = delegate.getName();
@@ -92,7 +91,6 @@ public class CLI {
   }
   /**
    * @return the CLI description.
-   * @return 
    */
   public String getDescription() {
     def ret = delegate.getDescription();
@@ -104,7 +102,6 @@ public class CLI {
   }
   /**
    * @return the CLI summary.
-   * @return 
    */
   public String getSummary() {
     def ret = delegate.getSummary();

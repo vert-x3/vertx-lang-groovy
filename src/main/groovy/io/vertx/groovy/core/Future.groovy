@@ -239,7 +239,6 @@ public class Future<T> {
   }
   /**
    * @return an handler completing this future
-   * @return 
    */
   public Handler<AsyncResult<T>> completer() {
     if (cached_0 != null) {

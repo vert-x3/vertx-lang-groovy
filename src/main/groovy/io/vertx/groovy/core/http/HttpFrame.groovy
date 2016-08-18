@@ -33,7 +33,6 @@ public class HttpFrame {
   }
   /**
    * @return the 8-bit type of the frame
-   * @return 
    */
   public int type() {
     if (cached_0 != null) {
@@ -45,7 +44,6 @@ public class HttpFrame {
   }
   /**
    * @return the 8-bit flags specific to the frame
-   * @return 
    */
   public int flags() {
     if (cached_1 != null) {
@@ -57,7 +55,6 @@ public class HttpFrame {
   }
   /**
    * @return the frame payload
-   * @return 
    */
   public Buffer payload() {
     if (cached_2 != null) {

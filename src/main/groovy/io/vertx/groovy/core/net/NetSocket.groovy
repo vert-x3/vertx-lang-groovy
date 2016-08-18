@@ -197,7 +197,6 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
   }
   /**
    * @return the remote address for this socket
-   * @return 
    */
   public SocketAddress remoteAddress() {
     if (cached_0 != null) {
@@ -209,7 +208,6 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
   }
   /**
    * @return the local address for this socket
-   * @return 
    */
   public SocketAddress localAddress() {
     if (cached_1 != null) {
@@ -251,7 +249,6 @@ public class NetSocket implements ReadStream<Buffer>,  WriteStream<Buffer> {
   }
   /**
    * @return true if this {@link io.vertx.groovy.core.net.NetSocket} is encrypted via SSL/TLS.
-   * @return 
    */
   public boolean isSsl() {
     def ret = delegate.isSsl();

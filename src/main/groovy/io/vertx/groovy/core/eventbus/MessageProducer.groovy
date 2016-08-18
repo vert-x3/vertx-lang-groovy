@@ -98,7 +98,6 @@ public class MessageProducer<T> implements WriteStream<T> {
   }
   /**
    * @return The address to which the producer produces messages.
-   * @return 
    */
   public String address() {
     def ret = delegate.address();

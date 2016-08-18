@@ -74,7 +74,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   /**
-   * @throws java.lang.IllegalStateException when no response handler is set
    * @param data 
    * @return 
    */
@@ -121,7 +120,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   }
   /**
    * @return Is the request chunked?
-   * @return 
    */
   public boolean isChunked() {
     def ret = delegate.isChunked();
@@ -137,7 +135,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   }
   /**
    * @return the raw value of the method this request sends
-   * @return 
    */
   public String getRawMethod() {
     def ret = delegate.getRawMethod();
@@ -154,7 +151,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   }
   /**
    * @return The URI of the request.
-   * @return 
    */
   public String uri() {
     def ret = delegate.uri();
@@ -162,7 +158,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   }
   /**
    * @return The path part of the uri. For example /somepath/somemorepath/someresource.foo
-   * @return 
    */
   public String path() {
     def ret = delegate.path();
@@ -170,7 +165,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   }
   /**
    * @return the query part of the uri. For example someparam=32&amp;someotherparam=x
-   * @return 
    */
   public String query() {
     def ret = delegate.query();
@@ -189,7 +183,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   }
   /**
    * @return the request host. For HTTP2 it returns the  pseudo header otherwise it returns the  header
-   * @return 
    */
   public String getHost() {
     def ret = delegate.getHost();
@@ -197,7 +190,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   }
   /**
    * @return The HTTP headers
-   * @return 
    */
   public MultiMap headers() {
     if (cached_0 != null) {
@@ -361,7 +353,6 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
   }
   /**
    * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request
-   * @return 
    */
   public HttpConnection connection() {
     if (cached_1 != null) {
@@ -401,9 +392,7 @@ public class HttpClientRequest implements WriteStream<Buffer>,  ReadStream<HttpC
     return this;
   }
   /**
-   * @return the id of the stream of this response,  when it is not yet determined, i.e
-   *         the request has not been yet sent or it is not supported HTTP/1.x
-   * @return 
+   * @return the id of the stream of this response,  when it is not yet determined, i.e the request has not been yet sent or it is not supported HTTP/1.x
    */
   public int streamId() {
     def ret = delegate.streamId();

@@ -92,7 +92,6 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the remote address for this socket
-   * @return 
    */
   public SocketAddress remoteAddress() {
     if (cached_0 != null) {
@@ -104,7 +103,6 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the local address for this socket
-   * @return 
    */
   public SocketAddress localAddress() {
     if (cached_1 != null) {
@@ -184,7 +182,6 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the WebSocket handshake path.
-   * @return 
    */
   public String path() {
     def ret = delegate.path();
@@ -192,7 +189,6 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the WebSocket handshake query string.
-   * @return 
    */
   public String query() {
     def ret = delegate.query();
@@ -200,7 +196,6 @@ public class ServerWebSocket implements WebSocketBase {
   }
   /**
    * @return the headers in the WebSocket handshake
-   * @return 
    */
   public MultiMap headers() {
     if (cached_2 != null) {

@@ -70,7 +70,6 @@ public class WebSocketFrame {
   }
   /**
    * @return true if it's a text frame
-   * @return 
    */
   public boolean isText() {
     def ret = delegate.isText();
@@ -78,7 +77,6 @@ public class WebSocketFrame {
   }
   /**
    * @return true if it's a binary frame
-   * @return 
    */
   public boolean isBinary() {
     def ret = delegate.isBinary();
@@ -86,16 +84,13 @@ public class WebSocketFrame {
   }
   /**
    * @return true if it's a continuation frame
-   * @return 
    */
   public boolean isContinuation() {
     def ret = delegate.isContinuation();
     return ret;
   }
   /**
-   * @return the content of this frame as a UTF-8 string and returns the
-   * converted string. Only use this for text frames.
-   * @return 
+   * @return the content of this frame as a UTF-8 string and returns the converted string. Only use this for text frames.
    */
   public String textData() {
     if (cached_0 != null) {
@@ -107,7 +102,6 @@ public class WebSocketFrame {
   }
   /**
    * @return the data of the frame
-   * @return 
    */
   public Buffer binaryData() {
     if (cached_1 != null) {
@@ -119,7 +113,6 @@ public class WebSocketFrame {
   }
   /**
    * @return true if this is the final frame.
-   * @return 
    */
   public boolean isFinal() {
     def ret = delegate.isFinal();

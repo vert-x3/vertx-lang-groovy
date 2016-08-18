@@ -237,16 +237,13 @@ public class Context {
   }
   /**
    * @return The Vertx instance that created the context
-   * @return 
    */
   public Vertx owner() {
     def ret = InternalHelper.safeCreate(delegate.owner(), io.vertx.groovy.core.Vertx.class);
     return ret;
   }
   /**
-   * @return  the number of instances of the verticle that were deployed in the deployment (if any) related
-   * to this context
-   * @return 
+   * @return the number of instances of the verticle that were deployed in the deployment (if any) related to this context
    */
   public int getInstanceCount() {
     def ret = delegate.getInstanceCount();

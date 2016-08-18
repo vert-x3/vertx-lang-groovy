@@ -80,7 +80,6 @@ public class LocalMap<K,V> {
   }
   /**
    * @return true if there are zero entries in the map
-   * @return 
    */
   public boolean isEmpty() {
     def ret = delegate.isEmpty();

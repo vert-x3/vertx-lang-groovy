@@ -32,8 +32,7 @@ public class SendContext<T> {
     return delegate;
   }
   /**
-   * @return  The message being sent
-   * @return 
+   * @return The message being sent
    */
   public Message<T> message() {
     def ret = InternalHelper.safeCreate(delegate.message(), io.vertx.groovy.core.eventbus.Message.class);

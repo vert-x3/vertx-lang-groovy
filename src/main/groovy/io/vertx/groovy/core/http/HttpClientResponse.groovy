@@ -69,7 +69,6 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the version of the response
-   * @return 
    */
   public HttpVersion version() {
     def ret = delegate.version();
@@ -77,7 +76,6 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the status code of the response
-   * @return 
    */
   public int statusCode() {
     def ret = delegate.statusCode();
@@ -85,7 +83,6 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the status message of the response
-   * @return 
    */
   public String statusMessage() {
     def ret = delegate.statusMessage();
@@ -93,7 +90,6 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the headers
-   * @return 
    */
   public MultiMap headers() {
     if (cached_0 != null) {
@@ -123,7 +119,6 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the trailers
-   * @return 
    */
   public MultiMap trailers() {
     if (cached_1 != null) {
@@ -135,7 +130,6 @@ public class HttpClientResponse implements ReadStream<Buffer> {
   }
   /**
    * @return the Set-Cookie headers (including trailers)
-   * @return 
    */
   public List<String> cookies() {
     if (cached_2 != null) {

@@ -68,7 +68,6 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return the filename which was used when upload the file.
-   * @return 
    */
   public String filename() {
     def ret = delegate.filename();
@@ -76,15 +75,13 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return the name of the attribute
-   * @return 
    */
   public String name() {
     def ret = delegate.name();
     return ret;
   }
   /**
-   * @return  the content type for the upload
-   * @return 
+   * @return the content type for the upload
    */
   public String contentType() {
     def ret = delegate.contentType();
@@ -92,7 +89,6 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return the contentTransferEncoding for the upload
-   * @return 
    */
   public String contentTransferEncoding() {
     def ret = delegate.contentTransferEncoding();
@@ -100,7 +96,6 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return the charset for the upload
-   * @return 
    */
   public String charset() {
     def ret = delegate.charset();
@@ -117,7 +112,6 @@ public class HttpServerFileUpload implements ReadStream<Buffer> {
   }
   /**
    * @return true if the size of the upload can be retrieved via {@link io.vertx.groovy.core.http.HttpServerFileUpload#size}.
-   * @return 
    */
   public boolean isSizeAvailable() {
     def ret = delegate.isSizeAvailable();

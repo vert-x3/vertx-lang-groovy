@@ -32,7 +32,6 @@ public class FileSystemProps {
   }
   /**
    * @return The total space on the file system, in bytes
-   * @return 
    */
   public long totalSpace() {
     def ret = delegate.totalSpace();
@@ -40,7 +39,6 @@ public class FileSystemProps {
   }
   /**
    * @return The total un-allocated space on the file system, in bytes
-   * @return 
    */
   public long unallocatedSpace() {
     def ret = delegate.unallocatedSpace();
@@ -48,7 +46,6 @@ public class FileSystemProps {
   }
   /**
    * @return The total usable space on the file system, in bytes
-   * @return 
    */
   public long usableSpace() {
     def ret = delegate.usableSpace();

@@ -19,7 +19,6 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
 /**
- * @author <a href="mailto:nscavell@redhat.com">Nick Scavelli</a>
 */
 @CompileStatic
 public interface Measured {

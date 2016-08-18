@@ -67,7 +67,6 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * @return a read stream for the body of the message stream.
-   * @return 
    */
   public ReadStream<T> bodyStream() {
     def ret = InternalHelper.safeCreate(delegate.bodyStream(), io.vertx.groovy.core.streams.ReadStreamImpl.class);
@@ -75,7 +74,6 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * @return true if the current consumer is registered
-   * @return 
    */
   public boolean isRegistered() {
     def ret = delegate.isRegistered();
@@ -83,7 +81,6 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * @return The address the handler was registered with.
-   * @return 
    */
   public String address() {
     def ret = delegate.address();
@@ -102,7 +99,6 @@ public class MessageConsumer<T> implements ReadStream<Message<T>> {
   }
   /**
    * @return the maximum number of messages that can be buffered when this stream is paused
-   * @return 
    */
   public int getMaxBufferedMessages() {
     def ret = delegate.getMaxBufferedMessages();

@@ -79,7 +79,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return the HTTP status code of the response. The default is <code>200</code> representing <code>OK</code>.
-   * @return 
    */
   public int getStatusCode() {
     def ret = delegate.getStatusCode();
@@ -96,9 +95,7 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * @return the HTTP status message of the response. If this is not specified a default value will be used depending on what
-   * {@link io.vertx.groovy.core.http.HttpServerResponse#setStatusCode} has been set to.
-   * @return 
+   * @return the HTTP status message of the response. If this is not specified a default value will be used depending on what {@link io.vertx.groovy.core.http.HttpServerResponse#setStatusCode} has been set to.
    */
   public String getStatusMessage() {
     def ret = delegate.getStatusMessage();
@@ -134,7 +131,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return is the response chunked?
-   * @return 
    */
   public boolean isChunked() {
     def ret = delegate.isChunked();
@@ -142,7 +138,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return The HTTP headers
-   * @return 
    */
   public MultiMap headers() {
     if (cached_0 != null) {
@@ -164,7 +159,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return The HTTP trailers
-   * @return 
    */
   public MultiMap trailers() {
     if (cached_1 != null) {
@@ -333,7 +327,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return has the response already ended?
-   * @return 
    */
   public boolean ended() {
     def ret = delegate.ended();
@@ -341,7 +334,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return has the underlying TCP connection corresponding to the request already been closed?
-   * @return 
    */
   public boolean closed() {
     def ret = delegate.closed();
@@ -349,7 +341,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return have the headers for the response already been written?
-   * @return 
    */
   public boolean headWritten() {
     def ret = delegate.headWritten();
@@ -366,9 +357,10 @@ public class HttpServerResponse implements WriteStream<Buffer> {
     return this;
   }
   /**
-   * Provide a handler that will be called just before the last part of the body is written to the wire
-   * and the response is ended.<p>
-   * This provides a hook allowing you to do any more operations before this occurs.
+   * Provides a handler that will be called after the last part of the body is written to the wire.
+   * The handler is called asynchronously of when the response has been received by the client.
+   * This provides a hook allowing you to do more operations once the request has been sent over the wire
+   * such as resource cleanup.
    * @param handler the handler
    * @return a reference to this, so the API can be used fluently
    */
@@ -378,7 +370,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return the total number of bytes written for the body of the response.
-   * @return 
    */
   public long bytesWritten() {
     def ret = delegate.bytesWritten();
@@ -386,7 +377,6 @@ public class HttpServerResponse implements WriteStream<Buffer> {
   }
   /**
    * @return the id of the stream of this response,  for HTTP/1.x
-   * @return 
    */
   public int streamId() {
     def ret = delegate.streamId();

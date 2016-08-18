@@ -72,7 +72,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the HTTP version of the request
-   * @return 
    */
   public HttpVersion version() {
     def ret = delegate.version();
@@ -80,7 +79,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the HTTP method for the request.
-   * @return 
    */
   public HttpMethod method() {
     def ret = delegate.method();
@@ -88,7 +86,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the HTTP method as sent by the client
-   * @return 
    */
   public String rawMethod() {
     def ret = delegate.rawMethod();
@@ -96,7 +93,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return true if this {@link io.vertx.groovy.core.net.NetSocket} is encrypted via SSL/TLS
-   * @return 
    */
   public boolean isSSL() {
     def ret = delegate.isSSL();
@@ -104,7 +100,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the scheme of the request
-   * @return 
    */
   public String scheme() {
     def ret = delegate.scheme();
@@ -112,7 +107,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the URI of the request. This is usually a relative URI
-   * @return 
    */
   public String uri() {
     def ret = delegate.uri();
@@ -120,7 +114,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return The path part of the uri. For example /somepath/somemorepath/someresource.foo
-   * @return 
    */
   public String path() {
     def ret = delegate.path();
@@ -128,7 +121,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the query part of the uri. For example someparam=32&amp;someotherparam=x
-   * @return 
    */
   public String query() {
     def ret = delegate.query();
@@ -136,16 +128,13 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the request host. For HTTP2 it returns the  pseudo header otherwise it returns the  header
-   * @return 
    */
   public String host() {
     def ret = delegate.host();
     return ret;
   }
   /**
-   * @return the response. Each instance of this class has an {@link io.vertx.groovy.core.http.HttpServerResponse} instance attached to it. This is used
-   * to send the response back to the client.
-   * @return 
+   * @return the response. Each instance of this class has an {@link io.vertx.groovy.core.http.HttpServerResponse} instance attached to it. This is used to send the response back to the client.
    */
   public HttpServerResponse response() {
     if (cached_0 != null) {
@@ -157,7 +146,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the headers in the request.
-   * @return 
    */
   public MultiMap headers() {
     if (cached_1 != null) {
@@ -178,7 +166,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the query parameters in the request
-   * @return 
    */
   public MultiMap params() {
     if (cached_2 != null) {
@@ -199,7 +186,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the remote (client side) address of the request
-   * @return 
    */
   public SocketAddress remoteAddress() {
     if (cached_3 != null) {
@@ -211,7 +197,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the local (server side) address of the server that handles the request
-   * @return 
    */
   public SocketAddress localAddress() {
     if (cached_4 != null) {
@@ -223,7 +208,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the absolute URI corresponding to the the HTTP request
-   * @return 
    */
   public String absoluteURI() {
     def ret = delegate.absoluteURI();
@@ -274,8 +258,7 @@ public class HttpServerRequest implements ReadStream<Buffer> {
     return this;
   }
   /**
-   * @return  true if we are expecting a multi-part body for this request. See {@link io.vertx.groovy.core.http.HttpServerRequest#setExpectMultipart}.
-   * @return 
+   * @return true if we are expecting a multi-part body for this request. See {@link io.vertx.groovy.core.http.HttpServerRequest#setExpectMultipart}.
    */
   public boolean isExpectMultipart() {
     def ret = delegate.isExpectMultipart();
@@ -356,7 +339,6 @@ public class HttpServerRequest implements ReadStream<Buffer> {
   }
   /**
    * @return the {@link io.vertx.groovy.core.http.HttpConnection} associated with this request
-   * @return 
    */
   public HttpConnection connection() {
     if (cached_7 != null) {

@@ -44,7 +44,6 @@ public class HttpConnection {
   }
   /**
    * @return the current connection window size or <code>-1</code> for HTTP/1.x
-   * @return 
    */
   public int getWindowSize() {
     def ret = delegate.getWindowSize();
@@ -168,8 +167,7 @@ public class HttpConnection {
     delegate.close();
   }
   /**
-   * @return the latest server settings acknowledged by the remote endpoint - this is not implemented for HTTP/1.x
-   * @return  (see <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a>)
+   * @return the latest server settings acknowledged by the remote endpoint - this is not implemented for HTTP/1.x (see <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a>)
    */
   public Map<String, Object> settings() {
     def ret = (Map<String, Object>)InternalHelper.wrapObject(delegate.settings()?.toJson());
@@ -201,8 +199,7 @@ public class HttpConnection {
     return this;
   }
   /**
-   * @return the current remote endpoint settings for this connection - this is not implemented for HTTP/1.x
-   * @return  (see <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a>)
+   * @return the current remote endpoint settings for this connection - this is not implemented for HTTP/1.x (see <a href="../../../../../../../cheatsheet/Http2Settings.html">Http2Settings</a>)
    */
   public Map<String, Object> remoteSettings() {
     def ret = (Map<String, Object>)InternalHelper.wrapObject(delegate.remoteSettings()?.toJson());
