@@ -1250,6 +1250,12 @@ public class ApiTest {
   }
 
   @Test
+  public void testMethodWithCachedReturnPrimitive() {
+    assertEquals(4, obj.methodWithCachedReturnPrimitive(4));
+    assertEquals(4, obj.methodWithCachedReturnPrimitive(5));
+  }
+
+  @Test
   public void testMethodWithCachedListReturn() {
     def ret1 = obj.methodWithCachedListReturn();
     assertEquals(2, ret1.size());

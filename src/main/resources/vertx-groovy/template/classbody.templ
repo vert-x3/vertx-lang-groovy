@@ -22,7 +22,7 @@
 	@end{}
 	   */\n
 	@end{}
-	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeParam:method.typeParams}@{typeParam.name}@end{', '}> @end{}@{genConvReturnType(method.returnType)} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultDataObject=defaultDataObjectMap[method]}@end{', '}) {\n
+	  public @if{method.staticMethod}static @end{}@if{method.typeParams.size() > 0}<@foreach{typeParam:method.typeParams}@{typeParam.name}@end{', '}> @end{}@{genConvReturnType(method.returnType, false)} @{method.name}(@foreach{param: method.params}@includeNamed{'paramTemplate';param=param;defaultDataObject=defaultDataObjectMap[method]}@end{', '}) {\n
 	@if{method.fluent}
 	    @{genInvokeDelegate(method)};\n
 			@if{method.returnType.variable}
@@ -41,7 +41,7 @@
 		    def ret = @{genConvReturn(method.returnType, genInvokeDelegate(method))};\n
 		@if{method.cacheReturn}
 		    cached_@{cacheDecls.size()} = ret;\n
-			@code{cacheDecls.add('private' + (method.staticMethod ? ' static' : '') + ' ' + genConvReturnType(method.returnType) + ' cached_' + cacheDecls.size())}
+			@code{cacheDecls.add('private' + (method.staticMethod ? ' static' : '') + ' ' + genConvReturnType(method.returnType, true) + ' cached_' + cacheDecls.size())}
 		@end{}
 		    return ret;\n
 		@end{}

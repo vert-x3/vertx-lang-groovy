@@ -64,7 +64,7 @@ public class HttpFrame {
     cached_2 = ret;
     return ret;
   }
-  private int cached_0;
-  private int cached_1;
+  private Integer cached_0;
+  private Integer cached_1;
   private Buffer cached_2;
 }
