@@ -21,6 +21,7 @@ import io.vertx.core.json.JsonObject
 import java.util.List
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
+import java.util.function.Function
 /**
  * The composite future wraps a list of {@link io.vertx.groovy.core.Future futures}, it is useful when several futures
  * needs to be coordinated.
@@ -34,6 +35,107 @@ public class CompositeFuture extends Future<CompositeFuture> {
   }
   public Object getDelegate() {
     return delegate;
+  }
+  /**
+   * Set the result. Any handler will be called, if there is one, and the future will be marked as completed.
+   * @param result the result
+   */
+  public void complete(CompositeFuture result) {
+    ((io.vertx.core.Future) delegate).complete(result != null ? (io.vertx.core.CompositeFuture)result.getDelegate() : null);
+  }
+  /**
+   * The result of the operation. This will be null if the operation failed.
+   * @return the result or null if the operation failed.
+   */
+  public CompositeFuture result() {
+    def ret = InternalHelper.safeCreate(((io.vertx.core.Future) delegate).result(), io.vertx.groovy.core.CompositeFuture.class);
+    return ret;
+  }
+  /**
+   * Compose this future with a provided <code>next</code> future.<p>
+   *
+   * When this (the one on which <code>compose</code> is called) future succeeds, the <code>handler</code> will be called with
+   * the completed value, this handler should complete the next future.<p>
+   *
+   * If the <code>handler</code> throws an exception, the returned future will be failed with this exception.<p>
+   *
+   * When this future fails, the failure will be propagated to the <code>next</code> future and the <code>handler</code>
+   * will not be called.
+   * @param handler the handler
+   * @param next the next future
+   * @return the next future, used for chaining
+   */
+  public <U> Future<U> compose(Handler<CompositeFuture> handler, Future<U> next) {
+    def ret = InternalHelper.safeCreate(((io.vertx.core.Future) delegate).compose(handler != null ? new Handler<io.vertx.core.CompositeFuture>(){
+      public void handle(io.vertx.core.CompositeFuture event) {
+        handler.handle(InternalHelper.safeCreate(event, io.vertx.groovy.core.CompositeFuture.class));
+      }
+    } : null, next != null ? (io.vertx.core.Future<U>)next.getDelegate() : null), io.vertx.groovy.core.Future.class);
+    return ret;
+  }
+  /**
+   * Compose this future with a <code>mapper</code> function.<p>
+   *
+   * When this future (the one on which <code>compose</code> is called) succeeds, the <code>mapper</code> will be called with
+   * the completed value and this mapper returns another future object. This returned future completion will complete
+   * the future returned by this method call.<p>
+   *
+   * If the <code>mapper</code> throws an exception, the returned future will be failed with this exception.<p>
+   *
+   * When this future fails, the failure will be propagated to the returned future and the <code>mapper</code>
+   * will not be called.
+   * @param mapper the mapper function
+   * @return the composed future
+   */
+  public <U> Future<U> compose(java.util.function.Function<CompositeFuture, Future<U>> mapper) {
+    def ret = InternalHelper.safeCreate(((io.vertx.core.Future) delegate).compose(mapper != null ? new java.util.function.Function<io.vertx.core.CompositeFuture, io.vertx.core.Future<java.lang.Object>>(){
+      public io.vertx.core.Future<java.lang.Object> apply(io.vertx.core.CompositeFuture arg_) {
+        def ret = mapper.apply(InternalHelper.safeCreate(arg_, io.vertx.groovy.core.CompositeFuture.class));
+        return ret != null ? (io.vertx.core.Future<java.lang.Object>)ret.getDelegate() : null;
+      }
+    } : null), io.vertx.groovy.core.Future.class);
+    return ret;
+  }
+  /**
+   * Apply a <code>mapper</code> function on this future.<p>
+   *
+   * When this future succeeds, the <code>mapper</code> will be called with the completed value and this mapper
+   * returns a value. This value will complete the future returned by this method call.<p>
+   *
+   * If the <code>mapper</code> throws an exception, the returned future will be failed with this exception.<p>
+   *
+   * When this future fails, the failure will be propagated to the returned future and the <code>mapper</code>
+   * will not be called.
+   * @param mapper the mapper function
+   * @return the mapped future
+   */
+  public <U> Future<U> map(java.util.function.Function<CompositeFuture, U> mapper) {
+    def ret = InternalHelper.safeCreate(((io.vertx.core.Future) delegate).map(mapper != null ? new java.util.function.Function<io.vertx.core.CompositeFuture, java.lang.Object>(){
+      public java.lang.Object apply(io.vertx.core.CompositeFuture arg_) {
+        def ret = mapper.apply(InternalHelper.safeCreate(arg_, io.vertx.groovy.core.CompositeFuture.class));
+        return ret != null ? InternalHelper.unwrapObject(ret) : null;
+      }
+    } : null), io.vertx.groovy.core.Future.class);
+    return ret;
+  }
+  /**
+   * @return an handler completing this future
+   */
+  public Handler<AsyncResult<CompositeFuture>> completer() {
+    if (cached_0 != null) {
+      return cached_0;
+    }
+    def ret = new Handler<AsyncResult<CompositeFuture>>() {
+      public void handle(AsyncResult<CompositeFuture> ar_) {
+        if (ar_.succeeded()) {
+          ((io.vertx.core.Future) delegate).completer().handle(io.vertx.core.Future.succeededFuture((io.vertx.core.CompositeFuture)ar_.result().getDelegate()));
+        } else  {
+          ((io.vertx.core.Future) delegate).completer().handle(io.vertx.core.Future.failedFuture(ar_.cause()));
+        }
+      }
+    };
+    cached_0 = ret;
+    return ret;
   }
   /**
    * Return a composite future, succeeded when all futures are succeeded, failed when any future is failed.
@@ -307,8 +409,8 @@ public class CompositeFuture extends Future<CompositeFuture> {
    * @param index the wrapped future index
    * @return 
    */
-  public <T> T result(int index) {
-    def ret = (T) InternalHelper.wrapObject(delegate.result(index));
+  public <T> T resultAt(int index) {
+    def ret = (T) InternalHelper.wrapObject(delegate.resultAt(index));
     return ret;
   }
   /**
@@ -318,4 +420,5 @@ public class CompositeFuture extends Future<CompositeFuture> {
     def ret = delegate.size();
     return ret;
   }
+  private Handler<AsyncResult<CompositeFuture>> cached_0;
 }
