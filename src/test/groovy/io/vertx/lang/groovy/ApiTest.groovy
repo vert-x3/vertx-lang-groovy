@@ -145,11 +145,6 @@ public class ApiTest {
   }
 
   @Test
-  public void testNullDataObjectParam() {
-    obj.methodWithNullDataObjectParam(null);
-  }
-
-  @Test
   public void testMethodWithHandlerDataObject() {
     def dataObject = new TestDataObject()
     dataObject.foo = "foo"
@@ -605,20 +600,6 @@ public class ApiTest {
     });
     assertEquals(2, count);
   }
-
-  @Test
-  public void testNullJsonHandlerParams() {
-    def count = 0;
-    obj.methodWithHandlerNullJson({
-      assertEquals(null, it)
-      count++;
-    }, {
-      assertEquals(null, it)
-      count++;
-    });
-    assertEquals(2, count);
-  }
-
 
   @Test
   public void testComplexJsonHandlerParams() {

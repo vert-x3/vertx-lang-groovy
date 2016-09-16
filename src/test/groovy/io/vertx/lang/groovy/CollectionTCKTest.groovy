@@ -207,31 +207,6 @@ public class CollectionTCKTest {
   }
 
   @Test
-  public void testListOfDataObjectsParam() {
-    def list = [
-        [foo: "hello",
-         bar: 123,
-         wibble: 1.23],
-        [foo: "world",
-         bar: 123,
-         wibble: 1.23]
-    ];
-    obj.methodWithListOfDataObjectsParam(list);
-  }
-
-  @Test
-  public void testSetOfDataObjectsParam() {
-    def set = new LinkedHashSet()
-    set << [foo: "hello",
-            bar: 123,
-            wibble: 1.23]
-    set << [foo: "world",
-            bar: 123,
-            wibble: 1.23]
-    obj.methodWithSetOfDataObjectsParam(set);
-  }
-
-  @Test
   public void testMethodWithHandlerListAndSet() {
     def count = 0;
     obj.methodWithHandlerListAndSet(
@@ -338,16 +313,6 @@ public class CollectionTCKTest {
   }
 
   @Test
-  public void testMethodWithHandlerListNullJsonObject() {
-    def count = 0;
-    obj.methodWithHandlerListNullJsonObject({
-      assertEquals([null], it);
-      count++;
-    });
-    assertEquals(1, count)
-  }
-
-  @Test
   public void testMethodWithHandlerListComplexJsonObject() {
     def count = 0;
 
@@ -368,15 +333,6 @@ public class CollectionTCKTest {
   }
 
   @Test
-  public void testMethodWithHandlerAsyncResultListNullJsonObject() {
-    def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultListNullJsonObject({
-      checker.assertAsyncResult([null], it)
-    })
-    assertEquals(1, checker.count);
-  }
-
-  @Test
   public void testMethodWithHandlerAsyncResultListComplexJsonObject() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListComplexJsonObject({
@@ -390,16 +346,6 @@ public class CollectionTCKTest {
     def count = 0;
     obj.methodWithHandlerSetJsonObject({
       assertEquals([[cheese:"stilton"],[socks:"tartan"]] as Set, it);
-      count++;
-    });
-    assertEquals(1, count)
-  }
-
-  @Test
-  public void testMethodWithHandlerSetNullJsonObject() {
-    def count = 0;
-    obj.methodWithHandlerSetNullJsonObject({
-      assertEquals([null] as Set, it);
       count++;
     });
     assertEquals(1, count)
@@ -425,15 +371,6 @@ public class CollectionTCKTest {
   }
 
   @Test
-  public void testMethodWithHandlerAsyncResultSetNullJsonObject() {
-    def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultSetNullJsonObject({
-      checker.assertAsyncResult([null] as Set, it)
-    })
-    assertEquals(1, checker.count);
-  }
-
-  @Test
   public void testMethodWithHandlerAsyncResultSetComplexJsonObject() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetComplexJsonObject({
@@ -447,16 +384,6 @@ public class CollectionTCKTest {
     def count = 0;
     obj.methodWithHandlerListJsonArray({
       assertEquals([["green","blue"],["yellow","purple"]], it);
-      count++;
-    });
-    assertEquals(1, count)
-  }
-
-  @Test
-  public void testMethodWithHandlerListNullJsonArray() {
-    def count = 0;
-    obj.methodWithHandlerListNullJsonArray({
-      assertEquals([null], it);
       count++;
     });
     assertEquals(1, count)
@@ -490,15 +417,6 @@ public class CollectionTCKTest {
   }
 
   @Test
-  public void testMethodWithHandlerNullListDataObject() {
-    def checker = new AsyncResultChecker();
-    obj.methodWithHandlerListNullDataObject({
-      checker.assertResult([null], it)
-    });
-    assertEquals(1, checker.count);
-  }
-
-  @Test
   public void testMethodWithHandlerSetDataObject() {
     def count = 0
     obj.methodWithHandlerSetDataObject({
@@ -511,28 +429,10 @@ public class CollectionTCKTest {
   }
 
   @Test
-  public void testMethodWithHandlerNullSetDataObject() {
-    def checker = new AsyncResultChecker();
-    obj.methodWithHandlerSetNullDataObject({
-      checker.assertResult([null] as Set, it)
-    });
-    assertEquals(1, checker.count);
-  }
-
-  @Test
   public void testMethodWithHandlerAsyncResultListJsonArray() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListJsonArray({
       checker.assertAsyncResult([["green","blue"],["yellow","purple"]], it)
-    });
-    assertEquals(1, checker.count);
-  }
-
-  @Test
-  public void testMethodWithHandlerAsyncResultListNullJsonArray() {
-    def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultListNullJsonArray({
-      checker.assertAsyncResult([null], it)
     });
     assertEquals(1, checker.count);
   }
@@ -557,16 +457,6 @@ public class CollectionTCKTest {
   }
 
   @Test
-  public void testMethodWithHandlerSetNullJsonArray() {
-    def count = 0;
-    obj.methodWithHandlerSetNullJsonArray({
-      assertEquals([null] as Set, it);
-      count++;
-    });
-    assertEquals(1, count)
-  }
-
-  @Test
   public void testMethodWithHandlerSetComplexJsonArray() {
     def count = 0;
     obj.methodWithHandlerSetComplexJsonArray({
@@ -581,15 +471,6 @@ public class CollectionTCKTest {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetJsonArray({
       checker.assertAsyncResult([["green","blue"],["yellow","purple"]] as Set, it)
-    });
-    assertEquals(1, checker.count);
-  }
-
-  @Test
-  public void testMethodWithHandlerAsyncResultNullSetJsonArray() {
-    def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultSetNullJsonArray({
-      checker.assertAsyncResult([null] as Set, it)
     });
     assertEquals(1, checker.count);
   }
@@ -622,15 +503,6 @@ public class CollectionTCKTest {
   }
 
   @Test
-  public void testMethodWithHandlerAsyncResultNullListDataObject() {
-    def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultListNullDataObject({
-      checker.assertAsyncResult([null], it)
-    });
-    assertEquals(1, checker.count);
-  }
-
-  @Test
   public void testMethodWithHandlerAsyncResultSetDataObject() {
     def count = 0
     obj.methodWithHandlerAsyncResultSetDataObject({
@@ -640,15 +512,6 @@ public class CollectionTCKTest {
       count++;
     });
     assertEquals(1, count);
-  }
-
-  @Test
-  public void testMethodWithHandlerAsyncResultNullSetDataObject() {
-    def checker = new AsyncResultChecker();
-    obj.methodWithHandlerAsyncResultSetNullDataObject({
-      checker.assertAsyncResult([null] as Set, it)
-    });
-    assertEquals(1, checker.count);
   }
 
   @Test
