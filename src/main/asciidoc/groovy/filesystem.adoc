@@ -137,7 +137,7 @@ vertx.fileSystem().open("target/classes/hello.txt", [:], { result ->
   if (result.succeeded()) {
     def file = result.result()
     def buff = Buffer.buffer("foo")
-    for (def i = 0;i < 5;i++) {
+    (0..<5).each { i ->
       file.write(buff, buff.length() * i, { ar ->
         if (ar.succeeded()) {
           println("Written ok!")
@@ -179,7 +179,7 @@ vertx.fileSystem().open("target/classes/les_miserables.txt", [:], { result ->
   if (result.succeeded()) {
     def file = result.result()
     def buff = Buffer.buffer(1000)
-    for (def i = 0;i < 10;i++) {
+    (0..<10).each { i ->
       file.read(buff, i * 100, i * 100, 100, { ar ->
         if (ar.succeeded()) {
           println("Read ok!")

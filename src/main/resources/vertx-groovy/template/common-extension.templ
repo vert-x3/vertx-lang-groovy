@@ -1,0 +1,175 @@
+@code{
+
+  def checkType(type) {
+    if (type.kind == CLASS_DATA_OBJECT || type.kind == CLASS_OBJECT || type.kind.json) {
+      return true;
+    } else if (type.kind == CLASS_HANDLER || type.kind == CLASS_ASYNC_RESULT || type.kind == CLASS_LIST || type.kind == CLASS_SET) {
+      return checkType(type.args[0]);
+    } else if (type.kind == CLASS_MAP) {
+      return checkType(type.args[1]);
+    } else if (type.kind == CLASS_FUNCTION) {
+      if (checkType(type.args[0])) {
+        return true;
+      }
+      if (checkType(type.args[1])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  def checkMethod(method) {
+    for (param : method.params) {
+      if (checkType(param.type)) {
+        return true;
+      }
+    }
+    return checkType(method.returnType);
+  }
+
+   def genGroovyType(type) {
+     if (type.kind == CLASS_DATA_OBJECT) {
+       return "java.util.Map<String, Object>";
+     } else if (type.kind == CLASS_JSON_OBJECT) {
+       return "java.util.Map<String, Object>";
+     } else if (type.kind == CLASS_JSON_ARRAY) {
+       return "java.util.List<Object>";
+     } else if (type.kind == CLASS_OBJECT) {
+       return "java.lang.Object";
+     } else if (type.kind == CLASS_HANDLER) {
+       return "io.vertx.core.Handler<" + genGroovyType(type.args[0]) + ">";
+     } else if (type.kind == CLASS_ASYNC_RESULT) {
+       return "io.vertx.core.AsyncResult<" + genGroovyType(type.args[0]) + ">";
+     } else if (type.kind == CLASS_LIST) {
+       return "java.util.List<" + genGroovyType(type.args[0]) + ">";
+     } else if (type.kind == CLASS_SET) {
+       return "java.util.Set<" + genGroovyType(type.args[0]) + ">";
+     } else if (type.kind == CLASS_MAP) {
+       return "java.util.Map<String, " + genGroovyType(type.args[1]) + ">";
+     } else if (type.kind == CLASS_FUNCTION) {
+       return "java.util.function.Function<" + genGroovyType(type.args[0]) + ", " + genGroovyType(type.args[1]) + ">";
+     } else {
+       return type.erased.name;
+     }
+   }
+
+   def genConvReturn(type, expr) {
+     if (type.void) {
+       return expr;
+     } else if (type.kind == CLASS_JSON_OBJECT) {
+       return 'io.vertx.lang.groovy.RetroCompatExtension.fromJsonObject(' + expr + ')';
+     } else if (type.kind == CLASS_JSON_ARRAY) {
+       return 'io.vertx.lang.groovy.RetroCompatExtension.fromJsonArray(' + expr + ')';
+     } else if (type.kind == CLASS_DATA_OBJECT) {
+       return 'io.vertx.lang.groovy.RetroCompatExtension.applyIfNotNull(' + expr + ', a -> io.vertx.lang.groovy.RetroCompatExtension.fromJsonObject(a.toJson()))';
+     } else if (type.kind == CLASS_LIST || type.kind == CLASS_SET) {
+       var eltConv = genConvReturn(type.args[0], 'elt');
+       var coll = type.kind == CLASS_LIST ? 'toList' : 'toSet';
+       if (eltConv == expr) {
+         return expr;
+       } else {
+         return 'io.vertx.lang.groovy.RetroCompatExtension.applyIfNotNull(' + expr + ', list -> list.stream().map(elt -> ' + eltConv + ').collect(java.util.stream.Collectors.' + coll + '()))';
+       }
+     } else if (type.kind == CLASS_MAP) {
+       var eltConv = genConvReturn(type.args[1], 'entry.getValue()');
+       if (eltConv == expr) {
+         return expr;
+       } else {
+         return 'io.vertx.lang.groovy.RetroCompatExtension.applyIfNotNull(' + expr + ', map -> map.entrySet().stream().collect(java.util.stream.Collectors.toMap(java.util.Map.Entry::getKey, entry -> ' + eltConv + ')))';
+       }
+     } else if (type.kind.basic) {
+       return expr;
+     } else {
+       return 'io.vertx.lang.groovy.RetroCompatExtension.wrap(' + expr + ')';
+     }
+   }
+
+   def genMethodCall(method) {
+     var prefix = (method.staticMethod ? type.raw.name : 'j_receiver') + '.' + method.name + '(';
+     var sep = '';
+     for (param : method.params) {
+       prefix = prefix + sep + genConvParam(param.type, param.name);
+       sep = ',\n      ';
+     }
+     prefix = prefix + ')';
+     return prefix;
+   }
+
+   def genConvParam(type, expr) {
+     if (type.kind == CLASS_DATA_OBJECT) {
+       return expr + ' != null ? new ' + type.name + '(io.vertx.lang.groovy.RetroCompatExtension.toJsonObject(' + expr + ')) : null';
+     } else if (type.kind == CLASS_JSON_OBJECT) {
+       return expr + ' != null ? io.vertx.lang.groovy.RetroCompatExtension.toJsonObject(' + expr + ') : null';
+     } else if (type.kind == CLASS_JSON_ARRAY) {
+       return expr + ' != null ? io.vertx.lang.groovy.RetroCompatExtension.toJsonArray(' + expr + ') : null';
+     } else if (type.kind == CLASS_OBJECT) {
+       return 'io.vertx.lang.groovy.RetroCompatExtension.unwrap(' + expr + ')';
+     } else if (type.kind == CLASS_HANDLER) {
+       if (type.args[0].kind == CLASS_ASYNC_RESULT) {
+         var c = type.args[0].args[0].erased.name;
+         return expr + ' != null ? new io.vertx.core.Handler<io.vertx.core.AsyncResult<' + c + '>>() {\n' +
+         '      public void handle(io.vertx.core.AsyncResult<' + c + '> ar) {\n' +
+         '        ' + expr + '.handle(ar.map(event -> ' + genConvReturn(type.args[0].args[0], 'event') + '));\n' +
+         '      }\n' +
+         '    } : null';
+       } else {
+         return expr + ' != null ? event -> ' + expr + '.handle(' + genConvReturn(type.args[0], 'event') + ') : null';
+       }
+     } else if (type.kind == CLASS_FUNCTION) {
+       var t = type.args[0].erased.name;
+       var r = type.args[1].erased.name;
+       return expr + ' != null ? new java.util.function.Function<' + t + ', ' + r + '>() {\n' +
+       '      public ' + r + ' apply(' + t + ' t) {\n' +
+       '        ' + genGroovyType(type.args[0]) + ' o = ' + genConvReturn(type.args[0], 't') + ';\n' +
+       '        ' + genGroovyType(type.args[1]) + ' p = ' + expr + '.apply(o);\n' +
+       '        return ' + genConvParam(type.args[1], 'p') + ';\n' +
+       '      }\n' +
+       '    } : null';
+     } else if (type.kind == CLASS_LIST || type.kind == CLASS_SET) {
+       var collector = type.kind == CLASS_LIST ? 'toList()' : 'toSet()';
+       return expr + ' != null ? ' + expr + '.stream().map(elt -> ' + genConvParam(type.args[0], 'elt') + ').collect(java.util.stream.Collectors.' + collector + ') : null';
+     } else if (type.kind == CLASS_MAP) {
+       return expr + ' != null ? ' + expr + '.entrySet().stream().collect(java.util.stream.Collectors.toMap(java.util.Map.Entry::getKey, entry -> ' + genConvParam(type.args[1], 'entry.getValue()') + ')) : null';
+     } else {
+       return expr;
+     }
+   }
+
+   def genReturnType(type) {
+     if (type.void) {
+       return 'void';
+     } else if (type.kind == CLASS_JSON_OBJECT) {
+       return 'java.util.Map<String, Object>';
+     } else if (type.kind == CLASS_JSON_ARRAY) {
+       return 'java.util.List<Object>';
+     } else if (type.kind == CLASS_DATA_OBJECT) {
+       return 'java.util.Map<String, Object>';
+     } else if (type.kind == CLASS_LIST) {
+       return 'java.util.List<' + genReturnType(type.args[0]) + '>';
+     } else if (type.kind == CLASS_SET) {
+       return 'java.util.Set<' + genReturnType(type.args[0]) + '>';
+     } else if (type.kind == CLASS_MAP) {
+       return 'java.util.Map<String, ' + genReturnType(type.args[1]) + '>';
+     } else {
+       return type.erased.name;
+     }
+   }
+}
+
+@declare{'genMethod'}
+  public static @if{method.typeParams.size() > 0}
+<
+	@foreach{typeParam : method.typeParams}
+@{typeParam.name}
+	@end{', '}
+>@end{}
+@{genReturnType(method.returnType)} @{method.name}(@{type.raw.name} j_receiver
+	@foreach{param : method.params}
+		, @{genGroovyType(param.type)} @{param.name}
+	@end{}) {\n
+    @if{!method.returnType.void && !method.fluent}return @end{}@{genConvReturn(method.returnType, genMethodCall(method))};\n
+	@if{method.fluent}
+    return j_receiver;\n
+	@end{}
+  }\n
+@end{}

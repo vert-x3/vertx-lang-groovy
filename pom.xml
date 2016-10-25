@@ -211,7 +211,7 @@
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
               <optionMap>
-                <generators>groovy</generators>
+                <generators>Groovy</generators>
                 <outputDirectory>${project.basedir}/src/main</outputDirectory>
                 <docgen.output>${asciidoc.dir}/groovy</docgen.output>
               </optionMap>

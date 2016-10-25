@@ -41,7 +41,7 @@ import static org.junit.Assert.*
  */
 public class ApiTCKTest {
 
-  final TestInterface obj = new TestInterface(new TestInterfaceImpl());
+  final TestInterface obj = new TestInterfaceImpl();
 
   @Test
   public void testMethodWithBasicParams() {
@@ -98,7 +98,7 @@ public class ApiTCKTest {
 
   @Test
   public void testMethodWithUserTypes() {
-    RefedInterface1 refed = new RefedInterface1(new RefedInterface1Impl());
+    RefedInterface1 refed = new RefedInterface1Impl();
     refed.setString("aardvarks");
     obj.methodWithUserTypes(refed);
   }
@@ -201,7 +201,7 @@ public class ApiTCKTest {
   @Test
   public void testMethodWithHandlerVertxGenReturn() {
     def handler = obj.methodWithHandlerVertxGenReturn("wibble");
-    handler.handle(new RefedInterface1(new RefedInterface1Impl().setString("wibble")));
+    handler.handle(new RefedInterface1Impl().setString("wibble"));
   }
 
   @Test
@@ -241,7 +241,7 @@ public class ApiTCKTest {
   @Test
   public void testMethodWithHandlerAsyncResultVertxGenReturn() {
     def handler = obj.methodWithHandlerAsyncResultVertxGenReturn("wibble", false);
-    handler.handle(Future.succeededFuture(new RefedInterface1(new RefedInterface1Impl().setString("wibble"))));
+    handler.handle(Future.succeededFuture(new RefedInterface1Impl().setString("wibble")));
     handler = obj.methodWithHandlerAsyncResultVertxGenReturn("oh-no", true);
     handler.handle(Future.failedFuture("oh-no"));
   }
@@ -289,13 +289,13 @@ public class ApiTCKTest {
   public void testMethodWithConcreteHandlerUserTypesSubtypeExtension() {
     def count = 0;
     obj.methodWithConcreteHandlerUserTypeSubtypeExtension(
-        new ConcreteHandlerUserTypeExtension(new io.vertx.codegen.testmodel.ConcreteHandlerUserTypeExtension() {
+        new io.vertx.codegen.testmodel.ConcreteHandlerUserTypeExtension() {
           @Override
           void handle(io.vertx.codegen.testmodel.RefedInterface1 event) {
             assertEquals("echidnas", event.string)
             count++
           }
-        }));
+        });
     assertEquals(1, count);
   }
 
@@ -479,7 +479,7 @@ public class ApiTCKTest {
 
   @Test
   public void testOverloadedMethods() {
-    RefedInterface1 refed = new RefedInterface1(new RefedInterface1Impl())
+    RefedInterface1 refed = new RefedInterface1Impl()
     refed.setString("dog")
     assertEquals("meth1", obj.overloadedMethod("cat", refed))
     def called = false
@@ -519,34 +519,6 @@ public class ApiTCKTest {
   public void testStaticFactoryMethod() {
     def ret = TestInterface.staticFactoryMethod("bar");
     assertEquals("bar", ret.string);
-  }
-
-  @Test
-  public void testMethodWithCachedReturn() {
-    def ret1 = obj.methodWithCachedReturn("bar");
-    assertEquals("bar", ret1.string);
-    def ret2 = obj.methodWithCachedReturn("bar");
-    assertSame(ret1, ret2);
-    def ret3 = obj.methodWithCachedReturn("bar");
-    assertSame(ret1, ret3);
-  }
-
-  @Test
-  public void testMethodWithCachedReturnPrimitive() {
-    assertEquals(4, obj.methodWithCachedReturnPrimitive(4));
-    assertEquals(4, obj.methodWithCachedReturnPrimitive(5));
-  }
-
-  @Test
-  public void testMethodWithCachedListReturn() {
-    def ret1 = obj.methodWithCachedListReturn();
-    assertEquals(2, ret1.size());
-    assertEquals("foo", ret1[0].string);
-    assertEquals("bar", ret1[1].string);
-    def ret2 = obj.methodWithCachedListReturn();
-    assertSame(ret1, ret2);
-    def ret3 = obj.methodWithCachedListReturn();
-    assertSame(ret1, ret3);
   }
 
   @Test

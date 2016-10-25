@@ -1237,7 +1237,7 @@ no need to set the `Content-Length` of the request up-front.
 request.setChunked(true)
 
 // Write some chunks
-for (def i = 0;i < 10;i++) {
+(0..<10).each { i ->
   request.write("this-is-chunk-${i}")
 }
 
@@ -1890,7 +1890,7 @@ endpoint:
 ----
 import io.vertx.groovy.core.buffer.Buffer
 def data = Buffer.buffer()
-for (def i = 0;i < 8;i++) {
+(0..<8).each { i ->
   data.appendByte(i)
 }
 connection.ping(data, { pong ->

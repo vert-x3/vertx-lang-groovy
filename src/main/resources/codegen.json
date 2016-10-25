@@ -2,7 +2,13 @@
   "name": "Groovy",
   "generators": [ {
     "kind": "class",
-    "fileName": "'groovy/' + module.translateQualifiedName(fqn, 'groovy').replace('.', '/') + '.groovy'",
-    "templateFileName": "vertx-groovy/template/groovy.templ"
+    "fileName": " module.translateQualifiedName(module.packageName, 'groovy') + '.GroovyExtension.java'",
+    "templateFileName": "vertx-groovy/template/groovy-extension.templ",
+    "incremetal": true
+  }, {
+    "kind": "class",
+    "fileName": " module.translateQualifiedName(module.packageName, 'groovy') + '.GroovyStaticExtension.java'",
+    "templateFileName": "vertx-groovy/template/groovy-static-extension.templ",
+    "incremetal": true
   } ]
 }

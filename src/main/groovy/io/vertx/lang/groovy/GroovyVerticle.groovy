@@ -20,8 +20,8 @@ import groovy.transform.CompileStatic;
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
 import io.vertx.core.Verticle;
-import io.vertx.groovy.core.Vertx;
-import io.vertx.groovy.core.Context;
+import io.vertx.core.Vertx;
+import io.vertx.core.Context;
 
 /**
  * The base class for Groovy verticles.
@@ -88,8 +88,8 @@ public class GroovyVerticle {
 
       @Override
       void start(Future<Void> startFuture) throws Exception {
-        GroovyVerticle.this.vertx = new Vertx(super.vertx);
-        GroovyVerticle.this.context = new Context(super.context);
+        GroovyVerticle.this.vertx = super.vertx;
+        GroovyVerticle.this.context = super.context;
         GroovyVerticle.this.start(startFuture);
       }
 

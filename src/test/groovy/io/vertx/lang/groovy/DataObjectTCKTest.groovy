@@ -26,7 +26,7 @@ import org.junit.Test
  */
 public class DataObjectTCKTest {
 
-  final DataObjectTCK dataObjectTCK = new DataObjectTCK(new DataObjectTCKImpl());
+  final DataObjectTCK dataObjectTCK = new DataObjectTCKImpl();
 
   @Test
   public void testMethodWithOnlyJsonObjectConstructor() {

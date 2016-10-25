@@ -19,14 +19,13 @@ package io.vertx.lang.groovy
 import groovy.transform.CompileStatic;
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future;
-import io.vertx.groovy.core.Vertx;
 
 /**
  * A Vert.x native verticle wrapping a Groovy script, the script will be executed when the Verticle starts.
  * When the script defines a no arg accessible <code>vertxStop</code> method, this method will be invoked
  * when the verticle stops. Before the script starts the following objects are bound in the script binding:
  * <ul>
- *   <li><code>vertx</code>: the {@link io.vertx.groovy.core.Vertx} object</li>
+ *   <li><code>vertx</code>: the {@link io.vertx.core.Vertx} object</li>
  *   <li><code>deploymentID</code>: the deploymentID of this Verticle</li>
  *   <li><code>config</code>: the Verticle config as a <code>Map&lt;String, Object&gt;</code></li>
  * </ul>
@@ -43,7 +42,7 @@ public class ScriptVerticle extends AbstractVerticle {
   }
 
   private static final Class[] EMPTY_PARAMS = [];
-  private static final Class[] FUTURE_PARAMS = [io.vertx.groovy.core.Future.class];
+  private static final Class[] FUTURE_PARAMS = [io.vertx.core.Future.class];
 
   /**
    * Start the verticle instance.
@@ -61,7 +60,7 @@ public class ScriptVerticle extends AbstractVerticle {
     if (script.getBinding() == null) {
       script.setBinding(binding = new Binding());
     }
-    binding.setVariable("vertx", new Vertx(vertx));
+    binding.setVariable("vertx", vertx);
     script.run();
     handleLifecycle("vertxStart", startFuture);
   }
@@ -85,7 +84,7 @@ public class ScriptVerticle extends AbstractVerticle {
     MetaMethod method = script.getMetaClass().getMetaMethod(methodName);
     if (method != null) {
       if (method.isValidMethod(FUTURE_PARAMS)) {
-        method.invoke(script, [new io.vertx.groovy.core.Future(future)] as Object[]);
+        method.invoke(script, [future] as Object[]);
       } else if (method.isValidMethod(EMPTY_PARAMS)) {
         method.invoke(script);
         future.complete();

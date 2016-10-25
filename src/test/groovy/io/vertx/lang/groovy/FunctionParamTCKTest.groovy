@@ -16,7 +16,7 @@ import static org.junit.Assert.*
  */
 public class FunctionParamTCKTest {
 
-  final FunctionParamTCK obj = new FunctionParamTCK(new FunctionParamTCKImpl());
+  final FunctionParamTCK obj = new FunctionParamTCKImpl();
 
   @Test
   public void testBasicParam() {
@@ -48,7 +48,7 @@ public class FunctionParamTCKTest {
 
   @Test
   public void testUserTypeParam() {
-    RefedInterface1 refed = new RefedInterface1(new RefedInterface1Impl());
+    RefedInterface1 refed = new RefedInterface1Impl();
     assertEquals("ok", obj.methodWithUserTypeParam(refed) {
       it.setString("foobarjuu")
       assertEquals("foobarjuu", it.getString())
