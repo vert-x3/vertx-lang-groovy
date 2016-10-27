@@ -2,16 +2,21 @@ package io.vertx.lang.groovy;
 
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassNode;
+import org.codehaus.groovy.ast.ConstructorNode;
+import org.codehaus.groovy.ast.FieldNode;
 import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.ImportNode;
 import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ModuleNode;
+import org.codehaus.groovy.ast.Parameter;
+import org.codehaus.groovy.ast.expr.CastExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
+import org.codehaus.groovy.ast.expr.ClosureExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ExpressionTransformer;
 import org.codehaus.groovy.ast.expr.VariableExpression;
-import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
+import org.codehaus.groovy.ast.stmt.ForStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.GenericsVisitor;
@@ -44,114 +49,103 @@ public class VertxTransformation implements ASTTransformation {
   private void visit(ASTNode node) {
     if (node instanceof ModuleNode) {
       visit((ModuleNode)node);
-    } else if (node instanceof BlockStatement) {
-      visit((BlockStatement) node);
     }
   }
 
   private void visit(ModuleNode moduleNode) {
-
     for (ImportNode importNode : moduleNode.getImports()) {
       if (shouldTransform(importNode.getType())) {
         moduleNode.addImport(importNode.getAlias(), rewriteType(importNode.getType()));
       }
     }
-
+    for (MethodNode methodNode : moduleNode.getMethods()) {
+      visit(moduleNode, methodNode);
+    }
     for (ClassNode classNode : moduleNode.getClasses()) {
+      for (ConstructorNode constructorNode : classNode.getDeclaredConstructors()) {
+        visit(moduleNode, constructorNode);
+      }
+      for (FieldNode fieldNode : classNode.getFields()) {
+        visit(fieldNode);
+      }
       for (MethodNode methodNode : classNode.getMethods()) {
         visit(moduleNode, methodNode);
       }
     }
+  }
 
-    for (MethodNode methodNode : moduleNode.getMethods()) {
-      visit(moduleNode, methodNode);
-    }
-
-//    visit(node.getStatementBlock());
-//    node.getMethods().forEach(this::visit);
+  private void visit(FieldNode fieldNode) {
+    fieldNode.setType(handleType(fieldNode.getType()));
+    fieldNode.setOriginType(handleType(fieldNode.getOriginType()));
   }
 
   private void visit(ModuleNode moduleNode, MethodNode methodNode) {
-    methodNode.getCode().visit(new GenericsVisitor(moduleNode.getContext()) {
+    for (Parameter param : methodNode.getParameters()) {
+      handleParam(param);
+    }
+    methodNode.setReturnType(handleType(methodNode.getReturnType()));
+    visit(moduleNode, methodNode.getCode());
+  }
+
+  private void visit(ModuleNode module, Statement statement) {
+    statement.visit(new GenericsVisitor(module.getContext()) {
+      @Override
+      public void visitForLoop(ForStatement forLoop) {
+        forLoop.setCollectionExpression(forLoop.getCollectionExpression().transformExpression(transformer));
+        forLoop.getLoopBlock().visit(this);
+      }
       @Override
       public void visitExpressionStatement(ExpressionStatement statement) {
-        statement.setExpression(statement.getExpression().transformExpression(new ExpressionTransformer() {
-          @Override
-          public Expression transform(Expression expression) {
-            if (expression instanceof VariableExpression) {
-              VariableExpression variableExpression = (VariableExpression) expression;
-              GenericsType[] genericsTypes = variableExpression.getType().getGenericsTypes();
-              if (genericsTypes != null) {
-                for (int i = 0; i < genericsTypes.length;i++) {
-                  GenericsType genericsType = genericsTypes[i];
-                  if (shouldTransform(genericsType.getType())) {
-                    genericsType.setType(rewriteType(genericsType.getType()));
-                  }
-                }
-              }
-            } else if (expression instanceof ClassExpression) {
-              ClassExpression classExpression = (ClassExpression) expression;
-              if (shouldTransform(classExpression.getType())) {
-                classExpression.setType(rewriteType(classExpression.getType()));
-              }
-            }
-            return expression.transformExpression(this);
-          }
-        }));
+        statement.setExpression(statement.getExpression().transformExpression(transformer));
       }
     });
   }
 
-
-/*
-  private void visit(MethodNode method) {
-    for (Parameter parameter : method.getParameters()) {
-      ClassNode type = parameter.getType();
-      if (type.getPackageName().startsWith("io.vertx.groovy.")) {
-        ClassNode newType = rewriteType(type);
-        parameter.setType(newType);
-      }
-    }
-    visit(method.getCode());
-  }
-
-  private void visit(Statement statement) {
-    if (statement instanceof ExpressionStatement) {
-      ExpressionStatement exprStatement = (ExpressionStatement) statement;
-      visit(exprStatement);
-    } else if (statement instanceof BlockStatement) {
-      BlockStatement blockStatement = (BlockStatement) statement;
-      blockStatement.getStatements().forEach(this::visit);
-      visit(blockStatement.getVariableScope());
-    }
-  }
-
-  private void visit(VariableScope variableScope) {
-  }
-
-  private void visit(ExpressionStatement statement) {
-    Expression expression = statement.getExpression();
-    expression = expression.transformExpression(new ExpressionTransformer() {
-      @Override
-      public Expression transform(Expression expression) {
-        if (expression instanceof VariableExpression) {
-          VariableExpression varEx = (VariableExpression) expression;
-          ClassNode type = varEx.getType();
-          if (type.getPackageName().startsWith("io.vertx.groovy.")) {
-            ClassNode newType = rewriteType(type);
-            VariableExpression variableExpression = new VariableExpression(varEx.getName(), newType);
-            variableExpression.setSourcePosition(varEx);
-            variableExpression.copyNodeMetaData(varEx);
-            System.out.println("replaced");
-            return variableExpression;
-          }
+  private final ExpressionTransformer transformer = new ExpressionTransformer() {
+    @Override
+    public Expression transform(Expression expression) {
+      if (expression instanceof VariableExpression) {
+        VariableExpression variableExpression = (VariableExpression) expression;
+        variableExpression.setType(handleType(variableExpression.getType()));
+        ClassNode originType = handleType(variableExpression.getOriginType());
+        if (originType != variableExpression.getOriginType()) {
+          return new VariableExpression(variableExpression.getName(), rewriteType(variableExpression.getOriginType()));
         }
-        return expression.transformExpression(this);
+      } else if (expression instanceof ClassExpression) {
+        ClassExpression classExpression = (ClassExpression) expression;
+        classExpression.setType(handleType(classExpression.getType()));
+      } else if (expression instanceof ClosureExpression) {
+        ClosureExpression closureExpr = (ClosureExpression) expression;
+        for (Parameter param : closureExpr.getParameters()) {
+          handleParam(param);
+        }
+      } else if (expression instanceof CastExpression) {
+        CastExpression castExpr = (CastExpression) expression;
+        castExpr.setType(handleType(castExpr.getType()));
       }
-    });
-    statement.setExpression(expression);
+      return expression.transformExpression(this);
+    }
+  };
+
+  private ClassNode handleType(ClassNode type) {
+    GenericsType[] genericsTypes = type.getGenericsTypes();
+    if (genericsTypes != null) {
+      for (GenericsType genericsType : genericsTypes) {
+        if (shouldTransform(genericsType.getType())) {
+          genericsType.setType(rewriteType(genericsType.getType()));
+        }
+      }
+    }
+    if (shouldTransform(type)) {
+      return rewriteType(type);
+    }
+    return type;
   }
-*/
+
+  private void handleParam(Parameter param) {
+    param.setType(handleType(param.getType()));
+    param.setOriginType(handleType(param.getOriginType()));
+  }
 
   private boolean shouldTransform(ClassNode type) {
     return type != null && (type.getName().startsWith("io.vertx.groovy.") || type.getName().startsWith("com.acme.groovy."));
