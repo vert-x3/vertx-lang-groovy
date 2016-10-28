@@ -1,5 +1,6 @@
 package io.vertx.lang.groovy;
 
+import groovy.lang.GroovyClassLoader;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ConstructorNode;
@@ -24,6 +25,9 @@ import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.ASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -32,13 +36,13 @@ import java.util.stream.Stream;
 @GroovyASTTransformation(phase= CompilePhase.CONVERSION)
 public class VertxTransformation implements ASTTransformation {
 
-  public static volatile boolean ENABLED = true;
+  private GroovyClassLoader loader;
+  private final Map<String, Boolean> movedPkg = new HashMap<>();
+
 
   @Override
   public void visit(ASTNode[] astNodes, SourceUnit sourceUnit) {
-    if (!ENABLED) {
-      return;
-    }
+    loader = sourceUnit.getClassLoader();
     try {
       Stream.of(astNodes).forEach(this::visit);
     } catch (Exception e) {
@@ -148,7 +152,36 @@ public class VertxTransformation implements ASTTransformation {
   }
 
   private boolean shouldTransform(ClassNode type) {
-    return type != null && (type.getName().startsWith("io.vertx.groovy.") || type.getName().startsWith("com.acme.groovy."));
+
+    if (type == null) {
+      return false;
+    }
+    String name = type.getPackageName();
+    if (name == null) {
+      return false;
+    }
+    Boolean val = movedPkg.get(name);
+    if (val != null) {
+      return val;
+    }
+    int idx = name.indexOf(".groovy.");
+    if (idx == -1) {
+      return false;
+    }
+    return shouldTransform(idx, name);
+  }
+
+  private boolean shouldTransform(int idx, String pkg) {
+    int last = pkg.length();
+    if (last > idx) {
+      URL res = loader.getResource(pkg.substring(0, last).replace('.', '/') + "/GroovyExtension.class");
+      if (res != null || shouldTransform(idx, pkg.substring(0, pkg.lastIndexOf('.', last)))) {
+        movedPkg.put(pkg, true);
+        return true;
+      }
+    }
+    movedPkg.put(pkg, false);
+    return false;
   }
 
   private ClassNode rewriteType(ClassNode type) {
