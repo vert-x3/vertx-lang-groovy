@@ -131,24 +131,6 @@
             </additionalClasspathElements>
           </configuration>
         </plugin>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>default-clean</id>
-              <configuration>
-                <filesets>
-                  <fileset>
-                    <directory>src/main/groovy/io/vertx/groovy/core</directory>
-                  </fileset>
-                  <fileset>
-                    <directory>${asciidoc.dir}</directory>
-                  </fileset>
-                </filesets>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -276,35 +258,9 @@
         <executions>
           <execution>
             <goals>
-              <goal>addSources</goal>
               <goal>addTestSources</goal>
-              <goal>compile</goal>
               <goal>testCompile</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.bluetrainsoftware.maven</groupId>
-        <artifactId>groovydoc-maven-plugin</artifactId>
-        <version>1.3</version>
-        <executions>
-          <execution>
-            <id>attach-docs</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>attach-docs</goal>
-            </goals>
-            <configuration>
-              <destinationDirectory>${project.build.directory}/docs/groovydoc</destinationDirectory>
-              <scope>public</scope>
-              <extensions>.groovy</extensions>
-              <skipJavadoc>true</skipJavadoc>
-              <!-- Workaround for aggregator -->
-              <additionalSourceDirectories>
-                <additionalSourceDirectory>${project.basedir}/src/main/groovy</additionalSourceDirectory>
-              </additionalSourceDirectories>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -335,6 +291,20 @@
                 <descriptor>src/main/assembly/docs.xml</descriptor>
               </descriptors>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <reportOutputDirectory>${project.build.directory}/docs</reportOutputDirectory>
+            </configuration>
+            <phase>package</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

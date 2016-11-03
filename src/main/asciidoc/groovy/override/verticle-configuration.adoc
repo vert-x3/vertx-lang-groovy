@@ -2,7 +2,7 @@
 
 Configuration in the form of Map can be passed to a verticle at deployment time:
 
-[source,groovy]
+[source,java]
 ----
 def config = [
  name:"tim",
@@ -12,21 +12,21 @@ def options = [ "config" : config ];
 vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
 ----
 
-This configuration is then available via the `link:../../groovydoc/io/vertx/groovy/core/Context.html[Context]`, The configuration is returned as a Map
+This configuration is then available via the `link:../../apidocs/io/vertx/core/Context.html[Context]`, The configuration is returned as a Map
 object so you can retrieve data as follows:
 
-[source,groovy]
+[source,java]
 ----
 println vertx.getOrCreateContext().config()["name"]
 ----
 
-NOTE: The configuration can also be a `JsonObject` object.
+NOTE: The configuration can also be a `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` object.
 
 === Accessing environment variables in a Verticle
 
 Environment variables and system properties are accessible using the Java API:
 
-[source,groovy]
+[source,java]
 ----
 println System.getProperty("foo")
 println System.getenv("HOME")

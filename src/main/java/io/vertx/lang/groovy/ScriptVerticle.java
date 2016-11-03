@@ -13,11 +13,12 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+package io.vertx.lang.groovy;
 
-package io.vertx.lang.groovy
-
-import groovy.transform.CompileStatic;
-import io.vertx.core.AbstractVerticle
+import groovy.lang.Binding;
+import groovy.lang.MetaMethod;
+import groovy.lang.Script;
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 
 /**
@@ -32,7 +33,6 @@ import io.vertx.core.Future;
  *
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-@CompileStatic
 public class ScriptVerticle extends AbstractVerticle {
 
   private final Script script;
@@ -41,8 +41,8 @@ public class ScriptVerticle extends AbstractVerticle {
     this.script = script;
   }
 
-  private static final Class[] EMPTY_PARAMS = [];
-  private static final Class[] FUTURE_PARAMS = [io.vertx.core.Future.class];
+  private static final Class[] EMPTY_PARAMS = {};
+  private static final Class[] FUTURE_PARAMS = {io.vertx.core.Future.class};
 
   /**
    * Start the verticle instance.
@@ -55,7 +55,7 @@ public class ScriptVerticle extends AbstractVerticle {
    * @param startFuture  the future
    */
   @Override
-  void start(Future<Void> startFuture) throws Exception {
+  public void start(Future<Void> startFuture) throws Exception {
     Binding binding = script.getBinding();
     if (script.getBinding() == null) {
       script.setBinding(binding = new Binding());
@@ -76,17 +76,17 @@ public class ScriptVerticle extends AbstractVerticle {
    * @param stopFuture  the future
    */
   @Override
-  void stop(Future<Void> stopFuture) throws Exception {
+  public void stop(Future<Void> stopFuture) throws Exception {
     handleLifecycle("vertxStop", stopFuture);
   }
 
   private void handleLifecycle(String methodName, Future<Void> future) {
-    MetaMethod method = script.getMetaClass().getMetaMethod(methodName);
+    MetaMethod method = script.getMetaClass().getMetaMethod(methodName, EMPTY_PARAMS);
     if (method != null) {
       if (method.isValidMethod(FUTURE_PARAMS)) {
-        method.invoke(script, [future] as Object[]);
+        method.invoke(script, new Object[]{future});
       } else if (method.isValidMethod(EMPTY_PARAMS)) {
-        method.invoke(script);
+        method.invoke(script, EMPTY_PARAMS);
         future.complete();
       }
     } else {

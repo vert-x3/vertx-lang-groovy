@@ -26,30 +26,25 @@ buffer3:I AM DOING OK
 
 Let's see the associated code:
 
-[source, groovy]
+[source, java]
 ----
-import io.vertx.groovy.core.parsetools.RecordParser
-import io.vertx.groovy.core.buffer.Buffer
-def parser = RecordParser.newDelimited("\n", { h ->
-  println(h.toString())
-})
+final RecordParser parser = RecordParser.newDelimited("\n", h -> {
+  System.out.println(h.toString());
+});
 
-parser.handle(Buffer.buffer("HELLO\nHOW ARE Y"))
-parser.handle(Buffer.buffer("OU?\nI AM"))
-parser.handle(Buffer.buffer("DOING OK"))
-parser.handle(Buffer.buffer("\n"))
-
+parser.handle(Buffer.buffer("HELLO\nHOW ARE Y"));
+parser.handle(Buffer.buffer("OU?\nI AM"));
+parser.handle(Buffer.buffer("DOING OK"));
+parser.handle(Buffer.buffer("\n"));
 ----
 
 You can also produce fixed sized chunks as follows:
 
-[source, groovy]
+[source, java]
 ----
-import io.vertx.groovy.core.parsetools.RecordParser
-RecordParser.newFixed(4, { h ->
-  println(h.toString())
-})
-
+RecordParser.newFixed(4, h -> {
+  System.out.println(h.toString());
+});
 ----
 
-For more details, check out the `link:../../groovydoc/io/vertx/groovy/core/parsetools/RecordParser.html[RecordParser]` class.
+For more details, check out the `link:../../apidocs/io/vertx/core/parsetools/RecordParser.html[RecordParser]` class.

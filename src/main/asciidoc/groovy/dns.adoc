@@ -7,10 +7,9 @@ this Vert.x offers it's own API for DNS resolution which is fully asynchronous.
 
 To obtain a DnsClient instance you will create a new via the Vertx instance.
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
 ----
 
 Be aware that you can pass in a varargs of InetSocketAddress arguments to specifiy more then one DNS Server to try
@@ -24,17 +23,16 @@ so it behaves the same way as you may be used from when using "nslookup" on your
 
 To lookup the A / AAAA record for "vertx.io" you would typically use it like:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.lookup("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.lookup("vertx.io", ar -> {
   if (ar.succeeded()) {
-    println(ar.result())
+    System.out.println(ar.result());
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === lookup4
@@ -44,17 +42,16 @@ the same way as you may be used from when using "nslookup" on your operation sys
 
 To lookup the A record for "vertx.io" you would typically use it like:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.lookup4("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.lookup4("vertx.io", ar -> {
   if (ar.succeeded()) {
-    println(ar.result())
+    System.out.println(ar.result());
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === lookup6
@@ -64,17 +61,16 @@ same way as you may be used from when using "nslookup" on your operation system.
 
 To lookup the A record for "vertx.io" you would typically use it like:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.lookup6("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.lookup6("vertx.io", ar -> {
   if (ar.succeeded()) {
-    println(ar.result())
+    System.out.println(ar.result());
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === resolveA
@@ -84,20 +80,19 @@ systems.
 
 To lookup all the A records for "vertx.io" you would typically do:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.resolveA("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.resolveA("vertx.io", ar -> {
   if (ar.succeeded()) {
-    def records = ar.result()
-    records.each { record ->
-      println(record)
+    List<String> records = ar.result();
+    for (String record : records) {
+      System.out.println(record);
     }
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === resolveAAAA
@@ -107,20 +102,19 @@ operation systems.
 
 To lookup all the AAAAA records for "vertx.io" you would typically do:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.resolveAAAA("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.resolveAAAA("vertx.io", ar -> {
   if (ar.succeeded()) {
-    def records = ar.result()
-    records.each { record ->
-      println(record)
+    List<String> records = ar.result();
+    for (String record : records) {
+      System.out.println(record);
     }
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === resolveCNAME
@@ -130,20 +124,19 @@ systems.
 
 To lookup all the CNAME records for "vertx.io" you would typically do:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.resolveCNAME("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.resolveCNAME("vertx.io", ar -> {
   if (ar.succeeded()) {
-    def records = ar.result()
-    records.each { record ->
-      println(record)
+    List<String> records = ar.result();
+    for (String record : records) {
+      System.out.println(record);
     }
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === resolveMX
@@ -153,32 +146,30 @@ emails for a given domain.
 
 To lookup all the MX records for "vertx.io" you would typically do:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.resolveMX("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.resolveMX("vertx.io", ar -> {
   if (ar.succeeded()) {
-    def records = ar.result()
-    records.each { record ->
-      println(record)
+    List<MxRecord> records = ar.result();
+    for (MxRecord record: records) {
+      System.out.println(record);
     }
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
-Be aware that the List will contain the `link:../../groovydoc/io/vertx/groovy/core/dns/MxRecord.html[MxRecord]` sorted by the priority of them, which
+Be aware that the List will contain the `link:../../apidocs/io/vertx/core/dns/MxRecord.html[MxRecord]` sorted by the priority of them, which
 means MX records with smaller priority coming first in the List.
 
-The `link:../../groovydoc/io/vertx/groovy/core/dns/MxRecord.html[MxRecord]` allows you to access the priority and the name of the MX record by offer methods for it like:
+The `link:../../apidocs/io/vertx/core/dns/MxRecord.html[MxRecord]` allows you to access the priority and the name of the MX record by offer methods for it like:
 
-[source,groovy]
+[source,java]
 ----
-record.priority()
-record.name()
-
+record.priority();
+record.name();
 ----
 
 === resolveTXT
@@ -187,20 +178,19 @@ Try to resolve all TXT records for a given name. TXT records are often used to d
 
 To resolve all the TXT records for "vertx.io" you could use something along these lines:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.resolveTXT("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.resolveTXT("vertx.io", ar -> {
   if (ar.succeeded()) {
-    def records = ar.result()
-    records.each { record ->
-      println(record)
+    List<String> records = ar.result();
+    for (String record: records) {
+      System.out.println(record);
     }
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === resolveNS
@@ -210,20 +200,19 @@ for a given domain.
 
 To resolve all the NS records for "vertx.io" you could use something along these lines:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.resolveNS("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.resolveNS("vertx.io", ar -> {
   if (ar.succeeded()) {
-    def records = ar.result()
-    records.each { record ->
-      println(record)
+    List<String> records = ar.result();
+    for (String record: records) {
+      System.out.println(record);
     }
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === resolveSRV
@@ -233,37 +222,35 @@ hostname of services. Some protocols need this extra informations.
 
 To lookup all the SRV records for "vertx.io" you would typically do:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.resolveSRV("vertx.io", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.resolveSRV("vertx.io", ar -> {
   if (ar.succeeded()) {
-    def records = ar.result()
-    records.each { record ->
-      println(record)
+    List<SrvRecord> records = ar.result();
+    for (SrvRecord record: records) {
+      System.out.println(record);
     }
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 Be aware that the List will contain the SrvRecords sorted by the priority of them, which means SrvRecords
 with smaller priority coming first in the List.
 
-The `link:../../groovydoc/io/vertx/groovy/core/dns/SrvRecord.html[SrvRecord]` allows you to access all informations contained in the SRV record itself:
+The `link:../../apidocs/io/vertx/core/dns/SrvRecord.html[SrvRecord]` allows you to access all informations contained in the SRV record itself:
 
-[source,groovy]
+[source,java]
 ----
-record.priority()
-record.name()
-record.weight()
-record.port()
-record.protocol()
-record.service()
-record.target()
-
+record.priority();
+record.name();
+record.weight();
+record.port();
+record.protocol();
+record.service();
+record.target();
 ----
 
 Please refer to the API docs for the exact details.
@@ -274,18 +261,17 @@ Try to resolve the PTR record for a given name. The PTR record maps an ipaddress
 
 To resolve the PTR record for the ipaddress 10.0.0.1 you would use the PTR notion of "1.0.0.10.in-addr.arpa"
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.resolvePTR("1.0.0.10.in-addr.arpa", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.resolvePTR("1.0.0.10.in-addr.arpa", ar -> {
   if (ar.succeeded()) {
-    def record = ar.result()
-    println(record)
+    String record = ar.result();
+    System.out.println(record);
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 === reverseLookup
@@ -295,18 +281,17 @@ just pass in the ipaddress and not a valid PTR query string.
 
 To do a reverse lookup for the ipaddress 10.0.0.1 do something similar like this:
 
-[source,groovy]
+[source,java]
 ----
-def client = vertx.createDnsClient(53, "10.0.0.1")
-client.reverseLookup("10.0.0.1", { ar ->
+DnsClient client = vertx.createDnsClient(53, "10.0.0.1");
+client.reverseLookup("10.0.0.1", ar -> {
   if (ar.succeeded()) {
-    def record = ar.result()
-    println(record)
+    String record = ar.result();
+    System.out.println(record);
   } else {
-    println("Failed to resolve entry${ar.cause()}")
+    System.out.println("Failed to resolve entry" + ar.cause());
   }
-})
-
+});
 ----
 
 include::override/dns.adoc[]

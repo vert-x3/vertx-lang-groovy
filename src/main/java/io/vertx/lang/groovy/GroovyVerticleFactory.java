@@ -13,16 +13,25 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+package io.vertx.lang.groovy;
 
-package io.vertx.lang.groovy
+import groovy.lang.Closure;
+import groovy.lang.GroovyClassLoader;
+import groovy.lang.GroovyCodeSource;
+import groovy.lang.Script;
+import groovy.util.ConfigObject;
+import groovy.util.ConfigSlurper;
+import io.vertx.core.Verticle;
+import io.vertx.core.Vertx;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.spi.VerticleFactory;
+import org.codehaus.groovy.control.CompilerConfiguration;
 
-import groovy.transform.CompileStatic
-import io.vertx.core.Verticle
-import io.vertx.core.Vertx
-import io.vertx.core.logging.Logger
-import io.vertx.core.logging.LoggerFactory
-import io.vertx.core.spi.VerticleFactory
-import org.codehaus.groovy.control.CompilerConfiguration
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Properties;
 
 /**
  * Placeholder
@@ -32,7 +41,6 @@ import org.codehaus.groovy.control.CompilerConfiguration
  * @author Danny Kirchmeier
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-@CompileStatic
 public class GroovyVerticleFactory implements VerticleFactory {
 
   private static final String CONFIGURATION_PROPERTY = "vertx.groovy.compilerConfiguration";
@@ -51,7 +59,7 @@ public class GroovyVerticleFactory implements VerticleFactory {
   }
 
   @Override
-  boolean blockingCreate() {
+  public boolean blockingCreate() {
     return true;
   }
 
@@ -65,7 +73,7 @@ public class GroovyVerticleFactory implements VerticleFactory {
       if (url == null) {
         File f = new File(verticleName);
         if (!f.isAbsolute()) {
-          f = new File(System.getProperty('user.dir'), verticleName);
+          f = new File(System.getProperty("user.dir"), verticleName);
         }
         if (f.exists() && f.isFile()) {
           url = f.toURI().toURL();
@@ -130,7 +138,7 @@ public class GroovyVerticleFactory implements VerticleFactory {
 
     CompilerConfiguration compilerCfg = new CompilerConfiguration(CompilerConfiguration.DEFAULT);
     if(properties.size() != 0){
-        compilerCfg.configure(properties);
+      compilerCfg.configure(properties);
     }
 
     if (customizer != null) {

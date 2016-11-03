@@ -1,27 +1,26 @@
 == Using the file system with Vert.x
 
-The Vert.x `link:../../groovydoc/io/vertx/groovy/core/file/FileSystem.html[FileSystem]` object provides many operations for manipulating the file system.
+The Vert.x `link:../../apidocs/io/vertx/core/file/FileSystem.html[FileSystem]` object provides many operations for manipulating the file system.
 
-There is one file system object per Vert.x instance, and you obtain it with  `link:../../groovydoc/io/vertx/groovy/core/Vertx.html#fileSystem()[fileSystem]`.
+There is one file system object per Vert.x instance, and you obtain it with  `link:../../apidocs/io/vertx/core/Vertx.html#fileSystem--[fileSystem]`.
 
 A blocking and a non blocking version of each operation is provided. The non blocking versions take a handler
 which is called when the operation completes or an error occurs.
 
 Here's an example of an asynchronous copy of a file:
 
-[source,groovy]
+[source,java]
 ----
-def fs = vertx.fileSystem()
+FileSystem fs = vertx.fileSystem();
 
 // Copy file from foo.txt to bar.txt
-fs.copy("foo.txt", "bar.txt", { res ->
-  if (res.succeeded()) {
-    // Copied ok!
-  } else {
-    // Something went wrong
-  }
-})
-
+fs.copy("foo.txt", "bar.txt", res -> {
+    if (res.succeeded()) {
+        // Copied ok!
+    } else {
+        // Something went wrong
+    }
+});
 ----
 The blocking versions are named `xxxBlocking` and return the results or throw exceptions directly. In many
 cases, depending on the operating system and file system, some of the potentially blocking operations can return
@@ -30,83 +29,78 @@ particular application before using them from an event loop, so as not to break 
 
 Here's the copy using the blocking API:
 
-[source,groovy]
+[source,java]
 ----
-def fs = vertx.fileSystem()
+FileSystem fs = vertx.fileSystem();
 
 // Copy file from foo.txt to bar.txt synchronously
-fs.copyBlocking("foo.txt", "bar.txt")
-
+fs.copyBlocking("foo.txt", "bar.txt");
 ----
 
 Many operations exist to copy, move, truncate, chmod and many other file operations. We won't list them all here,
-please consult the `link:../../groovydoc/io/vertx/groovy/core/file/FileSystem.html[API docs]` for the full list.
+please consult the `link:../../apidocs/io/vertx/core/file/FileSystem.html[API docs]` for the full list.
 
 Let's see a couple of examples using asynchronous methods:
 
-[source,groovy]
+[source,java]
 ----
-import io.vertx.groovy.core.Vertx
-import io.vertx.groovy.core.buffer.Buffer
-def vertx = Vertx.vertx()
+Vertx vertx = Vertx.vertx();
 
 // Read a file
-vertx.fileSystem().readFile("target/classes/readme.txt", { result ->
-  if (result.succeeded()) {
-    println(result.result())
-  } else {
-    System.err.println("Oh oh ...${result.cause()}")
-  }
-})
+vertx.fileSystem().readFile("target/classes/readme.txt", result -> {
+    if (result.succeeded()) {
+        System.out.println(result.result());
+    } else {
+        System.err.println("Oh oh ..." + result.cause());
+    }
+});
 
 // Copy a file
-vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt", { result ->
-  if (result.succeeded()) {
-    println("File copied")
-  } else {
-    System.err.println("Oh oh ...${result.cause()}")
-  }
-})
+vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt", result -> {
+    if (result.succeeded()) {
+        System.out.println("File copied");
+    } else {
+        System.err.println("Oh oh ..." + result.cause());
+    }
+});
 
 // Write a file
-vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"), { result ->
-  if (result.succeeded()) {
-    println("File written")
-  } else {
-    System.err.println("Oh oh ...${result.cause()}")
-  }
-})
+vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"), result -> {
+    if (result.succeeded()) {
+        System.out.println("File written");
+    } else {
+        System.err.println("Oh oh ..." + result.cause());
+    }
+});
 
 // Check existence and delete
-vertx.fileSystem().exists("target/classes/junk.txt", { result ->
-  if (result.succeeded() && result.result()) {
-    vertx.fileSystem().delete("target/classes/junk.txt", { r ->
-      println("File deleted")
-    })
-  } else {
-    System.err.println("Oh oh ... - cannot delete the file: ${result.cause()}")
-  }
-})
-
+vertx.fileSystem().exists("target/classes/junk.txt", result -> {
+    if (result.succeeded() && result.result()) {
+        vertx.fileSystem().delete("target/classes/junk.txt", r -> {
+            System.out.println("File deleted");
+        });
+    } else {
+        System.err.println("Oh oh ... - cannot delete the file: " + result.cause());
+    }
+});
 ----
 
 === Asynchronous files
 
 Vert.x provides an asynchronous file abstraction that allows you to manipulate a file on the file system.
 
-You open an `link:../../groovydoc/io/vertx/groovy/core/file/AsyncFile.html[AsyncFile]` as follows:
+You open an `link:../../apidocs/io/vertx/core/file/AsyncFile.html[AsyncFile]` as follows:
 
-[source,groovy]
+[source,java]
 ----
-def options = [:]
-fileSystem.open("myfile.txt", options, { res ->
-  if (res.succeeded()) {
-    def file = res.result()
-  } else {
-    // Something went wrong!
-  }
-})
-
+OpenOptions options = new OpenOptions();
+fileSystem.open("myfile.txt", options, res -> {
+    if (res.succeeded()) {
+        AsyncFile file = res.result();
+    } else {
+        // Something went wrong!
+    }
+});
 ----
 
 `AsyncFile` implements `ReadStream` and `WriteStream` so you can _pump_
@@ -117,7 +111,7 @@ They also allow you to read and write directly to them.
 ==== Random access writes
 
 To use an `AsyncFile` for random access writing you use the
-`link:../../groovydoc/io/vertx/groovy/core/file/AsyncFile.html#write(io.vertx.core.buffer.Buffer,%20long,%20io.vertx.core.Handler)[write]` method.
+`link:../../apidocs/io/vertx/core/file/AsyncFile.html#write-io.vertx.core.buffer.Buffer-long-io.vertx.core.Handler-[write]` method.
 
 The parameters to the method are:
 
@@ -128,36 +122,33 @@ The parameters to the method are:
 
 Here is an example of random access writes:
 
-[source,groovy]
+[source,java]
 ----
-import io.vertx.groovy.core.Vertx
-import io.vertx.groovy.core.buffer.Buffer
-def vertx = Vertx.vertx()
-vertx.fileSystem().open("target/classes/hello.txt", [:], { result ->
-  if (result.succeeded()) {
-    def file = result.result()
-    def buff = Buffer.buffer("foo")
-    (0..<5).each { i ->
-      file.write(buff, buff.length() * i, { ar ->
-        if (ar.succeeded()) {
-          println("Written ok!")
-          // etc
-        } else {
-          System.err.println("Failed to write: ${ar.cause()}")
+Vertx vertx = Vertx.vertx();
+vertx.fileSystem().open("target/classes/hello.txt", new OpenOptions(), result -> {
+    if (result.succeeded()) {
+        AsyncFile file = result.result();
+        Buffer buff = Buffer.buffer("foo");
+        for (int i = 0; i < 5; i++) {
+            file.write(buff, buff.length() * i, ar -> {
+                if (ar.succeeded()) {
+                    System.out.println("Written ok!");
+                    // etc
+                } else {
+                    System.err.println("Failed to write: " + ar.cause());
+                }
+            });
         }
-      })
+    } else {
+        System.err.println("Cannot open file " + result.cause());
     }
-  } else {
-    System.err.println("Cannot open file ${result.cause()}")
-  }
-})
-
+});
 ----
 
 ==== Random access reads
 
 To use an `AsyncFile` for random access reads you use the
-`link:../../groovydoc/io/vertx/groovy/core/file/AsyncFile.html#read(io.vertx.core.buffer.Buffer,%20int,%20long,%20int,%20io.vertx.core.Handler)[read]`
+`link:../../apidocs/io/vertx/core/file/AsyncFile.html#read-io.vertx.core.buffer.Buffer-int-long-int-io.vertx.core.Handler-[read]`
 method.
 
 The parameters to the method are:
@@ -170,50 +161,47 @@ The parameters to the method are:
 
 Here's an example of random access reads:
 
-[source,groovy]
+[source,java]
 ----
-import io.vertx.groovy.core.Vertx
-import io.vertx.groovy.core.buffer.Buffer
-def vertx = Vertx.vertx()
-vertx.fileSystem().open("target/classes/les_miserables.txt", [:], { result ->
-  if (result.succeeded()) {
-    def file = result.result()
-    def buff = Buffer.buffer(1000)
-    (0..<10).each { i ->
-      file.read(buff, i * 100, i * 100, 100, { ar ->
-        if (ar.succeeded()) {
-          println("Read ok!")
-        } else {
-          System.err.println("Failed to write: ${ar.cause()}")
+Vertx vertx = Vertx.vertx();
+vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), result -> {
+    if (result.succeeded()) {
+        AsyncFile file = result.result();
+        Buffer buff = Buffer.buffer(1000);
+        for (int i = 0; i < 10; i++) {
+            file.read(buff, i * 100, i * 100, 100, ar -> {
+                if (ar.succeeded()) {
+                    System.out.println("Read ok!");
+                } else {
+                    System.err.println("Failed to write: " + ar.cause());
+                }
+            });
         }
-      })
+    } else {
+        System.err.println("Cannot open file " + result.cause());
     }
-  } else {
-    System.err.println("Cannot open file ${result.cause()}")
-  }
-})
-
+});
 ----
 
 ==== Opening Options
 
-When opening an `AsyncFile`, you pass an `link:../dataobjects.html#OpenOptions[OpenOptions]` instance.
+When opening an `AsyncFile`, you pass an `link:../../apidocs/io/vertx/core/file/OpenOptions.html[OpenOptions]` instance.
 These options describe the behavior of the file access. For instance, you can configure the file permissions with the
-`link:../dataobjects.html#OpenOptions#setRead(boolean)[read]`, `link:../dataobjects.html#OpenOptions#setWrite(boolean)[write]`
-and `link:../dataobjects.html#OpenOptions#setPerms(java.lang.String)[perms]` methods.
+`link:../../apidocs/io/vertx/core/file/OpenOptions.html#setRead-boolean-[setRead]`, `link:../../apidocs/io/vertx/core/file/OpenOptions.html#setWrite-boolean-[setWrite]`
+and `link:../../apidocs/io/vertx/core/file/OpenOptions.html#setPerms-java.lang.String-[setPerms]` methods.
 
 You can also configure the behavior if the open file already exists with
-`link:../dataobjects.html#OpenOptions#setCreateNew(boolean)[createNew]` and
-`link:../dataobjects.html#OpenOptions#setTruncateExisting(boolean)[truncateExisting]`.
+`link:../../apidocs/io/vertx/core/file/OpenOptions.html#setCreateNew-boolean-[setCreateNew]` and
+`link:../../apidocs/io/vertx/core/file/OpenOptions.html#setTruncateExisting-boolean-[setTruncateExisting]`.
 
 You can also mark the file to be deleted on
-close or when the JVM is shutdown with `link:../dataobjects.html#OpenOptions#setDeleteOnClose(boolean)[deleteOnClose]`.
+close or when the JVM is shutdown with `link:../../apidocs/io/vertx/core/file/OpenOptions.html#setDeleteOnClose-boolean-[setDeleteOnClose]`.
 
 ==== Flushing data to underlying storage.
 
 In the `OpenOptions`, you can enable/disable the automatic synchronisation of the content on every write using
-`link:../dataobjects.html#OpenOptions#setDsync(boolean)[dsync]`. In that case, you can manually flush any writes from the OS
-cache by calling the `link:../../groovydoc/io/vertx/groovy/core/file/AsyncFile.html#flush()[flush]` method.
+`link:../../apidocs/io/vertx/core/file/OpenOptions.html#setDsync-boolean-[setDsync]`. In that case, you can manually flush any writes from the OS
+cache by calling the `link:../../apidocs/io/vertx/core/file/AsyncFile.html#flush--[flush]` method.
 
 This method can also be called with an handler which will be called when the flush is complete.
 
@@ -223,25 +211,22 @@ This method can also be called with an handler which will be called when the flu
 use them with a _pump_ to pump data to and from other read and write streams. For example, this would
 copy the content to another `AsyncFile`:
 
-[source,groovy]
+[source,java]
 ----
-import io.vertx.groovy.core.Vertx
-import io.vertx.groovy.core.streams.Pump
-def vertx = Vertx.vertx()
-def output = vertx.fileSystem().openBlocking("target/classes/plagiary.txt", [:])
+Vertx vertx = Vertx.vertx();
+final AsyncFile output = vertx.fileSystem().openBlocking("target/classes/plagiary.txt", new OpenOptions());
 
-vertx.fileSystem().open("target/classes/les_miserables.txt", [:], { result ->
-  if (result.succeeded()) {
-    def file = result.result()
-    Pump.pump(file, output).start()
-    file.endHandler({ r ->
-      println("Copy done")
-    })
-  } else {
-    System.err.println("Cannot open file ${result.cause()}")
-  }
-})
-
+vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), result -> {
+    if (result.succeeded()) {
+        AsyncFile file = result.result();
+        Pump.pump(file, output).start();
+        file.endHandler((r) -> {
+            System.out.println("Copy done");
+        });
+    } else {
+        System.err.println("Cannot open file " + result.cause());
+    }
+});
 ----
 
 You can also use the _pump_ to write file content into HTTP responses, or more generally in any
@@ -275,5 +260,5 @@ these properties should be set before loading this class or as a JVM system prop
 
 ==== Closing an AsyncFile
 
-To close an `AsyncFile` call the `link:../../groovydoc/io/vertx/groovy/core/file/AsyncFile.html#close()[close]` method. Closing is asynchronous and
+To close an `AsyncFile` call the `link:../../apidocs/io/vertx/core/file/AsyncFile.html#close--[close]` method. Closing is asynchronous and
 if you want to be notified when the close has been completed you can specify a handler function as an argument.

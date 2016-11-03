@@ -13,26 +13,24 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+package io.vertx.lang.groovy;
 
-package io.vertx.lang.groovy
-
-import groovy.transform.CompileStatic;
-import io.vertx.core.AbstractVerticle
-import io.vertx.core.Future
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
+import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
-import io.vertx.core.Context;
 
 /**
- * The base class for Groovy verticles.
+ * A base class for Groovy verticles.
  *
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
+ * @deprecated use {@link AbstractVerticle} instead
  */
-@CompileStatic
 public class GroovyVerticle {
 
   protected Vertx vertx;
-  protected Context context
+  protected Context context;
 
   /**
    * If your verticle does a simple, synchronous start-up then override this method and put your start-up
@@ -87,15 +85,15 @@ public class GroovyVerticle {
     return new AbstractVerticle() {
 
       @Override
-      void start(Future<Void> startFuture) throws Exception {
+      public void start(Future<Void> startFuture) throws Exception {
         GroovyVerticle.this.vertx = super.vertx;
         GroovyVerticle.this.context = super.context;
         GroovyVerticle.this.start(startFuture);
       }
 
       @Override
-      void stop(Future<Void> stopFuture) throws Exception {
-        GroovyVerticle.this.stop(stopFuture)
+      public void stop(Future<Void> stopFuture) throws Exception {
+        GroovyVerticle.this.stop(stopFuture);
       }
     };
   }

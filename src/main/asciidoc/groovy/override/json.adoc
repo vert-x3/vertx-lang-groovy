@@ -1,7 +1,7 @@
 == JSON
 
-To manipulate JSON object, Vert.x proposes its own implementation of `JsonObject` and
-`JsonArray`.
+To manipulate JSON object, Vert.x proposes its own implementation of `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` and
+`link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]`.
 
 This is because, unlike some other languages, Java does not have first class
 support for http://json.org/[JSON].
@@ -15,7 +15,7 @@ NOTE: Most vert.x methods taking a JSON object as argument in their Java version
 
 === JSON objects
 
-The `JsonObject` class represents JSON objects.
+The `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` class represents JSON objects.
 
 A JSON object is basically just a map which has string keys and values can be of one of the JSON supported types
 (string, number, boolean).
@@ -50,7 +50,7 @@ Nested maps are transformed to nested JSON objects.
 
 ==== Putting entries into a JSON object
 
-Use the `put` methods to put values into the JSON object.
+Use the `link:../../apidocs/io/vertx/core/json/JsonObject.html#put-java.lang.String-java.lang.Enum-[put]` methods to put values into the JSON object.
 
 The method invocations can be chained because of the fluent API:
 
@@ -72,13 +72,13 @@ def val2 = jsonObject.getInteger("some-other-key")
 
 ==== Encoding the JSON object to a String
 
-You use `encode` to encode the object to a String form. There is also a
-`encodePrettily` that makes the output pretty (understand multi-line and
+You use `link:../../apidocs/io/vertx/core/json/JsonObject.html#encode--[encode]` to encode the object to a String form. There is also a
+`link:../../apidocs/io/vertx/core/json/JsonObject.html#encodePrettily--[encodePrettily]` that makes the output pretty (understand multi-line and
 indented).
 
 === JSON arrays
 
-The `JsonArray` class represents JSON arrays.
+The `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` class represents JSON arrays.
 
 A JSON array is a sequence of values (string, number, boolean).
 
@@ -98,7 +98,7 @@ def object2 = new JsonObject(["foo": ["bar", "baz"]])
 
 ==== Adding entries into a JSON array
 
-You add entries to a JSON array using the `add` methods.
+You add entries to a JSON array using the `link:../../apidocs/io/vertx/core/json/JsonArray.html#add-java.lang.Enum-[add]` methods.
 
 [source,groovy]
 ----
@@ -119,6 +119,6 @@ def boolVal = array.getBoolean(2)
 
 ==== Encoding the JSON array to a String
 
-You use `encode` to encode the array to a String form. There is also a
-`encodePrettily` that makes the output pretty (understand multi-line and
+You use `link:../../apidocs/io/vertx/core/json/JsonArray.html#encode--[encode]` to encode the array to a String form. There is also a
+`link:../../apidocs/io/vertx/core/json/JsonObject.html#encodePrettily--[encodePrettily]` that makes the output pretty (understand multi-line and
 indented).
