@@ -57,30 +57,30 @@
      if (type.void) {
        return expr;
      } else if (type.kind == CLASS_JSON_OBJECT) {
-       return 'io.vertx.lang.groovy.RetroCompatExtension.fromJsonObject(' + expr + ')';
+       return 'io.vertx.lang.groovy.ConversionHelper.fromJsonObject(' + expr + ')';
      } else if (type.kind == CLASS_JSON_ARRAY) {
-       return 'io.vertx.lang.groovy.RetroCompatExtension.fromJsonArray(' + expr + ')';
+       return 'io.vertx.lang.groovy.ConversionHelper.fromJsonArray(' + expr + ')';
      } else if (type.kind == CLASS_DATA_OBJECT) {
-       return 'io.vertx.lang.groovy.RetroCompatExtension.applyIfNotNull(' + expr + ', a -> io.vertx.lang.groovy.RetroCompatExtension.fromJsonObject(a.toJson()))';
+       return 'io.vertx.lang.groovy.ConversionHelper.applyIfNotNull(' + expr + ', a -> io.vertx.lang.groovy.ConversionHelper.fromJsonObject(a.toJson()))';
      } else if (type.kind == CLASS_LIST || type.kind == CLASS_SET) {
        var eltConv = genConvReturn(type.args[0], 'elt');
        var coll = type.kind == CLASS_LIST ? 'toList' : 'toSet';
        if (eltConv == expr) {
          return expr;
        } else {
-         return 'io.vertx.lang.groovy.RetroCompatExtension.applyIfNotNull(' + expr + ', list -> list.stream().map(elt -> ' + eltConv + ').collect(java.util.stream.Collectors.' + coll + '()))';
+         return 'io.vertx.lang.groovy.ConversionHelper.applyIfNotNull(' + expr + ', list -> list.stream().map(elt -> ' + eltConv + ').collect(java.util.stream.Collectors.' + coll + '()))';
        }
      } else if (type.kind == CLASS_MAP) {
        var eltConv = genConvReturn(type.args[1], 'entry.getValue()');
        if (eltConv == expr) {
          return expr;
        } else {
-         return 'io.vertx.lang.groovy.RetroCompatExtension.applyIfNotNull(' + expr + ', map -> map.entrySet().stream().collect(java.util.stream.Collectors.toMap(java.util.Map.Entry::getKey, entry -> ' + eltConv + ')))';
+         return 'io.vertx.lang.groovy.ConversionHelper.applyIfNotNull(' + expr + ', map -> map.entrySet().stream().collect(java.util.stream.Collectors.toMap(java.util.Map.Entry::getKey, entry -> ' + eltConv + ')))';
        }
      } else if (type.kind.basic) {
        return expr;
      } else {
-       return 'io.vertx.lang.groovy.RetroCompatExtension.wrap(' + expr + ')';
+       return 'io.vertx.lang.groovy.ConversionHelper.wrap(' + expr + ')';
      }
    }
 
@@ -97,13 +97,13 @@
 
    def genConvParam(type, expr) {
      if (type.kind == CLASS_DATA_OBJECT) {
-       return expr + ' != null ? new ' + type.name + '(io.vertx.lang.groovy.RetroCompatExtension.toJsonObject(' + expr + ')) : null';
+       return expr + ' != null ? new ' + type.name + '(io.vertx.lang.groovy.ConversionHelper.toJsonObject(' + expr + ')) : null';
      } else if (type.kind == CLASS_JSON_OBJECT) {
-       return expr + ' != null ? io.vertx.lang.groovy.RetroCompatExtension.toJsonObject(' + expr + ') : null';
+       return expr + ' != null ? io.vertx.lang.groovy.ConversionHelper.toJsonObject(' + expr + ') : null';
      } else if (type.kind == CLASS_JSON_ARRAY) {
-       return expr + ' != null ? io.vertx.lang.groovy.RetroCompatExtension.toJsonArray(' + expr + ') : null';
+       return expr + ' != null ? io.vertx.lang.groovy.ConversionHelper.toJsonArray(' + expr + ') : null';
      } else if (type.kind == CLASS_OBJECT) {
-       return 'io.vertx.lang.groovy.RetroCompatExtension.unwrap(' + expr + ')';
+       return 'io.vertx.lang.groovy.ConversionHelper.unwrap(' + expr + ')';
      } else if (type.kind == CLASS_HANDLER) {
        if (type.args[0].kind == CLASS_ASYNC_RESULT) {
          var c = type.args[0].args[0].erased.name;

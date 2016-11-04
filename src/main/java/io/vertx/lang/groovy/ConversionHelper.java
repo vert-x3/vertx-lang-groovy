@@ -14,9 +14,8 @@ import java.util.stream.Collectors;
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-public class RetroCompatExtension {
+public class ConversionHelper {
 
-  // Make this private
   public static Object unwrap(Object obj) {
     if (obj instanceof Map) {
       return toJsonObject((Map<String, Object>) obj);
@@ -28,7 +27,6 @@ public class RetroCompatExtension {
     return obj;
   }
 
-  // Make this private
   private static Object toJsonElement(Object obj) {
     if (obj instanceof Map) {
       return toJsonObject((Map<String, Object>) obj);
@@ -49,7 +47,7 @@ public class RetroCompatExtension {
   }
 
   public static JsonArray toJsonArray(List<Object> obj) {
-    return obj == null ? null : new JsonArray(obj.stream().map(RetroCompatExtension::toJsonElement).collect(Collectors.toList()));
+    return obj == null ? null : new JsonArray(obj.stream().map(ConversionHelper::toJsonElement).collect(Collectors.toList()));
   }
 
   public static <T, R> R applyIfNotNull(T expr, Function<T, R> function) {
@@ -84,6 +82,6 @@ public class RetroCompatExtension {
   }
 
   public static List<Object> fromJsonArray(JsonArray obj) {
-    return obj == null ? null : obj.stream().map(RetroCompatExtension::wrap).collect(Collectors.toList());
+    return obj == null ? null : obj.stream().map(ConversionHelper::wrap).collect(Collectors.toList());
   }
 }
