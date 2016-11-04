@@ -141,7 +141,7 @@ You write to a socket using one of `link:../../apidocs/io/vertx/core/net/NetSock
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.core.buffer.Buffer
 
 // Write a buffer
 def buffer = Buffer.buffer().appendFloat(12.34f).appendInt(123)

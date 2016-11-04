@@ -29,7 +29,7 @@ describe options and arguments:
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("copy").setSummary("A command line interface to copy files.").addOption([
   longName:"directory",
   shortName:"R",
@@ -65,7 +65,7 @@ configure the option to receive several values using `link:../../apidocs/io/vert
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("some-name").setSummary("A command line interface illustrating the options valuation.").addOption([
   longName:"flag",
   shortName:"f",
@@ -89,7 +89,7 @@ the parsing:
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("some-name").addOption([
   longName:"mandatory",
   required:true,
@@ -103,7 +103,7 @@ the command line:
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("some-name").addOption([
   longName:"optional",
   defaultValue:"hello",
@@ -119,7 +119,7 @@ If the option value is contrained to a fixed set, you can set the different acce
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("some-name").addOption([
   longName:"color",
   defaultValue:"green",
@@ -145,7 +145,7 @@ index `0`:
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("some-name").addArgument([
   index:0,
   description:"the first argument",
@@ -162,7 +162,7 @@ If you don't set the argument indexes, it computes it automatically by using the
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("some-name").addArgument([
   description:"the first argument",
   argName:"arg1"
@@ -191,7 +191,7 @@ Once your `link:../../apidocs/io/vertx/core/cli/CLI.html[CLI]` instance is confi
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("copy").setSummary("A command line interface to copy files.").addOption([
   longName:"directory",
   shortName:"R",
@@ -265,7 +265,7 @@ won't failed, but give you the opportunity to check if the user asks for help:
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.cli.CLI
+import io.vertx.core.cli.CLI
 def cli = CLI.create("test").addOption([
   longName:"help",
   shortName:"h",

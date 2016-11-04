@@ -49,7 +49,7 @@ Sending packets is as easy as shown here:
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.core.buffer.Buffer
 def socket = vertx.createDatagramSocket([:])
 def buffer = Buffer.buffer("content")
 // Send a Buffer
@@ -117,7 +117,7 @@ This is show here:
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.core.buffer.Buffer
 def socket = vertx.createDatagramSocket([:])
 def buffer = Buffer.buffer("content")
 // Send a Buffer to a multicast address

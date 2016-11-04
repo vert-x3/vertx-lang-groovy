@@ -119,7 +119,7 @@ You just feed it the `ReadStream` plus the `WriteStream` then start it:
 
 [source,groovy]
 ----
-import io.vertx.groovy.core.streams.Pump
+import io.vertx.core.streams.Pump
 def server = vertx.createNetServer([
   port:1234,
   host:"localhost"

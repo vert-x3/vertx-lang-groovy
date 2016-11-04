@@ -1,4 +1,4 @@
-moduleName = vertx-core-module
+moduleName = vertx-module
 moduleVersion = 1.0
 extensionClasses = io.vertx.groovy.core.GroovyExtension
 staticExtensionClasses = io.vertx.groovy.core.GroovyStaticExtension

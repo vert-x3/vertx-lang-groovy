@@ -28,8 +28,8 @@ Let's see the associated code:
 
 [source, groovy]
 ----
-import io.vertx.groovy.core.parsetools.RecordParser
-import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.core.parsetools.RecordParser
+import io.vertx.core.buffer.Buffer
 def parser = RecordParser.newDelimited("\n", { h ->
   println(h.toString())
 })
@@ -45,7 +45,7 @@ You can also produce fixed sized chunks as follows:
 
 [source, groovy]
 ----
-import io.vertx.groovy.core.parsetools.RecordParser
+import io.vertx.core.parsetools.RecordParser
 RecordParser.newFixed(4, { h ->
   println(h.toString())
 })

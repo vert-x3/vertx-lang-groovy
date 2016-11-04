@@ -1,0 +1,12 @@
+@code{
+  if (incrementalIndex == 0) {
+    session.pkgs = new java.util.ArrayList();
+  }
+  session.pkgs.add(module.translateQualifiedName(module.packageName, 'groovy'));
+}
+@if{incrementalIndex==incrementalSize-1}
+moduleName = @{module.name}-module\n
+moduleVersion = 1.0\n
+extensionClasses = @foreach{pkg:session.pkgs}@{pkg}.GroovyExtension@end{', '}\n
+staticExtensionClasses = @foreach{pkg:session.pkgs}@{pkg}.GroovyStaticExtension@end{', '}\n
+@end{}
