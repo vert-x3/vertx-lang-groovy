@@ -19,9 +19,9 @@ class InternalHelperTest {
     def obj = new JsonObject()
       .put('nestedObj', new JsonObject().put('key', 'value'))
       .put('nestedList', new JsonArray().add(new JsonObject().put('key', 'value')))
-      
+
     // Get the wrapped form and confirm that it acted recursively
-    Map<String, Object> wrapped = InternalHelper.wrapObject(obj)
+    Map<String, Object> wrapped = ConversionHelper.wrap(obj)
     assertTrue(wrapped.get('nestedObj') instanceof Map)
     List<Object> theList = wrapped.get('nestedList')
     assertTrue(theList instanceof List)

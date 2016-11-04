@@ -12,7 +12,7 @@ def options = [ "config" : config ];
 vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
 ----
 
-This configuration is then available via the `link:../../groovydoc/io/vertx/groovy/core/Context.html[Context]`, The configuration is returned as a Map
+This configuration is then available via the `link:../../apidocs/io/vertx/core/Context.html[Context]`, The configuration is returned as a Map
 object so you can retrieve data as follows:
 
 [source,groovy]
@@ -20,7 +20,7 @@ object so you can retrieve data as follows:
 println vertx.getOrCreateContext().config()["name"]
 ----
 
-NOTE: The configuration can also be a `JsonObject` object.
+NOTE: The configuration can also be a `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` object.
 
 === Accessing environment variables in a Verticle
 

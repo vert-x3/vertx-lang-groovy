@@ -1,14 +1,14 @@
 === Typed options and arguments
 
-The described `link:../dataobjects.html#Option[Option]` and `link:../dataobjects.html#Argument[Argument]` classes are _untyped_,
+The described `link:../../apidocs/io/vertx/core/cli/Option.html[Option]` and `link:../../apidocs/io/vertx/core/cli/Argument.html[Argument]` classes are _untyped_,
 meaning that the only get String values.
 
-`TypedOption` and `TypedArgument` let you specify a _type_, so the
+`link:../../apidocs/io/vertx/core/cli/TypedOption.html[TypedOption]` and `link:../../apidocs/io/vertx/core/cli/TypedArgument.html[TypedArgument]` let you specify a _type_, so the
 (String) raw value is converted to the specified type.
 
 Instead of
-`link:../dataobjects.html#Option[Option]` and `link:../dataobjects.html#Argument[Argument]`, use `TypedOption`
-and `TypedArgument` in the `link:../../groovydoc/io/vertx/groovy/core/cli/CLI.html[CLI]` definition:
+`link:../../apidocs/io/vertx/core/cli/Option.html[Option]` and `link:../../apidocs/io/vertx/core/cli/Argument.html[Argument]`, use `link:../../apidocs/io/vertx/core/cli/TypedOption.html[TypedOption]`
+and `link:../../apidocs/io/vertx/core/cli/TypedArgument.html[TypedArgument]` in the `link:../../apidocs/io/vertx/core/cli/CLI.html[CLI]` definition:
 
 [source,java]
 ----
@@ -45,11 +45,11 @@ File target = commandLine.getArgumentValue("target");
 The vert.x CLI is able to convert to classes:
 
 * having a constructor with a single
-`String` argument, such as `File` or `JsonObject`
+`link:../../apidocs/java/lang/String.html[String]` argument, such as `link:../../apidocs/java/io/File.html[File]` or `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]`
 * with a static `from` or `fromString` method
 * with a static `valueOf` method, such as primitive types and enumeration
 
-In addition, you can implement your own `Converter` and instruct the CLI to use
+In addition, you can implement your own `link:../../apidocs/io/vertx/core/cli/converters/Converter.html[Converter]` and instruct the CLI to use
 this converter:
 
 [source,java]
@@ -98,7 +98,7 @@ public class AnnotatedCli {
 }
 ----
 
-Once annotated, you can define the `link:../../groovydoc/io/vertx/groovy/core/cli/CLI.html[CLI]` and inject the values using:
+Once annotated, you can define the `link:../../apidocs/io/vertx/core/cli/CLI.html[CLI]` and inject the values using:
 
 [source,java]
 ----

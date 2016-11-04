@@ -3,8 +3,8 @@
 There are three alternatives to create verticles in Groovy:
 
  * a plain Groovy script
- * a Groovy class extending the `GroovyVerticle` class
- * a Groovy class implementing the `Verticle` interface or extending the `AbstractVerticle` class
+ * a Groovy class extending the `link:../../apidocs/io/vertx/lang/groovy/GroovyVerticle.html[GroovyVerticle]` class
+ * a Groovy class implementing the `link:../../apidocs/io/vertx/core/Verticle.html[Verticle]` interface or extending the `link:../../apidocs/io/vertx/core/AbstractVerticle.html[AbstractVerticle]` class
 
  We will not cover the third case in this manual, as it is a plain Java class and instead you should read the
  Vert.x manual for Java.
@@ -30,7 +30,7 @@ void vertxStop() {
 }
 ----
 
-Alternatively, you can extend the `GroovyVerticle` class and implement the `start` and
+Alternatively, you can extend the `link:../../apidocs/io/vertx/lang/groovy/GroovyVerticle.html[GroovyVerticle]` class and implement the `start` and
 `stop` methods:
 
 [source, groovy]
@@ -117,9 +117,9 @@ void vertxStop(Future<Void> future) {
 }
 ----
 
-If your verticle extends `GroovyVerticle`, you override the
-`start` and
-`stop` methods:
+If your verticle extends `link:../../apidocs/io/vertx/lang/groovy/GroovyVerticle.html[GroovyVerticle]`, you override the
+`link:../../apidocs/io/vertx/lang/groovy/GroovyVerticle.html#start-io.vertx.core.Future-[start]` and
+`link:../../apidocs/io/vertx/lang/groovy/GroovyVerticle.html#stop-io.vertx.core.Future-[stop]` methods:
 
 [source, groovy]
 ----

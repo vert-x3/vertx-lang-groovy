@@ -1,9 +1,9 @@
 == The Event Bus
 :toc: left
 
-The `link:../../groovydoc/io/vertx/groovy/core/eventbus/EventBus.html[event bus]` is the *nervous system* of Vert.x.
+The `link:../../apidocs/io/vertx/core/eventbus/EventBus.html[event bus]` is the *nervous system* of Vert.x.
 
-There is a single event bus instance for every Vert.x instance and it is obtained using the method `link:../../groovydoc/io/vertx/groovy/core/Vertx.html#eventBus()[eventBus]`.
+There is a single event bus instance for every Vert.x instance and it is obtained using the method `link:../../apidocs/io/vertx/core/Vertx.html#eventBus--[eventBus]`.
 
 The event bus allows different parts of your application to communicate with each other irrespective of what language they are written in,
 and whether they're in the same Vert.x instance, or in a different Vert.x instance.
@@ -77,7 +77,7 @@ to retry after recovery.
 
 ==== Types of messages
 
-Out of the box Vert.x allows any primitive/simple type, String, or `link:../../groovydoc/io/vertx/groovy/core/buffer/Buffer.html[buffers]` to
+Out of the box Vert.x allows any primitive/simple type, String, or `link:../../apidocs/io/vertx/core/buffer/Buffer.html[buffers]` to
 be sent as messages.
 
 However it's a convention and common practice in Vert.x to send messages as http://json.org/[JSON]
@@ -88,7 +88,7 @@ _lingua franca_ for Vert.x.
 However you are not forced to use JSON if you don't want to.
 
 The event bus is very flexible and also supports sending arbitrary objects over the event bus.
-You do this by defining a `codec` for the objects you want to send.
+You do this by defining a `link:../../apidocs/io/vertx/core/eventbus/MessageCodec.html[codec]` for the objects you want to send.
 
 === The Event Bus API
 
@@ -108,7 +108,7 @@ There is a single instance of the event bus per Vert.x instance.
 
 ==== Registering Handlers
 
-This simplest way to register a handler is using `link:../../groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#consumer(java.lang.String,%20io.vertx.core.Handler)[consumer]`.
+This simplest way to register a handler is using `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#consumer-java.lang.String-io.vertx.core.Handler-[consumer]`.
 Here's an example:
 
 [source,groovy]
@@ -121,13 +121,13 @@ eb.consumer("news.uk.sport", { message ->
 
 ----
 
-When a message arrives for your handler, your handler will be called, passing in the `link:../../groovydoc/io/vertx/groovy/core/eventbus/Message.html[message]`.
+When a message arrives for your handler, your handler will be called, passing in the `link:../../apidocs/io/vertx/core/eventbus/Message.html[message]`.
 
-The object returned from call to +consumer()+ is an instance of `link:../../groovydoc/io/vertx/groovy/core/eventbus/MessageConsumer.html[MessageConsumer]`
+The object returned from call to +consumer()+ is an instance of `link:../../apidocs/io/vertx/core/eventbus/MessageConsumer.html[MessageConsumer]`
 
 This object can subsequently be used to unregister the handler, or use the handler as a stream.
 
-Alternatively you can use `link:../../groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#consumer(java.lang.String,%20io.vertx.core.Handler)[consumer]` to
+Alternatively you can use `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#consumer-java.lang.String-io.vertx.core.Handler-[consumer]` to
 to return a +MessageConsumer+ with no handler set, and then set the handler on that. For example:
 
 [source,groovy]
@@ -144,7 +144,7 @@ consumer.handler({ message ->
 When registering a handler on a clustered event bus, it can take some time for the registration to reach all
 nodes of the cluster.
 
-If you want to be notified when this has completed, you can register a `link:../../groovydoc/io/vertx/groovy/core/eventbus/MessageConsumer.html#completionHandler(io.vertx.core.Handler)[completion handler]`
+If you want to be notified when this has completed, you can register a `link:../../apidocs/io/vertx/core/eventbus/MessageConsumer.html#completionHandler-io.vertx.core.Handler-[completion handler]`
 on the +MessageConsumer+ object.
 
 [source,groovy]
@@ -161,10 +161,10 @@ consumer.completionHandler({ res ->
 
 ==== Un-registering Handlers
 
-To unregister a handler, call `link:../../groovydoc/io/vertx/groovy/core/eventbus/MessageConsumer.html#unregister()[unregister]`.
+To unregister a handler, call `link:../../apidocs/io/vertx/core/eventbus/MessageConsumer.html#unregister--[unregister]`.
 
 If you are on a clustered event bus, un-registering can take some time to propagate across the nodes, if you want to
-be notified when this is complete use `link:../../groovydoc/io/vertx/groovy/core/eventbus/MessageConsumer.html#unregister(io.vertx.core.Handler)[unregister]`.
+be notified when this is complete use `link:../../apidocs/io/vertx/core/eventbus/MessageConsumer.html#unregister-io.vertx.core.Handler-[unregister]`.
 
 [source,groovy]
 ----
@@ -180,7 +180,7 @@ consumer.unregister({ res ->
 
 ==== Publishing messages
 
-Publishing a message is simple. Just use `link:../../groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#publish(java.lang.String,%20java.lang.Object)[publish]` specifying the
+Publishing a message is simple. Just use `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#publish-java.lang.String-java.lang.Object-[publish]` specifying the
 address to publish it to.
 
 [source,groovy]
@@ -196,7 +196,7 @@ That message will then be delivered to all handlers registered against the addre
 Sending a message will result in only one handler registered at the address receiving the message.
 This is the point to point messaging pattern. The handler is chosen in a non-strict round-robin fashion.
 
-You can send a message with `link:../../groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#send(java.lang.String,%20java.lang.Object)[send]`
+You can send a message with `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#send-java.lang.String-java.lang.Object-[send]`
 
 [source,groovy]
 ----
@@ -212,20 +212,20 @@ Vert.x will deliver messages to any particular handler in the same order they we
 
 ==== The Message object
 
-The object you receive in a message handler is a `link:../../groovydoc/io/vertx/groovy/core/eventbus/Message.html[Message]`.
+The object you receive in a message handler is a `link:../../apidocs/io/vertx/core/eventbus/Message.html[Message]`.
 
-The `link:../../groovydoc/io/vertx/groovy/core/eventbus/Message.html#body()[body]` of the message corresponds to the object that was sent or published.
+The `link:../../apidocs/io/vertx/core/eventbus/Message.html#body--[body]` of the message corresponds to the object that was sent or published.
 
-The headers of the message are available with `link:../../groovydoc/io/vertx/groovy/core/eventbus/Message.html#headers()[headers]`.
+The headers of the message are available with `link:../../apidocs/io/vertx/core/eventbus/Message.html#headers--[headers]`.
 
 ==== Acknowledging messages / sending replies
 
-When using `link:../../groovydoc/io/vertx/groovy/core/eventbus/EventBus.html#send(java.lang.String,%20java.lang.Object)[send]` the event bus attempts to deliver the message to a
-`link:../../groovydoc/io/vertx/groovy/core/eventbus/MessageConsumer.html[MessageConsumer]` registered with the event bus.
+When using `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#send-java.lang.String-java.lang.Object-[send]` the event bus attempts to deliver the message to a
+`link:../../apidocs/io/vertx/core/eventbus/MessageConsumer.html[MessageConsumer]` registered with the event bus.
 
 In some cases it's useful for the sender to know when the consumer has received the message and "processed" it.
 
-To acknowledge that the message has been processed the consumer can reply to the message by calling `link:../../groovydoc/io/vertx/groovy/core/eventbus/Message.html#reply(java.lang.Object)[reply]`.
+To acknowledge that the message has been processed the consumer can reply to the message by calling `link:../../apidocs/io/vertx/core/eventbus/Message.html#reply-java.lang.Object-[reply]`.
 
 When this happens it causes a reply to be sent back to the sender and the reply handler is invoked with the reply.
 
@@ -271,7 +271,7 @@ so it can be deleted from the database
 
 ==== Sending with timeouts
 
-When sending a message with a reply handler you can specify a timeout in the `link:../dataobjects.html#DeliveryOptions[DeliveryOptions]`.
+When sending a message with a reply handler you can specify a timeout in the `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html[DeliveryOptions]`.
 
 If a reply is not received within that time, the reply handler will be called with a failure.
 
@@ -282,7 +282,7 @@ The default timeout is 30 seconds.
 Message sends can fail for other reasons, including:
 
 * There are no handlers available to send the message to
-* The recipient has explicitly failed the message using `link:../../groovydoc/io/vertx/groovy/core/eventbus/Message.html#fail(int,%20java.lang.String)[fail]`
+* The recipient has explicitly failed the message using `link:../../apidocs/io/vertx/core/eventbus/Message.html#fail-int-java.lang.String-[fail]`
 
 In all cases the reply handler will be called with the specific failure.
 
@@ -314,7 +314,7 @@ Vertx.clusteredVertx(options, { res ->
 
 ----
 
-You should also make sure you have a `ClusterManager` implementation on your classpath,
+You should also make sure you have a `link:../../apidocs/io/vertx/core/spi/cluster/ClusterManager.html[ClusterManager]` implementation on your classpath,
 for example the default `HazelcastClusterManager`.
 
 ==== Clustering on the command line
@@ -332,9 +332,9 @@ when the verticle is undeployed.
 
 The event bus can be configured. It is particularly useful when the event bus is clustered. Under the hood
 the event bus uses TCP connections to send and receive message, so the
-`link:../dataobjects.html#EventBusOptions[EventBusOptions]` let you configure all aspects of these TCP connections. As
+`link:../../apidocs/io/vertx/core/eventbus/EventBusOptions.html[EventBusOptions]` let you configure all aspects of these TCP connections. As
 the event bus acts as a server and client, the configuration is close to
-`link:../dataobjects.html#NetClientOptions[NetClientOptions]` and `link:../dataobjects.html#NetServerOptions[NetServerOptions]`.
+`link:../../apidocs/io/vertx/core/net/NetClientOptions.html[NetClientOptions]` and `link:../../apidocs/io/vertx/core/net/NetServerOptions.html[NetServerOptions]`.
 
 [source,groovy]
 ----
@@ -376,9 +376,9 @@ manager for further details.
 
 The event bus configuration needs to be consistent in all the cluster nodes.
 
-The `link:../dataobjects.html#EventBusOptions[EventBusOptions]` also lets you specify whether or not the event bus is
-clustered, the port and host, as you would do with `link:../dataobjects.html#VertxOptions#setClustered(boolean)[clustered]`,
- `link:../dataobjects.html#VertxOptions#getClusterHost()[getClusterHost]` and `link:../dataobjects.html#VertxOptions#getClusterPort()[getClusterPort]`.
+The `link:../../apidocs/io/vertx/core/eventbus/EventBusOptions.html[EventBusOptions]` also lets you specify whether or not the event bus is
+clustered, the port and host, as you would do with `link:../../apidocs/io/vertx/core/VertxOptions.html#setClustered-boolean-[setClustered]`,
+ `link:../../apidocs/io/vertx/core/VertxOptions.html#getClusterHost--[getClusterHost]` and `link:../../apidocs/io/vertx/core/VertxOptions.html#getClusterPort--[getClusterPort]`.
 
 When used in containers, you can also configure the public host and port:
 

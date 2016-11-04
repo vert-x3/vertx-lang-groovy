@@ -1,0 +1,17 @@
+@includeNamed{"common-extension.templ"}
+
+@if{incrementalIndex==0}
+package @{type.module.translateQualifiedName(type.module.packageName, 'groovy')};\n
+
+public class GroovyStaticExtension {\n
+@end{}
+
+@foreach{method:methods}
+	@if{method.staticMethod && checkMethod(method)}
+		@includeNamed{'genMethod'}
+	@end{}
+@end{}
+
+@if{incrementalIndex==incrementalSize-1}
+}\n
+@end{}

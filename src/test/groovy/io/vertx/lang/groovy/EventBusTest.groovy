@@ -27,13 +27,13 @@ import static org.junit.Assert.*;
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
 class EventBusTest extends VertxTestBase {
-  
+
   Vertx _vertx;
 
   @Override
   void setUp() throws Exception {
     super.setUp()
-    _vertx = new Vertx(vertx);
+    _vertx = vertx;
   }
 
   @Test

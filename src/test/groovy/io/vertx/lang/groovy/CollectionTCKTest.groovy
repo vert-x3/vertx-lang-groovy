@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class CollectionTCKTest {
 
-  final CollectionTCK obj = new CollectionTCK(new CollectionTCKImpl());
+  final CollectionTCK obj = new CollectionTCKImpl();
 
   @Test
   public void testListStringReturn() {
@@ -150,9 +150,9 @@ public class CollectionTCKTest {
   public void testSetVertxGenReturn() {
     Set<io.vertx.groovy.codegen.testmodel.RefedInterface1> set = obj.methodWithSetVertxGenReturn();
     assertEquals(2, set.size());
-    RefedInterface1 refed1 = new RefedInterface1(new RefedInterface1Impl());
+    RefedInterface1 refed1 = new RefedInterface1Impl();
     refed1.setString("foo");
-    RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl());
+    RefedInterface1 refed2 = new RefedInterface1Impl();
     refed2.setString("bar");
     List<RefedInterface1> list = new ArrayList<>(set);
     assertTrue((list.get(0).getString().equals("foo") && list.get(1).getString().equals("bar")) || (list.get(0).getString().equals("bar") && list.get(1).getString().equals("foo")))
@@ -516,9 +516,9 @@ public class CollectionTCKTest {
 
   @Test
   public void testMethodListParams() {
-    RefedInterface1 refed1 = new RefedInterface1(new RefedInterface1Impl())
+    RefedInterface1 refed1 = new RefedInterface1Impl()
     refed1.setString("foo")
-    RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl())
+    RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
         (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
@@ -528,9 +528,9 @@ public class CollectionTCKTest {
 
   @Test
   public void testMethodSetParams() {
-    RefedInterface1 refed1 = new RefedInterface1(new RefedInterface1Impl())
+    RefedInterface1 refed1 = new RefedInterface1Impl()
     refed1.setString("foo")
-    RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl())
+    RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
         (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
@@ -540,9 +540,9 @@ public class CollectionTCKTest {
 
   @Test
   public void testMethodMapParams() {
-    RefedInterface1 refed1 = new RefedInterface1(new RefedInterface1Impl())
+    RefedInterface1 refed1 = new RefedInterface1Impl()
     refed1.setString("foo")
-    RefedInterface1 refed2 = new RefedInterface1(new RefedInterface1Impl())
+    RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
     obj.methodWithMapParams(
         (Map<String, String>)[foo: "bar", eek: "wibble"],
