@@ -3,17 +3,17 @@
   "generators": [ {
     "kind": "class",
     "fileName": " module.translateQualifiedName(module.packageName, 'groovy') + '.GroovyExtension.java'",
-    "templateFileName": "vertx-groovy/template/groovy-extension.templ",
+    "templateFileName": "vertx-groovy/template/ext-methods.templ",
     "incremental": true
   }, {
     "kind": "class",
     "fileName": " module.translateQualifiedName(module.packageName, 'groovy') + '.GroovyStaticExtension.java'",
-    "templateFileName": "vertx-groovy/template/groovy-static-extension.templ",
+    "templateFileName": "vertx-groovy/template/ext-static-methods.templ",
     "incremental": true
   }, {
     "kind": "module",
     "fileName": "'resources/META-INF/services/org.codehaus.groovy.runtime.ExtensionModule'",
-    "templateFileName": "vertx-groovy/template/extension-desc.templ",
+    "templateFileName": "vertx-groovy/template/ext-desc.templ",
     "incremental": true
   } ]
 }
