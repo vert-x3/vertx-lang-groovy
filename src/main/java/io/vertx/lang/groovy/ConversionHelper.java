@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  */
 public class ConversionHelper {
 
+  @SuppressWarnings("unchecked")
   public static Object unwrap(Object obj) {
     if (obj instanceof Map) {
       return toJsonObject((Map<String, Object>) obj);
@@ -27,6 +28,7 @@ public class ConversionHelper {
     return obj;
   }
 
+  @SuppressWarnings("unchecked")
   private static Object toJsonElement(Object obj) {
     if (obj instanceof Map) {
       return toJsonObject((Map<String, Object>) obj);
@@ -66,6 +68,7 @@ public class ConversionHelper {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <T> T wrap(Object obj) {
     if (obj instanceof JsonObject) {
       return (T)fromJsonObject((JsonObject)obj);
