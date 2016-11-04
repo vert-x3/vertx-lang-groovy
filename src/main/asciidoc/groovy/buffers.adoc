@@ -16,23 +16,29 @@ Here are some examples of creating buffers:
 
 Create a new empty buffer:
 
-[source,java]
+[source,groovy]
 ----
-Buffer buff = Buffer.buffer();
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer()
+
 ----
 
 Create a buffer from a String. The String will be encoded in the buffer using UTF-8.
 
-[source,java]
+[source,groovy]
 ----
-Buffer buff = Buffer.buffer("some string");
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer("some string")
+
 ----
 
 Create a buffer from a String: The String will be encoded using the specified encoding, e.g:
 
-[source,java]
+[source,groovy]
 ----
-Buffer buff = Buffer.buffer("some string", "UTF-16");
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer("some string", "UTF-16")
+
 ----
 
 include::override/buffer_from_bytes.adoc[]
@@ -43,9 +49,11 @@ more efficient than the buffer automatically resizing multiple times as data is 
 
 Note that buffers created this way *are empty*. It does not create a buffer filled with zeros up to the specified size.
 
-[source,java]
+[source,groovy]
 ----
-Buffer buff = Buffer.buffer(10000);
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer(10000)
+
 ----
 
 === Writing to a Buffer
@@ -61,13 +69,15 @@ Append methods exist for appending various different types.
 
 The return value of the `appendXXX` methods is the buffer itself, so these can be chained:
 
-[source,java]
+[source,groovy]
 ----
-Buffer buff = Buffer.buffer();
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer()
 
-buff.appendInt(123).appendString("hello\n");
+buff.appendInt(123).appendString("hello\n")
 
-socket.write(buff);
+socket.write(buff)
+
 ----
 
 ==== Random access buffer writes
@@ -78,12 +88,14 @@ represents the position in the buffer where to start writing the data.
 
 The buffer will always expand as necessary to accommodate the data.
 
-[source,java]
+[source,groovy]
 ----
-Buffer buff = Buffer.buffer();
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer()
 
-buff.setInt(1000, 123);
-buff.setString(0, "hello");
+buff.setInt(1000, 123)
+buff.setString(0, "hello")
+
 ----
 
 === Reading from a Buffer
@@ -91,12 +103,14 @@ buff.setString(0, "hello");
 Data is read from a buffer using the `getXXX` methods. Get methods exist for various datatypes.
 The first argument to these methods is an index in the buffer from where to get the data.
 
-[source,java]
+[source,groovy]
 ----
-Buffer buff = Buffer.buffer();
-for (int i = 0; i < buff.length(); i += 4) {
-  System.out.println("int value at " + i + " is " + buff.getInt(i));
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer()
+for (def i = 0;i < buff.length();4) {
+  println("int value at ${i} is ${buff.getInt(i)}")
 }
+
 ----
 
 === Working with unsigned numbers
@@ -107,12 +121,14 @@ network protocol optimized to minimize bandwidth consumption.
 
 In the following example, value 200 is set at specified position with just one byte:
 
-[source,java]
+[source,groovy]
 ----
-Buffer buff = Buffer.buffer(128);
-int pos = 15;
-buff.setUnsignedByte(pos, (short) 200);
-System.out.println(buff.getUnsignedByte(pos));
+import io.vertx.groovy.core.buffer.Buffer
+def buff = Buffer.buffer(128)
+def pos = 15
+buff.setUnsignedByte(pos, 200)
+println(buff.getUnsignedByte(pos))
+
 ----
 
 The console shows '200'.

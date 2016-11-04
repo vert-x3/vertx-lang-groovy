@@ -26,17 +26,19 @@ async files I/O, WebSockets, etc.
 A naive way to do this would be to directly take the data that has been read and immediately write it
 to the `NetSocket`:
 
-[source,java]
+[source,groovy]
 ----
-NetServer server = vertx.createNetServer(
-    new NetServerOptions().setPort(1234).setHost("localhost")
-);
-server.connectHandler(sock -> {
-  sock.handler(buffer -> {
+def server = vertx.createNetServer([
+  port:1234,
+  host:"localhost"
+])
+server.connectHandler({ sock ->
+  sock.handler({ buffer ->
     // Write the data straight back
-    sock.write(buffer);
-  });
-}).listen();
+    sock.write(buffer)
+  })
+}).listen()
+
 ----
 
 There is a problem with the example above: if data is read from the socket faster than it can be
@@ -47,58 +49,64 @@ wasn't reading fast enough, effectively putting back-pressure on the connection.
 Since `NetSocket` implements `WriteStream`, we can check if the `WriteStream` is full before
 writing to it:
 
-[source,java]
+[source,groovy]
 ----
-NetServer server = vertx.createNetServer(
-    new NetServerOptions().setPort(1234).setHost("localhost")
-);
-server.connectHandler(sock -> {
-  sock.handler(buffer -> {
+def server = vertx.createNetServer([
+  port:1234,
+  host:"localhost"
+])
+server.connectHandler({ sock ->
+  sock.handler({ buffer ->
     if (!sock.writeQueueFull()) {
-      sock.write(buffer);
+      sock.write(buffer)
     }
-  });
+  })
 
-}).listen();
+}).listen()
+
 ----
 
 This example won't run out of RAM but we'll end up losing data if the write queue gets full. What we
 really want to do is pause the `NetSocket` when the write queue is full:
 
-[source,java]
+[source,groovy]
 ----
-NetServer server = vertx.createNetServer(
-    new NetServerOptions().setPort(1234).setHost("localhost")
-);
-server.connectHandler(sock -> {
-  sock.handler(buffer -> {
-    sock.write(buffer);
+def server = vertx.createNetServer([
+  port:1234,
+  host:"localhost"
+])
+server.connectHandler({ sock ->
+  sock.handler({ buffer ->
+    sock.write(buffer)
     if (sock.writeQueueFull()) {
-      sock.pause();
+      sock.pause()
     }
-  });
-}).listen();
+  })
+}).listen()
+
 ----
 
 We're almost there, but not quite. The `NetSocket` now gets paused when the file is full, but we also need to unpause
 it when the write queue has processed its backlog:
 
-[source,java]
+[source,groovy]
 ----
-NetServer server = vertx.createNetServer(
-    new NetServerOptions().setPort(1234).setHost("localhost")
-);
-server.connectHandler(sock -> {
-  sock.handler(buffer -> {
-    sock.write(buffer);
+def server = vertx.createNetServer([
+  port:1234,
+  host:"localhost"
+])
+server.connectHandler({ sock ->
+  sock.handler({ buffer ->
+    sock.write(buffer)
     if (sock.writeQueueFull()) {
-      sock.pause();
-      sock.drainHandler(done -> {
-        sock.resume();
-      });
+      sock.pause()
+      sock.drainHandler({ done ->
+        sock.resume()
+      })
     }
-  });
-}).listen();
+  })
+}).listen()
+
 ----
 
 And there we have it. The `link:../../apidocs/io/vertx/core/streams/WriteStream.html#drainHandler-io.vertx.core.Handler-[drainHandler]` event handler will
@@ -109,14 +117,17 @@ Wanting to do this is quite common while writing Vert.x applications, so we prov
 called `link:../../apidocs/io/vertx/core/streams/Pump.html[Pump]` that does all of this hard work for you.
 You just feed it the `ReadStream` plus the `WriteStream` then start it:
 
-[source,java]
+[source,groovy]
 ----
-NetServer server = vertx.createNetServer(
-    new NetServerOptions().setPort(1234).setHost("localhost")
-);
-server.connectHandler(sock -> {
-  Pump.pump(sock, sock).start();
-}).listen();
+import io.vertx.groovy.core.streams.Pump
+def server = vertx.createNetServer([
+  port:1234,
+  host:"localhost"
+])
+server.connectHandler({ sock ->
+  Pump.pump(sock, sock).start()
+}).listen()
+
 ----
 
 This does exactly the same thing as the more verbose example.

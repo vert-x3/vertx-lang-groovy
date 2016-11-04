@@ -98,9 +98,10 @@ Let's jump into the API
 
 You get a reference to the event bus as follows:
 
-[source,java]
+[source,groovy]
 ----
-EventBus eb = vertx.eventBus();
+def eb = vertx.eventBus()
+
 ----
 
 There is a single instance of the event bus per Vert.x instance.
@@ -110,13 +111,14 @@ There is a single instance of the event bus per Vert.x instance.
 This simplest way to register a handler is using `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#consumer-java.lang.String-io.vertx.core.Handler-[consumer]`.
 Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-EventBus eb = vertx.eventBus();
+def eb = vertx.eventBus()
 
-eb.consumer("news.uk.sport", message -> {
-  System.out.println("I have received a message: " + message.body());
-});
+eb.consumer("news.uk.sport", { message ->
+  println("I have received a message: ${message.body()}")
+})
+
 ----
 
 When a message arrives for your handler, your handler will be called, passing in the `link:../../apidocs/io/vertx/core/eventbus/Message.html[message]`.
@@ -128,14 +130,15 @@ This object can subsequently be used to unregister the handler, or use the handl
 Alternatively you can use `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#consumer-java.lang.String-io.vertx.core.Handler-[consumer]` to
 to return a +MessageConsumer+ with no handler set, and then set the handler on that. For example:
 
-[source,java]
+[source,groovy]
 ----
-EventBus eb = vertx.eventBus();
+def eb = vertx.eventBus()
 
-MessageConsumer<String> consumer = eb.consumer("news.uk.sport");
-consumer.handler(message -> {
-  System.out.println("I have received a message: " + message.body());
-});
+def consumer = eb.consumer("news.uk.sport")
+consumer.handler({ message ->
+  println("I have received a message: ${message.body()}")
+})
+
 ----
 
 When registering a handler on a clustered event bus, it can take some time for the registration to reach all
@@ -144,15 +147,16 @@ nodes of the cluster.
 If you want to be notified when this has completed, you can register a `link:../../apidocs/io/vertx/core/eventbus/MessageConsumer.html#completionHandler-io.vertx.core.Handler-[completion handler]`
 on the +MessageConsumer+ object.
 
-[source,java]
+[source,groovy]
 ----
-consumer.completionHandler(res -> {
+consumer.completionHandler({ res ->
   if (res.succeeded()) {
-    System.out.println("The handler registration has reached all nodes");
+    println("The handler registration has reached all nodes")
   } else {
-    System.out.println("Registration failed!");
+    println("Registration failed!")
   }
-});
+})
+
 ----
 
 ==== Un-registering Handlers
@@ -162,15 +166,16 @@ To unregister a handler, call `link:../../apidocs/io/vertx/core/eventbus/Message
 If you are on a clustered event bus, un-registering can take some time to propagate across the nodes, if you want to
 be notified when this is complete use `link:../../apidocs/io/vertx/core/eventbus/MessageConsumer.html#unregister-io.vertx.core.Handler-[unregister]`.
 
-[source,java]
+[source,groovy]
 ----
-consumer.unregister(res -> {
+consumer.unregister({ res ->
   if (res.succeeded()) {
-    System.out.println("The handler un-registration has reached all nodes");
+    println("The handler un-registration has reached all nodes")
   } else {
-    System.out.println("Un-registration failed!");
+    println("Un-registration failed!")
   }
-});
+})
+
 ----
 
 ==== Publishing messages
@@ -178,9 +183,10 @@ consumer.unregister(res -> {
 Publishing a message is simple. Just use `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#publish-java.lang.String-java.lang.Object-[publish]` specifying the
 address to publish it to.
 
-[source,java]
+[source,groovy]
 ----
-eventBus.publish("news.uk.sport", "Yay! Someone kicked a ball");
+eventBus.publish("news.uk.sport", "Yay! Someone kicked a ball")
+
 ----
 
 That message will then be delivered to all handlers registered against the address +news.uk.sport+.
@@ -192,9 +198,10 @@ This is the point to point messaging pattern. The handler is chosen in a non-str
 
 You can send a message with `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#send-java.lang.String-java.lang.Object-[send]`
 
-[source,java]
+[source,groovy]
 ----
-eventBus.send("news.uk.sport", "Yay! Someone kicked a ball");
+eventBus.send("news.uk.sport", "Yay! Someone kicked a ball")
+
 ----
 
 include::override/eventbus_headers.adoc[]
@@ -226,24 +233,26 @@ An example will make this clear:
 
 The receiver:
 
-[source,java]
+[source,groovy]
 ----
-MessageConsumer<String> consumer = eventBus.consumer("news.uk.sport");
-consumer.handler(message -> {
-  System.out.println("I have received a message: " + message.body());
-  message.reply("how interesting!");
-});
+def consumer = eventBus.consumer("news.uk.sport")
+consumer.handler({ message ->
+  println("I have received a message: ${message.body()}")
+  message.reply("how interesting!")
+})
+
 ----
 
 The sender:
 
-[source,java]
+[source,groovy]
 ----
-eventBus.send("news.uk.sport", "Yay! Someone kicked a ball across a patch of grass", ar -> {
+eventBus.send("news.uk.sport", "Yay! Someone kicked a ball across a patch of grass", { ar ->
   if (ar.succeeded()) {
-    System.out.println("Received reply: " + ar.result().body());
+    println("Received reply: ${ar.result().body()}")
   }
-});
+})
+
 ----
 
 The reply can contain a message body which can contain useful information.
@@ -289,18 +298,20 @@ your network they can form a single, distributed, event bus.
 If you're creating your Vert.x instance programmatically you get a clustered event bus by configuring the Vert.x
 instance as clustered;
 
-[source,java]
+[source,groovy]
 ----
-VertxOptions options = new VertxOptions();
-Vertx.clusteredVertx(options, res -> {
+import io.vertx.groovy.core.Vertx
+def options = [:]
+Vertx.clusteredVertx(options, { res ->
   if (res.succeeded()) {
-    Vertx vertx = res.result();
-    EventBus eventBus = vertx.eventBus();
-    System.out.println("We now have a clustered event bus: " + eventBus);
+    def vertx = res.result()
+    def eventBus = vertx.eventBus()
+    println("We now have a clustered event bus: ${eventBus}")
   } else {
-    System.out.println("Failed: " + res.cause());
+    println("Failed: ${res.cause()}")
   }
-});
+})
+
 ----
 
 You should also make sure you have a `link:../../apidocs/io/vertx/core/spi/cluster/ClusterManager.html[ClusterManager]` implementation on your classpath,
@@ -325,25 +336,35 @@ the event bus uses TCP connections to send and receive message, so the
 the event bus acts as a server and client, the configuration is close to
 `link:../../apidocs/io/vertx/core/net/NetClientOptions.html[NetClientOptions]` and `link:../../apidocs/io/vertx/core/net/NetServerOptions.html[NetServerOptions]`.
 
-[source,java]
+[source,groovy]
 ----
-VertxOptions options = new VertxOptions()
-    .setEventBusOptions(new EventBusOptions()
-        .setSsl(true)
-        .setKeyStoreOptions(new JksOptions().setPath("keystore.jks").setPassword("wibble"))
-        .setTrustStoreOptions(new JksOptions().setPath("keystore.jks").setPassword("wibble"))
-        .setClientAuth(ClientAuth.REQUIRED)
-    );
+import io.vertx.core.http.ClientAuth
+import io.vertx.groovy.core.Vertx
+def options = [
+  eventBusOptions:[
+    ssl:true,
+    keyStoreOptions:[
+      path:"keystore.jks",
+      password:"wibble"
+    ],
+    trustStoreOptions:[
+      path:"keystore.jks",
+      password:"wibble"
+    ],
+    clientAuth:"REQUIRED"
+  ]
+]
 
-Vertx.clusteredVertx(options, res -> {
+Vertx.clusteredVertx(options, { res ->
   if (res.succeeded()) {
-    Vertx vertx = res.result();
-    EventBus eventBus = vertx.eventBus();
-    System.out.println("We now have a clustered event bus: " + eventBus);
+    def vertx = res.result()
+    def eventBus = vertx.eventBus()
+    println("We now have a clustered event bus: ${eventBus}")
   } else {
-    System.out.println("Failed: " + res.cause());
+    println("Failed: ${res.cause()}")
   }
-});
+})
+
 ----
 
 The previous snippet depicts how you can use SSL connections for the event bus, instead of plain TCP
@@ -361,21 +382,24 @@ clustered, the port and host, as you would do with `link:../../apidocs/io/vertx/
 
 When used in containers, you can also configure the public host and port:
 
-[source,java]
+[source,groovy]
 ----
-VertxOptions options = new VertxOptions()
-    .setEventBusOptions(new EventBusOptions()
-        .setClusterPublicHost("whatever")
-        .setClusterPublicPort(1234)
-    );
+import io.vertx.groovy.core.Vertx
+def options = [
+  eventBusOptions:[
+    clusterPublicHost:"whatever",
+    clusterPublicPort:1234
+  ]
+]
 
-Vertx.clusteredVertx(options, res -> {
+Vertx.clusteredVertx(options, { res ->
   if (res.succeeded()) {
-    Vertx vertx = res.result();
-    EventBus eventBus = vertx.eventBus();
-    System.out.println("We now have a clustered event bus: " + eventBus);
+    def vertx = res.result()
+    def eventBus = vertx.eventBus()
+    println("We now have a clustered event bus: ${eventBus}")
   } else {
-    System.out.println("Failed: " + res.cause());
+    println("Failed: ${res.cause()}")
   }
-});
+})
+
 ----

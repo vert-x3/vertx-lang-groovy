@@ -11,9 +11,11 @@ HTTP/2 protocol.
 
 The simplest way to create an HTTP server, using all default options is as follows:
 
-[source,java]
+[source,groovy]
 ----
-HttpServer server = vertx.createHttpServer();
+
+def server = vertx.createHttpServer()
+
 ----
 
 === Configuring an HTTP server
@@ -21,11 +23,15 @@ HttpServer server = vertx.createHttpServer();
 If you don't want the default, a server can be configured by passing in a `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html[HttpServerOptions]`
 instance when creating it:
 
-[source,java]
+[source,groovy]
 ----
-HttpServerOptions options = new HttpServerOptions().setMaxWebsocketFrameSize(1000000);
 
-HttpServer server = vertx.createHttpServer(options);
+def options = [
+  maxWebsocketFrameSize:1000000
+]
+
+def server = vertx.createHttpServer(options)
+
 ----
 
 === Configuring an HTTP/2 server
@@ -38,14 +44,18 @@ an HTTP/1.1 upgraded request or directly
 
 To handle `h2` requests, TLS must be enabled along with `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setUseAlpn-boolean-[setUseAlpn]`:
 
-[source,java]
+[source,groovy]
 ----
-HttpServerOptions options = new HttpServerOptions()
-    .setUseAlpn(true)
-    .setSsl(true)
-    .setKeyStoreOptions(new JksOptions().setPath("/path/to/my/keystore"));
+def options = [
+  useAlpn:true,
+  ssl:true,
+  keyStoreOptions:[
+    path:"/path/to/my/keystore"
+  ]
+]
 
-HttpServer server = vertx.createHttpServer(options);
+def server = vertx.createHttpServer(options)
+
 ----
 
 ALPN is a TLS extension that negotiates the protocol before the client and the server start to exchange data.
@@ -70,11 +80,15 @@ The settings define how the client can use the connection, the default initial s
 
 For debugging purposes, network activity can be logged.
 
-[source,java]
+[source,groovy]
 ----
-HttpServerOptions options = new HttpServerOptions().setLogActivity(true);
 
-HttpServer server = vertx.createHttpServer(options);
+def options = [
+  logActivity:true
+]
+
+def server = vertx.createHttpServer(options)
+
 ----
 
 See the chapter on <<logging_network_activity, logging network activity>> for a detailed explanation.
@@ -86,18 +100,22 @@ alternatives.
 
 To tell the server to listen at the host and port as specified in the options:
 
-[source,java]
+[source,groovy]
 ----
-HttpServer server = vertx.createHttpServer();
-server.listen();
+
+def server = vertx.createHttpServer()
+server.listen()
+
 ----
 
 Or to specify the host and port in the call to listen, ignoring what is configured in the options:
 
-[source,java]
+[source,groovy]
 ----
-HttpServer server = vertx.createHttpServer();
-server.listen(8080, "myhost.com");
+
+def server = vertx.createHttpServer()
+server.listen(8080, "myhost.com")
+
 ----
 
 The default host is `0.0.0.0` which means 'listen on all available addresses' and the default port is `80`.
@@ -108,28 +126,32 @@ listen has returned.
 If you want to be notified when the server is actually listening you can provide a handler to the `listen` call.
 For example:
 
-[source,java]
+[source,groovy]
 ----
-HttpServer server = vertx.createHttpServer();
-server.listen(8080, "myhost.com", res -> {
+
+def server = vertx.createHttpServer()
+server.listen(8080, "myhost.com", { res ->
   if (res.succeeded()) {
-    System.out.println("Server is now listening!");
+    println("Server is now listening!")
   } else {
-    System.out.println("Failed to bind!");
+    println("Failed to bind!")
   }
-});
+})
+
 ----
 
 === Getting notified of incoming requests
 
 To be notified when a request arrives you need to set a `link:../../apidocs/io/vertx/core/http/HttpServer.html#requestHandler-io.vertx.core.Handler-[requestHandler]`:
 
-[source,java]
+[source,groovy]
 ----
-HttpServer server = vertx.createHttpServer();
-server.requestHandler(request -> {
+
+def server = vertx.createHttpServer()
+server.requestHandler({ request ->
   // Handle the request in here
-});
+})
+
 ----
 
 === Handling requests
@@ -151,11 +173,14 @@ object.
 
 Here's a simple example of a server handling a request and replying with "hello world" to it.
 
-[source,java]
+[source,groovy]
 ----
-vertx.createHttpServer().requestHandler(request -> {
-  request.response().end("Hello world");
-}).listen(8080);
+
+vertx.createHttpServer().requestHandler({ request ->
+  request.response().end("Hello world")
+}).listen(8080)
+
+
 ----
 
 ==== Request version
@@ -208,15 +233,17 @@ values for the same key - this is because HTTP allows multiple header values wit
 
 It also has case-insensitive keys, that means you can do the following:
 
-[source,java]
+[source,groovy]
 ----
-MultiMap headers = request.headers();
+
+def headers = request.headers()
 
 // Get the User-Agent:
-System.out.println("User agent is " + headers.get("user-agent"));
+println("User agent is ${headers.get("user-agent")}")
 
 // You can also do this and get the same result:
-System.out.println("User agent is " + headers.get("User-Agent"));
+println("User agent is ${headers.get("User-Agent")}")
+
 ----
 
 ==== Request host
@@ -272,11 +299,13 @@ body in memory before handing it to you, as that could cause the server to exhau
 To receive the body, you can use the `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#handler-io.vertx.core.Handler-[handler]`  on the request,
 this will get called every time a chunk of the request body arrives. Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-request.handler(buffer -> {
-  System.out.println("I have received a chunk of the body of length " + buffer.length());
-});
+
+request.handler({ buffer ->
+  println("I have received a chunk of the body of length ${buffer.length()}")
+})
+
 ----
 
 The object passed into the handler is a `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]`, and the handler can be called
@@ -285,28 +314,34 @@ multiple times as data arrives from the network, depending on the size of the bo
 In some cases (e.g. if the body is small) you will want to aggregate the entire body in memory, so you could do
 the aggregation yourself as follows:
 
-[source,java]
+[source,groovy]
 ----
-Buffer totalBuffer = Buffer.buffer();
+import io.vertx.groovy.core.buffer.Buffer
 
-request.handler(buffer -> {
-  System.out.println("I have received a chunk of the body of length " + buffer.length());
-  totalBuffer.appendBuffer(buffer);
-});
+// Create an empty buffer
+def totalBuffer = Buffer.buffer()
 
-request.endHandler(v -> {
-  System.out.println("Full body received, length = " + totalBuffer.length());
-});
+request.handler({ buffer ->
+  println("I have received a chunk of the body of length ${buffer.length()}")
+  totalBuffer.appendBuffer(buffer)
+})
+
+request.endHandler({ v ->
+  println("Full body received, length = ${totalBuffer.length()}")
+})
+
 ----
 
 This is such a common case, that Vert.x provides a `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#bodyHandler-io.vertx.core.Handler-[bodyHandler]` to do this
 for you. The body handler is called once when all the body has been received:
 
-[source,java]
+[source,groovy]
 ----
-request.bodyHandler(totalBuffer -> {
-  System.out.println("Full body received, length = " + totalBuffer.length());
-});
+
+request.bodyHandler({ totalBuffer ->
+  println("Full body received, length = ${totalBuffer.length()}")
+})
+
 ----
 
 ==== Pumping requests
@@ -332,15 +367,17 @@ such a form *before* any of the body is read by calling `link:../../apidocs/io/v
 with true, and then you should retrieve the actual attributes using `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#formAttributes--[formAttributes]`
 once the entire body has been read:
 
-[source,java]
+[source,groovy]
 ----
-server.requestHandler(request -> {
-  request.setExpectMultipart(true);
-  request.endHandler(v -> {
+
+server.requestHandler({ request ->
+  request.setExpectMultipart(true)
+  request.endHandler({ v ->
     // The body has now been fully read, so retrieve the form attributes
-    MultiMap formAttributes = request.formAttributes();
-  });
-});
+    def formAttributes = request.formAttributes()
+  })
+})
+
 ----
 
 ==== Handling form file uploads
@@ -355,26 +392,30 @@ upload that arrives on the server.
 
 The object passed into the handler is a `link:../../apidocs/io/vertx/core/http/HttpServerFileUpload.html[HttpServerFileUpload]` instance.
 
-[source,java]
+[source,groovy]
 ----
-server.requestHandler(request -> {
-  request.setExpectMultipart(true);
-  request.uploadHandler(upload -> {
-    System.out.println("Got a file upload " + upload.name());
-  });
-});
+
+server.requestHandler({ request ->
+  request.setExpectMultipart(true)
+  request.uploadHandler({ upload ->
+    println("Got a file upload ${upload.name()}")
+  })
+})
+
 ----
 
 File uploads can be large we don't provide the entire upload in a single buffer as that might result in memory
 exhaustion, instead, the upload data is received in chunks:
 
-[source,java]
+[source,groovy]
 ----
-request.uploadHandler(upload -> {
-  upload.handler(chunk -> {
-    System.out.println("Received a chunk of the upload of length " + chunk.length());
-  });
-});
+
+request.uploadHandler({ upload ->
+  upload.handler({ chunk ->
+    println("Received a chunk of the upload of length ${chunk.length()}")
+  })
+})
+
 ----
 
 The upload object is a `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` so you can pump the request body to any
@@ -383,11 +424,13 @@ detailed explanation.
 
 If you just want to upload the file to disk somewhere you can use `link:../../apidocs/io/vertx/core/http/HttpServerFileUpload.html#streamToFileSystem-java.lang.String-[streamToFileSystem]`:
 
-[source,java]
+[source,groovy]
 ----
-request.uploadHandler(upload -> {
-  upload.streamToFileSystem("myuploads_directory/" + upload.filename());
-});
+
+request.uploadHandler({ upload ->
+  upload.streamToFileSystem("myuploads_directory/${upload.filename()}")
+})
+
 ----
 
 WARNING: Make sure you check the filename in a production system to avoid malicious clients uploading files
@@ -401,13 +444,14 @@ of frames to be sent and received.
 To receive custom frames, you can use the `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#customFrameHandler-io.vertx.core.Handler-[customFrameHandler]` on the request,
 this will get called every time a custom frame arrives. Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-request.customFrameHandler(frame -> {
 
-  System.out.println("Received a frame type=" + frame.type() +
-      " payload" + frame.payload().toString());
-});
+request.customFrameHandler({ frame ->
+
+  println("Received a frame type=${frame.type()} payload${frame.payload().toString()}")
+})
+
 ----
 
 HTTP/2 frames are not subject to flow control - the frame handler will be called immediatly when a
@@ -446,27 +490,30 @@ These can be invoked multiple times before the response is ended. They can be in
 
 With a single buffer:
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.write(buffer);
+def response = request.response()
+response.write(buffer)
+
 ----
 
 With a string. In this case the string will encoded using UTF-8 and the result written to the wire.
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.write("hello world!");
+def response = request.response()
+response.write("hello world!")
+
 ----
 
 With a string and an encoding. In this case the string will encoded using the specified encoding and the
 result written to the wire.
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.write("hello world!", "UTF-16");
+def response = request.response()
+response.write("hello world!", "UTF-16")
+
 ----
 
 Writing to a response is asynchronous and always returns immediately after the write has been queued.
@@ -486,20 +533,22 @@ This can be done in several ways:
 
 With no arguments, the response is simply ended.
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.write("hello world!");
-response.end();
+def response = request.response()
+response.write("hello world!")
+response.end()
+
 ----
 
 It can also be called with a string or buffer in the same way `write` is called. In this case it's just the same as
 calling write with a string or buffer followed by calling end with no arguments. For example:
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.end("hello world!");
+def response = request.response()
+response.end("hello world!")
+
 ----
 
 ==== Closing the underlying connection
@@ -518,20 +567,22 @@ HTTP/2 connections send a `GOAWAY` frame before closing the response.
 HTTP response headers can be added to the response by adding them directly to the
 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#headers--[headers]`:
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-MultiMap headers = response.headers();
-headers.set("content-type", "text/html");
-headers.set("other-header", "wibble");
+def response = request.response()
+def headers = response.headers()
+headers.set("content-type", "text/html")
+headers.set("other-header", "wibble")
+
 ----
 
 Or you can use `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#putHeader-java.lang.String-java.lang.String-[putHeader]`
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.putHeader("content-type", "text/html").putHeader("other-header", "wibble");
+def response = request.response()
+response.putHeader("content-type", "text/html").putHeader("other-header", "wibble")
+
 ----
 
 Headers must all be added before any parts of the response body are written.
@@ -545,10 +596,11 @@ being streamed to a client and the total size is not known in advance.
 
 You put the HTTP response into chunked mode as follows:
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.setChunked(true);
+def response = request.response()
+response.setChunked(true)
+
 ----
 
 Default is non-chunked. When in chunked mode, each call to one of the `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#write-io.vertx.core.buffer.Buffer-[write]`
@@ -561,21 +613,23 @@ NOTE: chunked response has no effect for an HTTP/2 stream
 
 To add trailers to the response, add them directly to the `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#trailers--[trailers]`.
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.setChunked(true);
-MultiMap trailers = response.trailers();
-trailers.set("X-wibble", "woobble").set("X-quux", "flooble");
+def response = request.response()
+response.setChunked(true)
+def trailers = response.trailers()
+trailers.set("X-wibble", "woobble").set("X-quux", "flooble")
+
 ----
 
 Or use `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#putTrailer-java.lang.String-java.lang.String-[putTrailer]`.
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
-response.setChunked(true);
-response.putTrailer("X-wibble", "woobble").putTrailer("X-quux", "flooble");
+def response = request.response()
+response.setChunked(true)
+response.putTrailer("X-wibble", "woobble").putTrailer("X-quux", "flooble")
+
 ----
 
 ==== Serving files directly from disk or the classpath
@@ -595,17 +649,18 @@ files, but may be slower for small files.
 
 Here's a very simple web server that serves files from the file system using sendFile:
 
-[source,java]
+[source,groovy]
 ----
-vertx.createHttpServer().requestHandler(request -> {
-  String file = "";
-  if (request.path().equals("/")) {
-    file = "index.html";
+vertx.createHttpServer().requestHandler({ request ->
+  def file = ""
+  if (request.path() == "/") {
+    file = "index.html"
   } else if (!request.path().contains("..")) {
-    file = request.path();
+    file = request.path()
   }
-  request.response().sendFile("web/" + file);
-}).listen(8080);
+  request.response().sendFile("web/${file}")
+}).listen(8080)
+
 ----
 
 Sending a file is asynchronous and may not complete until some time after the call has returned. If you want to
@@ -622,42 +677,47 @@ Vert.x Web.
 
 When there is a need to serve just a segment of a file, say starting from a given byte, you can achieve this by doing:
 
-[source,java]
+[source,groovy]
 ----
-vertx.createHttpServer().requestHandler(request -> {
-  long offset = 0;
+vertx.createHttpServer().requestHandler({ request ->
+  def offset = 0
   try {
-    offset = Long.parseLong(request.getParam("start"));
-  } catch (NumberFormatException e) {
+    offset = java.lang.Long.parseLong(request.getParam("start"))
+  } catch(Exception e) {
     // error handling...
   }
 
-  long end = Long.MAX_VALUE;
+
+  def end = java.lang.Long.MAX_VALUE
   try {
-    end = Long.parseLong(request.getParam("end"));
-  } catch (NumberFormatException e) {
+    end = java.lang.Long.parseLong(request.getParam("end"))
+  } catch(Exception e) {
     // error handling...
   }
 
-  request.response().sendFile("web/mybigfile.txt", offset, end);
-}).listen(8080);
+
+  request.response().sendFile("web/mybigfile.txt", offset, end)
+}).listen(8080)
+
 ----
 
 You are not required to supply the length if you want to send a file starting from an offset until the end, in this
 case you can just do:
 
-[source,java]
+[source,groovy]
 ----
-vertx.createHttpServer().requestHandler(request -> {
-  long offset = 0;
+vertx.createHttpServer().requestHandler({ request ->
+  def offset = 0
   try {
-    offset = Long.parseLong(request.getParam("start"));
-  } catch (NumberFormatException e) {
+    offset = java.lang.Long.parseLong(request.getParam("start"))
+  } catch(Exception e) {
     // error handling...
   }
 
-  request.response().sendFile("web/mybigfile.txt", offset);
-}).listen(8080);
+
+  request.response().sendFile("web/mybigfile.txt", offset)
+}).listen(8080)
+
 ----
 
 ==== Pumping responses
@@ -670,18 +730,23 @@ Here's an example which echoes the request body back in the response for any PUT
 It uses a pump for the body, so it will work even if the HTTP request body is much larger than can fit in memory
 at any one time:
 
-[source,java]
+[source,groovy]
 ----
-vertx.createHttpServer().requestHandler(request -> {
-  HttpServerResponse response = request.response();
+import io.vertx.core.http.HttpMethod
+import io.vertx.groovy.core.streams.Pump
+vertx.createHttpServer().requestHandler({ request ->
+  def response = request.response()
   if (request.method() == HttpMethod.PUT) {
-    response.setChunked(true);
-    Pump.pump(request, response).start();
-    request.endHandler(v -> response.end());
+    response.setChunked(true)
+    Pump.pump(request, response).start()
+    request.endHandler({ v ->
+      response.end()
+    })
   } else {
-    response.setStatusCode(400).end();
+    response.setStatusCode(400).end()
   }
-}).listen(8080);
+}).listen(8080)
+
 ----
 
 ==== Writing HTTP/2 frames
@@ -692,14 +757,17 @@ of frames to be sent and received.
 To send such frames, you can use the `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#writeCustomFrame-int-int-io.vertx.core.buffer.Buffer-[writeCustomFrame]` on the response.
 Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-int frameType = 40;
-int frameStatus = 10;
-Buffer payload = Buffer.buffer("some data");
+import io.vertx.groovy.core.buffer.Buffer
+
+def frameType = 40
+def frameStatus = 10
+def payload = Buffer.buffer("some data")
 
 // Sending a frame to the client
-response.writeCustomFrame(frameType, frameStatus, payload);
+response.writeCustomFrame(frameType, frameStatus, payload)
+
 ----
 
 These frames are sent immediately and are not subject to flow control - when such frame is sent there it may be done
@@ -712,16 +780,22 @@ a resource already present on the server, the server needs to accept the entire 
 
 HTTP/2 supports stream reset at any time during the request/response:
 
-[source,java]
+[source,groovy]
 ----
-request.response().reset();
+
+// Reset the stream
+request.response().reset()
+
 ----
 
 By default the `NO_ERROR` (0) error code is sent, another code can sent instead:
 
-[source,java]
+[source,groovy]
 ----
-request.response().reset(8);
+
+// Cancel the stream
+request.response().reset(8)
+
 ----
 
 The HTTP/2 specification defines the list of http://httpwg.org/specs/rfc7540.html#ErrorCodes[error codes] one can use.
@@ -729,14 +803,16 @@ The HTTP/2 specification defines the list of http://httpwg.org/specs/rfc7540.htm
 The request handler are notified of stream reset events with the `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#exceptionHandler-io.vertx.core.Handler-[request handler]` and
 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#exceptionHandler-io.vertx.core.Handler-[response handler]`:
 
-[source,java]
+[source,groovy]
 ----
-request.response().exceptionHandler(err -> {
-  if (err instanceof StreamResetException) {
-    StreamResetException reset = (StreamResetException) err;
-    System.out.println("Stream reset " + reset.getCode());
+
+request.response().exceptionHandler({ err ->
+  if (err instanceof io.vertx.core.http.StreamResetException) {
+    def reset = err
+    println("Stream reset ${reset.getCode()}")
   }
-});
+})
+
 ----
 
 ==== Server push
@@ -745,29 +821,30 @@ Server push is a new feature of HTTP/2 that enables sending multiple responses i
 
 When a server process a request, it can push a request/response to the client:
 
-[source,java]
+[source,groovy]
 ----
-HttpServerResponse response = request.response();
+import io.vertx.core.http.HttpMethod
+
+def response = request.response()
 
 // Push main.js to the client
-response.push(HttpMethod.GET, "/main.js", ar -> {
+response.push(HttpMethod.GET, "/main.js", { ar ->
 
   if (ar.succeeded()) {
 
     // The server is ready to push the response
-    HttpServerResponse pushedResponse = ar.result();
+    def pushedResponse = ar.result()
 
     // Send main.js response
-    pushedResponse.
-        putHeader("content-type", "application/json").
-        end("alert(\"Push response hello\")");
+    pushedResponse.putHeader("content-type", "application/json").end("alert(\"Push response hello\")")
   } else {
-    System.out.println("Could not push client resource " + ar.cause());
+    println("Could not push client resource ${ar.cause()}")
   }
-});
+})
 
 // Send the requested resource
-response.sendFile("<html><head><script src=\"/main.js\"></script></head><body></body></html>");
+response.sendFile("<html><head><script src=\"/main.js\"></script></head><body></body></html>")
+
 ----
 
 When the server is ready to push the response, the push response handler is called and the handler can send the response.
@@ -804,17 +881,21 @@ Be aware that compression may be able to reduce network traffic but is more CPU-
 
 You create an `link:../../apidocs/io/vertx/core/http/HttpClient.html[HttpClient]` instance with default options as follows:
 
-[source,java]
+[source,groovy]
 ----
-HttpClient client = vertx.createHttpClient();
+def client = vertx.createHttpClient()
+
 ----
 
 If you want to configure options for the client, you create it as follows:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientOptions options = new HttpClientOptions().setKeepAlive(false);
-HttpClient client = vertx.createHttpClient(options);
+def options = [
+  keepAlive:false
+]
+def client = vertx.createHttpClient(options)
+
 ----
 
 Vert.x supports HTTP/2 over TLS `h2` and over TCP `h2c`.
@@ -824,24 +905,33 @@ must be set to `link:../../apidocs/io/vertx/core/http/HttpVersion.html#HTTP_2[HT
 
 For `h2` requests, TLS must be enabled with _Application-Layer Protocol Negotiation_:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientOptions options = new HttpClientOptions().
-    setProtocolVersion(HttpVersion.HTTP_2).
-    setSsl(true).
-    setUseAlpn(true).
-    setTrustAll(true);
+import io.vertx.core.http.HttpVersion
 
-HttpClient client = vertx.createHttpClient(options);
+def options = [
+  protocolVersion:"HTTP_2",
+  ssl:true,
+  useAlpn:true,
+  trustAll:true
+]
+
+def client = vertx.createHttpClient(options)
+
 ----
 
 For `h2c` requests, TLS must be disabled, the client will do an HTTP/1.1 requests and try an upgrade to HTTP/2:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientOptions options = new HttpClientOptions().setProtocolVersion(HttpVersion.HTTP_2);
+import io.vertx.core.http.HttpVersion
 
-HttpClient client = vertx.createHttpClient(options);
+def options = [
+  protocolVersion:"HTTP_2"
+]
+
+def client = vertx.createHttpClient(options)
+
 ----
 
 `h2c` connections can also be established directly, i.e connection started with a prior knowledge, when
@@ -860,10 +950,13 @@ values defined by the HTTP/2 RFC.
 
 For debugging purposes, network activity can be logged.
 
-[source,java]
+[source,groovy]
 ----
-HttpClientOptions options = new HttpClientOptions().setLogActivity(true);
-HttpClient client = vertx.createHttpClient(options);
+def options = [
+  logActivity:true
+]
+def client = vertx.createHttpClient(options)
+
 ----
 
 See the chapter on <<logging_network_activity, logging network activity>> for a detailed explanation.
@@ -876,32 +969,37 @@ The http client is very flexible and there are various ways you can make request
 Often you want to make many requests to the same host/port with an http client. To avoid you repeating the host/port
 every time you make a request you can configure the client with a default host/port:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientOptions options = new HttpClientOptions().setDefaultHost("wibble.com");
+// Set the default host
+def options = [
+  defaultHost:"wibble.com"
+]
 // Can also set default port if you want...
-HttpClient client = vertx.createHttpClient(options);
-client.getNow("/some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
+def client = vertx.createHttpClient(options)
+client.getNow("/some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
+
 ----
 
 Alternatively if you find yourself making lots of requests to different host/ports with the same client you can
 simply specify the host/port when doing the request.
 
-[source,java]
+[source,groovy]
 ----
-HttpClient client = vertx.createHttpClient();
+def client = vertx.createHttpClient()
 
 // Specify both port and host name
-client.getNow(8080, "myserver.mycompany.com", "/some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
+client.getNow(8080, "myserver.mycompany.com", "/some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
 
 // This time use the default port 80 but specify the host name
-client.getNow("foo.othercompany.com", "/other-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
+client.getNow("foo.othercompany.com", "/other-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
+
 ----
 
 Both methods of specifying host/port are supported for all the different ways of making requests with the client.
@@ -917,19 +1015,21 @@ The simplest way to do this with the Vert.x http client is using the methods pre
 These methods create the http request and send it in a single method call and allow you to provide a handler that will be
 called with the http response when it comes back.
 
-[source,java]
+[source,groovy]
 ----
-HttpClient client = vertx.createHttpClient();
+def client = vertx.createHttpClient()
 
 // Send a GET request
-client.getNow("/some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
+client.getNow("/some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
 
 // Send a GET request
-client.headNow("/other-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
+client.headNow("/other-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
+
+
 ----
 
 ==== Writing general requests
@@ -938,17 +1038,19 @@ At other times you don't know the request method you want to send until run-time
 general purpose request methods such as `link:../../apidocs/io/vertx/core/http/HttpClient.html#request-io.vertx.core.http.HttpMethod-int-java.lang.String-java.lang.String-[request]` which allow you to specify
 the HTTP method at run-time:
 
-[source,java]
+[source,groovy]
 ----
-HttpClient client = vertx.createHttpClient();
+import io.vertx.core.http.HttpMethod
+def client = vertx.createHttpClient()
 
-client.request(HttpMethod.GET, "some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-}).end();
+client.request(HttpMethod.GET, "some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+}).end()
 
-client.request(HttpMethod.POST, "foo-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-}).end("some-data");
+client.request(HttpMethod.POST, "foo-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+}).end("some-data")
+
 ----
 
 ==== Writing request bodies
@@ -964,60 +1066,72 @@ which can be used to write to the request body or write headers.
 
 Here are some examples of writing a POST request with a body:
 m
-[source,java]
+[source,groovy]
 ----
-HttpClient client = vertx.createHttpClient();
+def client = vertx.createHttpClient()
 
-HttpClientRequest request = client.post("some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
+def request = client.post("some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
 
 // Now do stuff with the request
-request.putHeader("content-length", "1000");
-request.putHeader("content-type", "text/plain");
-request.write(body);
+request.putHeader("content-length", "1000")
+request.putHeader("content-type", "text/plain")
+request.write(body)
 
 // Make sure the request is ended when you're done with it
-request.end();
+request.end()
 
 // Or fluently:
 
-client.post("some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-}).putHeader("content-length", "1000").putHeader("content-type", "text/plain").write(body).end();
+client.post("some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+}).putHeader("content-length", "1000").putHeader("content-type", "text/plain").write(body).end()
 
 // Or event more simply:
 
-client.post("some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-}).putHeader("content-type", "text/plain").end(body);
+client.post("some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+}).putHeader("content-type", "text/plain").end(body)
+
+
 ----
 
 Methods exist to write strings in UTF-8 encoding and in any specific encoding and to write buffers:
 
-[source,java]
+[source,groovy]
 ----
-request.write("some data");
+import io.vertx.groovy.core.buffer.Buffer
+
+// Write string encoded in UTF-8
+request.write("some data")
 
 // Write string encoded in specific encoding
-request.write("some other data", "UTF-16");
+request.write("some other data", "UTF-16")
 
 // Write a buffer
-Buffer buffer = Buffer.buffer();
-buffer.appendInt(123).appendLong(245l);
-request.write(buffer);
+def buffer = Buffer.buffer()
+buffer.appendInt(123).appendLong(245L)
+request.write(buffer)
+
+
 ----
 
 If you are just writing a single string or buffer to the HTTP request you can write it and end the request in a
 single call to the `end` function.
 
-[source,java]
+[source,groovy]
 ----
-request.end("some simple data");
+import io.vertx.groovy.core.buffer.Buffer
+
+// Write string and end the request (send it) in a single call
+request.end("some simple data")
 
 // Write buffer and end the request (send it) in a single call
-Buffer buffer = Buffer.buffer().appendDouble(12.34d).appendLong(432l);
-request.end(buffer);
+def buffer = Buffer.buffer().appendDouble(12.34d).appendLong(432L)
+request.end(buffer)
+
+
 ----
 
 When you're writing to a request, the first call to `write` will result in the request headers being written
@@ -1040,10 +1154,15 @@ up-front.
 
 You can write headers to a request using the `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#headers--[headers]` multi-map as follows:
 
-[source,java]
+[source,groovy]
 ----
-MultiMap headers = request.headers();
-headers.set("content-type", "application/json").set("other-header", "foo");
+
+// Write some headers using the headers() multimap
+
+def headers = request.headers()
+headers.set("content-type", "application/json").set("other-header", "foo")
+
+
 ----
 
 The headers are an instance of `link:../../apidocs/io/vertx/core/MultiMap.html[MultiMap]` which provides operations for adding, setting and removing
@@ -1051,9 +1170,14 @@ entries. Http headers allow more than one value for a specific key.
 
 You can also write headers using `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#putHeader-java.lang.String-java.lang.String-[putHeader]`
 
-[source,java]
+[source,groovy]
 ----
-request.putHeader("content-type", "application/json").putHeader("other-header", "foo");
+
+// Write some headers using the putHeader method
+
+request.putHeader("content-type", "application/json").putHeader("other-header", "foo")
+
+
 ----
 
 If you wish to write headers to the request you must do so before any part of the request body is written.
@@ -1074,21 +1198,25 @@ as complete.
 
 Requests can be ended in several ways. With no arguments the request is simply ended:
 
-[source,java]
+[source,groovy]
 ----
-request.end();
+request.end()
+
 ----
 
 Or a string or buffer can be provided in the call to `end`. This is like calling `write` with the string or buffer
 before calling `end` with no arguments
 
-[source,java]
+[source,groovy]
 ----
-request.end("some-data");
+import io.vertx.groovy.core.buffer.Buffer
+// End the request with a string
+request.end("some-data")
 
 // End it with a buffer
-Buffer buffer = Buffer.buffer().appendFloat(12.3f).appendInt(321);
-request.end(buffer);
+def buffer = Buffer.buffer().appendFloat(12.3f).appendInt(321)
+request.end(buffer)
+
 ----
 
 ==== Chunked HTTP requests
@@ -1103,16 +1231,18 @@ You put the HTTP request into chunked mode using `link:../../apidocs/io/vertx/co
 In chunked mode each call to write will cause a new chunk to be written to the wire. In chunked mode there is
 no need to set the `Content-Length` of the request up-front.
 
-[source,java]
+[source,groovy]
 ----
-request.setChunked(true);
+
+request.setChunked(true)
 
 // Write some chunks
-for (int i = 0; i < 10; i++) {
-  request.write("this-is-chunk-" + i);
+(0..<10).each { i ->
+  request.write("this-is-chunk-${i}")
 }
 
-request.end();
+request.end()
+
 ----
 
 ==== Request timeouts
@@ -1127,33 +1257,36 @@ If the request does not return any data within the timeout period an exception w
 You can handle exceptions corresponding to a request by setting an exception handler on the
 `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html[HttpClientRequest]` instance:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientRequest request = client.post("some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
-request.exceptionHandler(e -> {
-  System.out.println("Received exception: " + e.getMessage());
-  e.printStackTrace();
-});
+
+def request = client.post("some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
+request.exceptionHandler({ e ->
+  println("Received exception: ${e.getMessage()}")
+  e.printStackTrace()
+})
+
 ----
 
 This does not handle non _2xx_ response that need to be handled in the
 `link:../../apidocs/io/vertx/core/http/HttpClientResponse.html[HttpClientResponse]` code:
 
-[source, java]
+[source, groovy]
 ----
-HttpClientRequest request = client.post("some-uri", response -> {
+def request = client.post("some-uri", { response ->
   if (response.statusCode() == 200) {
-    System.out.println("Everything fine");
-    return;
+    println("Everything fine")
+    return
   }
   if (response.statusCode() == 500) {
-    System.out.println("Unexpected behavior on the server side");
-    return;
+    println("Unexpected behavior on the server side")
+    return
   }
-});
-request.end();
+})
+request.end()
+
 ----
 
 IMPORTANT: `XXXNow` methods cannot receive an exception handler.
@@ -1164,12 +1297,14 @@ Instead of providing a response handler in the call to create the client request
 not provide a handler when the request is created and set it later on the request object itself, using
 `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#handler-io.vertx.core.Handler-[handler]`, for example:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientRequest request = client.post("some-uri");
-request.handler(response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
+
+def request = client.post("some-uri")
+request.handler({ response ->
+  println("Received response with status code ${response.statusCode()}")
+})
+
 ----
 
 ==== Using the request as a stream
@@ -1179,12 +1314,18 @@ you can pump to it from any `link:../../apidocs/io/vertx/core/streams/ReadStream
 
 For, example, you could pump a file on disk to a http request body as follows:
 
-[source,java]
+[source,groovy]
 ----
-request.setChunked(true);
-Pump pump = Pump.pump(file, request);
-file.endHandler(v -> request.end());
-pump.start();
+import io.vertx.groovy.core.streams.Pump
+
+request.setChunked(true)
+def pump = Pump.pump(file, request)
+file.endHandler({ v ->
+  request.end()
+})
+pump.start()
+
+
 ----
 
 ==== Writing HTTP/2 frames
@@ -1194,14 +1335,17 @@ of frames to be sent and received.
 
 To send such frames, you can use the `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#write-io.vertx.core.buffer.Buffer-[write]` on the request. Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-int frameType = 40;
-int frameStatus = 10;
-Buffer payload = Buffer.buffer("some data");
+import io.vertx.groovy.core.buffer.Buffer
+
+def frameType = 40
+def frameStatus = 10
+def payload = Buffer.buffer("some data")
 
 // Sending a frame to the server
-request.writeCustomFrame(frameType, frameStatus, payload);
+request.writeCustomFrame(frameType, frameStatus, payload)
+
 ----
 
 ==== Stream reset
@@ -1211,16 +1355,22 @@ present on the server, the server needs to accept the entire response.
 
 HTTP/2 supports stream reset at any time during the request/response:
 
-[source,java]
+[source,groovy]
 ----
-request.reset();
+
+request.reset()
+
+
 ----
 
 By default the NO_ERROR (0) error code is sent, another code can sent instead:
 
-[source,java]
+[source,groovy]
 ----
-request.reset(8);
+
+request.reset(8)
+
+
 ----
 
 The HTTP/2 specification defines the list of http://httpwg.org/specs/rfc7540.html#ErrorCodes[error codes] one can use.
@@ -1228,14 +1378,16 @@ The HTTP/2 specification defines the list of http://httpwg.org/specs/rfc7540.htm
 The request handler are notified of stream reset events with the `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#exceptionHandler-io.vertx.core.Handler-[request handler]` and
 `link:../../apidocs/io/vertx/core/http/HttpClientResponse.html#exceptionHandler-io.vertx.core.Handler-[response handler]`:
 
-[source,java]
+[source,groovy]
 ----
-request.exceptionHandler(err -> {
-  if (err instanceof StreamResetException) {
-    StreamResetException reset = (StreamResetException) err;
-    System.out.println("Stream reset " + reset.getCode());
+
+request.exceptionHandler({ err ->
+  if (err instanceof io.vertx.core.http.StreamResetException) {
+    def reset = err
+    println("Stream reset ${reset.getCode()}")
   }
-});
+})
+
 ----
 
 === Handling http responses
@@ -1246,15 +1398,18 @@ the request methods or by setting a handler directly on the `link:../../apidocs/
 You can query the status code and the status message of the response with `link:../../apidocs/io/vertx/core/http/HttpClientResponse.html#statusCode--[statusCode]`
 and `link:../../apidocs/io/vertx/core/http/HttpClientResponse.html#statusMessage--[statusMessage]`.
 
-[source,java]
+[source,groovy]
 ----
-client.getNow("some-uri", response -> {
+
+client.getNow("some-uri", { response ->
   // the status code - e.g. 200 or 404
-  System.out.println("Status code is " + response.statusCode());
+  println("Status code is ${response.statusCode()}")
 
   // the status message e.g. "OK" or "Not Found".
-  System.out.println("Status message is " + response.statusMessage());
-});
+  println("Status message is ${response.statusMessage()}")
+})
+
+
 ----
 
 ==== Using the response as a stream
@@ -1268,10 +1423,13 @@ Http responses can contain headers. Use `link:../../apidocs/io/vertx/core/http/H
 
 The object returned is a `link:../../apidocs/io/vertx/core/MultiMap.html[MultiMap]` as HTTP headers can contain multiple values for single keys.
 
-[source,java]
+[source,groovy]
 ----
-String contentType = response.headers().get("content-type");
-String contentLength = response.headers().get("content-lengh");
+
+def contentType = response.headers().get("content-type")
+def contentLength = response.headers().get("content-lengh")
+
+
 ----
 
 Chunked HTTP responses can also contain trailers - these are sent in the last chunk of the response body.
@@ -1289,51 +1447,58 @@ might be waiting a long time, or run out of memory for large responses.
 As parts of the response body arrive, the `link:../../apidocs/io/vertx/core/http/HttpClientResponse.html#handler-io.vertx.core.Handler-[handler]` is called with
 a `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]` representing the piece of the body:
 
-[source,java]
+[source,groovy]
 ----
-client.getNow("some-uri", response -> {
 
-  response.handler(buffer -> {
-    System.out.println("Received a part of the response body: " + buffer);
-  });
-});
+client.getNow("some-uri", { response ->
+
+  response.handler({ buffer ->
+    println("Received a part of the response body: ${buffer}")
+  })
+})
+
 ----
 
 If you know the response body is not very large and want to aggregate it all in memory before handling it, you can
 either aggregate it yourself:
 
-[source,java]
+[source,groovy]
 ----
-client.getNow("some-uri", response -> {
+import io.vertx.groovy.core.buffer.Buffer
+
+client.getNow("some-uri", { response ->
 
   // Create an empty buffer
-  Buffer totalBuffer = Buffer.buffer();
+  def totalBuffer = Buffer.buffer()
 
-  response.handler(buffer -> {
-    System.out.println("Received a part of the response body: " + buffer.length());
+  response.handler({ buffer ->
+    println("Received a part of the response body: ${buffer.length()}")
 
-    totalBuffer.appendBuffer(buffer);
-  });
+    totalBuffer.appendBuffer(buffer)
+  })
 
-  response.endHandler(v -> {
+  response.endHandler({ v ->
     // Now all the body has been read
-    System.out.println("Total response body length is " + totalBuffer.length());
-  });
-});
+    println("Total response body length is ${totalBuffer.length()}")
+  })
+})
+
 ----
 
 Or you can use the convenience `link:../../apidocs/io/vertx/core/http/HttpClientResponse.html#bodyHandler-io.vertx.core.Handler-[bodyHandler]` which
 is called with the entire body when the response has been fully read:
 
-[source,java]
+[source,groovy]
 ----
-client.getNow("some-uri", response -> {
 
-  response.bodyHandler(totalBuffer -> {
+client.getNow("some-uri", { response ->
+
+  response.bodyHandler({ totalBuffer ->
     // Now all the body has been read
-    System.out.println("Total response body length is " + totalBuffer.length());
-  });
-});
+    println("Total response body length is ${totalBuffer.length()}")
+  })
+})
+
 ----
 
 ==== Response end handler
@@ -1370,20 +1535,22 @@ This is used in conjunction with `link:../../apidocs/io/vertx/core/http/HttpClie
 
 Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientRequest request = client.put("some-uri", response -> {
-  System.out.println("Received response with status code " + response.statusCode());
-});
 
-request.putHeader("Expect", "100-Continue");
+def request = client.put("some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
 
-request.continueHandler(v -> {
+request.putHeader("Expect", "100-Continue")
+
+request.continueHandler({ v ->
   // OK to send rest of body
-  request.write("Some data");
-  request.write("Some more data");
-  request.end();
-});
+  request.write("Some data")
+  request.write("Some more data")
+  request.end()
+})
+
 ----
 
 On the server side a Vert.x http server can be configured to automatically send back 100 Continue interim responses
@@ -1395,55 +1562,54 @@ If you'd prefer to decide whether to send back continue responses manually, then
 `false` (the default), then you can inspect the headers and call `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#writeContinue--[writeContinue]`
 to have the client continue sending the body:
 
-[source,java]
+[source,groovy]
 ----
-httpServer.requestHandler(request -> {
+
+httpServer.requestHandler({ request ->
   if (request.getHeader("Expect").equalsIgnoreCase("100-Continue")) {
 
     // Send a 100 continue response
-    request.response().writeContinue();
+    request.response().writeContinue()
 
     // The client should send the body when it receives the 100 response
-    request.bodyHandler(body -> {
+    request.bodyHandler({ body ->
       // Do something with body
-    });
+    })
 
-    request.endHandler(v -> {
-      request.response().end();
-    });
+    request.endHandler({ v ->
+      request.response().end()
+    })
   }
-});
+})
+
 ----
 
 You can also reject the request by sending back a failure status code directly: in this case the body
 should either be ignored or the connection should be closed (100-Continue is a performance hint and
 cannot be a logical protocol constraint):
 
-[source,java]
+[source,groovy]
 ----
-httpServer.requestHandler(request -> {
+
+httpServer.requestHandler({ request ->
   if (request.getHeader("Expect").equalsIgnoreCase("100-Continue")) {
 
     //
-    boolean rejectAndClose = true;
+    def rejectAndClose = true
     if (rejectAndClose) {
 
       // Reject with a failure code and close the connection
       // this is probably best with persistent connection
-      request.response()
-          .setStatusCode(405)
-          .putHeader("Connection", "close")
-          .end();
+      request.response().setStatusCode(405).putHeader("Connection", "close").end()
     } else {
 
       // Reject with a failure code and ignore the body
       // this may be appropriate if the body is small
-      request.response()
-          .setStatusCode(405)
-          .end();
+      request.response().setStatusCode(405).end()
     }
   }
-});
+})
+
 ----
 
 ==== Client push
@@ -1452,39 +1618,42 @@ Server push is a new feature of HTTP/2 that enables sending multiple responses i
 
 A push handler can be set on a request to receive the request/response pushed by the server:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientRequest request = client.get("/index.html", response -> {
+
+def request = client.get("/index.html", { response ->
   // Process index.html response
-});
+})
 
 // Set a push handler to be aware of any resource pushed by the server
-request.pushHandler(pushedRequest -> {
+request.pushHandler({ pushedRequest ->
 
   // A resource is pushed for this request
-  System.out.println("Server pushed " + pushedRequest.path());
+  println("Server pushed ${pushedRequest.path()}")
 
   // Set an handler for the response
-  pushedRequest.handler(pushedResponse -> {
-    System.out.println("The response for the pushed request");
-  });
-});
+  pushedRequest.handler({ pushedResponse ->
+    println("The response for the pushed request")
+  })
+})
 
 // End the request
-request.end();
+request.end()
+
 ----
 
 If the client does not want to receive a pushed request, it can reset the stream:
 
-[source,java]
+[source,groovy]
 ----
-request.pushHandler(pushedRequest -> {
-  if (pushedRequest.path().equals("/main.js")) {
-    pushedRequest.reset();
+request.pushHandler({ pushedRequest ->
+  if (pushedRequest.path() == "/main.js") {
+    pushedRequest.reset()
   } else {
     // Handle it
   }
-});
+})
+
 ----
 
 When no handler is set, any stream pushed will be automatically cancelled by the client with
@@ -1498,13 +1667,13 @@ frames to be sent and received.
 To receive custom frames, you can use the customFrameHandler on the request, this will get called every time a custom
 frame arrives. Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-response.customFrameHandler(frame -> {
+response.customFrameHandler({ frame ->
 
-  System.out.println("Received a frame type=" + frame.type() +
-      " payload" + frame.payload().toString());
-});
+  println("Received a frame type=${frame.type()} payload${frame.payload().toString()}")
+})
+
 ----
 
 === Enabling compression on the client
@@ -1587,14 +1756,17 @@ When it is desirable to limit the number of multiplexed streams per connection a
 pool instead of a single connection, `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setHttp2MultiplexingLimit-int-[setHttp2MultiplexingLimit]`
 can be used.
 
-[source,java]
+[source,groovy]
 ----
-HttpClientOptions clientOptions = new HttpClientOptions().
-    setHttp2MultiplexingLimit(10).
-    setHttp2MaxPoolSize(3);
+
+def clientOptions = [
+  http2MultiplexingLimit:10,
+  http2MaxPoolSize:3
+]
 
 // Uses up to 3 connections and up to 10 streams per connection
-HttpClient client = vertx.createHttpClient(clientOptions);
+def client = vertx.createHttpClient(clientOptions)
+
 ----
 
 The multiplexing limit for a connection is a setting set on the client that limits the number of streams
@@ -1622,38 +1794,42 @@ the other operations.
 
 The `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#connection--[connection]` method returns the request connection on the server:
 
-[source,java]
+[source,groovy]
 ----
-HttpConnection connection = request.connection();
+def connection = request.connection()
+
 ----
 
 A connection handler can be set on the server to be notified of any incoming connection:
 
-[source,java]
+[source,groovy]
 ----
-HttpServer server = vertx.createHttpServer(http2Options);
+def server = vertx.createHttpServer(http2Options)
 
-server.connectionHandler(connection -> {
-  System.out.println("A client connected");
-});
+server.connectionHandler({ connection ->
+  println("A client connected")
+})
+
 ----
 
 ==== Client connections
 
 The `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#connection--[connection]` method returns the request connection on the client:
 
-[source,java]
+[source,groovy]
 ----
-HttpConnection connection = request.connection();
+def connection = request.connection()
+
 ----
 
 A connection handler can be set on the request to be notified when the connection happens:
 
-[source,java]
+[source,groovy]
 ----
-request.connectionHandler(connection -> {
-  System.out.println("Connected to the server");
-});
+request.connectionHandler({ connection ->
+  println("Connected to the server")
+})
+
 ----
 
 ==== Connection settings
@@ -1668,31 +1844,38 @@ are configured by `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#
 
 The settings can be changed at any time after the connection is established:
 
-[source,java]
+[source,groovy]
 ----
-connection.updateSettings(new Http2Settings().setMaxConcurrentStreams(100));
+connection.updateSettings([
+  maxConcurrentStreams:100
+])
+
 ----
 
 As the remote side should acknowledge on reception of the settings update, it's possible to give a callback
 to be notified of the acknowledgment:
 
-[source,java]
+[source,groovy]
 ----
-connection.updateSettings(new Http2Settings().setMaxConcurrentStreams(100), ar -> {
+connection.updateSettings([
+  maxConcurrentStreams:100
+], { ar ->
   if (ar.succeeded()) {
-    System.out.println("The settings update has been acknowledged ");
+    println("The settings update has been acknowledged ")
   }
-});
+})
+
 ----
 
 Conversely the `link:../../apidocs/io/vertx/core/http/HttpConnection.html#remoteSettingsHandler-io.vertx.core.Handler-[remoteSettingsHandler]` is notified
 when the new remote settings are received:
 
-[source,java]
+[source,groovy]
 ----
-connection.remoteSettingsHandler(settings -> {
-  System.out.println("Received new settings");
-});
+connection.remoteSettingsHandler({ settings ->
+  println("Received new settings")
+})
+
 ----
 
 NOTE: this only applies to the HTTP/2 protocol
@@ -1703,25 +1886,28 @@ HTTP/2 connection ping is useful for determining the connection round-trip time 
 validity: `link:../../apidocs/io/vertx/core/http/HttpConnection.html#ping-io.vertx.core.buffer.Buffer-io.vertx.core.Handler-[ping]` sends a `PING` frame to the remote
 endpoint:
 
-[source,java]
+[source,groovy]
 ----
-Buffer data = Buffer.buffer();
-for (byte i = 0;i < 8;i++) {
-  data.appendByte(i);
+import io.vertx.groovy.core.buffer.Buffer
+def data = Buffer.buffer()
+(0..<8).each { i ->
+  data.appendByte(i)
 }
-connection.ping(data, pong -> {
-  System.out.println("Remote side replied");
-});
+connection.ping(data, { pong ->
+  println("Remote side replied")
+})
+
 ----
 
 Vert.x will send automatically an acknowledgement when a `PING` frame is received,
 an handler can be set to be notified for each ping received:
 
-[source,java]
+[source,groovy]
 ----
-connection.pingHandler(ping -> {
-  System.out.println("Got pinged by remote side");
-});
+connection.pingHandler({ ping ->
+  println("Got pinged by remote side")
+})
+
 ----
 
 The handler is just notified, the acknowledgement is sent whatsoever. Such feature is aimed for
@@ -1736,9 +1922,10 @@ remote side of the connection, asking it to stop creating streams: a client will
 and a server will stop pushing responses. After the `GOAWAY` frame is sent, the connection
 waits some time (30 seconds by default) until all current streams closed and close the connection:
 
-[source,java]
+[source,groovy]
 ----
-connection.shutdown();
+connection.shutdown()
+
 ----
 
 The `link:../../apidocs/io/vertx/core/http/HttpConnection.html#shutdownHandler-io.vertx.core.Handler-[shutdownHandler]` notifies when all streams have been closed, the
@@ -1748,31 +1935,34 @@ It's possible to just send a `GOAWAY` frame, the main difference with a shutdown
 it will just tell the remote side of the connection to stop creating new streams without scheduling a connection
 close:
 
-[source,java]
+[source,groovy]
 ----
-connection.goAway(0);
+connection.goAway(0)
+
 ----
 
 Conversely, it is also possible to be notified when `GOAWAY` are received:
 
-[source,java]
+[source,groovy]
 ----
-connection.goAwayHandler(goAway -> {
-  System.out.println("Received a go away frame");
-});
+connection.goAwayHandler({ goAway ->
+  println("Received a go away frame")
+})
+
 ----
 
 The `link:../../apidocs/io/vertx/core/http/HttpConnection.html#shutdownHandler-io.vertx.core.Handler-[shutdownHandler]` will be called when all current streams
 have been closed and the connection can be closed:
 
-[source,java]
+[source,groovy]
 ----
-connection.goAway(0);
-connection.shutdownHandler(v -> {
+connection.goAway(0)
+connection.shutdownHandler({ v ->
 
   // All streams are closed, close the connection
-  connection.close();
-});
+  connection.close()
+})
+
 ----
 
 This applies also when a `GOAWAY` is received.
@@ -1817,11 +2007,12 @@ round-robin strategy.
 Let's take a verticle creating a HTTP server such as:
 
 .io.vertx.examples.http.sharing.HttpServerVerticle
-[source,java]
+[source,groovy]
 ----
-vertx.createHttpServer().requestHandler(request -> {
-  request.response().end("Hello from server " + this);
-}).listen(8080);
+vertx.createHttpServer().requestHandler({ request ->
+  request.response().end("Hello from server ${this}")
+}).listen(8080)
+
 ----
 
 This service is listening on the port 8080. So, when this verticle is instantiated multiple times as with:
@@ -1832,15 +2023,16 @@ actually try and create a new server listening on the same host/port. It binds o
 receiving a request it calls the server handlers following a round robin strategy.
 
 Let's now imagine a client such as:
-[source,java]
+[source,groovy]
 ----
-vertx.setPeriodic(100, (l) -> {
-  vertx.createHttpClient().getNow(8080, "localhost", "/", resp -> {
-    resp.bodyHandler(body -> {
-      System.out.println(body.toString("ISO-8859-1"));
-    });
-  });
-});
+vertx.setPeriodic(100, { l ->
+  vertx.createHttpClient().getNow(8080, "localhost", "/", { resp ->
+    resp.bodyHandler({ body ->
+      println(body.toString("ISO-8859-1"))
+    })
+  })
+})
+
 ----
 
 Vert.x delegates the requests to one of the server sequentially:
@@ -1883,24 +2075,28 @@ on the server instance.
 When a WebSocket connection is made to the server, the handler will be called, passing in an instance of
 `link:../../apidocs/io/vertx/core/http/ServerWebSocket.html[ServerWebSocket]`.
 
-[source,java]
+[source,groovy]
 ----
-server.websocketHandler(websocket -> {
-  System.out.println("Connected!");
-});
+
+server.websocketHandler({ websocket ->
+  println("Connected!")
+})
+
 ----
 
 You can choose to reject the WebSocket by calling `link:../../apidocs/io/vertx/core/http/ServerWebSocket.html#reject--[reject]`.
 
-[source,java]
+[source,groovy]
 ----
-server.websocketHandler(websocket -> {
-  if (websocket.path().equals("/myapi")) {
-    websocket.reject();
+
+server.websocketHandler({ websocket ->
+  if (websocket.path() == "/myapi") {
+    websocket.reject()
   } else {
     // Do something
   }
-});
+})
+
 ----
 
 ===== Upgrading to WebSocket
@@ -1908,19 +2104,21 @@ server.websocketHandler(websocket -> {
 The second way of handling WebSockets is to handle the HTTP Upgrade request that was sent from the client, and
 call `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#upgrade--[upgrade]` on the server request.
 
-[source,java]
+[source,groovy]
 ----
-server.requestHandler(request -> {
-  if (request.path().equals("/myapi")) {
 
-    ServerWebSocket websocket = request.upgrade();
+server.requestHandler({ request ->
+  if (request.path() == "/myapi") {
+
+    def websocket = request.upgrade()
     // Do something
 
   } else {
     // Reject
-    request.response().setStatusCode(400).end();
+    request.response().setStatusCode(400).end()
   }
-});
+})
+
 ----
 
 ===== The server WebSocket
@@ -1938,11 +2136,12 @@ providing a handler.
 
 The handler will be called with an instance of `link:../../apidocs/io/vertx/core/http/WebSocket.html[WebSocket]` when the connection has been made:
 
-[source,java]
+[source,groovy]
 ----
-client.websocket("/some-uri", websocket -> {
-  System.out.println("Connected!");
-});
+client.websocket("/some-uri", { websocket ->
+  println("Connected!")
+})
+
 ----
 
 ==== Writing messages to WebSockets
@@ -1950,11 +2149,14 @@ client.websocket("/some-uri", websocket -> {
 If you wish to write a single binary WebSocket message to the WebSocket you can do this with
 `link:../../apidocs/io/vertx/core/http/WebSocket.html#writeBinaryMessage-io.vertx.core.buffer.Buffer-[writeBinaryMessage]`:
 
-[source,java]
+[source,groovy]
 ----
-Buffer buffer = Buffer.buffer().appendInt(123).appendFloat(1.23f);
+import io.vertx.groovy.core.buffer.Buffer
+// Write a simple message
+def buffer = Buffer.buffer().appendInt(123).appendFloat(1.23f)
 
-websocket.writeBinaryMessage(buffer);
+websocket.writeBinaryMessage(buffer)
+
 ----
 
 If the WebSocket message is larger than the maximum websocket frame size as configured with
@@ -1976,17 +2178,21 @@ to the WebSocket using `link:../../apidocs/io/vertx/core/http/WebSocket.html#wri
 
 Here's an example for binary frames:
 
-[source,java]
+[source,groovy]
 ----
-WebSocketFrame frame1 = WebSocketFrame.binaryFrame(buffer1, false);
-websocket.writeFrame(frame1);
+import io.vertx.groovy.core.http.WebSocketFrame
 
-WebSocketFrame frame2 = WebSocketFrame.continuationFrame(buffer2, false);
-websocket.writeFrame(frame2);
+def frame1 = WebSocketFrame.binaryFrame(buffer1, false)
+websocket.writeFrame(frame1)
+
+def frame2 = WebSocketFrame.continuationFrame(buffer2, false)
+websocket.writeFrame(frame2)
 
 // Write the final frame
-WebSocketFrame frame3 = WebSocketFrame.continuationFrame(buffer2, true);
-websocket.writeFrame(frame3);
+def frame3 = WebSocketFrame.continuationFrame(buffer2, true)
+websocket.writeFrame(frame3)
+
+
 ----
 
 In many cases you just want to send a websocket message that consists of a single final frame, so we provide a couple
@@ -1995,15 +2201,21 @@ and `link:../../apidocs/io/vertx/core/http/WebSocket.html#writeFinalTextFrame-ja
 
 Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-websocket.writeFinalTextFrame("Geronimo!");
+import io.vertx.groovy.core.buffer.Buffer
+
+// Send a websocket messages consisting of a single final text frame:
+
+websocket.writeFinalTextFrame("Geronimo!")
 
 // Send a websocket messages consisting of a single final binary frame:
 
-Buffer buff = Buffer.buffer().appendInt(12).appendString("foo");
+def buff = Buffer.buffer().appendInt(12).appendString("foo")
 
-websocket.writeFinalBinaryFrame(buff);
+websocket.writeFinalBinaryFrame(buff)
+
+
 ----
 
 ==== Reading frames from WebSockets
@@ -2013,11 +2225,14 @@ To read frames from a WebSocket you use the `link:../../apidocs/io/vertx/core/ht
 The frame handler will be called with instances of `link:../../apidocs/io/vertx/core/http/WebSocketFrame.html[WebSocketFrame]` when a frame arrives,
 for example:
 
-[source,java]
+[source,groovy]
 ----
-websocket.frameHandler(frame -> {
-  System.out.println("Received a frame of size!");
-});
+
+websocket.frameHandler({ frame ->
+  println("Received a frame of size!")
+})
+
+
 ----
 
 ==== Closing WebSockets
@@ -2045,13 +2260,22 @@ The proxy can be configured in the `link:../../apidocs/io/vertx/core/http/HttpCl
 
 Here's an example of using an HTTP proxy:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientOptions options = new HttpClientOptions()
-    .setProxyOptions(new ProxyOptions().setType(ProxyType.HTTP)
-        .setHost("localhost").setPort(3128)
-        .setUsername("username").setPassword("secret"));
-HttpClient client = vertx.createHttpClient(options);
+import io.vertx.core.net.ProxyType
+
+def options = [
+  proxyOptions:[
+    type:"HTTP",
+    host:"localhost",
+    port:3128,
+    username:"username",
+    password:"secret"
+  ]
+]
+def client = vertx.createHttpClient(options)
+
+
 ----
 
 When the client connects to an http URL, it connects to the proxy server and provides the full URL in the
@@ -2062,13 +2286,22 @@ the CONNECT method.
 
 For a SOCKS5 proxy:
 
-[source,java]
+[source,groovy]
 ----
-HttpClientOptions options = new HttpClientOptions()
-    .setProxyOptions(new ProxyOptions().setType(ProxyType.SOCKS5)
-        .setHost("localhost").setPort(1080)
-        .setUsername("username").setPassword("secret"));
-HttpClient client = vertx.createHttpClient(options);
+import io.vertx.core.net.ProxyType
+
+def options = [
+  proxyOptions:[
+    type:"SOCKS5",
+    host:"localhost",
+    port:1080,
+    username:"username",
+    password:"secret"
+  ]
+]
+def client = vertx.createHttpClient(options)
+
+
 ----
 
 The DNS resolution is always done on the proxy server, to achieve the functionality of a SOCKS4 client, it is necessary

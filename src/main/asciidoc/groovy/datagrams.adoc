@@ -29,9 +29,10 @@ and NetClient (see above).
 To use UDP you first need t create a `link:../../apidocs/io/vertx/core/datagram/DatagramSocket.html[DatagramSocket]`. It does not matter here if you only want to send data or send
 and receive.
 
-[source,java]
+[source,groovy]
 ----
-DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
+def socket = vertx.createDatagramSocket([:])
+
 ----
 
 The returned `link:../../apidocs/io/vertx/core/datagram/DatagramSocket.html[DatagramSocket]` will not be bound to a specific port. This is not a
@@ -46,18 +47,20 @@ This means each packet can be sent to a different remote peer.
 
 Sending packets is as easy as shown here:
 
-[source,java]
+[source,groovy]
 ----
-DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-Buffer buffer = Buffer.buffer("content");
+import io.vertx.groovy.core.buffer.Buffer
+def socket = vertx.createDatagramSocket([:])
+def buffer = Buffer.buffer("content")
 // Send a Buffer
-socket.send(buffer, 1234, "10.0.0.1", asyncResult -> {
-  System.out.println("Send succeeded? " + asyncResult.succeeded());
-});
+socket.send(buffer, 1234, "10.0.0.1", { asyncResult ->
+  println("Send succeeded? ${asyncResult.succeeded()}")
+})
 // Send a String
-socket.send("A string used as content", 1234, "10.0.0.1", asyncResult -> {
-  System.out.println("Send succeeded? " + asyncResult.succeeded());
-});
+socket.send("A string used as content", 1234, "10.0.0.1", { asyncResult ->
+  println("Send succeeded? ${asyncResult.succeeded()}")
+})
+
 ----
 
 === Receiving Datagram packets
@@ -77,18 +80,19 @@ The `link:../../apidocs/io/vertx/core/datagram/DatagramPacket.html[DatagramPacke
 
 So to listen on a specific address and port you would do something like shown here:
 
-[source,java]
+[source,groovy]
 ----
-DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", asyncResult -> {
+def socket = vertx.createDatagramSocket([:])
+socket.listen(1234, "0.0.0.0", { asyncResult ->
   if (asyncResult.succeeded()) {
-    socket.handler(packet -> {
+    socket.handler({ packet ->
       // Do something with the packet
-    });
+    })
   } else {
-    System.out.println("Listen failed" + asyncResult.cause());
+    println("Listen failed${asyncResult.cause()}")
   }
-});
+})
+
 ----
 
 Be aware that even if the {code AsyncResult} is successed it only means it might be written on the network
@@ -111,14 +115,16 @@ The only difference is that you would pass in a multicast group address to the s
 
 This is show here:
 
-[source,java]
+[source,groovy]
 ----
-DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-Buffer buffer = Buffer.buffer("content");
+import io.vertx.groovy.core.buffer.Buffer
+def socket = vertx.createDatagramSocket([:])
+def buffer = Buffer.buffer("content")
 // Send a Buffer to a multicast address
-socket.send(buffer, 1234, "230.0.0.1", asyncResult -> {
-  System.out.println("Send succeeded? " + asyncResult.succeeded());
-});
+socket.send(buffer, 1234, "230.0.0.1", { asyncResult ->
+  println("Send succeeded? ${asyncResult.succeeded()}")
+})
+
 ----
 
 All sockets that have joined the multicast group 230.0.0.1 will receive the packet.
@@ -141,23 +147,24 @@ The `link:../../apidocs/io/vertx/core/datagram/DatagramPacket.html[DatagramPacke
 So to listen on a specific address and port and also receive packets for the Multicast group 230.0.0.1 you
 would do something like shown here:
 
-[source,java]
+[source,groovy]
 ----
-DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", asyncResult -> {
+def socket = vertx.createDatagramSocket([:])
+socket.listen(1234, "0.0.0.0", { asyncResult ->
   if (asyncResult.succeeded()) {
-    socket.handler(packet -> {
+    socket.handler({ packet ->
       // Do something with the packet
-    });
+    })
 
     // join the multicast group
-    socket.listenMulticastGroup("230.0.0.1", asyncResult2 -> {
-        System.out.println("Listen succeeded? " + asyncResult2.succeeded());
-    });
+    socket.listenMulticastGroup("230.0.0.1", { asyncResult2 ->
+      println("Listen succeeded? ${asyncResult2.succeeded()}")
+    })
   } else {
-    System.out.println("Listen failed" + asyncResult.cause());
+    println("Listen failed${asyncResult.cause()}")
   }
-});
+})
+
 ----
 
 ===== Unlisten / leave a Multicast group
@@ -168,33 +175,34 @@ In this situations you can first start to listen for them and then later unliste
 
 This is shown here:
 
-[source,java]
+[source,groovy]
 ----
-DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", asyncResult -> {
-    if (asyncResult.succeeded()) {
-      socket.handler(packet -> {
-        // Do something with the packet
-      });
+def socket = vertx.createDatagramSocket([:])
+socket.listen(1234, "0.0.0.0", { asyncResult ->
+  if (asyncResult.succeeded()) {
+    socket.handler({ packet ->
+      // Do something with the packet
+    })
 
-      // join the multicast group
-      socket.listenMulticastGroup("230.0.0.1", asyncResult2 -> {
-          if (asyncResult2.succeeded()) {
-            // will now receive packets for group
+    // join the multicast group
+    socket.listenMulticastGroup("230.0.0.1", { asyncResult2 ->
+      if (asyncResult2.succeeded()) {
+        // will now receive packets for group
 
-            // do some work
+        // do some work
 
-            socket.unlistenMulticastGroup("230.0.0.1", asyncResult3 -> {
-              System.out.println("Unlisten succeeded? " + asyncResult3.succeeded());
-            });
-          } else {
-            System.out.println("Listen failed" + asyncResult2.cause());
-          }
-      });
-    } else {
-      System.out.println("Listen failed" + asyncResult.cause());
-    }
-});
+        socket.unlistenMulticastGroup("230.0.0.1", { asyncResult3 ->
+          println("Unlisten succeeded? ${asyncResult3.succeeded()}")
+        })
+      } else {
+        println("Listen failed${asyncResult2.cause()}")
+      }
+    })
+  } else {
+    println("Listen failed${asyncResult.cause()}")
+  }
+})
+
 ----
 
 ===== Blocking multicast
@@ -209,16 +217,17 @@ This an expert feature.
 To block multicast from a specific address you can call `blockMulticastGroup(...)` on the DatagramSocket
 like shown here:
 
-[source,java]
+[source,groovy]
 ----
-DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
+def socket = vertx.createDatagramSocket([:])
 
 // Some code
 
 // This would block packets which are send from 10.0.0.2
-socket.blockMulticastGroup("230.0.0.1", "10.0.0.2", asyncResult -> {
-  System.out.println("block succeeded? " + asyncResult.succeeded());
-});
+socket.blockMulticastGroup("230.0.0.1", "10.0.0.2", { asyncResult ->
+  println("block succeeded? ${asyncResult.succeeded()}")
+})
+
 ----
 
 ==== DatagramSocket properties

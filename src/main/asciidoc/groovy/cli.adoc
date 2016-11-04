@@ -27,23 +27,24 @@ Each command line interface must define the set of options and arguments that wi
 name. The CLI API uses the `link:../../apidocs/io/vertx/core/cli/Option.html[Option]` and `link:../../apidocs/io/vertx/core/cli/Argument.html[Argument]` classes to
 describe options and arguments:
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("copy")
-    .setSummary("A command line interface to copy files.")
-    .addOption(new Option()
-        .setLongName("directory")
-        .setShortName("R")
-        .setDescription("enables directory support")
-        .setFlag(true))
-    .addArgument(new Argument()
-        .setIndex(0)
-        .setDescription("The source")
-        .setArgName("source"))
-    .addArgument(new Argument()
-        .setIndex(0)
-        .setDescription("The destination")
-        .setArgName("target"));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("copy").setSummary("A command line interface to copy files.").addOption([
+  longName:"directory",
+  shortName:"R",
+  description:"enables directory support",
+  flag:true
+]).addArgument([
+  index:0,
+  description:"The source",
+  argName:"source"
+]).addArgument([
+  index:0,
+  description:"The destination",
+  argName:"target"
+])
+
 ----
 
 As you can see, you can create a new `link:../../apidocs/io/vertx/core/cli/CLI.html[CLI]` using
@@ -62,41 +63,53 @@ Options can receive 0, 1 or several values. An option receiving 0 values is a `f
 `link:../../apidocs/io/vertx/core/cli/Option.html#setFlag-boolean-[setFlag]`. By default, options receive a single value, however, you can
 configure the option to receive several values using `link:../../apidocs/io/vertx/core/cli/Option.html#setMultiValued-boolean-[setMultiValued]`:
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("some-name")
-    .setSummary("A command line interface illustrating the options valuation.")
-    .addOption(new Option()
-        .setLongName("flag").setShortName("f").setFlag(true).setDescription("a flag"))
-    .addOption(new Option()
-        .setLongName("single").setShortName("s").setDescription("a single-valued option"))
-    .addOption(new Option()
-        .setLongName("multiple").setShortName("m").setMultiValued(true)
-        .setDescription("a multi-valued option"));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("some-name").setSummary("A command line interface illustrating the options valuation.").addOption([
+  longName:"flag",
+  shortName:"f",
+  flag:true,
+  description:"a flag"
+]).addOption([
+  longName:"single",
+  shortName:"s",
+  description:"a single-valued option"
+]).addOption([
+  longName:"multiple",
+  shortName:"m",
+  multiValued:true,
+  description:"a multi-valued option"
+])
+
 ----
 
 Options can be marked as mandatory. A mandatory option not set in the user command line throws an exception during
 the parsing:
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("some-name")
-    .addOption(new Option()
-        .setLongName("mandatory")
-        .setRequired(true)
-        .setDescription("a mandatory option"));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("some-name").addOption([
+  longName:"mandatory",
+  required:true,
+  description:"a mandatory option"
+])
+
 ----
 
 Non-mandatory options can have a _default value_. This value would be used if the user does not set the option in
 the command line:
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("some-name")
-    .addOption(new Option()
-        .setLongName("optional")
-        .setDefaultValue("hello")
-        .setDescription("an optional option with a default value"));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("some-name").addOption([
+  longName:"optional",
+  defaultValue:"hello",
+  description:"an optional option with a default value"
+])
+
 ----
 
 An option can be _hidden_ using the `link:../../apidocs/io/vertx/core/cli/Option.html#setHidden-boolean-[setHidden]` method. Hidden option are
@@ -104,14 +117,20 @@ not listed in the usage, but can still be used in the user command line (for pow
 
 If the option value is contrained to a fixed set, you can set the different acceptable choices:
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("some-name")
-    .addOption(new Option()
-        .setLongName("color")
-        .setDefaultValue("green")
-        .addChoice("blue").addChoice("red").addChoice("green")
-        .setDescription("a color"));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("some-name").addOption([
+  longName:"color",
+  defaultValue:"green",
+  choices:[
+    "blue",
+    "red",
+    "green"
+  ],
+  description:"a color"
+])
+
 ----
 
 Options can also be instantiated from their JSON form.
@@ -124,32 +143,34 @@ Unlike options, arguments do not have a _key_ and are identified by their _index
 Arguments do not have a name, there are identified using a 0-based index. The first parameter has the
 index `0`:
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("some-name")
-    .addArgument(new Argument()
-        .setIndex(0)
-        .setDescription("the first argument")
-        .setArgName("arg1"))
-    .addArgument(new Argument()
-        .setIndex(1)
-        .setDescription("the second argument")
-        .setArgName("arg2"));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("some-name").addArgument([
+  index:0,
+  description:"the first argument",
+  argName:"arg1"
+]).addArgument([
+  index:1,
+  description:"the second argument",
+  argName:"arg2"
+])
+
 ----
 
 If you don't set the argument indexes, it computes it automatically by using the declaration order.
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("some-name")
-    // will have the index 0
-    .addArgument(new Argument()
-        .setDescription("the first argument")
-        .setArgName("arg1"))
-    // will have the index 1
-    .addArgument(new Argument()
-        .setDescription("the second argument")
-        .setArgName("arg2"));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("some-name").addArgument([
+  description:"the first argument",
+  argName:"arg1"
+]).addArgument([
+  description:"the second argument",
+  argName:"arg2"
+])
+
 ----
 
 The `argName` is optional and used in the usage message.
@@ -168,26 +189,27 @@ Arguments can also be instantiated from their JSON form.
 
 Once your `link:../../apidocs/io/vertx/core/cli/CLI.html[CLI]` instance is configured, you can generate the _usage_ message:
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("copy")
-    .setSummary("A command line interface to copy files.")
-    .addOption(new Option()
-        .setLongName("directory")
-        .setShortName("R")
-        .setDescription("enables directory support")
-        .setFlag(true))
-    .addArgument(new Argument()
-        .setIndex(0)
-        .setDescription("The source")
-        .setArgName("source"))
-    .addArgument(new Argument()
-        .setIndex(0)
-        .setDescription("The destination")
-        .setArgName("target"));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("copy").setSummary("A command line interface to copy files.").addOption([
+  longName:"directory",
+  shortName:"R",
+  description:"enables directory support",
+  flag:true
+]).addArgument([
+  index:0,
+  description:"The source",
+  argName:"source"
+]).addArgument([
+  index:0,
+  description:"The destination",
+  argName:"target"
+])
 
-StringBuilder builder = new StringBuilder();
-cli.usage(builder);
+def builder = new java.lang.StringBuilder()
+cli.usage(builder)
+
 ----
 
 It generates an usage message like this one:
@@ -208,9 +230,10 @@ If you need to tune the usage message, check the `link:../../apidocs/io/vertx/co
 Once your `link:../../apidocs/io/vertx/core/cli/CLI.html[CLI]` instance is configured, you can parse the user command line to evaluate
 each option and argument:
 
-[source,java]
+[source,groovy]
 ----
-CommandLine commandLine = cli.parse(userCommandLineArguments);
+def commandLine = cli.parse(userCommandLineArguments)
+
 ----
 
 The `link:../../apidocs/io/vertx/core/cli/CLI.html#parse-java.util.List-[parse]` method returns a `link:../../apidocs/io/vertx/core/cli/CommandLine.html[CommandLine]`
@@ -228,33 +251,39 @@ Once parsed, you can retrieve the values of the options and arguments from the
 `link:../../apidocs/io/vertx/core/cli/CommandLine.html[CommandLine]` object returned by the `link:../../apidocs/io/vertx/core/cli/CLI.html#parse-java.util.List-[parse]`
 method:
 
-[source,java]
+[source,groovy]
 ----
-CommandLine commandLine = cli.parse(userCommandLineArguments);
-String opt = commandLine.getOptionValue("my-option");
-boolean flag = commandLine.isFlagEnabled("my-flag");
-String arg0 = commandLine.getArgumentValue(0);
+def commandLine = cli.parse(userCommandLineArguments)
+def opt = commandLine.getOptionValue("my-option")
+def flag = commandLine.isFlagEnabled("my-flag")
+def arg0 = commandLine.getArgumentValue(0)
+
 ----
 
 One of your option can have been marked as "help". If a user command line enabled a "help" option, the validation
 won't failed, but give you the opportunity to check if the user asks for help:
 
-[source,java]
+[source,groovy]
 ----
-CLI cli = CLI.create("test")
-    .addOption(
-        new Option().setLongName("help").setShortName("h").setFlag(true).setHelp(true))
-    .addOption(
-        new Option().setLongName("mandatory").setRequired(true));
+import io.vertx.groovy.core.cli.CLI
+def cli = CLI.create("test").addOption([
+  longName:"help",
+  shortName:"h",
+  flag:true,
+  help:true
+]).addOption([
+  longName:"mandatory",
+  required:true
+])
 
-CommandLine line = cli.parse(Collections.singletonList("-h"));
+def line = cli.parse(java.util.Collections.singletonList("-h"))
 
 // The parsing does not fail and let you do:
 if (!line.isValid() && line.isAskingForHelp()) {
-  StringBuilder builder = new StringBuilder();
-  cli.usage(builder);
-  stream.print(builder.toString());
+  def builder = new java.lang.StringBuilder()
+  cli.usage(builder)
+  stream.print(builder.toString())
 }
+
 ----
 
-include::cli-for-java.adoc[]

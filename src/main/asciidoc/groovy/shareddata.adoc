@@ -24,27 +24,30 @@ so you don't have to worry about protecting that state by synchronising access t
 
 Here's an example of using a shared local map:
 
-[source,java]
+[source,groovy]
 ----
-SharedData sd = vertx.sharedData();
+import io.vertx.groovy.core.buffer.Buffer
 
-LocalMap<String, String> map1 = sd.getLocalMap("mymap1");
+def sd = vertx.sharedData()
 
-map1.put("foo", "bar"); // Strings are immutable so no need to copy
+def map1 = sd.getLocalMap("mymap1")
 
-LocalMap<String, Buffer> map2 = sd.getLocalMap("mymap2");
+map1.put("foo", "bar")
 
-map2.put("eek", Buffer.buffer().appendInt(123)); // This buffer will be copied before adding to map
+def map2 = sd.getLocalMap("mymap2")
+
+map2.put("eek", Buffer.buffer().appendInt(123))
 
 // Then... in another part of your application:
 
-map1 = sd.getLocalMap("mymap1");
+map1 = sd.getLocalMap("mymap1")
 
-String val = map1.get("foo");
+def val = map1.get("foo")
 
-map2 = sd.getLocalMap("mymap2");
+map2 = sd.getLocalMap("mymap2")
 
-Buffer buff = map2.get("eek");
+def buff = map2.get("eek")
+
 ----
 
 === Cluster-wide asynchronous maps
@@ -60,17 +63,20 @@ You get an instance of `link:../../apidocs/io/vertx/core/shareddata/AsyncMap.htm
 
 Getting the map is asynchronous and the result is returned to you in the handler that you specify. Here's an example:
 
-[source,java]
+[source,groovy]
 ----
-SharedData sd = vertx.sharedData();
 
-sd.<String, String>getClusterWideMap("mymap", res -> {
+def sd = vertx.sharedData()
+
+sd.getClusterWideMap("mymap", { res ->
   if (res.succeeded()) {
-    AsyncMap<String, String> map = res.result();
+    def map = res.result()
   } else {
     // Something went wrong!
   }
-});
+})
+
+
 ----
 
 ==== Putting data in a map
@@ -79,15 +85,18 @@ You put data in a map with `link:../../apidocs/io/vertx/core/shareddata/AsyncMap
 
 The actual put is asynchronous and the handler is notified once it is complete:
 
-[source,java]
+[source,groovy]
 ----
-map.put("foo", "bar", resPut -> {
+
+map.put("foo", "bar", { resPut ->
   if (resPut.succeeded()) {
     // Successfully put the value
   } else {
     // Something went wrong!
   }
-});
+})
+
+
 ----
 
 ==== Getting data from a map
@@ -96,16 +105,19 @@ You get data from a map with `link:../../apidocs/io/vertx/core/shareddata/AsyncM
 
 The actual get is asynchronous and the handler is notified with the result some time later
 
-[source,java]
+[source,groovy]
 ----
-map.get("foo", resGet -> {
+
+map.get("foo", { resGet ->
   if (resGet.succeeded()) {
     // Successfully got the value
-    Object val = resGet.result();
+    def val = resGet.result()
   } else {
     // Something went wrong!
   }
-});
+})
+
+
 ----
 
 ===== Other map operations
@@ -132,37 +144,41 @@ While you own the lock no other caller, anywhere on the cluster will be able to 
 When you've finished with the lock, you call `link:../../apidocs/io/vertx/core/shareddata/Lock.html#release--[release]` to release it, so
 another caller can obtain it.
 
-[source,java]
+[source,groovy]
 ----
-sd.getLock("mylock", res -> {
+sd.getLock("mylock", { res ->
   if (res.succeeded()) {
     // Got the lock!
-    Lock lock = res.result();
+    def lock = res.result()
 
     // 5 seconds later we release the lock so someone else can get it
 
-    vertx.setTimer(5000, tid -> lock.release());
+    vertx.setTimer(5000, { tid ->
+      lock.release()
+    })
 
   } else {
     // Something went wrong
   }
-});
+})
+
 ----
 
 You can also get a lock with a timeout. If it fails to obtain the lock within the timeout the handler will be called
 with a failure:
 
-[source,java]
+[source,groovy]
 ----
-sd.getLockWithTimeout("mylock", 10000, res -> {
+sd.getLockWithTimeout("mylock", 10000, { res ->
   if (res.succeeded()) {
     // Got the lock!
-    Lock lock = res.result();
+    def lock = res.result()
 
   } else {
     // Failed to get lock
   }
-});
+})
+
 ----
 
 === Cluster-wide counters
@@ -173,15 +189,16 @@ You can do this with `link:../../apidocs/io/vertx/core/shareddata/Counter.html[C
 
 You obtain an instance with `link:../../apidocs/io/vertx/core/shareddata/SharedData.html#getCounter-java.lang.String-io.vertx.core.Handler-[getCounter]`:
 
-[source,java]
+[source,groovy]
 ----
-sd.getCounter("mycounter", res -> {
+sd.getCounter("mycounter", { res ->
   if (res.succeeded()) {
-    Counter counter = res.result();
+    def counter = res.result()
   } else {
     // Something went wrong!
   }
-});
+})
+
 ----
 
 Once you have an instance you can retrieve the current count, atomically increment it, decrement and add a value to
