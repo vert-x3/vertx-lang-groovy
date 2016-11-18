@@ -116,6 +116,7 @@
                 </annotationProcessors>
                 <compilerArgs>
                   <arg>-AoutputDirectory=${project.basedir}/src/test</arg>
+                  <arg>-AcodeGenerators=Groovy</arg>
                 </compilerArgs>
               </configuration>
             </execution>
@@ -193,9 +194,9 @@
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
               <optionMap>
-                <generators>Groovy</generators>
                 <outputDirectory>${project.basedir}/src/main</outputDirectory>
                 <docgen.output>${asciidoc.dir}/groovy</docgen.output>
+                <codeGenerators>Groovy</codeGenerators>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/vertx-core</sourceDirectory>
             </configuration>
