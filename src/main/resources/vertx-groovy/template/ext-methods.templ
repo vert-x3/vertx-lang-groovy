@@ -9,6 +9,9 @@ public class GroovyExtension {\n
 @foreach{method:methods}
 	@if{!method.staticMethod && checkMethod(method)}
 		@includeNamed{'genMethod'}
+		@if{method.kind == METHOD_FUTURE && method.fluentFuture != null}
+			@includeNamed{'genMethod';method=method.fluentFuture}
+		@end{}
 	@end{}
 @end{}
 
