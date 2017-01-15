@@ -58,9 +58,15 @@ public class ConversionHelper {
   }
 
   public static JsonObject toJsonObject(Map<String, Object> obj) {
-    return obj == null ? null : new JsonObject(obj.entrySet().stream().collect(Collectors.toMap(
-      Map.Entry::getKey, entry -> toJsonElement(entry.getValue())
-    )));
+    if (obj == null) {
+      return null;
+    }
+    JsonObject json = new JsonObject();
+    Map<String, Object> map = json.getMap();
+    obj.forEach((k, v) -> {
+      map.put(k, toJsonElement(v));
+    });
+    return json;
   }
 
   public static JsonArray toJsonArray(List<Object> obj) {
