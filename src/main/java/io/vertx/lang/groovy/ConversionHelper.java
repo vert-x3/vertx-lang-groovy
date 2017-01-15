@@ -21,6 +21,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.Base64;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -44,7 +45,7 @@ public class ConversionHelper {
   }
 
   @SuppressWarnings("unchecked")
-  private static Object toJsonElement(Object obj) {
+  static Object toJsonElement(Object obj) {
     if (obj instanceof Map) {
       return toJsonObject((Map<String, Object>) obj);
     } else if (obj instanceof List) {
@@ -58,9 +59,13 @@ public class ConversionHelper {
   }
 
   public static JsonObject toJsonObject(Map<String, Object> obj) {
-    return obj == null ? null : new JsonObject(obj.entrySet().stream().collect(Collectors.toMap(
-      Map.Entry::getKey, entry -> toJsonElement(entry.getValue())
-    )));
+    Map<String, Object> result = new LinkedHashMap<>();
+    if (obj!=null) {
+      for (Map.Entry entry : obj.entrySet()) {
+        result.put(((String) entry.getKey()), toJsonElement(entry.getValue()));
+      }
+    }
+    return new JsonObject(result);
   }
 
   public static JsonArray toJsonArray(List<Object> obj) {
