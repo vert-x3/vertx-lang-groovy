@@ -20,8 +20,11 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -57,20 +60,24 @@ public class ConversionHelper {
     return obj;
   }
 
-  public static JsonObject toJsonObject(Map<String, Object> obj) {
-    if (obj == null) {
+  public static JsonObject toJsonObject(Map<String, Object> map) {
+    if (map == null) {
       return null;
     }
-    JsonObject json = new JsonObject();
-    Map<String, Object> map = json.getMap();
-    obj.forEach((k, v) -> {
-      map.put(k, toJsonElement(v));
-    });
-    return json;
+    map = new LinkedHashMap<>(map);
+    map.entrySet().forEach(e -> e.setValue(toJsonElement(e.getValue())));
+    return new JsonObject(map);
   }
 
-  public static JsonArray toJsonArray(List<Object> obj) {
-    return obj == null ? null : new JsonArray(obj.stream().map(ConversionHelper::toJsonElement).collect(Collectors.toList()));
+  public static JsonArray toJsonArray(List<Object> list) {
+    if (list == null) {
+      return null;
+    }
+    list = new ArrayList<>(list);
+    for (int i = 0;i < list.size();i++) {
+      list.set(i, toJsonElement(list.get(i)));
+    }
+    return new JsonArray(list);
   }
 
   public static <T, R> R applyIfNotNull(T expr, Function<T, R> function) {
@@ -99,13 +106,25 @@ public class ConversionHelper {
     return (T)obj;
   }
 
-  public static Map<String, Object> fromJsonObject(JsonObject obj) {
-    return obj == null ? null : obj.getMap().entrySet().stream().collect(Collectors.toMap(
-      Map.Entry::getKey, entry -> wrap(entry.getValue())
-    ));
+  public static Map<String, Object> fromJsonObject(JsonObject json) {
+    if (json == null) {
+      return null;
+    }
+    Map<String, Object> map = new LinkedHashMap<>(json.getMap());
+    map.entrySet().forEach(entry -> {
+      entry.setValue(wrap(entry.getValue()));
+    });
+    return map;
   }
 
-  public static List<Object> fromJsonArray(JsonArray obj) {
-    return obj == null ? null : obj.stream().map(ConversionHelper::wrap).collect(Collectors.toList());
+  public static List<Object> fromJsonArray(JsonArray json) {
+    if (json == null) {
+      return null;
+    }
+    List<Object> list = new ArrayList<>(json.getList());
+    for (int i = 0;i < list.size();i++) {
+      list.set(i, wrap(list.get(i)));
+    }
+    return list;
   }
 }

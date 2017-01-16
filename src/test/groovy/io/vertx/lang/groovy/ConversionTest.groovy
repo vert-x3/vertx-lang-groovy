@@ -29,4 +29,13 @@ class ConversionTest {
     Assert.assertTrue(Converter.acceptNullJsonObjectValue([nullkey:null]));
     Assert.assertTrue(Converter.acceptNullJsonArrayValue([null]));
   }
+
+  @Test
+  public void testJsonWithNullValues() {
+    Map<String, Object> map = Converter.returnJsonObjectWithNullValue()
+    Assert.assertEquals(1, map.size())
+    Assert.assertTrue(map.containsKey("nullKey"))
+    Assert.assertNull(map["nullKey"])
+    Assert.assertEquals(Converter.returnJsonArrayWithNullValue(), [null]);
+  }
 }
