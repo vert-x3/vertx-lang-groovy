@@ -67,6 +67,11 @@ public class TransformTest {
   }
 
   @Test
+  public void testClassMethodGenericParam() throws Exception {
+    runTest();
+  }
+
+  @Test
   public void testScriptWithCast() throws Exception {
     runTest();
   }

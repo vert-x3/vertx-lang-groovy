@@ -40,6 +40,7 @@ import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.ASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -204,12 +205,14 @@ public class VertxTransformation implements ASTTransformation {
 
   private ClassNode rewriteType(ClassNode type) {
     int index = type.getName().indexOf(".groovy.");
-    return new ClassNode(
-      type.getName().substring(0, index) + type.getName().substring(index + 7),
-      type.getModifiers(),
-      type.getSuperClass(),
-      type.getInterfaces(),
-      type.getMixins()
-    );
+    String name = type.getName().substring(0, index) + type.getName().substring(index + 7);
+    try {
+      Field f = ClassNode.class.getDeclaredField("name");
+      f.setAccessible(true);
+      f.set(type, name);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    return type;
   }
 }
