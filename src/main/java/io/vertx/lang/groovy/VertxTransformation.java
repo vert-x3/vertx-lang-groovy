@@ -28,8 +28,11 @@ import org.codehaus.groovy.ast.Parameter;
 import org.codehaus.groovy.ast.expr.CastExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ClosureExpression;
+import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ExpressionTransformer;
+import org.codehaus.groovy.ast.expr.MethodCallExpression;
+import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.VariableExpression;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.ForStatement;
@@ -126,27 +129,40 @@ public class VertxTransformation implements ASTTransformation {
 
   private final ExpressionTransformer transformer = new ExpressionTransformer() {
     @Override
-    public Expression transform(Expression expression) {
-      if (expression instanceof VariableExpression) {
-        VariableExpression variableExpression = (VariableExpression) expression;
+    public Expression transform(Expression expr) {
+      if (expr instanceof PropertyExpression) {
+        PropertyExpression objectPropExpr = (PropertyExpression) expr;
+        if (objectPropExpr.isDynamic()) {
+          String name = objectPropExpr.getText();
+          int index = name.lastIndexOf('.');
+          if (index != -1) {
+            name = name.substring(0, index);
+            int idx = name.indexOf(".groovy.");
+            if (idx != -1 && shouldTransform(idx, name)) {
+              return rewrite(objectPropExpr);
+            }
+          }
+        }
+      } else if (expr instanceof VariableExpression) {
+        VariableExpression variableExpression = (VariableExpression) expr;
         variableExpression.setType(handleType(variableExpression.getType()));
         ClassNode originType = handleType(variableExpression.getOriginType());
         if (originType != variableExpression.getOriginType()) {
           return new VariableExpression(variableExpression.getName(), rewriteType(variableExpression.getOriginType()));
         }
-      } else if (expression instanceof ClassExpression) {
-        ClassExpression classExpression = (ClassExpression) expression;
+      } else if (expr instanceof ClassExpression) {
+        ClassExpression classExpression = (ClassExpression) expr;
         classExpression.setType(handleType(classExpression.getType()));
-      } else if (expression instanceof ClosureExpression) {
-        ClosureExpression closureExpr = (ClosureExpression) expression;
+      } else if (expr instanceof ClosureExpression) {
+        ClosureExpression closureExpr = (ClosureExpression) expr;
         for (Parameter param : closureExpr.getParameters()) {
           handleParam(param);
         }
-      } else if (expression instanceof CastExpression) {
-        CastExpression castExpr = (CastExpression) expression;
+      } else if (expr instanceof CastExpression) {
+        CastExpression castExpr = (CastExpression) expr;
         castExpr.setType(handleType(castExpr.getType()));
       }
-      return expression.transformExpression(this);
+      return expr.transformExpression(this);
     }
   };
 
@@ -171,7 +187,6 @@ public class VertxTransformation implements ASTTransformation {
   }
 
   private boolean shouldTransform(ClassNode type) {
-
     if (type == null) {
       return false;
     }
@@ -193,7 +208,8 @@ public class VertxTransformation implements ASTTransformation {
   private boolean shouldTransform(int idx, String pkg) {
     int last = pkg.length();
     if (last > idx) {
-      URL res = loader.getResource(pkg.substring(0, last).replace('.', '/') + "/GroovyExtension.class");
+      String lookup = pkg.substring(0, last).replace('.', '/') + "/GroovyExtension.class";
+      URL res = loader.getResource(lookup);
       if (res != null || shouldTransform(idx, pkg.substring(0, pkg.lastIndexOf('.', last)))) {
         movedPkg.put(pkg, true);
         return true;
@@ -215,4 +231,28 @@ public class VertxTransformation implements ASTTransformation {
     }
     return type;
   }
+
+  private PropertyExpression rewrite(PropertyExpression expr) {
+    if (expr.getProperty() instanceof ConstantExpression && expr.getObjectExpression() instanceof PropertyExpression) {
+      ConstantExpression property = (ConstantExpression) expr.getProperty();
+      PropertyExpression objectExpr = (PropertyExpression) expr.getObjectExpression();
+      if (objectExpr != null) {
+        if (property.getValue().equals("groovy")) {
+          return objectExpr;
+        } else {
+          objectExpr = rewrite(objectExpr);
+          if (objectExpr != null) {
+            return new PropertyExpression(objectExpr, property);
+          }
+        }
+      } else {
+        return expr;
+      }
+    }
+    return null;
+  }
+
 }
+
+
+

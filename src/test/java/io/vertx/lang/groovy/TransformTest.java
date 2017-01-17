@@ -32,6 +32,16 @@ public class TransformTest {
   }
 
   @Test
+  public void testClassQualifiedStaticClassLiteral() throws Exception {
+    runTest();
+  }
+
+  @Test
+  public void testClassQualifiedStaticMethodCall() throws Exception {
+    runTest();
+  }
+
+  @Test
   public void testClassQualifiedTypeArgField() throws Exception {
     runTest();
   }
