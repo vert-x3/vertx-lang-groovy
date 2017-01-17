@@ -103,7 +103,10 @@ public class VertxTransformation implements ASTTransformation {
       handleParam(param);
     }
     methodNode.setReturnType(handleType(methodNode.getReturnType()));
-    visit(moduleNode, methodNode.getCode());
+    Statement code = methodNode.getCode();
+    if (code != null) {
+      visit(moduleNode, code);
+    }
   }
 
   private void visit(ModuleNode module, Statement statement) {

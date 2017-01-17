@@ -166,6 +166,11 @@ public class TransformTest {
     runTest();
   }
 
+  @Test
+  public void testAbstractMethod() throws Exception {
+    runTest();
+  }
+
   private void runTest() throws Exception {
     Vertx vertx = Vertx.vertx();
     CompletableFuture<Void> fut = new CompletableFuture<>();
