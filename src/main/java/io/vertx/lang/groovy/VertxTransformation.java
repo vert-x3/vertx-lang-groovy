@@ -31,7 +31,6 @@ import org.codehaus.groovy.ast.expr.ClosureExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ExpressionTransformer;
-import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.VariableExpression;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
@@ -44,7 +43,6 @@ import org.codehaus.groovy.transform.ASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -56,8 +54,7 @@ import java.util.stream.Stream;
 public class VertxTransformation implements ASTTransformation {
 
   private GroovyClassLoader loader;
-  private final Map<String, Boolean> movedPkg = new HashMap<>();
-
+  private final Map<String, Boolean> relocatedTypes = new HashMap<>();
 
   @Override
   public void visit(ASTNode[] astNodes, SourceUnit sourceUnit) {
@@ -77,7 +74,7 @@ public class VertxTransformation implements ASTTransformation {
 
   private void visit(ModuleNode moduleNode) {
     for (ImportNode importNode : moduleNode.getImports()) {
-      if (shouldTransform(importNode.getType())) {
+      if (shouldTransformClass(importNode.getType())) {
         moduleNode.addImport(importNode.getAlias(), rewriteType(importNode.getType()));
       }
     }
@@ -134,13 +131,9 @@ public class VertxTransformation implements ASTTransformation {
         PropertyExpression objectPropExpr = (PropertyExpression) expr;
         if (objectPropExpr.isDynamic()) {
           String name = objectPropExpr.getText();
-          int index = name.lastIndexOf('.');
-          if (index != -1) {
-            name = name.substring(0, index);
-            int idx = name.indexOf(".groovy.");
-            if (idx != -1 && shouldTransform(idx, name)) {
-              return rewrite(objectPropExpr);
-            }
+          int idx = name.indexOf(".groovy.");
+          if (idx != -1 && shouldTransformClass(name)) {
+            return rewrite(objectPropExpr);
           }
         }
       } else if (expr instanceof VariableExpression) {
@@ -170,12 +163,12 @@ public class VertxTransformation implements ASTTransformation {
     GenericsType[] genericsTypes = type.getGenericsTypes();
     if (genericsTypes != null) {
       for (GenericsType genericsType : genericsTypes) {
-        if (shouldTransform(genericsType.getType())) {
+        if (shouldTransformClass(genericsType.getType())) {
           genericsType.setType(rewriteType(genericsType.getType()));
         }
       }
     }
-    if (shouldTransform(type)) {
+    if (shouldTransformClass(type)) {
       return rewriteType(type);
     }
     return type;
@@ -186,37 +179,34 @@ public class VertxTransformation implements ASTTransformation {
     param.setOriginType(handleType(param.getOriginType()));
   }
 
-  private boolean shouldTransform(ClassNode type) {
-    if (type == null) {
-      return false;
-    }
-    String name = type.getPackageName();
-    if (name == null) {
-      return false;
-    }
-    Boolean val = movedPkg.get(name);
-    if (val != null) {
-      return val;
-    }
-    int idx = name.indexOf(".groovy.");
-    if (idx == -1) {
-      return false;
-    }
-    return shouldTransform(idx, name);
+  private boolean shouldTransformClass(ClassNode clazz) {
+    return !(clazz == null || clazz.getName() == null) && shouldTransformClass(clazz.getName());
   }
 
-  private boolean shouldTransform(int idx, String pkg) {
-    int last = pkg.length();
-    if (last > idx) {
-      String lookup = pkg.substring(0, last).replace('.', '/') + "/GroovyExtension.class";
-      URL res = loader.getResource(lookup);
-      if (res != null || shouldTransform(idx, pkg.substring(0, pkg.lastIndexOf('.', last)))) {
-        movedPkg.put(pkg, true);
+  private boolean shouldTransformClass(String fqn) {
+    Boolean cached = relocatedTypes.get(fqn);
+    if (cached != null) {
+      return cached;
+    }
+    String translateNamed = translateClassFqn(fqn);
+    if (translateNamed != null) {
+      try {
+        loader.loadClass(translateNamed);
+        relocatedTypes.put(fqn, true);
         return true;
+      } catch (ClassNotFoundException ignore) {
       }
     }
-    movedPkg.put(pkg, false);
+    relocatedTypes.put(fqn, false);
     return false;
+  }
+
+  private String translateClassFqn(String fqn) {
+    int index = fqn.indexOf(".groovy.");
+    if (index == -1) {
+      return null;
+    }
+    return fqn.substring(0, index) + fqn.substring(index + 7);
   }
 
   private ClassNode rewriteType(ClassNode type) {
