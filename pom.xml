@@ -115,8 +115,8 @@
                   <annotationProcessor>io.vertx.codegen.CodeGenProcessor</annotationProcessor>
                 </annotationProcessors>
                 <compilerArgs>
-                  <arg>-AoutputDirectory=${project.basedir}/src/test</arg>
-                  <arg>-AcodeGenerators=Groovy</arg>
+                  <arg>-Acodegen.output=${project.basedir}/src/test</arg>
+                  <arg>-Acodegen.generators=Groovy</arg>
                 </compilerArgs>
               </configuration>
             </execution>
@@ -194,9 +194,9 @@
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
               <optionMap>
-                <outputDirectory>${project.basedir}/src/main</outputDirectory>
+                <codegen.output>${project.basedir}/src/main</codegen.output>
+                <codegen.generators>Groovy</codegen.generators>
                 <docgen.output>${asciidoc.dir}/groovy</docgen.output>
-                <codeGenerators>Groovy</codeGenerators>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/vertx-core</sourceDirectory>
             </configuration>
@@ -213,7 +213,7 @@
                 <processor>io.vertx.docgen.DocGenProcessor</processor>
               </processors>
               <optionMap>
-                <outputDirectory>${project.basedir}/src/main</outputDirectory>
+                <codegen.output>${project.basedir}/src/main</codegen.output>
                 <docgen.output>${asciidoc.dir}/groovy</docgen.output>
                 <maven.groupId>${project.groupId}</maven.groupId>
                 <maven.artifactId>${project.artifactId}</maven.artifactId>
@@ -234,7 +234,7 @@
                 <processor>io.vertx.docgen.DocGenProcessor</processor>
               </processors>
               <optionMap>
-                <outputDirectory>${project.basedir}/src/main</outputDirectory>
+                <codegen.output>${project.basedir}/src/main</codegen.output>
                 <docgen.output>${asciidoc.dir}/groovy</docgen.output>
                 <maven.groupId>${project.groupId}</maven.groupId>
                 <maven.artifactId>${project.artifactId}</maven.artifactId>
