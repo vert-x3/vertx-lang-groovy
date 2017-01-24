@@ -1,0 +1,18 @@
+@includeNamed{"common.templ"}
+
+package @{type.module.translateQualifiedName(type.packageName, 'groovy')};\n
+
+public class @{type.simpleName}_GroovyExtension {\n
+
+@code{genClass=new java.util.concurrent.atomic.AtomicBoolean(false)}
+@foreach{method:methods}
+	@if{!method.staticMethod && checkMethod(method)}
+		@includeNamed{'genMethod'}
+		@code{genClass.set(true)}
+	@end{}
+@end{}
+@if{!genClass.get()}
+	@code{ skipFile=true }
+@end{}
+
+}\n

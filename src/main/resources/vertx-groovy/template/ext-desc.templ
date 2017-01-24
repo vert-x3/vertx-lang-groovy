@@ -1,12 +1,30 @@
+@includeNamed{"common.templ"}
 @code{
   if (incrementalIndex == 0) {
-    session.pkgs = new java.util.ArrayList();
+    session.exts = new java.util.ArrayList();
+    session.staticExts = new java.util.ArrayList();
   }
-  session.pkgs.add(module.translateQualifiedName(module.packageName, 'groovy'));
+  var genExt = false;
+  var genStaticExt = false;
+  for (method : methods) {
+    if (checkMethod(method)) {
+      if (method.staticMethod) {
+        genStaticExt = true;
+      } else {
+        genExt = true;
+      }
+    }
+  }
+  if (genExt) {
+    session.exts.add(type.module.translateQualifiedName(type.name, 'groovy'));
+  }
+  if (genStaticExt) {
+    session.staticExts.add(type.module.translateQualifiedName(type.name, 'groovy'));
+  }
 }
 @if{incrementalIndex==incrementalSize-1}
-moduleName = @{module.name}-module\n
+moduleName = @{type.name}-module\n
 moduleVersion = 1.0\n
-extensionClasses = @foreach{pkg:session.pkgs}@{pkg}.GroovyExtension@end{', '}\n
-staticExtensionClasses = @foreach{pkg:session.pkgs}@{pkg}.GroovyStaticExtension@end{', '}\n
+extensionClasses = @foreach{fqn:session.exts}@{fqn}_GroovyExtension@end{', '}\n
+staticExtensionClasses = @foreach{fqn:session.staticExts}@{fqn}_GroovyStaticExtension@end{', '}\n
 @end{}
