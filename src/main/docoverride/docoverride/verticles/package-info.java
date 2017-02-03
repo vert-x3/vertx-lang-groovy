@@ -17,6 +17,9 @@
 /**
  * === API changes from previous versions
  *
+ * IMPORTANT: this is an important change from previous versions and _Vert.x for Groovy_ users should carefully
+ * read this section
+ *
  * Vert.x for Groovy has been revamped in Vert.x 3.4.
  *
  * The previous versions were using a code generated Groovy API wrapping the Vert.x Java API, e.g
@@ -65,7 +68,39 @@
  * Vert.x for Groovy provides a Groovy compiler transformation that rewrites the compiled classes to unwraps the occurences
  * of legacy classes, i.e it rewrites `io.vertx.groovy.core.Vertx` to `io.vertx.core.Vertx`.
  *
+ * To help you, the transformed classes are printed by the compiler on the standard output, for instance if you compile
+ * the script:
  *
+ * [source, groovy]
+ * ----
+ * import io.vertx.groovy.core.buffer.Buffer;
+ *
+ * def content = Buffer.buffer("Hello World");
+ *
+ * def server = vertx.createHttpServer();
+ * server.requestHandler { req
+ *   req.response().end("content");
+ * }
+ * server.listen();
+ * ----
+ *
+ * Something like:
+ *
+ * [source, groovy]
+ * ----
+ * // -------- BEGIN HelloWorldServer --------
+ * import io.vertx.core.buffer.Buffer as Buffer
+ *
+ * def content  = Buffer.buffer('Hello World')
+ * def server  = vertx.createHttpServer()
+ * server.requestHandler({ req ->
+ *  req.response().end(content)
+ * })
+ * server.listen()
+ * // -------- END HelloWorldServer --------
+ * ----
+ *
+ * Printed on the console
  *
  * === Writing Verticles
  *

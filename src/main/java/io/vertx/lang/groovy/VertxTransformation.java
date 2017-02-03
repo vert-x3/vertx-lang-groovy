@@ -103,11 +103,11 @@ public class VertxTransformation implements ASTTransformation {
         PrintWriter writer = new PrintWriter(buffer);
         writer.append("The class ").append(classNode.getName()).println(" uses the legacy Vert.x for Groovy " +
           "API (io.vertx.groovy.XYZ classes) and should be migrated. Here is the migrated source code:");
-        writer.append("/* -------- BEGIN ").append(classNode.getName()).println(" -------- */");
+        writer.append("// -------- BEGIN ").append(classNode.getName()).println(" --------");
         AstNodeToScriptVisitor visitor = new AstNodeToScriptVisitor(writer, true, false);
         GeneratorContext ctx = new GeneratorContext(moduleNode.getUnit());
         visitor.call(sourceUnit, ctx, classNode);
-        writer.append("/* -------- END ").append(classNode.getName()).println(" -------- */");
+        writer.append("// -------- END ").append(classNode.getName()).println(" --------");
         System.out.println(buffer.toString());
       }
       modified = prev;
