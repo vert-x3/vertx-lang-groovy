@@ -159,24 +159,60 @@ public class VertxTransformation implements ASTTransformation {
     }
   };
 
-  private ClassNode handleType(ClassNode type) {
-    GenericsType[] genericsTypes = type.getGenericsTypes();
+  private ClassNode handleType(ClassNode classType) {
+    GenericsType[] genericsTypes = classType.getGenericsTypes();
+    String s = classType.toString();
     if (genericsTypes != null) {
-      for (GenericsType genericsType : genericsTypes) {
-        if (shouldTransformClass(genericsType.getType())) {
-          genericsType.setType(rewriteType(genericsType.getType()));
+      for (int j = 0;j < genericsTypes.length;j++) {
+        GenericsType genericsType = genericsTypes[j];
+        if (shouldTransformGenericsType(genericsType)) {
+          ClassNode[] upperBounds = null;
+          if (genericsType.getUpperBounds() != null) {
+            upperBounds = genericsType.getUpperBounds().clone();
+            for (int i = 0;i < upperBounds.length;i++) {
+              if (shouldTransformClass(upperBounds[i])) {
+                upperBounds[i] = rewriteType(upperBounds[i]);
+              }
+            }
+          }
+          ClassNode lowerBound = genericsType.getLowerBound();
+          if (lowerBound != null && shouldTransformClass(lowerBound)) {
+            lowerBound = rewriteType(lowerBound);
+          }
+          ClassNode type = genericsType.getType();
+          if (shouldTransformClass(type)) {
+            type = rewriteType(type);
+          }
+          genericsTypes[j] = new GenericsType(type, upperBounds, lowerBound);
         }
       }
     }
-    if (shouldTransformClass(type)) {
-      return rewriteType(type);
+    if (shouldTransformClass(classType)) {
+      return rewriteType(classType);
     }
-    return type;
+    return classType;
   }
 
   private void handleParam(Parameter param) {
     param.setType(handleType(param.getType()));
     param.setOriginType(handleType(param.getOriginType()));
+  }
+
+  private boolean shouldTransformGenericsType(GenericsType type) {
+    if (shouldTransformClass(type.getType())) {
+      return true;
+    }
+    if (type.getLowerBound() != null && shouldTransformClass(type.getLowerBound())) {
+      return true;
+    }
+    if (type.getUpperBounds() != null) {
+      for (ClassNode upperBound : type.getUpperBounds()) {
+        if (shouldTransformClass(upperBound)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private boolean shouldTransformClass(ClassNode clazz) {
