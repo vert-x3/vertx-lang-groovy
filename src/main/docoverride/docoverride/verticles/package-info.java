@@ -15,16 +15,64 @@
  */
 
 /**
+ * === API changes from previous versions
+ *
+ * Vert.x for Groovy has been revamped in Vert.x 3.4.
+ *
+ * The previous versions were using a code generated Groovy API wrapping the Vert.x Java API, e.g
+ * `io.vertx.groovy.core.Vertx` was a Groovy class wrapping `io.vertx.core.Vertx` and changing a few methods
+ * to provide a Groovy idiomatic API:
+ *
+ * - data objects are replaced by maps
+ * - `io.vertx.core.json.JsonObject` is replaced by map
+ * - `io.vertx.core.json.JsonArray` is replaced by list
+ *
+ * Creating an `HttpServer` :
+ *
+ * [source, groovy]
+ * ----
+ * // call createHttpServer on io.vertx.groovy.core.Vertx
+ * def server = vertx.createHttpServer([host:"localhost",port:8080]);
+ * // it returned an io.vertx.groovy.core.http.HttpServer instance
+ * ----
+ *
+ * Since 3.4, the Groovy API has become an extension of the Java API based on
+ * http://mrhaki.blogspot.fr/2013/01/groovy-goodness-adding-extra-methods.html[Groovy extension methods].
+ *
+ * [source, groovy]
+ * ----
+ * // call createHttpServer on io.vertx.core.Vertx
+ * def server = vertx.createHttpServer([host:"localhost",port:8080]);
+ * // it returned an io.vertx.core.http.HttpServer instance
+ * ----
+ *
+ * The actual method called is `io.vertx.groovy.core.Vertx_GroovyExtension#createHttpServer(io.vertx.core.Vertx, Map<String, Object>)`
+ * that transforms the map options into `io.vertx.core.http.HttpServerOptions`.
+ *
+ * Of course if you like you can call the `createHttpServer(HttpServerOptions)` method directly and pass an `HttpServerOptions`
+ * instance.
+ *
+ * The benefits are:
+ *
+ * - performance gains since no wrapping occur
+ * - an idiomatic Groovy-ish API
+ * - full access to the Vert.x Java API, not hidden anymore behind a wrapper
+ *
+ * ==== Migrating from previous API
+ *
+ * Existing Groovy Verticles are using `io.vertx.groovy.XYZ` API and should use now `io.vertx.XYZ` Java API.
+ *
+ * Vert.x for Groovy provides a Groovy compiler transformation that rewrites the compiled classes to unwraps the occurences
+ * of legacy classes, i.e it rewrites `io.vertx.groovy.core.Vertx` to `io.vertx.core.Vertx`.
+ *
+ *
+ *
  * === Writing Verticles
  *
- * There are three alternatives to create verticles in Groovy:
+ * There are two alternatives to create verticles in Groovy:
  *
  *  * a plain Groovy script
- *  * a Groovy class extending the {@link io.vertx.lang.groovy.GroovyVerticle} class
  *  * a Groovy class implementing the {@link io.vertx.core.Verticle} interface or extending the {@link io.vertx.core.AbstractVerticle} class
- *
- *  We will not cover the third case in this manual, as it is a plain Java class and instead you should read the
- *  Vert.x manual for Java.
  *
  * For example, the next snippet is a valid Groovy verticle:
  *
@@ -47,14 +95,14 @@
  * }
  * ----
  *
- * Alternatively, you can extend the {@link io.vertx.lang.groovy.GroovyVerticle} class and implement the `start` and
+ * Alternatively, you can extend the {@link io.vertx.core.AbstractVerticle} class and implement the `start` and
  * `stop` methods:
  *
  * [source, groovy]
  * ----
- * import io.vertx.lang.groovy.GroovyVerticle;
+ * import io.vertx.core.AbstractVerticle;
  *
- * public class HelloWorldHttpVerticle extends GroovyVerticle {
+ * public class HelloWorldHttpVerticle extends AbstractVerticle {
  *
  *  public void start() {
  *   println("Starting")
@@ -66,8 +114,8 @@
  * }
  * ----
  *
- * As in Java, vert.x creates a new instance of the class automatically.  When Vert.x deploys the verticle it will call
- * the `start` method, and when the method has completed the verticle will be considered started.
+ * When Vert.x deploys the verticle it will call the `start` method, and when the method has completed the
+ * verticle will be considered started.
  *
  * You can also optionally override the `stop` method. This will be called by Vert.x when the verticle is undeployed
  * and when the method has completed the verticle will be considered stopped.
@@ -115,7 +163,7 @@
  *
  * [source, groovy]
  * ----
- * import io.vertx.groovy.core.Future
+ * import io.vertx.core.Future
  *
  * void vertxStart(Future<Void> future) {
  *  println "starting"
@@ -134,16 +182,16 @@
  * }
  * ----
  *
- * If your verticle extends {@link io.vertx.lang.groovy.GroovyVerticle}, you override the
- * {@link io.vertx.lang.groovy.GroovyVerticle#start(io.vertx.core.Future)} and
- * {@link io.vertx.lang.groovy.GroovyVerticle#stop(io.vertx.core.Future)} methods:
+ * If your verticle extends {@link io.vertx.core.AbstractVerticle}, you override the
+ * {@link io.vertx.core.AbstractVerticle#start(io.vertx.core.Future)} and
+ * {@link io.vertx.core.AbstractVerticle#stop(io.vertx.core.Future)} methods:
  *
  * [source, groovy]
  * ----
  * import io.vertx.core.Future
- * import io.vertx.lang.groovy.GroovyVerticle
+ * import io.vertx.core.AbstractVerticle
  *
- * public class HelloWorldHttpVerticle extends GroovyVerticle {
+ * public class HelloWorldHttpVerticle extends AbstractVerticle {
  *  public void start(Future<Void> future) {
  *    println "starting"
  *    vertx.deployVerticle("v.rb",
@@ -163,12 +211,10 @@
  * }
  * ----
  *
- * IMPORTANT: Notice that depending your implementation choice, the `Future` class is different. Groovy verticle
- * implemented as script are using `io.vertx.groovy.core.Future`, while classes are using
- * `io.vertx.core.Future`
- *
  * NOTE: You don't need to manually undeploy child verticles started by a verticle, in the verticle's stop method.
  * Vert.x will automatically undeploy any child verticles when the parent is undeployed.
+ *
+ * {@link io.vertx.lang.groovy.GroovyVerticle}
  */
 @Document(fileName = "override/verticles.adoc")
 package docoverride.verticles;

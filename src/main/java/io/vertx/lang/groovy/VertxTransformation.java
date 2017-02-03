@@ -15,6 +15,7 @@
  */
 package io.vertx.lang.groovy;
 
+import groovy.inspect.swingui.AstNodeToScriptVisitor;
 import groovy.lang.GroovyClassLoader;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassNode;
@@ -36,12 +37,15 @@ import org.codehaus.groovy.ast.expr.VariableExpression;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.ForStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
+import org.codehaus.groovy.classgen.GeneratorContext;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.GenericsVisitor;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.ASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,24 +59,26 @@ public class VertxTransformation implements ASTTransformation {
 
   private GroovyClassLoader loader;
   private final Map<String, Boolean> relocatedTypes = new HashMap<>();
+  private boolean modified;
 
   @Override
   public void visit(ASTNode[] astNodes, SourceUnit sourceUnit) {
     loader = sourceUnit.getClassLoader();
     try {
-      Stream.of(astNodes).forEach(this::visit);
+      Stream.of(astNodes).forEach(n -> visit(n, sourceUnit));
     } catch (Exception e) {
+      // Don't prevent compilation with a failure
       e.printStackTrace();
     }
   }
 
-  private void visit(ASTNode node) {
+  private void visit(ASTNode node, SourceUnit sourceUnit) {
     if (node instanceof ModuleNode) {
-      visit((ModuleNode)node);
+      visit((ModuleNode)node, sourceUnit);
     }
   }
 
-  private void visit(ModuleNode moduleNode) {
+  private void visit(ModuleNode moduleNode, SourceUnit sourceUnit) {
     for (ImportNode importNode : moduleNode.getImports()) {
       if (shouldTransformClass(importNode.getType())) {
         moduleNode.addImport(importNode.getAlias(), rewriteType(importNode.getType()));
@@ -82,6 +88,7 @@ public class VertxTransformation implements ASTTransformation {
       visit(moduleNode, methodNode);
     }
     for (ClassNode classNode : moduleNode.getClasses()) {
+      boolean prev = modified;
       for (ConstructorNode constructorNode : classNode.getDeclaredConstructors()) {
         visit(moduleNode, constructorNode);
       }
@@ -91,6 +98,19 @@ public class VertxTransformation implements ASTTransformation {
       for (MethodNode methodNode : classNode.getMethods()) {
         visit(moduleNode, methodNode);
       }
+      if (modified) {
+        StringWriter buffer = new StringWriter();
+        PrintWriter writer = new PrintWriter(buffer);
+        writer.append("The class ").append(classNode.getName()).println(" uses the legacy Vert.x for Groovy " +
+          "API (io.vertx.groovy.XYZ classes) and should be migrated. Here is the migrated source code:");
+        writer.append("/* -------- BEGIN ").append(classNode.getName()).println(" -------- */");
+        AstNodeToScriptVisitor visitor = new AstNodeToScriptVisitor(writer, true, false);
+        GeneratorContext ctx = new GeneratorContext(moduleNode.getUnit());
+        visitor.call(sourceUnit, ctx, classNode);
+        writer.append("/* -------- END ").append(classNode.getName()).println(" -------- */");
+        System.out.println(buffer.toString());
+      }
+      modified = prev;
     }
   }
 
@@ -246,6 +266,7 @@ public class VertxTransformation implements ASTTransformation {
   }
 
   private ClassNode rewriteType(ClassNode type) {
+    modified = true;
     int index = type.getName().indexOf(".groovy.");
     String name = type.getName().substring(0, index) + type.getName().substring(index + 7);
     try {
