@@ -46,8 +46,6 @@ Let's see a couple of examples using asynchronous methods:
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
-import io.vertx.core.buffer.Buffer
 def vertx = Vertx.vertx()
 
 // Read a file
@@ -130,8 +128,6 @@ Here is an example of random access writes:
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
-import io.vertx.core.buffer.Buffer
 def vertx = Vertx.vertx()
 vertx.fileSystem().open("target/classes/hello.txt", [:], { result ->
   if (result.succeeded()) {
@@ -172,8 +168,6 @@ Here's an example of random access reads:
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
-import io.vertx.core.buffer.Buffer
 def vertx = Vertx.vertx()
 vertx.fileSystem().open("target/classes/les_miserables.txt", [:], { result ->
   if (result.succeeded()) {
@@ -225,8 +219,6 @@ copy the content to another `AsyncFile`:
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
-import io.vertx.core.streams.Pump
 def vertx = Vertx.vertx()
 def output = vertx.fileSystem().openBlocking("target/classes/plagiary.txt", [:])
 

@@ -52,7 +52,6 @@ If you're embedding Vert.x then you simply create an instance as follows:
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
 def vertx = Vertx.vertx()
 
 ----
@@ -68,7 +67,6 @@ When creating a Vertx object you can also specify options if the defaults aren't
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
 def vertx = Vertx.vertx([
   workerPoolSize:40
 ])
@@ -282,8 +280,6 @@ result handler to be called back asynchronous when the blocking code has been ex
 
 [source,groovy]
 ----
-import groovy.transform.Field
-@Field def someAPI = new examples.CoreExamples.BlockingAPI()
 vertx.executeBlocking({ future ->
   // Call some blocking API that takes a significant amount of time to return
   def result = someAPI.blockingMethod("hello")
@@ -311,8 +307,6 @@ Additional pools can be created for different purposes:
 
 [source,groovy]
 ----
-import groovy.transform.Field
-@Field def someAPI = new examples.CoreExamples.BlockingAPI()
 def executor = vertx.createSharedWorkerExecutor("my-worker-pool")
 executor.executeBlocking({ future ->
   // Call some blocking API that takes a significant amount of time to return
@@ -368,8 +362,6 @@ _succeeded_ when all the futures are and _failed_ when at least one of the futur
 
 [source,groovy]
 ----
-import io.vertx.core.Future
-import io.vertx.core.CompositeFuture
 def httpServerFuture = Future.future()
 httpServer.listen(httpServerFuture.completer())
 
@@ -395,7 +387,6 @@ Alternatively, you can pass a list (potentially empty) of futures:
 
 [source,groovy]
 ----
-import io.vertx.core.CompositeFuture
 CompositeFuture.all([future1, future2, future3])
 
 ----
@@ -407,7 +398,6 @@ all the futures are failed:
 
 [source,groovy]
 ----
-import io.vertx.core.CompositeFuture
 CompositeFuture.any(future1, future2).setHandler({ ar ->
   if (ar.succeeded()) {
     // At least one is succeeded
@@ -422,7 +412,6 @@ A list of futures can be used also:
 
 [source,groovy]
 ----
-import io.vertx.core.CompositeFuture
 CompositeFuture.any([f1, f2, f3])
 
 ----
@@ -434,7 +423,6 @@ them is failed:
 
 [source,groovy]
 ----
-import io.vertx.core.CompositeFuture
 CompositeFuture.join(future1, future2, future3).setHandler({ ar ->
   if (ar.succeeded()) {
     // All succeeded
@@ -449,7 +437,6 @@ A list of futures can be used also:
 
 [source,groovy]
 ----
-import io.vertx.core.CompositeFuture
 CompositeFuture.join([future1, future2, future3])
 
 ----
@@ -461,8 +448,6 @@ for chaining futures (so sequential composition).
 
 [source,groovy]
 ----
-import io.vertx.core.Future
-import io.vertx.core.buffer.Buffer
 
 def fs = vertx.fileSystem()
 def startFuture = Future.future()
@@ -836,7 +821,6 @@ context is created. You can test the _type_ of context you have retrieved:
 
 [source, groovy]
 ----
-import io.vertx.core.Context
 def context = vertx.getOrCreateContext()
 if (context.isEventLoopContext()) {
   println("Context attached to Event Loop")
@@ -1445,7 +1429,6 @@ DNS servers can be also configured when creating a `link:../../apidocs/io/vertx/
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
 def vertx = Vertx.vertx([
   addressResolverOptions:[
     servers:[
@@ -1464,7 +1447,6 @@ The resolver can be configured to use an alternative _hosts_ file:
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
 def vertx = Vertx.vertx([
   addressResolverOptions:[
     hostsPath:"/path/to/hosts"
@@ -1478,7 +1460,6 @@ list can be provided:
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
 def vertx = Vertx.vertx([
   addressResolverOptions:[
     searchDomains:[

@@ -141,7 +141,6 @@ You write to a socket using one of `link:../../apidocs/io/vertx/core/net/NetSock
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 // Write a buffer
 def buffer = Buffer.buffer().appendFloat(12.34f).appendInt(123)
@@ -579,7 +578,6 @@ The password for the trust store should also be provided:
 
 [source,groovy]
 ----
-import io.vertx.core.http.ClientAuth
 def options = [
   ssl:true,
   clientAuth:"REQUIRED",
@@ -596,7 +594,6 @@ Alternatively you can read the trust store yourself as a buffer and provide that
 
 [source,groovy]
 ----
-import io.vertx.core.http.ClientAuth
 def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.jks")
 def options = [
   ssl:true,
@@ -615,7 +612,6 @@ extension can also be loaded in a similar fashion than JKS trust stores:
 
 [source,groovy]
 ----
-import io.vertx.core.http.ClientAuth
 def options = [
   ssl:true,
   clientAuth:"REQUIRED",
@@ -632,7 +628,6 @@ Buffer configuration is also supported:
 
 [source,groovy]
 ----
-import io.vertx.core.http.ClientAuth
 def myTrustStoreAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/truststore.pfx")
 def options = [
   ssl:true,
@@ -650,7 +645,6 @@ Another way of providing server certificate authority using a list `.pem` files.
 
 [source,groovy]
 ----
-import io.vertx.core.http.ClientAuth
 def options = [
   ssl:true,
   clientAuth:"REQUIRED",
@@ -668,7 +662,6 @@ Buffer configuration is also supported:
 
 [source,groovy]
 ----
-import io.vertx.core.http.ClientAuth
 def myCaAsABuffer = vertx.fileSystem().readFileBlocking("/path/to/your/server-ca.pfx")
 def options = [
   ssl:true,
@@ -1106,7 +1099,6 @@ Here's an example:
 [source,groovy]
 
 ----
-import io.vertx.core.net.ProxyType
 def options = [
   proxyOptions:[
     type:"SOCKS5",

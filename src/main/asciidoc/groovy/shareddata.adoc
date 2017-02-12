@@ -26,7 +26,6 @@ Here's an example of using a shared local map:
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 def sd = vertx.sharedData()
 

@@ -300,7 +300,6 @@ instance as clustered;
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
 def options = [:]
 Vertx.clusteredVertx(options, { res ->
   if (res.succeeded()) {
@@ -338,8 +337,6 @@ the event bus acts as a server and client, the configuration is close to
 
 [source,groovy]
 ----
-import io.vertx.core.http.ClientAuth
-import io.vertx.core.Vertx
 def options = [
   eventBusOptions:[
     ssl:true,
@@ -384,7 +381,6 @@ When used in containers, you can also configure the public host and port:
 
 [source,groovy]
 ----
-import io.vertx.core.Vertx
 def options = [
   eventBusOptions:[
     clusterPublicHost:"whatever",

@@ -318,7 +318,6 @@ the aggregation yourself as follows:
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 // Create an empty buffer
 def totalBuffer = Buffer.buffer()
@@ -744,8 +743,6 @@ at any one time:
 
 [source,groovy]
 ----
-import io.vertx.core.http.HttpMethod
-import io.vertx.core.streams.Pump
 vertx.createHttpServer().requestHandler({ request ->
   def response = request.response()
   if (request.method() == HttpMethod.PUT) {
@@ -771,7 +768,6 @@ Here's an example:
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 def frameType = 40
 def frameStatus = 10
@@ -835,7 +831,6 @@ When a server process a request, it can push a request/response to the client:
 
 [source,groovy]
 ----
-import io.vertx.core.http.HttpMethod
 
 def response = request.response()
 
@@ -934,7 +929,6 @@ For `h2` requests, TLS must be enabled with _Application-Layer Protocol Negotiat
 
 [source,groovy]
 ----
-import io.vertx.core.http.HttpVersion
 
 def options = [
   protocolVersion:"HTTP_2",
@@ -951,7 +945,6 @@ For `h2c` requests, TLS must be disabled, the client will do an HTTP/1.1 request
 
 [source,groovy]
 ----
-import io.vertx.core.http.HttpVersion
 
 def options = [
   protocolVersion:"HTTP_2"
@@ -1037,7 +1030,7 @@ Often, you'll want to make HTTP requests with no request body. This is usually t
 HEAD requests.
 
 The simplest way to do this with the Vert.x http client is using the methods prefixed with `Now`. For example
-`link:../../apidocs/io/vertx/core/http/HttpClient.html#getNow-int-java.lang.String-java.lang.String-io.vertx.core.Handler-[getNow]`.
+`link:../../apidocs/io/vertx/core/http/HttpClient.html#getNow-io.vertx.core.http.RequestOptions-io.vertx.core.Handler-[getNow]`.
 
 These methods create the http request and send it in a single method call and allow you to provide a handler that will be
 called with the http response when it comes back.
@@ -1062,12 +1055,11 @@ client.headNow("/other-uri", { response ->
 ==== Writing general requests
 
 At other times you don't know the request method you want to send until run-time. For that use case we provide
-general purpose request methods such as `link:../../apidocs/io/vertx/core/http/HttpClient.html#request-io.vertx.core.http.HttpMethod-int-java.lang.String-java.lang.String-[request]` which allow you to specify
+general purpose request methods such as `link:../../apidocs/io/vertx/core/http/HttpClient.html#request-io.vertx.core.http.HttpMethod-io.vertx.core.http.RequestOptions-[request]` which allow you to specify
 the HTTP method at run-time:
 
 [source,groovy]
 ----
-import io.vertx.core.http.HttpMethod
 def client = vertx.createHttpClient()
 
 client.request(HttpMethod.GET, "some-uri", { response ->
@@ -1085,8 +1077,8 @@ client.request(HttpMethod.POST, "foo-uri", { response ->
 Sometimes you'll want to write requests which have a body, or perhaps you want to write headers to a request
 before sending it.
 
-To do this you can call one of the specific request methods such as `link:../../apidocs/io/vertx/core/http/HttpClient.html#post-int-java.lang.String-java.lang.String-[post]` or
-one of the general purpose request methods such as `link:../../apidocs/io/vertx/core/http/HttpClient.html#request-io.vertx.core.http.HttpMethod-int-java.lang.String-java.lang.String-[request]`.
+To do this you can call one of the specific request methods such as `link:../../apidocs/io/vertx/core/http/HttpClient.html#post-io.vertx.core.http.RequestOptions-[post]` or
+one of the general purpose request methods such as `link:../../apidocs/io/vertx/core/http/HttpClient.html#request-io.vertx.core.http.HttpMethod-io.vertx.core.http.RequestOptions-[request]`.
 
 These methods don't send the request immediately, but instead return an instance of `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html[HttpClientRequest]`
 which can be used to write to the request body or write headers.
@@ -1128,7 +1120,6 @@ Methods exist to write strings in UTF-8 encoding and in any specific encoding an
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 // Write string encoded in UTF-8
 request.write("some data")
@@ -1149,7 +1140,6 @@ single call to the `end` function.
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 // Write string and end the request (send it) in a single call
 request.end("some simple data")
@@ -1236,7 +1226,6 @@ before calling `end` with no arguments
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 // End the request with a string
 request.end("some-data")
 
@@ -1343,7 +1332,6 @@ For, example, you could pump a file on disk to a http request body as follows:
 
 [source,groovy]
 ----
-import io.vertx.core.streams.Pump
 
 request.setChunked(true)
 def pump = Pump.pump(file, request)
@@ -1364,7 +1352,6 @@ To send such frames, you can use the `link:../../apidocs/io/vertx/core/http/Http
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 def frameType = 40
 def frameStatus = 10
@@ -1491,7 +1478,6 @@ either aggregate it yourself:
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 client.getNow("some-uri", { response ->
 
@@ -1539,6 +1525,86 @@ You can retrieve the list of cookies from a response using `link:../../apidocs/i
 
 Alternatively you can just parse the `Set-Cookie` headers yourself in the response.
 
+==== 30x redirection handling
+
+The client can be configured to follow HTTP redirections: when the client receives an
+`301`, `302`, `303` or `307` status code, it follows the redirection provided by the `Location` response header
+and the response handler is passed the redirected response instead of the original response.
+
+Here’s an example:
+
+[source,groovy]
+----
+
+client.get("some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+}).setFollowRedirects(true).end()
+
+----
+
+The redirection policy is as follow
+
+* on a `301`, `302` or `303` status code, follow the redirection with a `GET` method
+* on a `307` status code, follow the redirection with the same HTTP method and the cached body
+
+WARNING: following redirections caches the request body
+
+The maximum redirects is `16` by default and can be changed with `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setMaxRedirects-int-[setMaxRedirects]`.
+
+[source,groovy]
+----
+
+def client = vertx.createHttpClient([
+  maxRedirects:32
+])
+
+client.get("some-uri", { response ->
+  println("Received response with status code ${response.statusCode()}")
+}).setFollowRedirects(true).end()
+
+----
+
+One size does not fit all and the default redirection policy may not be adapted to your needs.
+
+The default redirection policy can changed with a custom implementation:
+
+[source,groovy]
+----
+
+client.redirectHandler({ response ->
+
+  // Only follow 301 code
+  if (response.statusCode() == 301 && response.getHeader("Location") != null) {
+
+    // Compute the redirect URI
+    def absoluteURI = this.resolveURI(response.request().absoluteURI(), response.getHeader("Location"))
+
+    // Create a new ready to use request that the client will use
+    return Future.succeededFuture(client.getAbs(absoluteURI))
+  }
+
+  // We don't redirect
+  return null
+})
+
+----
+
+The policy handles the original `link:../../apidocs/io/vertx/core/http/HttpClientResponse.html[HttpClientResponse]` received and returns either `null`
+or a `Future<HttpClientRequest>`.
+
+- when `null` is returned, the original response is processed
+- when a future is returned, the request will be sent on its successful completion
+- when a future is returned, the exception handler set on the request is called on its failure
+
+The returned request must be unsent so the original request handlers can be sent and the client can send it after.
+
+Most of the original request settings will be propagated to the new request:
+
+* request headers, unless if you have set some headers (including `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#setHost-java.lang.String-[setHost]`)
+* request body unless the returned request uses a `GET` method
+* response handler
+* request exception handler
+* request timeout
 
 ==== 100-Continue handling
 
@@ -1915,7 +1981,6 @@ endpoint:
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 def data = Buffer.buffer()
 (0..<8).each { i ->
   data.appendByte(i)
@@ -2083,6 +2148,34 @@ Vert.x http servers and clients can be configured to use HTTPS in exactly the sa
 
 Please see <<ssl, configuring net servers to use SSL>> for more information.
 
+SSL can also be enabled/disabled per request with `link:../../apidocs/io/vertx/core/http/RequestOptions.html[RequestOptions]` or when
+specifying a scheme with `link:../../apidocs/io/vertx/core/http/HttpClient.html#requestAbs-io.vertx.core.http.HttpMethod-java.lang.String-[requestAbs]`
+method.
+
+[source,groovy]
+----
+client.getNow([
+  host:"localhost",
+  port:8080,
+  uRI:"/",
+  ssl:true
+], { response ->
+  println("Received response with status code ${response.statusCode()}")
+})
+
+----
+
+The `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setSsl-boolean-[setSsl]` setting acts as the default client setting.
+
+The `link:../../apidocs/io/vertx/core/http/RequestOptions.html#setSsl-boolean-[setSsl]` overrides the default client setting
+
+* setting the value to `false` will disable SSL/TLS even if the client is configured to use SSL/TLS
+* setting the value to `true` will enable SSL/TLS  even if the client is configured to not use SSL/TLS, the actual
+client SSL/TLS (such as trust, key/certificate, ciphers, ALPN, ...) will be reused
+
+Likewise `link:../../apidocs/io/vertx/core/http/HttpClient.html#requestAbs-io.vertx.core.http.HttpMethod-java.lang.String-[requestAbs]` scheme
+also overrides the default client setting.
+
 === WebSockets
 
 http://en.wikipedia.org/wiki/WebSocket[WebSockets] are a web technology that allows a full duplex socket-like
@@ -2158,7 +2251,7 @@ The `link:../../apidocs/io/vertx/core/http/ServerWebSocket.html[ServerWebSocket]
 
 The Vert.x `link:../../apidocs/io/vertx/core/http/HttpClient.html[HttpClient]` supports WebSockets.
 
-You can connect a WebSocket to a server using one of the `link:../../apidocs/io/vertx/core/http/HttpClient.html#websocket-int-java.lang.String-java.lang.String-io.vertx.core.Handler-[websocket]` operations and
+You can connect a WebSocket to a server using one of the `link:../../apidocs/io/vertx/core/http/HttpClient.html#websocket-io.vertx.core.http.RequestOptions-io.vertx.core.Handler-[websocket]` operations and
 providing a handler.
 
 The handler will be called with an instance of `link:../../apidocs/io/vertx/core/http/WebSocket.html[WebSocket]` when the connection has been made:
@@ -2178,7 +2271,6 @@ If you wish to write a single binary WebSocket message to the WebSocket you can 
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 // Write a simple message
 def buffer = Buffer.buffer().appendInt(123).appendFloat(1.23f)
 
@@ -2207,7 +2299,6 @@ Here's an example for binary frames:
 
 [source,groovy]
 ----
-import io.vertx.core.http.WebSocketFrame
 
 def frame1 = WebSocketFrame.binaryFrame(buffer1, false)
 websocket.writeFrame(frame1)
@@ -2230,7 +2321,6 @@ Here's an example:
 
 [source,groovy]
 ----
-import io.vertx.core.buffer.Buffer
 
 // Send a websocket messages consisting of a single final text frame:
 
@@ -2289,7 +2379,6 @@ Here's an example of using an HTTP proxy:
 
 [source,groovy]
 ----
-import io.vertx.core.net.ProxyType
 
 def options = [
   proxyOptions:[
@@ -2315,7 +2404,6 @@ For a SOCKS5 proxy:
 
 [source,groovy]
 ----
-import io.vertx.core.net.ProxyType
 
 def options = [
   proxyOptions:[
