@@ -1,0 +1,113 @@
+package @{module.translatePackageName('groovy')}.internal;\n
+\n
+import groovy.lang.GString;\n
+import io.vertx.core.buffer.Buffer;\n
+import io.vertx.core.json.JsonArray;\n
+import io.vertx.core.json.JsonObject;\n
+\n
+import java.util.ArrayList;\n
+import java.util.Base64;\n
+import java.util.LinkedHashMap;\n
+import java.util.List;\n
+import java.util.Map;\n
+import java.util.function.Function;\n
+\n
+/**\n
+ * Internal API.\n
+ */\n
+public class ConversionHelper {\n
+\n
+  @SuppressWarnings("unchecked")\n
+  public static Object unwrap(Object obj) {\n
+    if (obj instanceof Map) {\n
+      return toJsonObject((Map<String, Object>) obj);\n
+    } else if (obj instanceof List) {\n
+      return toJsonArray((List<Object>) obj);\n
+    } else if (obj instanceof GString) {\n
+      return obj.toString();\n
+    }\n
+    return obj;\n
+  }\n
+\n
+  @SuppressWarnings("unchecked")\n
+  private static Object toJsonElement(Object obj) {\n
+    if (obj instanceof Map) {\n
+      return toJsonObject((Map<String, Object>) obj);\n
+    } else if (obj instanceof List) {\n
+      return toJsonArray((List<Object>) obj);\n
+    } else if (obj instanceof GString) {\n
+      return obj.toString();\n
+    } else if (obj instanceof Buffer) {\n
+      return Base64.getEncoder().encodeToString(((Buffer)obj).getBytes());\n
+    }\n
+    return obj;\n
+  }\n
+\n
+  public static JsonObject toJsonObject(Map<String, Object> map) {\n
+    if (map == null) {\n
+      return null;\n
+    }\n
+    map = new LinkedHashMap<>(map);\n
+    map.entrySet().forEach(e -> e.setValue(toJsonElement(e.getValue())));\n
+    return new JsonObject(map);\n
+  }\n
+\n
+  public static JsonArray toJsonArray(List<Object> list) {\n
+    if (list == null) {\n
+      return null;\n
+    }\n
+    list = new ArrayList<>(list);\n
+    for (int i = 0;i < list.size();i++) {\n
+      list.set(i, toJsonElement(list.get(i)));\n
+    }\n
+    return new JsonArray(list);\n
+  }\n
+\n
+  public static <T, R> R applyIfNotNull(T expr, Function<T, R> function) {\n
+    if (expr != null) {\n
+      return function.apply(expr);\n
+    } else {\n
+      return null;\n
+    }\n
+  }\n
+\n
+  public static <T, R> R wrap(T t, Function<T, Object> f) {\n
+    if (t != null) {\n
+      return wrap(f.apply(t));\n
+    } else {\n
+      return null;\n
+    }\n
+  }\n
+\n
+  @SuppressWarnings("unchecked")\n
+  public static <T> T wrap(Object obj) {\n
+    if (obj instanceof JsonObject) {\n
+      return (T)fromJsonObject((JsonObject)obj);\n
+    } else if (obj instanceof JsonArray) {\n
+      return (T)fromJsonArray((JsonArray)obj);\n
+    }\n
+    return (T)obj;\n
+  }\n
+\n
+  public static Map<String, Object> fromJsonObject(JsonObject json) {\n
+    if (json == null) {\n
+      return null;\n
+    }\n
+    Map<String, Object> map = new LinkedHashMap<>(json.getMap());\n
+    map.entrySet().forEach(entry -> {\n
+      entry.setValue(wrap(entry.getValue()));\n
+    });\n
+    return map;\n
+  }\n
+\n
+  public static List<Object> fromJsonArray(JsonArray json) {\n
+    if (json == null) {\n
+      return null;\n
+    }\n
+    List<Object> list = new ArrayList<>(json.getList());\n
+    for (int i = 0;i < list.size();i++) {\n
+      list.set(i, wrap(list.get(i)));\n
+    }\n
+    return list;\n
+  }\n
+}\n
