@@ -1,6 +1,5 @@
 package @{module.translatePackageName('groovy')}.internal;\n
 \n
-import groovy.lang.GString;\n
 import io.vertx.core.buffer.Buffer;\n
 import io.vertx.core.json.JsonArray;\n
 import io.vertx.core.json.JsonObject;\n
@@ -23,7 +22,7 @@ public class ConversionHelper {\n
       return toJsonObject((Map<String, Object>) obj);\n
     } else if (obj instanceof List) {\n
       return toJsonArray((List<Object>) obj);\n
-    } else if (obj instanceof GString) {\n
+    } else if (obj instanceof CharSequence) {\n
       return obj.toString();\n
     }\n
     return obj;\n
@@ -35,7 +34,7 @@ public class ConversionHelper {\n
       return toJsonObject((Map<String, Object>) obj);\n
     } else if (obj instanceof List) {\n
       return toJsonArray((List<Object>) obj);\n
-    } else if (obj instanceof GString) {\n
+    } else if (obj instanceof CharSequence) {\n
       return obj.toString();\n
     } else if (obj instanceof Buffer) {\n
       return Base64.getEncoder().encodeToString(((Buffer)obj).getBytes());\n
