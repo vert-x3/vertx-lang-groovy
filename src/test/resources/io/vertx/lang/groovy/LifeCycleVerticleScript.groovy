@@ -1,9 +1,17 @@
 package io.vertx.lang.groovy
 
-void vertxStart() {
+start = { it ->
   System.setProperty("started", "true");
 }
 
-void vertxStop() {
+stop = { ->
   System.setProperty("stopped", "true");
+}
+
+void vertxStart() {
+  start()
+}
+
+void vertxStop() {
+  stop()
 }
