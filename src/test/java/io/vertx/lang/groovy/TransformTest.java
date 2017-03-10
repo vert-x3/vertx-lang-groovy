@@ -167,6 +167,11 @@ public class TransformTest {
   }
 
   @Test
+  public void testScriptWithClosureWithNoParameters() throws Exception {
+    runTest();
+  }
+
+  @Test
   public void testScriptWithForLoopQualifiedDecl() throws Exception {
     runTest();
   }

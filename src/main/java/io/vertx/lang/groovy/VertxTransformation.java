@@ -168,8 +168,11 @@ public class VertxTransformation implements ASTTransformation {
         classExpression.setType(handleType(classExpression.getType()));
       } else if (expr instanceof ClosureExpression) {
         ClosureExpression closureExpr = (ClosureExpression) expr;
-        for (Parameter param : closureExpr.getParameters()) {
-          handleParam(param);
+        Parameter[] parameters = closureExpr.getParameters();
+        if (parameters != null) {
+          for (Parameter param : parameters) {
+            handleParam(param);
+          }
         }
       } else if (expr instanceof CastExpression) {
         CastExpression castExpr = (CastExpression) expr;
