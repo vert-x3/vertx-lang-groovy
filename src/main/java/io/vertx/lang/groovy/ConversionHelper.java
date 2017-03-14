@@ -24,7 +24,6 @@ import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
@@ -32,7 +31,7 @@ import java.util.function.Function;
 public class ConversionHelper {
 
   @SuppressWarnings("unchecked")
-  public static Object unwrap(Object obj) {
+  public static Object toObject(Object obj) {
     if (obj instanceof Map) {
       return toJsonObject((Map<String, Object>) obj);
     } else if (obj instanceof List) {
@@ -77,24 +76,8 @@ public class ConversionHelper {
     return new JsonArray(list);
   }
 
-  public static <T, R> R applyIfNotNull(T expr, Function<T, R> function) {
-    if (expr != null) {
-      return function.apply(expr);
-    } else {
-      return null;
-    }
-  }
-
-  public static <T, R> R wrap(T t, Function<T, Object> f) {
-    if (t != null) {
-      return wrap(f.apply(t));
-    } else {
-      return null;
-    }
-  }
-
   @SuppressWarnings("unchecked")
-  public static <T> T wrap(Object obj) {
+  public static <T> T fromObject(Object obj) {
     if (obj instanceof JsonObject) {
       return (T)fromJsonObject((JsonObject)obj);
     } else if (obj instanceof JsonArray) {
@@ -109,7 +92,7 @@ public class ConversionHelper {
     }
     Map<String, Object> map = new LinkedHashMap<>(json.getMap());
     map.entrySet().forEach(entry -> {
-      entry.setValue(wrap(entry.getValue()));
+      entry.setValue(fromObject(entry.getValue()));
     });
     return map;
   }
@@ -120,7 +103,7 @@ public class ConversionHelper {
     }
     List<Object> list = new ArrayList<>(json.getList());
     for (int i = 0;i < list.size();i++) {
-      list.set(i, wrap(list.get(i)));
+      list.set(i, fromObject(list.get(i)));
     }
     return list;
   }

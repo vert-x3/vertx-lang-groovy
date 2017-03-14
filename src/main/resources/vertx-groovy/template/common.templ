@@ -1,6 +1,6 @@
 @code{
 
-  var conversionHelperFqn = type.module.translatePackageName('groovy') + '.internal.ConversionHelper';
+  var conversionHelperFqn = 'io.vertx.lang.groovy.ConversionHelper';
 
   def checkType(type) {
     if (type.kind == CLASS_DATA_OBJECT || type.kind == CLASS_OBJECT || type.kind.json) {
@@ -63,26 +63,26 @@
      } else if (type.kind == CLASS_JSON_ARRAY) {
        return conversionHelperFqn + '.fromJsonArray(' + expr + ')';
      } else if (type.kind == CLASS_DATA_OBJECT) {
-       return conversionHelperFqn + '.applyIfNotNull(' + expr + ', a -> ' + conversionHelperFqn + '.fromJsonObject(a.toJson()))';
+       return expr + ' != null ? ' + conversionHelperFqn + '.fromJsonObject(' + expr + '.toJson()) : null';
      } else if (type.kind == CLASS_LIST || type.kind == CLASS_SET) {
        var eltConv = genConvReturn(type.args[0], 'elt');
        var coll = type.kind == CLASS_LIST ? 'toList' : 'toSet';
        if (eltConv == expr) {
          return expr;
        } else {
-         return conversionHelperFqn + '.applyIfNotNull(' + expr + ', list -> list.stream().map(elt -> ' + eltConv + ').collect(java.util.stream.Collectors.' + coll + '()))';
+         return expr + ' != null ? ' + expr + '.stream().map(elt -> ' + eltConv + ').collect(java.util.stream.Collectors.' + coll + '()) : null';
        }
      } else if (type.kind == CLASS_MAP) {
        var eltConv = genConvReturn(type.args[1], 'entry.getValue()');
        if (eltConv == expr) {
          return expr;
        } else {
-         return conversionHelperFqn + '.applyIfNotNull(' + expr + ', map -> map.entrySet().stream().collect(java.util.stream.Collectors.toMap(java.util.Map.Entry::getKey, entry -> ' + eltConv + ')))';
+         return expr + ' != null ? ' + expr + '.entrySet().stream().collect(java.util.stream.Collectors.toMap(java.util.Map.Entry::getKey, entry -> ' + eltConv + ')) : null';
        }
      } else if (type.kind.basic) {
        return expr;
      } else {
-       return conversionHelperFqn + '.wrap(' + expr + ')';
+       return conversionHelperFqn + '.fromObject(' + expr + ')';
      }
    }
 
@@ -105,7 +105,7 @@
      } else if (type.kind == CLASS_JSON_ARRAY) {
        return expr + ' != null ? ' + conversionHelperFqn + '.toJsonArray(' + expr + ') : null';
      } else if (type.kind == CLASS_OBJECT) {
-       return conversionHelperFqn + '.unwrap(' + expr + ')';
+       return conversionHelperFqn + '.toObject(' + expr + ')';
      } else if (type.kind == CLASS_HANDLER) {
        if (type.args[0].kind == CLASS_ASYNC_RESULT) {
          var c = type.args[0].args[0].erased.name;

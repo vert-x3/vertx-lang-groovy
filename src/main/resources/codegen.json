@@ -15,10 +15,5 @@
     "fileName": "'resources/META-INF/services/org.codehaus.groovy.runtime.ExtensionModule'",
     "templateFileName": "vertx-groovy/template/ext-desc.templ",
     "incremental": true
-  }, {
-    "kind": "module",
-    "fileName": "module.translatePackageName('groovy') + '.internal.ConversionHelper.java'",
-    "templateFileName": "vertx-groovy/template/conversionHelper.templ",
-    "incremental": false
   }]
 }
