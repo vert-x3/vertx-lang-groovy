@@ -1,32 +1,32 @@
 package @{type.module.translateQualifiedName(type.packageName, 'groovy')};\n
-
-import groovy.lang.MetaMethod;
-import org.codehaus.groovy.runtime.m12n.ExtensionModule;
-import org.codehaus.groovy.runtime.m12n.MetaInfExtensionModule;
-import org.codehaus.groovy.runtime.m12n.PropertiesModuleFactory;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-
+\n
+import groovy.lang.MetaMethod;\n
+import org.codehaus.groovy.runtime.m12n.ExtensionModule;\n
+import org.codehaus.groovy.runtime.m12n.MetaInfExtensionModule;\n
+import org.codehaus.groovy.runtime.m12n.PropertiesModuleFactory;\n
+\n
+import java.util.Collections;\n
+import java.util.List;\n
+import java.util.Properties;\n
+\n
 public class GroovyPropertiesModuleFactory extends PropertiesModuleFactory {\n
-
-  @Override
-  public ExtensionModule newModule(Properties properties, ClassLoader classLoader) {
-    try {
-      Class.forName("io.vertx.lang.groovy.GroovyVerticleFactory");
-      return MetaInfExtensionModule.newModule(properties, classLoader);
-    } catch (ClassNotFoundException e) {
-      String moduleName = properties.getProperty("moduleName");
-      String moduleVersion = properties.getProperty("moduleVersion");
-
-      return new ExtensionModule(moduleName, moduleVersion) {
-        @Override
-        public List<MetaMethod> getMetaMethods() {
-          return Collections.emptyList();
-        }
-      };
-    }
-  }
-
+\n
+  @Override\n
+  public ExtensionModule newModule(Properties properties, ClassLoader classLoader) {\n
+    try {\n
+      Class.forName("io.vertx.lang.groovy.GroovyVerticleFactory");\n
+      return MetaInfExtensionModule.newModule(properties, classLoader);\n
+    } catch (ClassNotFoundException e) {\n
+      String moduleName = properties.getProperty("moduleName");\n
+      String moduleVersion = properties.getProperty("moduleVersion");\n
+\n
+      return new ExtensionModule(moduleName, moduleVersion) {\n
+        @Override\n
+        public List<MetaMethod> getMetaMethods() {\n
+          return Collections.emptyList();\n
+        }\n
+      };\n
+    }\n
+  }\n
+\n
 }\n

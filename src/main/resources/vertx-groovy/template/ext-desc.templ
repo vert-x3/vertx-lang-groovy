@@ -23,7 +23,7 @@
   }
 }
 @if{incrementalIndex==incrementalSize-1}
-moduleFactory = @{type.module.translateQualifiedName(type.packageName, 'groovy')}/GroovyPropertiesModuleFactory.java\n
+moduleFactory = @{type.module.translateQualifiedName(type.packageName, 'groovy')}.GroovyPropertiesModuleFactory\n
 moduleName = @{type.name}-module\n
 moduleVersion = 1.0\n
 extensionClasses = @foreach{fqn:session.exts}@{fqn}_GroovyExtension@end{', '}\n
