@@ -1,19 +1,31 @@
 package @{type.module.translateQualifiedName(type.packageName, 'groovy')};\n
 
+import groovy.lang.MetaMethod;
 import org.codehaus.groovy.runtime.m12n.ExtensionModule;
 import org.codehaus.groovy.runtime.m12n.MetaInfExtensionModule;
 import org.codehaus.groovy.runtime.m12n.PropertiesModuleFactory;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 public class GroovyPropertiesModuleFactory extends PropertiesModuleFactory {\n
 
+  @Override
   public ExtensionModule newModule(Properties properties, ClassLoader classLoader) {
     try {
       Class.forName("io.vertx.lang.groovy.GroovyVerticleFactory");
       return MetaInfExtensionModule.newModule(properties, classLoader);
     } catch (ClassNotFoundException e) {
-      return null; // how to create an empty module?
+      String moduleName = properties.getProperty("moduleName");
+      String moduleVersion = properties.getProperty("moduleVersion");
+
+      return new ExtensionModule(moduleName, moduleVersion) {
+        @Override
+        public List<MetaMethod> getMetaMethods() {
+          return Collections.emptyList();
+        }
+      };
     }
   }
 
