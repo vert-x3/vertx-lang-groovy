@@ -2,7 +2,7 @@
   "name": "Groovy",
   "generators": [ {
     "kind": "class",
-    "fileName": "module.translateQualifiedName(type.packageName, 'groovy') + '/GroovyPropertiesModuleFactory.java'",
+    "fileName": "module.translateQualifiedName(type.name, 'groovy') + '_GroovyPropertiesModuleFactory.java'",
     "templateFileName": "vertx-groovy/template/gen-module-factory.templ",
     "incremental": false
   },{
