@@ -14,7 +14,7 @@ public class @{type.simpleName}_GroovyPropertiesModuleFactory extends Properties
   @Override\n
   public ExtensionModule newModule(Properties properties, ClassLoader classLoader) {\n
     try {\n
-      Class.forName("io.vertx.lang.groovy.GroovyVerticleFactory");\n
+      Class.forName("io.vertx.lang.groovy.GroovyVerticleFactory", false, classLoader);\n
       return MetaInfExtensionModule.newModule(properties, classLoader);\n
     } catch (ClassNotFoundException e) {\n
       String moduleName = properties.getProperty("moduleName");\n
