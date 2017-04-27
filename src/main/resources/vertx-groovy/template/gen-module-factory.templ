@@ -1,4 +1,4 @@
-package @{type.module.translateQualifiedName(type.packageName, 'groovy')};\n
+package @{module.translateQualifiedName(module.packageName, 'groovy')};\n
 \n
 import groovy.lang.MetaMethod;\n
 import org.codehaus.groovy.runtime.m12n.ExtensionModule;\n
@@ -9,7 +9,7 @@ import java.util.Collections;\n
 import java.util.List;\n
 import java.util.Properties;\n
 \n
-public class @{type.simpleName}_GroovyPropertiesModuleFactory extends PropertiesModuleFactory {\n
+public class VertxPropertiesModuleFactory extends PropertiesModuleFactory {\n
 \n
   @Override\n
   public ExtensionModule newModule(Properties properties, ClassLoader classLoader) {\n
