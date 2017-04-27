@@ -14,12 +14,11 @@ public class @{type.simpleName}_GroovyPropertiesModuleFactory extends Properties
   @Override\n
   public ExtensionModule newModule(Properties properties, ClassLoader classLoader) {\n
     try {\n
-      Class.forName("io.vertx.lang.groovy.GroovyVerticleFactory", false, classLoader);\n
+      classLoader.loadClass("io.vertx.lang.groovy.GroovyVerticleFactory");\n
       return MetaInfExtensionModule.newModule(properties, classLoader);\n
-    } catch (ClassNotFoundException e) {\n
+    } catch (Throwable t) {\n
       String moduleName = properties.getProperty("moduleName");\n
       String moduleVersion = properties.getProperty("moduleVersion");\n
-\n
       return new ExtensionModule(moduleName, moduleVersion) {\n
         @Override\n
         public List<MetaMethod> getMetaMethods() {\n
