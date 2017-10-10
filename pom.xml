@@ -304,7 +304,7 @@
             <goals>
               <goal>integration-test</goal>
             </goals>
-            <!-- on purpose so we use target/classes instead of the artfifact jar   -->
+            <!-- on purpose so we use target/classes instead of the artifact jar   -->
             <phase>test</phase>
             <configuration>
               <includes>

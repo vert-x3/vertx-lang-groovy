@@ -18,7 +18,10 @@ package io.vertx.lang.groovy;
 import groovy.lang.GroovyShell;
 import io.vertx.codegen.extra.ListMethods;
 import io.vertx.core.json.JsonObject;
+import org.codehaus.groovy.control.CompilerConfiguration;
 import org.junit.Test;
+
+import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,7 +37,11 @@ public class IntegrationTest {
       list.forEach(combined::mergeIn);
       return combined;
     };
-    GroovyShell shell = new GroovyShell();
+    CompilerConfiguration config = new CompilerConfiguration();
+    Properties props = new Properties();
+    props.setProperty("groovy.disabled.global.ast.transformations", "io.vertx.lang.groovy.VertxTransformation");
+    config.configure(props);
+    GroovyShell shell = new GroovyShell(config);
     shell.setProperty("itf", itf);
     Object o = shell.evaluate("return itf.jsonList([new io.vertx.core.json.JsonObject().put('foo', 'foo_value'), new io.vertx.core.json.JsonObject().put('bar', 'bar_value')])");
     JsonObject result = (JsonObject) o;

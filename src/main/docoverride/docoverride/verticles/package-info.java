@@ -15,93 +15,6 @@
  */
 
 /**
- * === API changes from previous versions
- *
- * IMPORTANT: this is an important change from previous versions and _Vert.x for Groovy_ users should carefully
- * read this section
- *
- * Vert.x for Groovy has been revamped in Vert.x 3.4.
- *
- * The previous versions were using a code generated Groovy API wrapping the Vert.x Java API, e.g
- * `io.vertx.groovy.core.Vertx` was a Groovy class wrapping `io.vertx.core.Vertx` and changing a few methods
- * to provide a Groovy idiomatic API:
- *
- * - data objects are replaced by maps
- * - `io.vertx.core.json.JsonObject` is replaced by map
- * - `io.vertx.core.json.JsonArray` is replaced by list
- *
- * Creating an `HttpServer` :
- *
- * [source, groovy]
- * ----
- * // call createHttpServer on io.vertx.groovy.core.Vertx
- * def server = vertx.createHttpServer([host:"localhost",port:8080]);
- * // it returned an io.vertx.groovy.core.http.HttpServer instance
- * ----
- *
- * Since 3.4, the Groovy API has become an extension of the Java API based on
- * http://mrhaki.blogspot.fr/2013/01/groovy-goodness-adding-extra-methods.html[Groovy extension methods].
- *
- * [source, groovy]
- * ----
- * // call createHttpServer on io.vertx.core.Vertx
- * def server = vertx.createHttpServer([host:"localhost",port:8080]);
- * // it returned an io.vertx.core.http.HttpServer instance
- * ----
- *
- * The actual method called is `io.vertx.groovy.core.Vertx_GroovyExtension#createHttpServer(io.vertx.core.Vertx, Map<String, Object>)`
- * that transforms the map options into `io.vertx.core.http.HttpServerOptions`.
- *
- * Of course if you like you can call the `createHttpServer(HttpServerOptions)` method directly and pass an `HttpServerOptions`
- * instance.
- *
- * The benefits are:
- *
- * - performance gains since no wrapping occur
- * - an idiomatic Groovy-ish API
- * - full access to the Vert.x Java API, not hidden anymore behind a wrapper
- *
- * ==== Migrating from previous API
- *
- * Existing Groovy Verticles are using `io.vertx.groovy.XYZ` API and should use now `io.vertx.XYZ` Java API.
- *
- * Vert.x for Groovy provides a Groovy compiler transformation that rewrites the compiled classes to unwraps the occurences
- * of legacy classes, i.e it rewrites `io.vertx.groovy.core.Vertx` to `io.vertx.core.Vertx`.
- *
- * To help you, the transformed classes are printed by the compiler on the standard output, for instance if you compile
- * the script:
- *
- * [source, groovy]
- * ----
- * import io.vertx.groovy.core.buffer.Buffer;
- *
- * def content = Buffer.buffer("Hello World");
- *
- * def server = vertx.createHttpServer();
- * server.requestHandler { req
- *   req.response().end("content");
- * }
- * server.listen();
- * ----
- *
- * Something like:
- *
- * [source, groovy]
- * ----
- * // -------- BEGIN HelloWorldServer --------
- * import io.vertx.core.buffer.Buffer as Buffer
- *
- * def content  = Buffer.buffer('Hello World')
- * def server  = vertx.createHttpServer()
- * server.requestHandler({ req ->
- *  req.response().end(content)
- * })
- * server.listen()
- * // -------- END HelloWorldServer --------
- * ----
- *
- * Printed on the console
- *
  * === Writing Verticles
  *
  * There are two alternatives to create verticles in Groovy:
@@ -249,7 +162,12 @@
  * NOTE: You don't need to manually undeploy child verticles started by a verticle, in the verticle's stop method.
  * Vert.x will automatically undeploy any child verticles when the parent is undeployed.
  *
- * {@link io.vertx.lang.groovy.GroovyVerticle}
+ * === API changes from previous versions
+ *
+ * Vert.x for Groovy has been revamped in Vert.x 3.4.x and provided an automatic migration path for
+ * Verticles written against the previous API.
+ *
+ * Vert.x 3.5.0 assumes that applications have been migrated to the new API.
  */
 @Document(fileName = "override/verticles.adoc")
 package docoverride.verticles;
