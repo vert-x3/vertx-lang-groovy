@@ -1,11 +1,6 @@
 {
   "name": "Groovy",
   "generators": [ {
-    "kind": "module",
-    "fileName": "module.translateQualifiedName(module.packageName, 'groovy') + '.VertxPropertiesModuleFactory.java'",
-    "templateFileName": "vertx-groovy/template/gen-module-factory.templ",
-    "incremental": false
-  },{
     "kind": "class",
     "fileName": "module.translateQualifiedName(type.name, 'groovy') + '_GroovyExtension.java'",
     "templateFileName": "vertx-groovy/template/gen-methods.templ",
@@ -17,8 +12,8 @@
     "incremental": false
   }, {
     "kind": "class",
-    "fileName": "'resources/META-INF/services/org.codehaus.groovy.runtime.ExtensionModule'",
-    "templateFileName": "vertx-groovy/template/ext-desc.templ",
+    "fileName": "module.translateQualifiedName(module.packageName, 'groovy') + '.VertxExtensionModule.java'",
+    "templateFileName": "vertx-groovy/template/gen-ext-module.templ",
     "incremental": true
   }]
 }

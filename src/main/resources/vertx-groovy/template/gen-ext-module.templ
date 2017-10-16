@@ -1,0 +1,50 @@
+@includeNamed{"common.templ"}
+@code{
+  if (incrementalIndex == 0) {
+    session.exts = new java.util.ArrayList();
+    session.staticExts = new java.util.ArrayList();
+  }
+  var genExt = false;
+  var genStaticExt = false;
+  for (method : methods) {
+    if (checkMethod(method)) {
+      if (method.staticMethod) {
+        genStaticExt = true;
+      } else {
+        genExt = true;
+      }
+    }
+  }
+  if (genExt) {
+    session.exts.add(type.module.translateQualifiedName(type.name, 'groovy'));
+  }
+  if (genStaticExt) {
+    session.staticExts.add(type.module.translateQualifiedName(type.name, 'groovy'));
+  }
+}
+@if{incrementalIndex==incrementalSize-1}
+package @{type.module.translateQualifiedName(type.module.packageName, 'groovy')};\n
+import groovy.lang.MetaMethod;\n
+import org.codehaus.groovy.runtime.m12n.ExtensionModule;\n
+import org.codehaus.groovy.runtime.m12n.MetaInfExtensionModule;\n
+import java.util.Collections;\n
+import java.util.List;\n
+import java.util.Properties;\n
+public class VertxExtensionModule extends ExtensionModule {\n
+  private static final String extensionClasses = "@foreach{fqn:session.exts}@{fqn}_GroovyExtension@end{', '}";\n
+  private static final String staticExtensionClasses = "@foreach{fqn:session.staticExts}@{fqn}_GroovyStaticExtension@end{', '}";\n
+  private final ExtensionModule delegate;
+  public VertxExtensionModule() {\n
+    super("@{type.module.packageName}", "3.5.0");\n
+    Properties props = new Properties();\n
+    props.put("moduleName", "@{type.module.packageName}");\n
+    props.put("moduleVersion", "3.5.0");\n
+    props.put("extensionClasses", extensionClasses);\n
+    props.put("staticExtensionClasses", staticExtensionClasses);\n
+    delegate = MetaInfExtensionModule.newModule(props, getClass().getClassLoader());\n
+  }\n
+  public List<MetaMethod> getMetaMethods() {\n
+    return delegate.getMetaMethods();\n
+  }\n
+}
+@end{}

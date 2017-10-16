@@ -19,6 +19,7 @@ ScratchTest.java
 test-results
 test-tmp
 *.class
+dependency-reduced-pom.xml
 src/gen
 src/test/java/io/vertx/codegen/testmodel/**
 src/test/java/com/acme/**
