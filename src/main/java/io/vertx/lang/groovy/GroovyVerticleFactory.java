@@ -15,10 +15,7 @@
  */
 package io.vertx.lang.groovy;
 
-import groovy.lang.Closure;
-import groovy.lang.GroovyClassLoader;
-import groovy.lang.GroovyCodeSource;
-import groovy.lang.Script;
+import groovy.lang.*;
 import groovy.util.ConfigObject;
 import groovy.util.ConfigSlurper;
 import io.vertx.core.Verticle;
@@ -47,6 +44,10 @@ public class GroovyVerticleFactory implements VerticleFactory {
   private static Logger log = LoggerFactory.getLogger(GroovyVerticleFactory.class);
 
   private Vertx vertx;
+
+  public GroovyVerticleFactory() {
+    VertxExtensionMethodBoostrap.install(GroovySystem.getMetaClassRegistry());
+  }
 
   @Override
   public void init(Vertx vertx) {

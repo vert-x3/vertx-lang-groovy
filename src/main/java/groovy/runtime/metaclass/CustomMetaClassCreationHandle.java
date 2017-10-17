@@ -17,58 +17,13 @@ package groovy.runtime.metaclass;
 
 import groovy.lang.MetaClass;
 import groovy.lang.MetaClassRegistry;
-import groovy.lang.MetaMethod;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import org.codehaus.groovy.reflection.CachedClass;
-import org.codehaus.groovy.runtime.m12n.ExtensionModule;
-import org.codehaus.groovy.runtime.m12n.ExtensionModuleRegistry;
-import org.codehaus.groovy.runtime.metaclass.MetaClassRegistryImpl;
-import org.codehaus.groovy.util.FastArray;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import io.vertx.lang.groovy.VertxExtensionMethodBoostrap;
 
 public class CustomMetaClassCreationHandle extends MetaClassRegistry.MetaClassCreationHandle {
 
-  private boolean loaded;
-
   @Override
   protected synchronized MetaClass createNormalMetaClass(Class theClass, MetaClassRegistry registry) {
-    if (!loaded) {
-      loaded = true;
-      try {
-        MetaClassRegistryImpl registryImpl = (MetaClassRegistryImpl) registry;
-        ExtensionModuleRegistry moduleRegistry = registryImpl.getModuleRegistry();
-        HashMap<CachedClass, List<MetaMethod>> map = new HashMap<>();
-        new FastClasspathScanner().matchSubclassesOf(ExtensionModule.class, subclass -> {
-          if (subclass.getSimpleName().equals("VertxExtensionModule")) {
-            try {
-              ExtensionModule module = subclass.newInstance();
-              if (!moduleRegistry.hasModule(module.getName())) {
-                moduleRegistry.addModule(module);
-                for (MetaMethod metaMethod : module.getMetaMethods()) {
-                  List<MetaMethod> metaMethods = map.computeIfAbsent(metaMethod.getDeclaringClass(), k -> new ArrayList<>());
-                  metaMethods.add(metaMethod);
-                  FastArray methods = metaMethod.isStatic() ? registryImpl.getStaticMethods() : registryImpl.getInstanceMethods();
-                  methods.add(metaMethod);
-                }
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
-        }).scan();
-        for (Map.Entry<CachedClass, List<MetaMethod>> e : map.entrySet()) {
-          CachedClass cls = e.getKey();
-          cls.setNewMopMethods(e.getValue());
-        }
-      } catch (Throwable ignore) {
-      }
-    }
-
-
+    VertxExtensionMethodBoostrap.install(registry);
     return super.createNormalMetaClass(theClass, registry);
   }
 }
