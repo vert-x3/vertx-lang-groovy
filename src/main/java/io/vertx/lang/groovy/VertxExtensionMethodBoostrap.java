@@ -24,10 +24,7 @@ import org.codehaus.groovy.runtime.m12n.ExtensionModuleRegistry;
 import org.codehaus.groovy.runtime.metaclass.MetaClassRegistryImpl;
 import org.codehaus.groovy.util.FastArray;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class VertxExtensionMethodBoostrap {
 
@@ -60,7 +57,10 @@ public class VertxExtensionMethodBoostrap {
         }).scan();
         for (Map.Entry<CachedClass, List<MetaMethod>> e : map.entrySet()) {
           CachedClass cls = e.getKey();
-          cls.setNewMopMethods(e.getValue());
+          List<MetaMethod> metaMethods = new ArrayList<>();
+          Collections.addAll(metaMethods, cls.getNewMetaMethods());
+          metaMethods.addAll(e.getValue());
+          cls.setNewMopMethods(metaMethods);
         }
       } catch (Throwable ignore) {
       }
