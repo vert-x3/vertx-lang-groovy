@@ -21,14 +21,14 @@
       <artifactId>vertx-core</artifactId>
     </dependency>
     <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-lang-groovy-codegen</artifactId>
+      <version>3.6.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
       <version>2.4.7</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.lukehutch</groupId>
-      <artifactId>fast-classpath-scanner</artifactId>
-      <version>2.7.4</version>
     </dependency>
 
     <!-- Not needed at runtime -->
@@ -49,12 +49,6 @@
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-codegen</artifactId>
-      <scope>provided</scope>
-      <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
       <scope>provided</scope>
       <classifier>sources</classifier>
@@ -69,12 +63,6 @@
     <!-- Test dependencies -->
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-codegen</artifactId>
-      <classifier>tck-sources</classifier>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
@@ -85,52 +73,10 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-    <!-- Used by failsafe plugin that excludes the compile scope -->
-    <dependency>
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy</artifactId>
-      <version>2.4.7</version>
-      <scope>test</scope>
-    </dependency>
-
 
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>default-testCompile</id>
-              <configuration>
-                <annotationProcessors>
-                  <annotationProcessor>io.vertx.codegen.CodeGenProcessor</annotationProcessor>
-                </annotationProcessors>
-                <compilerArgs>
-                  <arg>-Acodegen.output=${project.basedir}/src/test</arg>
-                  <arg>-Acodegen.generators=Groovy</arg>
-                </compilerArgs>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <configuration>
-            <excludes>
-              <exclude>io/vertx/lang/groovy/IntegrationTest.java</exclude>
-            </excludes>
-            <additionalClasspathElements>
-              <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
-              <additionalClasspathElement>${project.basedir}/src/main/resources</additionalClasspathElement>
-            </additionalClasspathElements>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -264,32 +210,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <relocations>
-                <relocation>
-                  <pattern>io.github.lukehutch.fastclasspathscanner</pattern>
-                  <shadedPattern>io.vertx.lang.groovy.fastclasspathscanner</shadedPattern>
-                </relocation>
-              </relocations>
-              <artifactSet>
-                <includes>
-                  <include>io.github.lukehutch:fast-classpath-scanner</include>
-                </includes>
-              </artifactSet>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <executions>
           <execution>
@@ -307,30 +227,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.19.1</version>
-        <executions>
-          <execution>
-            <id>disabled-extension-modules</id>
-            <goals>
-              <goal>integration-test</goal>
-            </goals>
-            <!-- on purpose so we use target/classes instead of the artifact jar   -->
-            <phase>test</phase>
-            <configuration>
-              <includes>
-                <include>io/vertx/lang/groovy/IntegrationTest.java</include>
-              </includes>
-              <!-- we don't want target/classes in the classpath -->
-              <classesDirectory>does_not_exists</classesDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
     </plugins>
   </build>
 
