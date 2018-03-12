@@ -62,12 +62,25 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <version>3.0.2</version>
         <executions>
-          <!-- Unpack sources to target/sources -->
           <execution>
             <id>unpack-sources</id>
           </execution>
           <execution>
             <id>unpack-asciidoc</id>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>rename-asciidoc</id>
+          </execution>
+          <execution>
+            <id>copy-asciidoc-override</id>
           </execution>
         </executions>
       </plugin>
@@ -101,24 +114,23 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-ext-resources</artifactId>
+            <version>30</version>
+          </dependency>
+        </dependencies>
         <executions>
           <execution>
-            <id>assemble-docs</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <attach>true</attach>
-              <descriptors>
-                <descriptor>src/main/assembly/docs.xml</descriptor>
-              </descriptors>
-            </configuration>
+            <id>package-docs</id>
           </execution>
         </executions>
       </plugin>
+
     </plugins>
 
     <!--

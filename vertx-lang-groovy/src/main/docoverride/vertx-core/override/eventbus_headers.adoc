@@ -1,8 +1,6 @@
 ==== Setting headers on messages
 
-Messages sent over the event bus can also contain _headers_.
-
-This can be specified by setting options when sending or
+Messages sent over the event bus can also contain _headers_. This can be specified by setting options when sending or
 publishing:
 
 [source,groovy]

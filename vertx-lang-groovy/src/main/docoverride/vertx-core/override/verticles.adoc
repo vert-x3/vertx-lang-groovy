@@ -2,8 +2,8 @@
 
 There are two alternatives to create verticles in Groovy:
 
- * a plain Groovy script
- * a Groovy class implementing the `link:../../apidocs/io/vertx/core/Verticle.html[Verticle]` interface or extending the `link:../../apidocs/io/vertx/core/AbstractVerticle.html[AbstractVerticle]` class
+a plain Groovy script
+a Groovy class implementing the {@link io.vertx.core.Verticle} interface or extending the {@link io.vertx.core.AbstractVerticle} class
 
 For example, the next snippet is a valid Groovy verticle:
 
@@ -12,9 +12,7 @@ For example, the next snippet is a valid Groovy verticle:
 println "Hello from vertx"
 ----
 
-On deployment, by default, Vert.x executes the script.
-
-Optionally, your script can provide the `startVertx` and
+On deployment, by default, Vert.x executes the script. Optionally, your script can provide the `startVertx` and
 `stopVertx` methods. Theses methods are called respectively when the verticle starts and stops:
 
 [source, groovy]
@@ -28,7 +26,7 @@ void vertxStop() {
 }
 ----
 
-Alternatively, you can extend the `link:../../apidocs/io/vertx/core/AbstractVerticle.html[AbstractVerticle]` class and implement the `start` and
+Alternatively, you can extend the {@link io.vertx.core.AbstractVerticle} class and implement the `start` and
 `stop` methods:
 
 [source, groovy]
@@ -86,7 +84,7 @@ You can't block waiting for the other verticles to deploy in your start method a
 
 So how can you do this?
 
-The way to do it is to implement the *asynchronous* start method. This version of the method takes a Future as a parameter.When the method returns the verticle will *not* be considered deployed.
+The way to do it is to implement theasynchronous* start method. This version of the method takes a Future as a parameter.When the method returns the verticle willnot* be considered deployed.
 
 Some time later, after you've done everything you need to do (e.g. start other verticles), you can call complete
 on the Future (or fail) to signal that you're done. Similarly, there is an asynchronous version of the stop method too.
@@ -115,9 +113,9 @@ void vertxStop(Future<Void> future) {
 }
 ----
 
-If your verticle extends `link:../../apidocs/io/vertx/core/AbstractVerticle.html[AbstractVerticle]`, you override the
-`link:../../apidocs/io/vertx/core/AbstractVerticle.html#start-io.vertx.core.Future-[start]` and
-`link:../../apidocs/io/vertx/core/AbstractVerticle.html#stop-io.vertx.core.Future-[stop]` methods:
+If your verticle extends {@link io.vertx.core.AbstractVerticle}, you override the
+{@link io.vertx.core.AbstractVerticle#start(io.vertx.core.Future)} and
+{@link io.vertx.core.AbstractVerticle#stop(io.vertx.core.Future)} methods:
 
 [source, groovy]
 ----
