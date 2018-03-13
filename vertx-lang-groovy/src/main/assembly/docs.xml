@@ -5,16 +5,8 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
     <fileSet>
-      <directory>${asciidoc.dir}</directory>
-      <outputDirectory>./groovy/</outputDirectory>
-      <excludes>
-        <exclude>**/*.ad</exclude>
-        <exclude>**/*.adoc</exclude>
-      </excludes>
-    </fileSet>
-    <fileSet>
       <directory>${project.build.directory}/asciidoc</directory>
-      <outputDirectory>./groovy/</outputDirectory>
+      <outputDirectory>./</outputDirectory>
     </fileSet>
   </fileSets>
 </assembly>
