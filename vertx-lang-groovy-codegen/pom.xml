@@ -24,7 +24,8 @@
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy</artifactId>
       <version>2.5.0</version>
-    </dependency>    
+    </dependency>
+    <!-- Needed for the compilation of VertxTransformation class -->
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-console</artifactId>
