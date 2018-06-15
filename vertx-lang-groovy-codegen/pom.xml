@@ -22,8 +22,13 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
-      <version>2.4.15</version>
+      <artifactId>groovy</artifactId>
+      <version>2.5.0</version>
+    </dependency>    
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-console</artifactId>
+      <version>2.5.0</version>
     </dependency>
     <dependency>
       <groupId>io.github.lukehutch</groupId>
@@ -83,7 +88,7 @@
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy</artifactId>
-      <version>2.4.7</version>
+      <version>2.5.0</version>
       <scope>test</scope>
     </dependency>
 
