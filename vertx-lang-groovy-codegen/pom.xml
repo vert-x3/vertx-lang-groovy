@@ -85,12 +85,6 @@
       <scope>test</scope>
     </dependency>
     <!-- Used by failsafe plugin that excludes the compile scope -->
-    <dependency>
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy</artifactId>
-      <version>2.5.0</version>
-      <scope>test</scope>
-    </dependency>
 
 
   </dependencies>
