@@ -33,7 +33,6 @@
 
   <modules>
     <module>vertx-lang-groovy-codegen</module>
-    <module>vertx-lang-groovy</module>
   </modules>
 
 </project>
