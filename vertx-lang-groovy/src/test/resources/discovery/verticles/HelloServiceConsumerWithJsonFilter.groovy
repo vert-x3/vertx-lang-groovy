@@ -15,6 +15,7 @@
  */
 package verticles
 
+import io.vertx.core.json.JsonObject
 import io.vertx.groovy.discovery.ServiceProxiesTest
 import io.vertx.groovy.discovery.service.HelloService
 import io.vertx.servicediscovery.ServiceDiscovery
@@ -34,7 +35,7 @@ EventBusService.<HelloService> getServiceProxyWithJsonFilter(
             ])
           } else {
             HelloService hello = ar.result()
-            hello.hello(['name' : "vert.x"], { result ->
+            hello.hello(new JsonObject().put('name', "vert.x"), { result ->
               if (result.failed()) {
                 result.cause().printStackTrace()
                 vertx.eventBus().send("result", [
