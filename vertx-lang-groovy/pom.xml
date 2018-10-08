@@ -336,7 +336,7 @@
     <!-- What we need at runtime -->
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-lang-groovy-codegen</artifactId>
+      <artifactId>vertx-lang-groovy-gen</artifactId>
       <version>3.6.0-SNAPSHOT</version>
     </dependency>
     <dependency>

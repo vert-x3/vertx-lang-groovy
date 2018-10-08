@@ -9,7 +9,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>vertx-lang-groovy-codegen</artifactId>
+  <artifactId>vertx-lang-groovy-gen</artifactId>
 
   <name>Vert.x Groovy Language Support</name>
 
