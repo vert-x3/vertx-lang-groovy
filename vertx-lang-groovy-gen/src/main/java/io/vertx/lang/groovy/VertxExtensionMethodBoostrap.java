@@ -17,7 +17,7 @@ package io.vertx.lang.groovy;
 
 import groovy.lang.MetaClassRegistry;
 import groovy.lang.MetaMethod;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.classgraph.ClassGraph;
 import org.codehaus.groovy.reflection.CachedClass;
 import org.codehaus.groovy.runtime.m12n.ExtensionModule;
 import org.codehaus.groovy.runtime.m12n.ExtensionModuleRegistry;
@@ -37,7 +37,7 @@ public class VertxExtensionMethodBoostrap {
         MetaClassRegistryImpl registryImpl = (MetaClassRegistryImpl) registry;
         ExtensionModuleRegistry moduleRegistry = registryImpl.getModuleRegistry();
         HashMap<CachedClass, List<MetaMethod>> map = new HashMap<>();
-        new FastClasspathScanner().matchSubclassesOf(ExtensionModule.class, subclass -> {
+        new ClassGraph().matchSubclassesOf(ExtensionModule.class, subclass -> {
           if (subclass.getSimpleName().equals("VertxExtensionModule")) {
             try {
               ExtensionModule module = subclass.newInstance();
