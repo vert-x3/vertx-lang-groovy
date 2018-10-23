@@ -43,7 +43,7 @@ public class VertxExtensionMethodBoostrap {
         ClassInfo info = result.getClassInfo("ExtensionModule");
           if (info.getSimpleName().equals("VertxExtensionModule")) {
             try {
-              ExtensionModule module = info.newInstance();
+              ExtensionModule module = info.loadClass().newInstance();
               if (!moduleRegistry.hasModule(module.getName())) {
                 moduleRegistry.addModule(module);
                 for (MetaMethod metaMethod : module.getMetaMethods()) {
