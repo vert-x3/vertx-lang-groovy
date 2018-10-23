@@ -20,6 +20,7 @@ import groovy.lang.MetaMethod;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ClassInfoList;
 import org.codehaus.groovy.reflection.CachedClass;
 import org.codehaus.groovy.runtime.m12n.ExtensionModule;
 import org.codehaus.groovy.runtime.m12n.ExtensionModuleRegistry;
@@ -40,10 +41,11 @@ public class VertxExtensionMethodBoostrap {
         ExtensionModuleRegistry moduleRegistry = registryImpl.getModuleRegistry();
         HashMap<CachedClass, List<MetaMethod>> map = new HashMap<>();
         ScanResult result = new ClassGraph().enableAllInfo().scan();
-        ClassInfo info = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule");
-          if (info.getSimpleName().equals("VertxExtensionModule")) {
+        ClassInfoList info = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule");
+        ClassInfo subclass = info.get("VertxExtensionModule");
+          if (subclass.getSimpleName().equals("VertxExtensionModule")) {
             try {
-              ExtensionModule module = info.loadClass().newInstance();
+              ExtensionModule module = subclass.loadClass().newInstance();
               if (!moduleRegistry.hasModule(module.getName())) {
                 moduleRegistry.addModule(module);
                 for (MetaMethod metaMethod : module.getMetaMethods()) {
