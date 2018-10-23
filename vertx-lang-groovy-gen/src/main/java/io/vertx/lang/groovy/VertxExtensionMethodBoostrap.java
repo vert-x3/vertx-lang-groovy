@@ -56,8 +56,8 @@ public class VertxExtensionMethodBoostrap {
             } catch (Exception e) {
               e.printStackTrace();
             }
-          }
         }
+        
         for (Map.Entry<CachedClass, List<MetaMethod>> e : map.entrySet()) {
           CachedClass cls = e.getKey();
           List<MetaMethod> metaMethods = new ArrayList<>();
