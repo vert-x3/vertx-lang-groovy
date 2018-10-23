@@ -40,12 +40,12 @@ public class VertxExtensionMethodBoostrap {
         MetaClassRegistryImpl registryImpl = (MetaClassRegistryImpl) registry;
         ExtensionModuleRegistry moduleRegistry = registryImpl.getModuleRegistry();
         HashMap<CachedClass, List<MetaMethod>> map = new HashMap<>();
-        ScanResult result = new ClassGraph().enableAllInfo().scan();
-        ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
-        ClassInfo info = infolist.get("VertxExtensionModule");
-        Class<?> subclass = info.loadClass();
-          if (subclass.getSimpleName().equals("VertxExtensionModule")) {
+        
             try {
+              ScanResult result = new ClassGraph().enableAllInfo().scan();
+              ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
+              ClassInfo info = infolist.get("VertxExtensionModule");
+              Class<?> subclass = info.loadClass();
               ExtensionModule module = subclass.newInstance();
               if (!moduleRegistry.hasModule(module.getName())) {
                 moduleRegistry.addModule(module);
@@ -59,7 +59,7 @@ public class VertxExtensionMethodBoostrap {
             } catch (Exception e) {
               e.printStackTrace();
             }
-        }
+        
         
         for (Map.Entry<CachedClass, List<MetaMethod>> e : map.entrySet()) {
           CachedClass cls = e.getKey();
