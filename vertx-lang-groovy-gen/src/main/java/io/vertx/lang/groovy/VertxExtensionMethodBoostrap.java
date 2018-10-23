@@ -39,8 +39,8 @@ public class VertxExtensionMethodBoostrap {
         MetaClassRegistryImpl registryImpl = (MetaClassRegistryImpl) registry;
         ExtensionModuleRegistry moduleRegistry = registryImpl.getModuleRegistry();
         HashMap<CachedClass, List<MetaMethod>> map = new HashMap<>();
-        ScanResult result = new ClassGraph().enableAllInfo().whitelistPackages("org.codehaus.groovy.runtime.m12n").scan();
-        ClassInfo info = result.getClassInfo("ExtensionModule");
+        ScanResult result = new ClassGraph().enableAllInfo().whitelistPackages("io.vertx.ext.groovy.eventbus.bridge.tcp").scan();
+        ClassInfo info = result.getClassInfo("VertxExtensionModule");
           if (info.getSimpleName().equals("VertxExtensionModule")) {
             try {
               ExtensionModule module = info.loadClass().newInstance();
