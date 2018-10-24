@@ -45,7 +45,7 @@ public class VertxExtensionMethodBoostrap {
               ScanResult result = new ClassGraph().verbose().enableAllInfo().scan();
               ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
               ClassInfo info = infolist.get("VertxExtensionModule");                            
-              ExtensionModule module = info.loadClass().getDeclaredConstructors().newInstance();
+              ExtensionModule module = info.loadClass().getDeclaredConstructors().getDeclaringClass.newInstance();
               if (!moduleRegistry.hasModule(module.getName())) {
                 moduleRegistry.addModule(module);
                 for (MetaMethod metaMethod : module.getMetaMethods()) {
