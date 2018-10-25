@@ -46,7 +46,8 @@ public class VertxExtensionMethodBoostrap {
               ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
               ClassInfo info = infolist.get("io.vertx.groovy.core.VertxExtensionModule");                            
               System.out.println(info);
-              /*ExtensionModule module = info.loadClass().getDeclaringClass().newInstance();
+              ExtensionModule module =(ExtensionModule) info.loadClass().getDeclaredConstructor()
+			                   .newInstance();
               if (!moduleRegistry.hasModule(module.getName())) {
                 moduleRegistry.addModule(module);
                 for (MetaMethod metaMethod : module.getMetaMethods()) {
@@ -55,7 +56,7 @@ public class VertxExtensionMethodBoostrap {
                   FastArray methods = metaMethod.isStatic() ? registryImpl.getStaticMethods() : registryImpl.getInstanceMethods();
                   methods.add(metaMethod);
                 }
-              }*/
+              }
             } catch (Exception e) {
               e.printStackTrace();
             }
