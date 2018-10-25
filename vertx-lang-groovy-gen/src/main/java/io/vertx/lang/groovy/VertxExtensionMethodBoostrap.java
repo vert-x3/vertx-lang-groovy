@@ -42,7 +42,7 @@ public class VertxExtensionMethodBoostrap {
         HashMap<CachedClass, List<MetaMethod>> map = new HashMap<>();
         
             try {
-              ScanResult result = new ClassGraph().verbose().enableAllInfo().whitelistPackages("io.vertx.lang.groovy").whitelistPackages("io.vertx.groovy.core").scan();
+              ScanResult result = new ClassGraph().verbose().enableAllInfo().whitelistPackages("io.vertx").scan();
               ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
               ClassInfo info = infolist.get("io.vertx.groovy.core.VertxExtensionModule");                                          
               System.setErr(System.out);
