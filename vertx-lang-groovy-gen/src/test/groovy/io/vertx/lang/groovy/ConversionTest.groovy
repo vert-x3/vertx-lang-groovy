@@ -25,12 +25,10 @@ import io.vertx.core.json.JsonArray
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
 class ConversionTest {
- 
-  def jo = new JsonObject().put("nullKey",null);
-  
+   
   @Test
   public void testAcceptNullJsonValues() {
-    Assert.assertTrue(Converter.acceptNullJsonObjectValue(jo));
+    Assert.assertTrue(Converter.acceptNullJsonObjectValue(new JsonObject().put("nullKey",null)));
     Assert.assertTrue(Converter.acceptNullJsonArrayValue(new JsonArray()));
   }
 
