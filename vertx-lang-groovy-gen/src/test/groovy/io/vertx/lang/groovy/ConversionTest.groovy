@@ -36,7 +36,7 @@ class ConversionTest {
 
   @Test
   public void testJsonWithNullValues() {
-    Map<String, Object> map = Converter.returnJsonObjectWithNullValue()
+    JsonObject map = Converter.returnJsonObjectWithNullValue()
     Assert.assertEquals(1, map.size())
     Assert.assertTrue(map.containsKey("nullKey"))
     Assert.assertNull(map["nullKey"])
