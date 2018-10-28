@@ -43,9 +43,8 @@ public class VertxExtensionMethodBoostrap {
         
             try {
               ScanResult result = new ClassGraph().verbose().enableAllInfo().whitelistPackages("io.vertx.groovy.codegen.testmodel").scan();
-              /*ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
-              ClassInfo info = infolist.get("io.vertx.groovy.codegen.testmodel.VertxExtensionModule");  */
-              ClassInfo info = result.getClassInfo("io.vertx.groovy.codegen.testmodel.VertxExtensionModule");
+              ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
+              ClassInfo info = infolist.get("io.vertx.groovy.codegen.testmodel.VertxExtensionModule");              
               System.out.println(info);
               ExtensionModule module =(ExtensionModule) info.loadClass().getDeclaredConstructor().newInstance();
               if (!moduleRegistry.hasModule(module.getName())) {
