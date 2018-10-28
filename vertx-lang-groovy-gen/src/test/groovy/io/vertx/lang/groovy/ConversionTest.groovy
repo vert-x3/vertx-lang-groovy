@@ -18,6 +18,7 @@ package io.vertx.lang.groovy
 import io.vertx.codegen.extra.Converter
 import org.junit.Assert
 import org.junit.Test
+import io.vertx.core.json.JsonObject
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
@@ -26,7 +27,7 @@ class ConversionTest {
 
   @Test
   public void testAcceptNullJsonValues() {
-    Assert.assertTrue(Converter.acceptNullJsonObjectValue([nullkey:null]));
+    Assert.assertTrue(Converter.acceptNullJsonObjectValue(new JsonObject(["nullKey":null])));
     Assert.assertTrue(Converter.acceptNullJsonArrayValue([null]));
   }
 
