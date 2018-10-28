@@ -26,8 +26,7 @@ import io.vertx.core.json.JsonArray
  */
 class ConversionTest {
  
-  def jo = new JsonObject();
-  jo.put("nullKey",null);
+  def jo = new JsonObject().put("nullKey",null);
   
   @Test
   public void testAcceptNullJsonValues() {
