@@ -28,7 +28,7 @@ class ConversionTest {
    
   @Test
   public void testAcceptNullJsonValues() {
-    Assert.assertTrue(Converter.acceptNullJsonObjectValue(new JsonObject().put("nullKey",(Object) null)));
+    Assert.assertTrue(Converter.acceptNullJsonObjectValue(new JsonObject().put("nullkey",(Object) null)));
     Assert.assertTrue(Converter.acceptNullJsonArrayValue(new JsonArray()));
   }
 
