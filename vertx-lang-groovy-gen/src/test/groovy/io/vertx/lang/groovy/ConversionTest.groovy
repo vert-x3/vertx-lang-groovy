@@ -19,16 +19,17 @@ import io.vertx.codegen.extra.Converter
 import org.junit.Assert
 import org.junit.Test
 import io.vertx.core.json.JsonObject
+import io.vertx.core.json.JsonArray
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
 class ConversionTest {
-
+ 
   @Test
   public void testAcceptNullJsonValues() {
     Assert.assertTrue(Converter.acceptNullJsonObjectValue(new JsonObject(["nullKey":null])));
-    Assert.assertTrue(Converter.acceptNullJsonArrayValue(new JsonObject()));
+    Assert.assertTrue(Converter.acceptNullJsonArrayValue(new JsonArray()));
   }
 
   @Test
