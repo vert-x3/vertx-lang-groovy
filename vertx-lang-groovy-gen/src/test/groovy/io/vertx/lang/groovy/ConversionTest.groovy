@@ -40,6 +40,6 @@ class ConversionTest {
     Assert.assertEquals(1, map.size())
     Assert.assertTrue(map.containsKey("nullKey"))
     Assert.assertNull(map.getValue("nullKey"))
-    Assert.assertEquals(Converter.returnJsonArrayWithNullValue(), [null]);
+    Assert.assertEquals(Converter.returnJsonArrayWithNullValue(), new JsonArray([null]));
   }
 }
