@@ -39,7 +39,7 @@ class ConversionTest {
     JsonObject map = Converter.returnJsonObjectWithNullValue()
     Assert.assertEquals(1, map.size())
     Assert.assertTrue(map.containsKey("nullKey"))
-    Assert.assertNull(map["nullKey"])
+    Assert.assertNull(map.getValue("nullKey"))
     Assert.assertEquals(Converter.returnJsonArrayWithNullValue(), [null]);
   }
 }
