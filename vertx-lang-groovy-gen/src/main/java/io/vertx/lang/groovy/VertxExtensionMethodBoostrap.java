@@ -26,6 +26,7 @@ import org.codehaus.groovy.runtime.m12n.ExtensionModule;
 import org.codehaus.groovy.runtime.m12n.ExtensionModuleRegistry;
 import org.codehaus.groovy.runtime.metaclass.MetaClassRegistryImpl;
 import org.codehaus.groovy.util.FastArray;
+import io.vertx.groovy.codegen.testmodel.VertxExtensionModule;
 
 import java.util.*;
 
