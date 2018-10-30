@@ -115,7 +115,7 @@ public class DeploymentTest{
 
   @Test
   public void testDeployVerticleClassInstance() throws Exception {
-    Class clazz = assertScript("LifeCycleVerticleClass.groovy");
+    Class clazz = assertScript("LifeCycleVerticleClass");
     Verticle verticle = (AbstractVerticle) clazz.newInstance();
     //GroovyVerticle verticle = (GroovyVerticle) clazz.newInstance();
     //Verticle verticle = new AbstractVerticle() {
@@ -152,7 +152,7 @@ public class DeploymentTest{
 
   @Test
   public void testDeployVerticleScriptInstance() throws Exception {
-    Class clazz = assertScript("LifeCycleVerticleScript.groovy");
+    Class clazz = assertScript("LifeCycleVerticleScript");
     Script script = (Script) clazz.newInstance();
     ScriptVerticle verticle = new ScriptVerticle(script);
     assertDeploy((vertx, onDeploy) ->
@@ -289,7 +289,7 @@ public class DeploymentTest{
 
   @Test
   public void testReuseBindingInScript() throws Exception {
-    Class clazz = assertScript("ReuseBindingVerticleScript.groovy");
+    Class clazz = assertScript("ReuseBindingVerticleScript");
     Script script = (Script) clazz.newInstance();
     Binding binding = new Binding();
     binding.setVariable("myobject", new Object());
