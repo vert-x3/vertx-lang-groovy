@@ -82,7 +82,7 @@ public class DeploymentTest{
   }
 
   private String getAbsolutePath(String classpathResource) throws Exception {
-    URL url = Thread.currentThread().getContextClassLoader().getResource("io.vertx.lang.groovy.LifeCycleVerticleClass.groovy");
+    URL url = Thread.currentThread().getContextClassLoader().getResource("io.vertx.lang.groovy.LifeCycleVerticleClass");
     assertNotNull(url);
     return new File(url.toURI()).getAbsolutePath();
   }
@@ -97,7 +97,7 @@ public class DeploymentTest{
   public void testDeployVerticleClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.LifeCycleVerticleClass.groovy",
+            "io.vertx.lang.groovy.LifeCycleVerticleClass",
             onDeploy));
     assertTrue(isStarted());
     assertTrue(isStopped());
@@ -107,7 +107,7 @@ public class DeploymentTest{
   public void testAsyncDeployVerticleClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.LifeCycleAsyncVerticleClass.groovy",
+            "io.vertx.lang.groovy.LifeCycleAsyncVerticleClass",
             onDeploy));
     assertTrue(isStarted());
     assertTrue(isStopped());
@@ -144,7 +144,7 @@ public class DeploymentTest{
   public void testDeployVerticleScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.LifeCycleVerticleScript.groovy",
+            "io.vertx.lang.groovy.LifeCycleVerticleScript",
             onDeploy));
     assertTrue(isStarted());
     assertTrue(isStopped());
@@ -167,7 +167,7 @@ public class DeploymentTest{
   public void testAsyncDeployVerticleScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.LifeCycleAsyncVerticleScript.groovy",
+            "io.vertx.lang.groovy.LifeCycleAsyncVerticleScript",
             onDeploy));
     assertTrue(isStarted());
     assertTrue(isStopped());
@@ -175,7 +175,7 @@ public class DeploymentTest{
 
   @Test
   public void testDeployVerticleClassFromRelativeFile() throws Exception {
-    String relativePath = getRelativePath("io.vertx.lang.groovy.LifeCycleVerticleClass.groovy");
+    String relativePath = getRelativePath("io.vertx.lang.groovy.LifeCycleVerticleClass");
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(relativePath, onDeploy));
     assertTrue(isStarted());
@@ -184,7 +184,7 @@ public class DeploymentTest{
 
   @Test
   public void testDeployVerticleClassFromAbsoluteFile() throws Exception {
-    String verticlePath = getAbsolutePath("io.vertx.lang.groovy.LifeCycleVerticleClass.groovy");
+    String verticlePath = getAbsolutePath("io.vertx.lang.groovy.LifeCycleVerticleClass");
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             verticlePath,
@@ -197,7 +197,7 @@ public class DeploymentTest{
   public void testResolveSamePackageFromClassPath() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.ResolveSamePackageVerticleClass.groovy",
+            "io.vertx.lang.groovy.ResolveSamePackageVerticleClass",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(isStarted());
@@ -205,7 +205,7 @@ public class DeploymentTest{
 
   @Test
   public void testResolveSamePackageFromRelativeFile() throws Exception {
-    String relativePath = getRelativePath("io.vertx.lang.groovy.ResolveSamePackageVerticleClass.groovy");
+    String relativePath = getRelativePath("io.vertx.lang.groovy.ResolveSamePackageVerticleClass");
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             relativePath,
@@ -216,7 +216,7 @@ public class DeploymentTest{
 
   @Test
   public void testResolveSamePackageFromAbsoluteFile() throws Exception {
-    String relativePath = getAbsolutePath("io.vertx.lang.groovy.ResolveSamePackageVerticleClass.groovy");
+    String relativePath = getAbsolutePath("io.vertx.lang.groovy.ResolveSamePackageVerticleClass");
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             relativePath,
@@ -229,7 +229,7 @@ public class DeploymentTest{
   public void testResolveChildPackageFromClassPath() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.ResolveChildPackageVerticleClass.groovy",
+            "io.vertx.lang.groovy.ResolveChildPackageVerticleClass",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(isStarted());
@@ -237,7 +237,7 @@ public class DeploymentTest{
 
   @Test
   public void testResolveChildPackageFromRelativeFile() throws Exception {
-    String relativePath = getRelativePath("io.vertx.lang.groovy.ResolveChildPackageVerticleClass.groovy");
+    String relativePath = getRelativePath("io.vertx.lang.groovy.ResolveChildPackageVerticleClass");
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             relativePath,
@@ -248,7 +248,7 @@ public class DeploymentTest{
 
   @Test
   public void testResolveChildPackageFromAbsoluteFile() throws Exception {
-    String relativePath = getAbsolutePath("io.vertx.lang.groovy.ResolveChildPackageVerticleClass.groovy");
+    String relativePath = getAbsolutePath("io.vertx.lang.groovy.ResolveChildPackageVerticleClass");
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             relativePath,
@@ -261,7 +261,7 @@ public class DeploymentTest{
   public void testResolveVertxInJavaVerticleClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.ResolveVertxJavaVerticleClass.groovy",
+            "io.vertx.lang.groovy.ResolveVertxJavaVerticleClass",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(isStarted());
@@ -271,7 +271,7 @@ public class DeploymentTest{
   public void testResolveVertxInGroovyVerticleClass() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.ResolveVertxGroovyVerticleClass.groovy",
+            "io.vertx.lang.groovy.ResolveVertxGroovyVerticleClass",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(isStarted());
@@ -281,7 +281,7 @@ public class DeploymentTest{
   public void testResolveVertxInVerticleScript() throws Exception {
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            "io.vertx.lang.groovy.ResolveVertxVerticleScript.groovy",
+            "io.vertx.lang.groovy.ResolveVertxVerticleScript",
             new DeploymentOptions().setConfig(new JsonObject()),
             onDeploy));
     assertTrue(isStarted());
@@ -305,7 +305,7 @@ public class DeploymentTest{
     Vertx vertx = Vertx.vertx();
     try {
       BlockingQueue<AsyncResult<String>> deployed = new ArrayBlockingQueue<>(1);
-      vertx.deployVerticle("io.vertx.lang.groovy.NoStopVerticleScript.groovy", deployed::add);
+      vertx.deployVerticle("io.vertx.lang.groovy.NoStopVerticleScript", deployed::add);
       AsyncResult<String> deployment = deployed.poll(10, TimeUnit.SECONDS);
       String deploymentId = assertResult(deployment);
       BlockingQueue<AsyncResult<Void>> undeployed = new ArrayBlockingQueue<>(1);
