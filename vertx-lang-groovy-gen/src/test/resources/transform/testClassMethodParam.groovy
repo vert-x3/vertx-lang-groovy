@@ -1,9 +1,9 @@
-package transform;
+package transform
 
-import io.vertx.groovy.core.Vertx
-import io.vertx.lang.groovy.GroovyVerticle;
+import io.vertx.core.Vertx
+import io.vertx.core.AbstractVerticle
 
-public class testClassMethodParam extends GroovyVerticle {
+class testClassMethodParam extends AbstractVerticle {
 
   @Override
   void start() throws Exception {

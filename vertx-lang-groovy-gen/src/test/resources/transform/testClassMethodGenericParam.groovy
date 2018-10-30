@@ -1,12 +1,13 @@
-package transform;
+package transform
 
 import io.vertx.groovy.core.eventbus.Message
+import io.vertx.core.AbstractVerticle
 
-public class testClassMethodGenericParam extends io.vertx.lang.groovy.GroovyVerticle {
+class testClassMethodGenericParam extends AbstractVerticle {
 
   @Override
   void start() throws Exception {
-    method(null);
+    method(null)
     vertx.eventBus().send("the-address", true)
   }
 

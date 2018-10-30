@@ -1,18 +1,20 @@
-package transform;
+package transform
 
-import io.vertx.lang.groovy.GroovyVerticle;
+import io.vertx.core.AbstractVerticle
+import io.vertx.core.Vertx
 
-public class testClassInnerClassQualifiedTypeArg extends GroovyVerticle {
+class testClassInnerClassQualifiedTypeArg extends AbstractVerticle {
 
   @Override
   void start() throws Exception {
-    new Inner([vertx] as List).vertx_[0].eventBus().send("the-address", true);
+    new Inner([vertx] as List).vertx_[0].eventBus().send("the-address", true)
   }
 
   class Inner {
-    final List<io.vertx.groovy.core.Vertx> vertx_;
-    Inner(List<io.vertx.groovy.core.Vertx> v) {
-      vertx_ = v;
+    final List<Vertx> vertx_
+
+    Inner(List<Vertx> v) {
+      vertx_ = v
     }
   }
 }

@@ -25,7 +25,8 @@ import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceDiscoveryOptions;
 import io.vertx.servicediscovery.impl.DiscoveryImpl;
 import io.vertx.servicediscovery.types.EventBusService;
-import io.vertx.serviceproxy.ProxyHelper;
+//import io.vertx.serviceproxy.ProxyHelper;
+import io.vertx.serviceproxy.ServiceBinder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,7 +67,9 @@ public class ServiceProxiesTest {
   public void testWithGroovyConsumer() {
     // Step 1 - register the service
     HelloService svc = new HelloServiceImpl("stuff");
-    ProxyHelper.registerService(HelloService.class, vertx, svc, "address");
+    ServiceBinder sb = new ServiceBinder(vertx);
+    //ProxyHelper.registerService(HelloService.class, vertx, svc, "address");
+    sb.register(HelloService.class, svc);
     Record record = EventBusService.createRecord("Hello", "address", HelloService.class);
 
     discovery.publish(record, (r) -> {
@@ -95,7 +98,9 @@ public class ServiceProxiesTest {
   public void testWithGroovyConsumerWithJsonFilter() {
     // Step 1 - register the service
     HelloService svc = new HelloServiceImpl("stuff");
-    ProxyHelper.registerService(HelloService.class, vertx, svc, "address");
+    ServiceBinder sb = new ServiceBinder(vertx);
+    //ProxyHelper.registerService(HelloService.class, vertx, svc, "address");
+    sb.register(HelloService.class,svc);
     Record record = EventBusService.createRecord("Hello", "address", HelloService.class);
 
     discovery.publish(record, (r) -> {

@@ -19,10 +19,7 @@ package io.vertx.lang.groovy;
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.Script;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.DeploymentOptions;
-import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
+import io.vertx.core.*;
 import io.vertx.core.json.JsonObject;
 import junit.framework.AssertionFailedError;
 import org.junit.After;
@@ -119,10 +116,23 @@ public class DeploymentTest {
   @Test
   public void testDeployVerticleClassInstance() throws Exception {
     Class clazz = assertScript("LifeCycleVerticleClass");
-    GroovyVerticle verticle = (GroovyVerticle) clazz.newInstance();
+    //GroovyVerticle verticle = (GroovyVerticle) clazz.newInstance();
+    Verticle verticle = new AbstractVerticle() {
+      @Override
+      public void start(Future<Void> startFuture) {
+        this.vertx = super.vertx;
+        this.context = super.context;
+        this.start(startFuture);
+      }
+
+      @Override
+      public void stop(Future<Void> stopFuture) {
+        this.stop(stopFuture);
+      }
+    };
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            verticle.asJavaVerticle(),
+            verticle,
             onDeploy));
     assertTrue(isStarted());
     assertTrue(isStopped());

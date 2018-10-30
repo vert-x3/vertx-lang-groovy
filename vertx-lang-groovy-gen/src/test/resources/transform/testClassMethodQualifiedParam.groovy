@@ -1,15 +1,16 @@
-package transform;
+package transform
 
-import io.vertx.lang.groovy.GroovyVerticle;
+import io.vertx.core.AbstractVerticle
+import io.vertx.core.Vertx
 
-public class testClassMethodQualifiedParam extends GroovyVerticle {
+class testClassMethodQualifiedParam extends AbstractVerticle {
 
   @Override
   void start() throws Exception {
     method(vertx)
   }
 
-  private void method(io.vertx.groovy.core.Vertx vertx_) {
+  private void method(Vertx vertx_) {
     vertx_.eventBus().send("the-address", true)
   }
 }
