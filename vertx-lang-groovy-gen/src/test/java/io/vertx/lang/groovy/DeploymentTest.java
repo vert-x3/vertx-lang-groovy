@@ -305,7 +305,7 @@ public class DeploymentTest{
     Vertx vertx = Vertx.vertx();
     try {
       BlockingQueue<AsyncResult<String>> deployed = new ArrayBlockingQueue<>(1);
-      vertx.deployVerticle("io.vertx.lang.groovy./NoStopVerticleScript.groovy", deployed::add);
+      vertx.deployVerticle("io.vertx.lang.groovy.NoStopVerticleScript.groovy", deployed::add);
       AsyncResult<String> deployment = deployed.poll(10, TimeUnit.SECONDS);
       String deploymentId = assertResult(deployment);
       BlockingQueue<AsyncResult<Void>> undeployed = new ArrayBlockingQueue<>(1);
