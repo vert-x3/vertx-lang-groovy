@@ -120,14 +120,14 @@ public class DeploymentTest {
     Verticle verticle = new AbstractVerticle() {
       @Override
       public void start(Future<Void> startFuture) {
-        this.vertx = super.vertx;
+        /*this.vertx = super.vertx;
         this.context = super.context;
-        this.start(startFuture);
+        this.start(startFuture);*/
       }
 
       @Override
       public void stop(Future<Void> stopFuture) {
-        this.stop(stopFuture);
+        //this.stop(stopFuture);
       }
     };
     assertDeploy((vertx, onDeploy) ->
