@@ -116,20 +116,22 @@ public class DeploymentTest {
   @Test
   public void testDeployVerticleClassInstance() throws Exception {
     Class clazz = assertScript("LifeCycleVerticleClass");
+    Verticle verticle = (AbstractVerticle) clazz.newInstance();
     //GroovyVerticle verticle = (GroovyVerticle) clazz.newInstance();
-    Verticle verticle = new AbstractVerticle() {
-      @Override
-      public void start(Future<Void> startFuture) {
+    //Verticle verticle = new AbstractVerticle() {
+    //  @Override
+    //  public void start(Future<Void> startFuture) {
         /*this.vertx = super.vertx;
         this.context = super.context;
         this.start(startFuture);*/
-      }
+    //  }
 
-      @Override
-      public void stop(Future<Void> stopFuture) {
-        //this.stop(stopFuture);
-      }
-    };
+    //  @Override
+    //  public void stop(Future<Void> stopFuture) {
+    //    //this.stop(stopFuture);
+    //  }
+    //};
+
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
             verticle,
