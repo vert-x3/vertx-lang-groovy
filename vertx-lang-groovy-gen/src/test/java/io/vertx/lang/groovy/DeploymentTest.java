@@ -118,19 +118,20 @@ public class DeploymentTest{
     Class clazz = assertScript("LifeCycleVerticleClass");
     Verticle verticle = (AbstractVerticle) clazz.newInstance();
     //GroovyVerticle verticle = (GroovyVerticle) clazz.newInstance();
-    //Verticle verticle = new AbstractVerticle() {
-    //  @Override
-    //  public void start(Future<Void> startFuture) {
-        /*this.vertx = super.vertx;
-        this.context = super.context;
-        this.start(startFuture);*/
-    //  }
+    /*Verticle verticle = new AbstractVerticle() {
+      @Override
+      public void start(Future<Void> startFuture) throws Exception{
+        super.start(startFuture);
+        startFuture.complete();
+      }
 
-    //  @Override
-    //  public void stop(Future<Void> stopFuture) {
-    //    //this.stop(stopFuture);
-    //  }
-    //};
+      @Override
+      public void stop(Future<Void> stopFuture) throws Exception{
+        //this.stop(stopFuture);
+        super.stop();
+        stopFuture.complete();
+      }
+    };*/
 
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
@@ -157,7 +158,7 @@ public class DeploymentTest{
     ScriptVerticle verticle = new ScriptVerticle(script);
     assertDeploy((vertx, onDeploy) ->
         vertx.deployVerticle(
-            verticle,
+          verticle,
             onDeploy));
     assertTrue(isStarted());
     assertTrue(isStopped());

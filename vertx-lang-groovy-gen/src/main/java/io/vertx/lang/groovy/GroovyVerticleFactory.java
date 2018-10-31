@@ -99,15 +99,13 @@ public class GroovyVerticleFactory implements VerticleFactory {
     if (instance instanceof AbstractVerticle) {
       verticle = new AbstractVerticle() {
         @Override
-        public void start(Future<Void> startFuture) {
-          /*this.vertx = super.vertx;
-          this.context = super.context;
-          this.start(startFuture);*/
+        public void start(Future<Void> startFuture) throws Exception{
+          super.start(startFuture);
         }
 
         @Override
-        public void stop(Future<Void> stopFuture) {
-          //this.stop(stopFuture);
+        public void stop(Future<Void> stopFuture) throws Exception{
+          super.stop(stopFuture);
         }
       };
       //verticle = ((GroovyVerticle) instance).asJavaVerticle();
