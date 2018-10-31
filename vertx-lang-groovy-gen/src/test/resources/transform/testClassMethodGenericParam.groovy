@@ -1,6 +1,6 @@
 package transform
 
-import io.vertx.groovy.core.eventbus.Message
+import io.vertx.core.eventbus.Message
 import io.vertx.core.AbstractVerticle
 
 class testClassMethodGenericParam extends AbstractVerticle {

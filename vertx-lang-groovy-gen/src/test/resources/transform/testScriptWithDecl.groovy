@@ -1,7 +1,7 @@
-package transform;
+package transform
 
-import io.vertx.groovy.core.Vertx;
+import io.vertx.core.Vertx
 
-Vertx vertx_ = vertx;
+Vertx vertx_ = vertx
 
-vertx_.eventBus().send("the-address", true);
+vertx_.eventBus().send("the-address", true)

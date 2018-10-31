@@ -1,6 +1,10 @@
 package io.vertx.lang.groovy;
 
+import groovy.lang.GroovyClassLoader;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
+import junit.framework.AssertionFailedError;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -197,12 +201,26 @@ public class TransformTest {
     vertx.eventBus().localConsumer("the-address", msg -> {
       fut.complete(null);
     });
-    vertx.deployVerticle("transform/" + name.getMethodName() + ".groovy", ar -> {
-      if (ar.failed()) {
-        fut.completeExceptionally(ar.cause());
-      }
-    });
-    fut.get(20, TimeUnit.SECONDS);
+
+    if(name.getMethodName().contains("Script")) {
+      vertx.deployVerticle("transform/" + name.getMethodName() + ".groovy", ar -> {
+
+        if (ar.failed()) {
+          fut.completeExceptionally(ar.cause());
+        }
+      });
+      fut.get(20, TimeUnit.SECONDS);
+    } else {
+      Class clazz = new GroovyClassLoader().loadClass(("transform." + name.getMethodName()));
+      Verticle verticle = (AbstractVerticle) clazz.newInstance();
+      vertx.deployVerticle(verticle, ar -> {
+
+        if (ar.failed()) {
+          fut.completeExceptionally(ar.cause());
+        }
+      });
+      fut.get(20, TimeUnit.SECONDS);
+    }
   }
 
 }

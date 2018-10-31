@@ -1,12 +1,12 @@
-package transform;
+package transform
 
-import io.vertx.groovy.core.Vertx
+import io.vertx.core.Vertx
 
-def Vertx vertx_ = vertx;
+Vertx vertx_ = vertx
 
 def closure = {
-  def v = vertx;
-  vertx = v;
+  def v = vertx
+  vertx = v
   vertx_.eventBus().send("the-address", true)
 }
 

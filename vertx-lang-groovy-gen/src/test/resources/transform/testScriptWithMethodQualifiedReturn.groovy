@@ -1,7 +1,7 @@
-package transform;
+package transform
 
-io.vertx.groovy.core.Vertx theMethod() {
-  return vertx;
+io.vertx.core.Vertx theMethod() {
+  return vertx
 }
 
-theMethod().eventBus().send("the-address", true);
+theMethod().eventBus().send("the-address", true)
