@@ -69,6 +69,7 @@ public class ServiceProxiesTest {
     HelloService svc = new HelloServiceImpl("stuff");
     ServiceBinder sb = new ServiceBinder(vertx);
     //ProxyHelper.registerService(HelloService.class, vertx, svc, "address");
+    sb.setAddress("address");
     sb.register(HelloService.class, svc);
     Record record = EventBusService.createRecord("Hello", "address", HelloService.class);
 
@@ -100,6 +101,7 @@ public class ServiceProxiesTest {
     HelloService svc = new HelloServiceImpl("stuff");
     ServiceBinder sb = new ServiceBinder(vertx);
     //ProxyHelper.registerService(HelloService.class, vertx, svc, "address");
+    sb.setAddress("address");
     sb.register(HelloService.class,svc);
     Record record = EventBusService.createRecord("Hello", "address", HelloService.class);
 
