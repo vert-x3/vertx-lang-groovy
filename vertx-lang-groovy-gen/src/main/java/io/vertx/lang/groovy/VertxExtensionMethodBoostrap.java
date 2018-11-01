@@ -42,22 +42,34 @@ public class VertxExtensionMethodBoostrap {
         HashMap<CachedClass, List<MetaMethod>> map = new HashMap<>();
         
             try {
-              ScanResult result = new ClassGraph().enableAllInfo().whitelistPackages("io.vertx.groovy.codegen.testmodel").scan();
+              ScanResult result = new ClassGraph().enableAllInfo().scan();
               ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
-              ClassInfo info = infolist.get("io.vertx.groovy.codegen.testmodel.VertxExtensionModule");
+              List<Class<?>> lvem = infolist.loadClasses();
+              //ClassInfo info = infolist.get("io.vertx.groovy.codegen.testmodel.VertxExtensionModule");
               //ClassInfo info = result.getClassInfo("io.vertx.groovy.codegen.testmodel.VertxExtensionModule");
-              ExtensionModule module = (ExtensionModule) info.loadClass().getDeclaredConstructor().newInstance();
-
-              System.out.println("Resultado eh: " + info.getName());
-              if (!moduleRegistry.hasModule(module.getName())) {
-                moduleRegistry.addModule(module);
-                for (MetaMethod metaMethod : module.getMetaMethods()) {
-                  List<MetaMethod> metaMethods = map.computeIfAbsent(metaMethod.getDeclaringClass(), k -> new ArrayList<>());
-                  metaMethods.add(metaMethod);
-                  FastArray methods = metaMethod.isStatic() ? registryImpl.getStaticMethods() : registryImpl.getInstanceMethods();
-                  methods.add(metaMethod);
+              System.out.println("Resultado eh: " + infolist);
+              lvem.forEach(item->{
+                if(item.getClass().getSimpleName()=="VertxExtensionModule") {
+                  try {
+                    ExtensionModule module = (ExtensionModule) item.newInstance();
+                    System.out.println("Module: " + module.getClass().getName());
+                    if (!moduleRegistry.hasModule(module.getName())) {
+                      moduleRegistry.addModule(module);
+                      for (MetaMethod metaMethod : module.getMetaMethods()) {
+                        List<MetaMethod> metaMethods = map.computeIfAbsent(metaMethod.getDeclaringClass(), k -> new ArrayList<>());
+                        metaMethods.add(metaMethod);
+                        FastArray methods = metaMethod.isStatic() ? registryImpl.getStaticMethods() : registryImpl.getInstanceMethods();
+                        methods.add(metaMethod);
+                      }
+                    }
+                  } catch (InstantiationException e) {
+                    e.printStackTrace();
+                  } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                  }
                 }
-              }
+              });
+
             } catch (Exception e) {
               e.printStackTrace();
             }
