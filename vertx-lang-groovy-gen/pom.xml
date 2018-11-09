@@ -11,7 +11,7 @@
 
   <artifactId>vertx-lang-groovy-gen</artifactId>
 
-  <name>Vert.x Groovy Language Support</name>
+  <name>Vert.x Groovy Language Generator</name>
 
   <dependencies>
 
