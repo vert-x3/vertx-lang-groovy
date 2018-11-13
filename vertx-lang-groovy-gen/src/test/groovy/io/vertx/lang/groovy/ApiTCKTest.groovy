@@ -129,26 +129,21 @@ class ApiTCKTest {
 
   @Test
   void testDataObjectParam() {
-    JsonObject jobj = new JsonObject()
-    jobj.put("foo","hello")
-    jobj.put("bar",123)
-    jobj.put("wibble",1.23)
 
     def dataObject = [
       foo: "hello",
       bar: 123,
       wibble: 1.23
-    ]
-    obj.methodWithDataObjectParam(jobj)
+    ] as TestDataObject
+    obj.methodWithDataObjectParam(dataObject)
     def hell = "hell"
-    jobj.remove("foo")
-    jobj.put("foo","${hell}o")
+
     dataObject = [
         foo: "${hell}o",
         bar: 123,
         wibble: 1.23
-    ]
-    obj.methodWithDataObjectParam(jobj)
+    ] as TestDataObject
+    obj.methodWithDataObjectParam(dataObject)
   }
 
   @Test
@@ -371,14 +366,25 @@ class ApiTCKTest {
 
   @Test
   void testMethodWithGenericParam() {
+    JsonObject jobj = new JsonObject()
+    jobj.put("foo","hello")
+    jobj.put("bar",123)
+    JsonArray ja = new JsonArray(["foo", "bar", "wib"])
     obj.methodWithGenericParam("String", "foo")
     obj.methodWithGenericParam("Ref", new RefedInterface1Impl().setString("bar"))
-    obj.methodWithGenericParam("JsonObject", [foo:"hello","bar":123])
-    obj.methodWithGenericParam("JsonArray", ["foo", "bar", "wib"])
+    obj.methodWithGenericParam("JsonObject", jobj)
+    obj.methodWithGenericParam("JsonArray", ja)
   }
 
   @Test
   void testMethodWithGenericHandler() {
+    JsonObject jobj = new JsonObject()
+    jobj.put("foo","hello")
+    jobj.put("bar",123)
+    JsonArray ja = new JsonArray(["foo", "bar", "wib"])
+    JsonObject jobjc = new JsonObject()
+    jobjc.put("outer",[foo: "hello"])
+    jobjc.put("bar",["this", "that"])
     def count = 0
     obj.methodWithGenericHandler("String", {
       assertEquals("foo", it)
@@ -394,18 +400,18 @@ class ApiTCKTest {
     assertEquals(1, count)
     count = 0
     obj.methodWithGenericHandler("JsonObject", {
-      assertEquals([foo:"hello","bar":123], it)
+      assertEquals(jobj, it)
       count++
     })
     assertEquals(1, count)
     count = 0
     obj.methodWithGenericHandler("JsonArray", {
-      assertEquals(["foo", "bar", "wib"], it)
+      assertEquals(ja, it)
       count++
     })
     count = 0
     obj.methodWithGenericHandler("JsonObjectComplex", {
-      assertEquals([outer: [foo: "hello"], bar: ["this", "that"]], it)
+      assertEquals(jobjc, it)
       count++
     })
     assertEquals(1, count)
@@ -413,6 +419,13 @@ class ApiTCKTest {
 
   @Test
   void testMethodWithGenericHandlerAsyncResult() {
+    JsonObject jobj = new JsonObject()
+    jobj.put("foo","hello")
+    jobj.put("bar",123)
+    JsonArray ja = new JsonArray(["foo", "bar", "wib"])
+    JsonObject jobjc = new JsonObject()
+    jobjc.put("outer",[foo: "hello"])
+    jobjc.put("bar",["this", "that"])
     def checker = new AsyncResultChecker()
     obj.methodWithGenericHandlerAsyncResult("String", {
       checker.assertAsyncResult("foo", it)
@@ -426,17 +439,17 @@ class ApiTCKTest {
     assertEquals(1, checker.count)
     checker = new AsyncResultChecker()
     obj.methodWithGenericHandlerAsyncResult("JsonObject", {
-      checker.assertAsyncResult([foo:"hello","bar":123], it)
+      checker.assertAsyncResult(jobj, it)
     })
     assertEquals(1, checker.count)
     checker = new AsyncResultChecker()
     obj.methodWithGenericHandlerAsyncResult("JsonObjectComplex", {
-      checker.assertAsyncResult([outer: [foo: "hello"], bar: ["this", "that"]], it)
+      checker.assertAsyncResult(jobjc, it)
     })
     assertEquals(1, checker.count)
     checker = new AsyncResultChecker()
     obj.methodWithGenericHandlerAsyncResult("JsonArray", {
-      checker.assertAsyncResult(["foo", "bar", "wib"], it)
+      checker.assertAsyncResult(ja, it)
     })
     assertEquals(1, checker.count)
   }
@@ -478,7 +491,7 @@ class ApiTCKTest {
 
   @Test
   void testDataObjectReturn() {
-    Map<String, Object> r = obj.methodWithDataObjectReturn()
+    TestDataObject r = obj.methodWithDataObjectReturn()
     assertEquals("foo", r.foo)
     assertEquals(123, r.bar)
   }
@@ -513,12 +526,16 @@ class ApiTCKTest {
 
   @Test
   void testMethodWithGenericReturn() {
+    JsonObject jobj = new JsonObject()
+    jobj.put("foo","hello")
+    jobj.put("bar",123)
+    JsonArray ja = new JsonArray(["foo","bar","wib"])
     def ret = obj.methodWithGenericReturn("JsonObject")
-    assertTrue("Was expecting " + ret + " to implement Map", ret instanceof Map)
-    assertEquals([foo:"hello",bar:123], ret)
+    assertTrue("Was expecting " + ret + " to implement Map", ret instanceof JsonObject)
+    assertEquals(jobj, ret)
     ret = obj.methodWithGenericReturn("JsonArray")
-    assertTrue("Was expecting " + ret + " to implement List", ret instanceof List)
-    assertEquals(["foo","bar","wib"], ret)
+    assertTrue("Was expecting " + ret + " to implement List", ret instanceof JsonArray)
+    assertEquals(ja, ret)
   }
 
   @Test
@@ -535,10 +552,13 @@ class ApiTCKTest {
 
   @Test
   void testJsonReturns() {
+    JsonObject jobj = new JsonObject()
+    jobj.put("cheese","stilton")
+    JsonArray ja = new JsonArray(["socks","shoes"])
     def ret = obj.methodWithJsonObjectReturn()
-    assertEquals([cheese:"stilton"], ret)
+    assertEquals(jobj, ret)
     ret = obj.methodWithJsonArrayReturn()
-    assertEquals(["socks", "shoes"], ret)
+    assertEquals(ja, ret)
   }
 
   @Test
@@ -551,15 +571,25 @@ class ApiTCKTest {
 
   @Test
   void testComplexJsonReturns() {
+    JsonObject jobj = new JsonObject()
+    jobj.put("outer",[socks: "tartan"])
+    jobj.put("list",["yellow", "blue"])
+    JsonArray ja = new JsonArray([[foo: "hello"], [bar: "bye"]])
     def ret = obj.methodWithComplexJsonObjectReturn()
-    assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], ret)
+    //assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], ret)
+    assertEquals(jobj, ret)
     ret = obj.methodWithComplexJsonArrayReturn()
-    assertEquals([[foo: "hello"], [bar: "bye"]], ret)
+    //assertEquals([[foo: "hello"], [bar: "bye"]], ret)
+    assertEquals(ja, ret)
   }
 
   @Test
   void testJsonParams() {
-    obj.methodWithJsonParams([cat:"lion",cheese:"cheddar"], ["house","spider"])
+    JsonObject jobj = new JsonObject()
+    jobj.put("cat","lion")
+    jobj.put("cheese","cheddar")
+    JsonArray ja = new JsonArray(["house","spider"])
+    obj.methodWithJsonParams(jobj, ja)
   }
 
   @Test
@@ -570,11 +600,16 @@ class ApiTCKTest {
   @Test
   void testJsonHandlerParams() {
     def count = 0
+    JsonObject jobj = new JsonObject()
+    jobj.put("cheese","stilton")
+    JsonArray ja = new JsonArray(["socks","shoes"])
     obj.methodWithHandlerJson({
-      assertEquals([cheese:"stilton"], it)
+      //assertEquals([cheese:"stilton"], it)
+      assertEquals(jobj, it)
       count++
     }, {
-      assertEquals(["socks","shoes"], it)
+      //assertEquals(["socks","shoes"], it)
+      assertEquals(ja, it)
       count++
     })
     assertEquals(2, count)
@@ -583,11 +618,15 @@ class ApiTCKTest {
   @Test
   void testComplexJsonHandlerParams() {
     def count = 0
+    JsonObject jobj = new JsonObject()
+    jobj.put("outer",[socks: "tartan"])
+    jobj.put("list",["yellow", "blue"])
+    JsonArray ja = new JsonArray([[[foo: "hello"]], [[bar: "bye"]]])
     obj.methodWithHandlerComplexJson({
-      assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], it)
+      assertEquals(jobj, it)
       count++
     }, {
-      assertEquals([[[foo: "hello"]], [[bar: "bye"]]], it)
+      assertEquals(ja, it)
       count++
     })
     assertEquals(2, count)
@@ -622,12 +661,18 @@ class ApiTCKTest {
 
   @Test
   void testComplexJsonHandlerAsyncResultParams() {
+    JsonObject jobj = new JsonObject()
+    JsonArray ja = new JsonArray([[foo: "hello"], [bar: "bye"]])
+    jobj.put("outer",[socks: "tartan"])
+    jobj.put("list",["yellow", "blue"])
     def checker = new AsyncResultChecker()
     obj.methodWithHandlerAsyncResultComplexJsonObject({
-      checker.assertAsyncResult([outer: [socks: "tartan"], list: ["yellow", "blue"]], it)
+      //checker.assertAsyncResult([outer: [socks: "tartan"], list: ["yellow", "blue"]], it)
+      checker.assertAsyncResult(jobj, it)
     })
     obj.methodWithHandlerAsyncResultComplexJsonArray({
-      checker.assertAsyncResult([[foo: "hello"], [bar: "bye"]], it)
+      //checker.assertAsyncResult([[foo: "hello"], [bar: "bye"]], it)
+      checker.assertAsyncResult(ja, it)
     })
     assertEquals(2, checker.count)
   }

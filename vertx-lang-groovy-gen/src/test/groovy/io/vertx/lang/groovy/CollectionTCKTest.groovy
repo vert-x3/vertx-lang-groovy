@@ -3,7 +3,10 @@ package io.vertx.lang.groovy;
 import io.vertx.codegen.testmodel.CollectionTCKImpl;
 import io.vertx.codegen.testmodel.RefedInterface1Impl
 import io.vertx.codegen.testmodel.TestDataObject
-import io.vertx.codegen.testmodel.TestEnum;
+import io.vertx.codegen.testmodel.TestEnum
+import io.vertx.core.json.Json
+import io.vertx.core.json.JsonArray
+import io.vertx.core.json.JsonObject;
 import io.vertx.groovy.codegen.testmodel.CollectionTCK;
 import io.vertx.groovy.codegen.testmodel.RefedInterface1
 import io.vertx.groovy.codegen.testmodel.RefedInterface2;
@@ -15,7 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -37,40 +41,43 @@ public class CollectionTCKTest {
 
   @Test
   public void testListJsonObjectReturn() {
-    List<Map<String, Object>> list = obj.methodWithListJsonObjectReturn();
+    List<JsonObject> list = obj.methodWithListJsonObjectReturn();
     assertEquals(2, list.size());
-    Map<String, Object> json1 = list.get(0);
-    assertEquals("bar", json1.get("foo"));
-    Map<String, Object> json2 = list.get(1);
-    assertEquals("eek", json2.get("blah"));
+    JsonObject json1 = list.get(0);
+    assertEquals("bar", json1.getValue("foo"));
+    JsonObject json2 = list.get(1);
+    assertEquals("eek", json2.getValue("blah"));
   }
 
   @Test
   public void testListComplexJsonObjectReturn() {
-    List<Map<String, Object>> list = obj.methodWithListComplexJsonObjectReturn();
+    JsonObject jo = new JsonObject().put("socks", "tartan")
+    JsonArray ja = new JsonArray(["yellow","blue"])
+    JsonObject jo2 = new JsonObject().put("outer",jo).put("list",ja)
+    List<JsonObject> list = obj.methodWithListComplexJsonObjectReturn();
     assertEquals(1, list.size());
-    Map<String, Object> json1 = list.get(0);
-    assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], json1);
+    JsonObject json1 = list.get(0);
+    assertEquals(jo2, json1);
   }
 
   @Test
   public void testListJsonArrayReturn() {
-    List<List<Object>> list = obj.methodWithListJsonArrayReturn();
+    List<JsonArray> list = obj.methodWithListJsonArrayReturn();
     assertEquals(2, list.size());
-    List<Object> json1 = list.get(0);
-    assertEquals("foo", json1.get(0));
-    List<Object> json2 = list.get(1);
-    assertEquals("blah", json2.get(0));
+    JsonArray json1 = list.get(0);
+    assertEquals("foo", json1.getValue(0));
+    JsonArray json2 = list.get(1);
+    assertEquals("blah", json2.getValue(0));
   }
 
   @Test
   public void testListComplexJsonArrayReturn() {
-    List<List<Object>> list = obj.methodWithListComplexJsonArrayReturn();
+    List<JsonArray> list = obj.methodWithListComplexJsonArrayReturn();
     assertEquals(2, list.size());
-    List<Object> json1 = list.get(0);
-    assertEquals([[foo: "hello"]], json1);
-    List<Object> json2 = list.get(1);
-    assertEquals([[bar: "bye"]], json2);
+    JsonArray json1 = list.get(0);
+    assertEquals(new JsonArray().add(new JsonObject().put("foo","hello")), json1);
+    JsonArray json2 = list.get(1);
+    assertEquals(new JsonArray().add(new JsonObject().put("bar","bye")), json2);
   }
 
   @Test
@@ -86,12 +93,12 @@ public class CollectionTCKTest {
 
   @Test
   public void testListDataObjectReturn() {
-    List<Map<String, Object>> list = obj.methodWithListDataObjectReturn();
-    assertTrue(list[0] instanceof Map);
+    List<TestDataObject> list = obj.methodWithListDataObjectReturn();
+    assertTrue(list[0] instanceof TestDataObject);
     assertEquals("String 1", list[0].foo);
     assertEquals(1, list[0].bar);
     assertEquals(1.1, list[0].wibble, 0);
-    assertTrue(list[1] instanceof Map);
+    assertTrue(list[1] instanceof TestDataObject);
     assertEquals("String 2", list[1].foo);
     assertEquals(2, list[1].bar);
     assertEquals(2.2, list[1].wibble, 0);
@@ -109,41 +116,46 @@ public class CollectionTCKTest {
 
   @Test
   public void testSetJsonObjectReturn() {
-    Set<Map<String, Object>> set = obj.methodWithSetJsonObjectReturn();
+    Set<JsonObject> set = obj.methodWithSetJsonObjectReturn();
     assertEquals(2, set.size());
-    Map<String, Object> json1 = new HashMap<>();
+    JsonObject json1 = new JsonObject();
     json1.put("foo", "bar");
     assertTrue(set.contains(json1));
-    Map<String, Object> json2 = new HashMap<>();
+    JsonObject json2 = new JsonObject();
     json2.put("blah", "eek");
     assertTrue(set.contains(json2));
   }
 
   @Test
   public void testSetComplexJsonObjectReturn() {
-    Set<Map<String, Object>> set = obj.methodWithSetComplexJsonObjectReturn();
+    Set<JsonObject> set = obj.methodWithSetComplexJsonObjectReturn();
+    JsonObject jo = new JsonObject().put("socks", "tartan")
+    JsonArray ja = new JsonArray(["yellow","blue"])
+    JsonObject jo2 = new JsonObject().put("outer",jo).put("list",ja)
     assertEquals(1, set.size());
-    assertTrue(set.contains([outer: [socks: "tartan"], list: ["yellow", "blue"]]));
+    assertTrue(set.contains(jo2));
   }
 
   @Test
   public void testSetJsonArrayReturn() {
-    Set<List<Object>> set = obj.methodWithSetJsonArrayReturn();
+    Set<JsonArray> set = obj.methodWithSetJsonArrayReturn();
     assertEquals(2, set.size());
-    List<Object> json1 = new ArrayList<>();
+    JsonArray json1 = new JsonArray();
     json1.add("foo");
     assertTrue(set.contains(json1));
-    List<Object> json2 = new ArrayList<>();
+    JsonArray json2 = new JsonArray();
     json2.add("blah");
     assertTrue(set.contains(json2));
   }
 
   @Test
   public void testSetComplexJsonArrayReturn() {
-    Set<List<Object>> set = obj.methodWithSetComplexJsonArrayReturn();
+    Set<JsonArray> set = obj.methodWithSetComplexJsonArrayReturn();
+    JsonArray ja = new JsonArray().add(new JsonObject().put("foo","hello"))
+    JsonArray ja2 = new JsonArray().add(new JsonObject().put("bar","bye"))
     assertEquals(2, set.size());
-    assertTrue(set.contains([[foo: "hello"]]));
-    assertTrue(set.contains([[bar: "bye"]]));
+    assertTrue(set.contains(ja));
+    assertTrue(set.contains(ja2));
   }
 
   @Test
@@ -160,10 +172,12 @@ public class CollectionTCKTest {
 
   @Test
   public void testSetDataObjectReturn() {
-    Set<Map<String, Object>> set = obj.methodWithSetDataObjectReturn();
+    def set = obj.methodWithSetDataObjectReturn();
     assertEquals(2, set.size());
-    assertTrue(set.contains([foo:"String 1",bar: 1,wibble: 1.1d]));
-    assertTrue(set.contains([foo:"String 2",bar: 2,wibble: 2.2d]));
+    def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1d])
+    def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2d])
+    assertTrue(set.contains(tdo));
+    assertTrue(set.contains(tdo2));
   }
 
   @Test
@@ -180,30 +194,33 @@ public class CollectionTCKTest {
 
   @Test
   public void testMapJsonObjectReturn() {
-    Map<String, Map<String, Object>> map = obj.methodWithMapJsonObjectReturn({});
-    Map<String, Object> m = map.get("foo");
-    assertEquals("eek", m.get("wibble"));
+    Map<String, JsonObject> map = obj.methodWithMapJsonObjectReturn({});
+    JsonObject m = map.get("foo");
+    assertEquals("eek", m.getValue(("wibble")));
   }
 
   @Test
   public void testMapComplexJsonObjectReturn() {
-    Map<String, Map<String, Object>> map = obj.methodWithMapComplexJsonObjectReturn({});
-    Map<String, Object> m = map.get("foo");
-    assertEquals([outer: [socks: "tartan"], list: ["yellow", "blue"]], m);
+    Map<String, JsonObject> map = obj.methodWithMapComplexJsonObjectReturn({});
+    JsonObject jo = new JsonObject().put("socks", "tartan")
+    JsonArray ja = new JsonArray(["yellow","blue"])
+    JsonObject jo2 = new JsonObject().put("outer",jo).put("list",ja)
+    JsonObject m = map.get("foo");
+    assertEquals(jo2, m);
   }
 
   @Test
   public void testMapJsonArrayReturn() {
-    Map<String, List<Object>> map = obj.methodWithMapJsonArrayReturn({});
-    List<Object> m = map.get("foo");
-    assertEquals("wibble", m.get(0));
+    Map<String, JsonArray> map = obj.methodWithMapJsonArrayReturn({});
+    JsonArray m = map.get("foo");
+    assertEquals("wibble", m.getValue(0));
   }
 
   @Test
   public void testMapComplexJsonArrayReturn() {
-    Map<String, List<Object>> map = obj.methodWithMapComplexJsonArrayReturn({});
-    List<Object> m = map.get("foo");
-    assertEquals([[foo: "hello"], [bar: "bye"]], m);
+    Map<String, JsonArray> map = obj.methodWithMapComplexJsonArrayReturn({});
+    JsonArray m = map.get("foo");
+    assertEquals(new JsonArray().add(new JsonObject().put("foo", "hello")).add(new JsonObject().put("bar", "bye")), m);
   }
 
   @Test
@@ -305,8 +322,10 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerListJsonObject() {
     def count = 0;
+    JsonObject jo = new JsonObject().put("cheese", "stilton")
+    JsonObject jo2 = new JsonObject().put("socks", "tartan")
     obj.methodWithHandlerListJsonObject({
-      assertEquals([[cheese:"stilton"],[socks:"tartan"]], it);
+      assertEquals([jo,jo2], it);
       count++;
     });
     assertEquals(1, count)
@@ -315,9 +334,11 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerListComplexJsonObject() {
     def count = 0;
-
+    JsonObject jo = new JsonObject().put("socks", "tartan")
+    JsonArray ja = new JsonArray(["yellow","blue"])
+    JsonObject jo2 = new JsonObject().put("outer",jo).put("list",ja)
     obj.methodWithHandlerListComplexJsonObject({
-      assertEquals([[outer: [socks: "tartan"], list: ["yellow", "blue"]]], it);
+      assertEquals([jo2], it);
       count++;
     });
     assertEquals(1, count)
@@ -327,7 +348,7 @@ public class CollectionTCKTest {
   public void testMethodWithHandlerAsyncResultListJsonObject() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListJsonObject({
-      checker.assertAsyncResult([[cheese:"stilton"],[socks:"tartan"]], it)
+      checker.assertAsyncResult([new JsonObject().put("cheese", "stilton"), new JsonObject().put("socks", "tartan")], it)
     })
     assertEquals(1, checker.count);
   }
@@ -335,8 +356,11 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerAsyncResultListComplexJsonObject() {
     def checker = new AsyncResultChecker();
+    JsonObject jo = new JsonObject().put("socks", "tartan")
+    JsonArray ja = new JsonArray(["yellow","blue"])
+    JsonObject jo2 = new JsonObject().put("outer",jo).put("list",ja)
     obj.methodWithHandlerAsyncResultListComplexJsonObject({
-      checker.assertAsyncResult([[outer: [socks: "tartan"], list: ["yellow", "blue"]]], it)
+      checker.assertAsyncResult([jo2], it)
     })
     assertEquals(1, checker.count);
   }
@@ -344,8 +368,10 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerSetJsonObject() {
     def count = 0;
+    JsonObject jo = new JsonObject().put("cheese", "stilton")
+    JsonObject jo2 = new JsonObject().put("socks", "tartan")
     obj.methodWithHandlerSetJsonObject({
-      assertEquals([[cheese:"stilton"],[socks:"tartan"]] as Set, it);
+      assertEquals([jo,jo2] as Set, it);
       count++;
     });
     assertEquals(1, count)
@@ -354,8 +380,11 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerSetComplexJsonObject() {
     def count = 0;
+    JsonObject jo = new JsonObject().put("socks", "tartan")
+    JsonArray ja = new JsonArray(["yellow","blue"])
+    JsonObject jo2 = new JsonObject().put("outer",jo).put("list",ja)
     obj.methodWithHandlerSetComplexJsonObject({
-      assertEquals([[outer: [socks: "tartan"], list: ["yellow", "blue"]]] as Set, it);
+      assertEquals([jo2] as Set, it);
       count++;
     });
     assertEquals(1, count)
@@ -364,8 +393,10 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerAsyncResultSetJsonObject() {
     def checker = new AsyncResultChecker();
+    JsonObject jo = new JsonObject().put("cheese", "stilton")
+    JsonObject jo2 = new JsonObject().put("socks", "tartan")
     obj.methodWithHandlerAsyncResultSetJsonObject({
-      checker.assertAsyncResult([[cheese:"stilton"],[socks:"tartan"]] as Set, it)
+      checker.assertAsyncResult([jo,jo2] as Set, it)
     })
     assertEquals(1, checker.count);
   }
@@ -373,8 +404,11 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerAsyncResultSetComplexJsonObject() {
     def checker = new AsyncResultChecker();
+    JsonObject jo = new JsonObject().put("socks", "tartan")
+    JsonArray ja = new JsonArray(["yellow","blue"])
+    JsonObject jo2 = new JsonObject().put("outer",jo).put("list",ja)
     obj.methodWithHandlerAsyncResultSetComplexJsonObject({
-      checker.assertAsyncResult([[outer: [socks: "tartan"], list: ["yellow", "blue"]]] as Set, it)
+      checker.assertAsyncResult([jo2] as Set, it)
     })
     assertEquals(1, checker.count);
   }
@@ -383,7 +417,7 @@ public class CollectionTCKTest {
   public void testMethodWithHandlerListJsonArray() {
     def count = 0;
     obj.methodWithHandlerListJsonArray({
-      assertEquals([["green","blue"],["yellow","purple"]], it);
+      assertEquals([new JsonArray(["green","blue"]),new JsonArray(["yellow","purple"])], it);
       count++;
     });
     assertEquals(1, count)
@@ -393,7 +427,7 @@ public class CollectionTCKTest {
   public void testMethodWithHandlerListComplexJsonArray() {
     def count = 0;
     obj.methodWithHandlerListComplexJsonArray({
-      assertEquals([[[foo: "hello"]], [[bar: "bye"]]], it);
+      assertEquals([new JsonArray().add(new JsonObject().put("foo", "hello")), new JsonArray().add(new JsonObject().put("bar", "bye"))], it);
       count++;
     });
     assertEquals(1, count)
@@ -403,11 +437,11 @@ public class CollectionTCKTest {
   public void testMethodWithHandlerListDataObject() {
     def count = 0
     obj.methodWithHandlerListDataObject({
-      assertTrue(it[0] instanceof Map);
+      assertTrue(it[0] instanceof TestDataObject);
       assertEquals("String 1", it[0].foo);
       assertEquals(1, it[0].bar);
       assertEquals(1.1, it[0].wibble, 0);
-      assertTrue(it[1] instanceof Map);
+      assertTrue(it[1] instanceof TestDataObject);
       assertEquals("String 2", it[1].foo);
       assertEquals(2, it[1].bar);
       assertEquals(2.2, it[1].wibble, 0);
@@ -421,8 +455,8 @@ public class CollectionTCKTest {
     def count = 0
     obj.methodWithHandlerSetDataObject({
       assertEquals(2, it.size());
-      assertTrue(it.contains([foo:"String 1",bar: 1,wibble: 1.1d]));
-      assertTrue(it.contains([foo:"String 2",bar: 2,wibble: 2.2d]));
+      assertTrue(it.contains([foo:"String 1",bar: 1,wibble: 1.1d] as TestDataObject));
+      assertTrue(it.contains([foo:"String 2",bar: 2,wibble: 2.2d] as TestDataObject));
       count++;
     });
     assertEquals(1, count);
@@ -432,7 +466,7 @@ public class CollectionTCKTest {
   public void testMethodWithHandlerAsyncResultListJsonArray() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultListJsonArray({
-      checker.assertAsyncResult([["green","blue"],["yellow","purple"]], it)
+      checker.assertAsyncResult([new JsonArray(["green","blue"]),new JsonArray(["yellow","purple"])], it)
     });
     assertEquals(1, checker.count);
   }
@@ -440,8 +474,10 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerAsyncResultListComplexJsonArray() {
     def checker = new AsyncResultChecker();
+    JsonArray ja = new JsonArray().add(new JsonObject().put("foo","hello"))
+    JsonArray ja2 = new JsonArray().add(new JsonObject().put("bar","bye"))
     obj.methodWithHandlerAsyncResultListComplexJsonArray({
-      checker.assertAsyncResult([[[foo: "hello"]], [[bar: "bye"]]], it)
+      checker.assertAsyncResult([ja, ja2], it)
     });
     assertEquals(1, checker.count);
   }
@@ -449,8 +485,10 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerSetJsonArray() {
     def count = 0;
+    JsonArray ja = new JsonArray(["green","blue"])
+    JsonArray ja2 = new JsonArray(["yellow","purple"])
     obj.methodWithHandlerSetJsonArray({
-      assertEquals([["green","blue"],["yellow","purple"]] as Set, it);
+      assertEquals([ja,ja2] as Set, it);
       count++;
     });
     assertEquals(1, count)
@@ -459,8 +497,10 @@ public class CollectionTCKTest {
   @Test
   public void testMethodWithHandlerSetComplexJsonArray() {
     def count = 0;
+    JsonArray ja = new JsonArray().add(new JsonObject().put("foo","hello"))
+    JsonArray ja2 = new JsonArray().add(new JsonObject().put("bar","bye"))
     obj.methodWithHandlerSetComplexJsonArray({
-      assertEquals([[[foo: "hello"]], [[bar: "bye"]]] as Set, it);
+      assertEquals([ja,ja2] as Set, it);
       count++;
     });
     assertEquals(1, count)
@@ -470,16 +510,18 @@ public class CollectionTCKTest {
   public void testMethodWithHandlerAsyncResultSetJsonArray() {
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetJsonArray({
-      checker.assertAsyncResult([["green","blue"],["yellow","purple"]] as Set, it)
+      checker.assertAsyncResult([new JsonArray(["green","blue"]),new JsonArray(["yellow","purple"])] as Set, it)
     });
     assertEquals(1, checker.count);
   }
 
   @Test
   public void testMethodWithHandlerAsyncResultSetComplexJsonArray() {
+    JsonArray ja = new JsonArray().add(new JsonObject().put("foo","hello"))
+    JsonArray ja2 = new JsonArray().add(new JsonObject().put("bar","bye"))
     def checker = new AsyncResultChecker();
     obj.methodWithHandlerAsyncResultSetComplexJsonArray({
-      checker.assertAsyncResult([[[foo: "hello"]], [[bar: "bye"]]] as Set, it)
+      checker.assertAsyncResult([ja,ja2] as Set, it)
     });
     assertEquals(1, checker.count);
   }
@@ -489,11 +531,11 @@ public class CollectionTCKTest {
     def count = 0
     obj.methodWithHandlerAsyncResultListDataObject({
       List<TestDataObject> result = it.result();
-      assertTrue(result[0] instanceof Map);
+      assertTrue(result[0] instanceof TestDataObject);
       assertEquals("String 1", result[0].foo);
       assertEquals(1, result[0].bar);
       assertEquals(1.1, result[0].wibble, 0);
-      assertTrue(result[1] instanceof Map);
+      assertTrue(result[1] instanceof TestDataObject);
       assertEquals("String 2", result[1].foo);
       assertEquals(2, result[1].bar);
       assertEquals(2.2, result[1].wibble, 0);
@@ -507,8 +549,8 @@ public class CollectionTCKTest {
     def count = 0
     obj.methodWithHandlerAsyncResultSetDataObject({
       assertEquals(2, it.result().size());
-      assertTrue(it.result().contains([foo:"String 1",bar: 1,wibble: 1.1d]));
-      assertTrue(it.result().contains([foo:"String 2",bar: 2,wibble: 2.2d]));
+      assertTrue(it.result().contains(new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1d])));
+      assertTrue(it.result().contains(new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2d])));
       count++;
     });
     assertEquals(1, count);
@@ -520,10 +562,12 @@ public class CollectionTCKTest {
     refed1.setString("foo")
     RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
+    def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1d])
+    def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2d])
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
-        (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
-        (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2],
-        (List<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (List<TestEnum>)[TestEnum.JULIEN, TestEnum.TIM])
+        (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<JsonObject>)[new JsonObject().put("foo","bar"), new JsonObject().put("eek","wibble")],
+        (List<JsonArray>)[new JsonArray(["foo"]), new JsonArray(["blah"])], (List<RefedInterface1>)[refed1, refed2],
+        (List<TestDataObject>)[tdo, tdo2], (List<TestEnum>)[TestEnum.JULIEN, TestEnum.TIM])
   }
 
   @Test
@@ -533,9 +577,9 @@ public class CollectionTCKTest {
     RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
-        (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
-        (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2],
-        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN])
+        (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<JsonObject>)[new JsonObject().put("foo","bar"), new JsonObject().put("eek","wibble")],
+        (Set<List<Object>>)[new JsonArray(["foo"]),new JsonArray(["blah"])], (Set<RefedInterface1>)[refed1, refed2],
+        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1] as TestDataObject, [foo:"String 2",bar: 2,wibble: 2.2] as TestDataObject], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN])
   }
 
   @Test
@@ -550,8 +594,8 @@ public class CollectionTCKTest {
         (Map<String, Short>)[foo: (short)12, eek: (short)13],
         (Map<String, Integer>)[foo: 1234, eek: 1345],
         (Map<String, Long>)[foo: 123l, eek: 456l],
-        (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
-        (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]],
+        (Map<String, JsonObject>)[foo: new JsonObject().put("foo", "bar"), eek: new JsonObject().put("eek", "wibble")],
+        (Map<String, JsonArray>)[foo: new JsonArray(["foo"]), eek: new JsonArray(["blah"])],
         (Map<String, RefedInterface1>)[foo: refed1, eek: refed2]
     )
   }

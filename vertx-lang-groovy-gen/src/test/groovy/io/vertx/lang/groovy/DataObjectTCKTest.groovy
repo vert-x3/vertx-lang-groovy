@@ -17,6 +17,9 @@
 package io.vertx.lang.groovy
 
 import io.vertx.codegen.testmodel.DataObjectTCKImpl
+import io.vertx.codegen.testmodel.DataObjectWithNestedBuffer
+import io.vertx.codegen.testmodel.DataObjectWithOnlyJsonObjectConstructor
+import io.vertx.core.json.JsonObject
 import io.vertx.groovy.codegen.testmodel.DataObjectTCK
 import io.vertx.groovy.core.buffer.Buffer
 import org.junit.Test
@@ -30,7 +33,7 @@ public class DataObjectTCKTest {
 
   @Test
   public void testMethodWithOnlyJsonObjectConstructor() {
-    dataObjectTCK.methodWithOnlyJsonObjectConstructorDataObject([foo:"bar"]);
+    dataObjectTCK.methodWithOnlyJsonObjectConstructorDataObject(new DataObjectWithOnlyJsonObjectConstructor(new JsonObject().put("foo","bar")));
   }
 
   @Test
@@ -41,6 +44,6 @@ public class DataObjectTCKTest {
         nested: [
             buffer: Buffer.buffer("Bye World")
         ]
-    ]);
+    ] as DataObjectWithNestedBuffer);
   }
 }
