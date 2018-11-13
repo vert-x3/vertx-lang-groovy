@@ -174,8 +174,8 @@ public class CollectionTCKTest {
   public void testSetDataObjectReturn() {
     def set = obj.methodWithSetDataObjectReturn();
     assertEquals(2, set.size());
-    def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1.toDouble()])
-    def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2.toDouble()])
+    def tdo = new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1)
+    def tdo2 = new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2)
     assertTrue(set.contains(tdo));
     assertTrue(set.contains(tdo2));
   }
