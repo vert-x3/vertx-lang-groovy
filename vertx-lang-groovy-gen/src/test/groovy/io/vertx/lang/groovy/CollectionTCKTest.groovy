@@ -174,8 +174,8 @@ public class CollectionTCKTest {
   public void testSetDataObjectReturn() {
     def set = obj.methodWithSetDataObjectReturn();
     assertEquals(2, set.size());
-    def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1d])
-    def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2d])
+    def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1.toDouble()])
+    def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2.toDouble()])
     assertTrue(set.contains(tdo));
     assertTrue(set.contains(tdo2));
   }
@@ -562,8 +562,8 @@ public class CollectionTCKTest {
     refed1.setString("foo")
     RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
-    def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1d])
-    def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2d])
+    def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1 as Double])
+    def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2 as Double])
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
         (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<JsonObject>)[new JsonObject().put("foo","bar"), new JsonObject().put("eek","wibble")],
         (List<JsonArray>)[new JsonArray(["foo"]), new JsonArray(["blah"])], (List<RefedInterface1>)[refed1, refed2],
@@ -579,7 +579,7 @@ public class CollectionTCKTest {
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
         (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<JsonObject>)[new JsonObject().put("foo","bar"), new JsonObject().put("eek","wibble")],
         (Set<List<Object>>)[new JsonArray(["foo"]),new JsonArray(["blah"])], (Set<RefedInterface1>)[refed1, refed2],
-        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1] as TestDataObject, [foo:"String 2",bar: 2,wibble: 2.2] as TestDataObject], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN])
+        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1] as TestDataObject, [foo:"String 2",bar: 2,wibble: 2.2 as Double] as TestDataObject], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN])
   }
 
   @Test
