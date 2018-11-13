@@ -455,8 +455,8 @@ public class CollectionTCKTest {
     def count = 0
     obj.methodWithHandlerSetDataObject({
       assertEquals(2, it.size());
-      assertTrue(it.contains([foo:"String 1",bar: 1,wibble: 1.1d] as TestDataObject));
-      assertTrue(it.contains([foo:"String 2",bar: 2,wibble: 2.2d] as TestDataObject));
+      assertTrue(it.contains(new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1)));
+      assertTrue(it.contains(new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2)));
       count++;
     });
     assertEquals(1, count);
