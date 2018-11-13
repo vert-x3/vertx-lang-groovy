@@ -523,7 +523,9 @@ public class CollectionTCKTest {
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
         (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
         (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2],
-        (List<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (List<TestEnum>)[TestEnum.JULIEN, TestEnum.TIM])
+        (List<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (List<TestEnum>)[TestEnum.JULIEN, TestEnum.TIM],
+        (List<Object>)["foo",4,3.4,true,[wibble: "eek"],["one", 2]]
+    )
   }
 
   @Test
@@ -535,7 +537,9 @@ public class CollectionTCKTest {
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
         (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
         (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2],
-        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN])
+        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN],
+        (Set<Object>)["foo",4,3.4,true,[wibble: "eek"],["one", 2]]
+    )
   }
 
   @Test
@@ -552,7 +556,8 @@ public class CollectionTCKTest {
         (Map<String, Long>)[foo: 123l, eek: 456l],
         (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
         (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]],
-        (Map<String, RefedInterface1>)[foo: refed1, eek: refed2]
+        (Map<String, RefedInterface1>)[foo: refed1, eek: refed2],
+        (Map<String, Object>)[string:"foo", integer:4, float:3.4, boolean: true, object: [wibble: "eek"], array: ["one", 2]]
     )
   }
 
