@@ -170,7 +170,7 @@ public class CollectionTCKTest {
     assertTrue((list.get(0).getString().equals("foo") && list.get(1).getString().equals("bar")) || (list.get(0).getString().equals("bar") && list.get(1).getString().equals("foo")))
   }
 
-  //@Test
+  @Test
   public void testSetDataObjectReturn() {
     def set = obj.methodWithSetDataObjectReturn();
     assertEquals(2, set.size());
@@ -450,7 +450,7 @@ public class CollectionTCKTest {
     assertEquals(1, count);
   }
 
-  //@Test
+  @Test
   public void testMethodWithHandlerSetDataObject() {
     def count = 0
     obj.methodWithHandlerSetDataObject({
@@ -544,7 +544,7 @@ public class CollectionTCKTest {
     assertEquals(1, count);
   }
 
-  //@Test
+  @Test
   public void testMethodWithHandlerAsyncResultSetDataObject() {
     def count = 0
     obj.methodWithHandlerAsyncResultSetDataObject({
@@ -556,7 +556,7 @@ public class CollectionTCKTest {
     assertEquals(1, count);
   }
 
-  //@Test
+  @Test
   public void testMethodListParams() {
     RefedInterface1 refed1 = new RefedInterface1Impl()
     refed1.setString("foo")
@@ -570,7 +570,7 @@ public class CollectionTCKTest {
         (List<TestDataObject>)[tdo, tdo2], (List<TestEnum>)[TestEnum.JULIEN, TestEnum.TIM])
   }
 
-  //@Test
+  @Test
   public void testMethodSetParams() {
     RefedInterface1 refed1 = new RefedInterface1Impl()
     refed1.setString("foo")
@@ -582,7 +582,7 @@ public class CollectionTCKTest {
         (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1] as TestDataObject, [foo:"String 2",bar: 2,wibble: 2.2 as Double] as TestDataObject], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN])
   }
 
-  //@Test
+  @Test
   public void testMethodMapParams() {
     RefedInterface1 refed1 = new RefedInterface1Impl()
     refed1.setString("foo")

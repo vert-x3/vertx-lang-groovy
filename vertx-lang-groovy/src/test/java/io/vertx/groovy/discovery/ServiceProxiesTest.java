@@ -25,7 +25,7 @@ import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceDiscoveryOptions;
 import io.vertx.servicediscovery.impl.DiscoveryImpl;
 import io.vertx.servicediscovery.types.EventBusService;
-import io.vertx.serviceproxy.ProxyHelper;
+//import io.vertx.serviceproxy.ProxyHelper;
 import io.vertx.serviceproxy.ServiceBinder;
 import org.junit.After;
 import org.junit.Before;
