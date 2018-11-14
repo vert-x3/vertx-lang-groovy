@@ -565,9 +565,11 @@ public class CollectionTCKTest {
     def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1 as Double])
     def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2 as Double])
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
-        (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<JsonObject>)[new JsonObject().put("foo","bar"), new JsonObject().put("eek","wibble")],
-        (List<JsonArray>)[new JsonArray(["foo"]), new JsonArray(["blah"])], (List<RefedInterface1>)[refed1, refed2],
-        (List<TestDataObject>)[tdo, tdo2], (List<TestEnum>)[TestEnum.JULIEN, TestEnum.TIM])
+        (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
+        (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2],
+        (List<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (List<TestEnum>)[TestEnum.JULIEN, TestEnum.TIM],
+        (List<Object>)["foo",4,3.4,true,[wibble: "eek"],["one", 2]]
+    )
   }
 
   @Test
@@ -577,9 +579,11 @@ public class CollectionTCKTest {
     RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
-        (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<JsonObject>)[new JsonObject().put("foo","bar"), new JsonObject().put("eek","wibble")],
-        (Set<List<Object>>)[new JsonArray(["foo"]),new JsonArray(["blah"])], (Set<RefedInterface1>)[refed1, refed2],
-        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1] as TestDataObject, [foo:"String 2",bar: 2,wibble: 2.2 as Double] as TestDataObject], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN])
+        (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
+        (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2],
+        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN],
+        (Set<Object>)["foo",4,3.4,true,[wibble: "eek"],["one", 2]]
+    )
   }
 
   @Test
@@ -594,9 +598,10 @@ public class CollectionTCKTest {
         (Map<String, Short>)[foo: (short)12, eek: (short)13],
         (Map<String, Integer>)[foo: 1234, eek: 1345],
         (Map<String, Long>)[foo: 123l, eek: 456l],
-        (Map<String, JsonObject>)[foo: new JsonObject().put("foo", "bar"), eek: new JsonObject().put("eek", "wibble")],
-        (Map<String, JsonArray>)[foo: new JsonArray(["foo"]), eek: new JsonArray(["blah"])],
-        (Map<String, RefedInterface1>)[foo: refed1, eek: refed2]
+        (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
+        (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]],
+        (Map<String, RefedInterface1>)[foo: refed1, eek: refed2],
+        (Map<String, Object>)[string:"foo", integer:4, float:3.4, boolean: true, object: [wibble: "eek"], array: ["one", 2]]
     )
   }
 
