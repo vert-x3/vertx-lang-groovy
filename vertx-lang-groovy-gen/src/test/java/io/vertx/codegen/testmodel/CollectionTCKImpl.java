@@ -32,8 +32,8 @@ public class CollectionTCKImpl implements CollectionTCK {
     assertEquals((byte) 3, listByte.get(1).byteValue());
     assertEquals((short) 12, listShort.get(0).shortValue());
     assertEquals((short) 13, listShort.get(1).shortValue());
-    assertEquals((int) 1234, listInt.get(0).intValue());
-    assertEquals((int) 1345, listInt.get(1).intValue());
+    assertEquals(1234, listInt.get(0).intValue());
+    assertEquals(1345, listInt.get(1).intValue());
     System.out.println("entry type is " + ((List) listLong).get(0).getClass().getName());
     assertEquals(123l, listLong.get(0).longValue());
     assertEquals(456l, listLong.get(1).longValue());
@@ -49,7 +49,7 @@ public class CollectionTCKImpl implements CollectionTCK {
     assertEquals(6, listObject.size());
     assertEquals("foo", listObject.get(0));
     assertEquals(4, ((Number)listObject.get(1)).intValue());
-    assertEquals(3.4, ((Number)listObject.get(2)).floatValue(), 0.1);
+    assertEquals(3.4f, ((Number)listObject.get(2)).floatValue(), 0.1);
     assertEquals(true, listObject.get(3));
     assertEquals(new JsonObject().put("wibble", "eek"), listObject.get(4));
     assertEquals(new JsonArray().add("one").add(2), listObject.get(5));
@@ -108,7 +108,7 @@ public class CollectionTCKImpl implements CollectionTCK {
     assertEquals(new RefedInterface1Impl().setString("bar"), mapVertxGen.get("eek"));
     assertEquals("foo", mapObject.get("string"));
     assertEquals(4, ((Number)mapObject.get("integer")).intValue());
-    assertEquals(3.4, ((Number)mapObject.get("float")).floatValue(), 0.1);
+    assertEquals(3.4f, ((Number)mapObject.get("float")).floatValue(), 0.1);
     assertEquals(true, mapObject.get("boolean"));
     assertEquals(new JsonObject().put("wibble", "eek"), mapObject.get("object"));
     assertEquals(new JsonArray().add("one").add(2), mapObject.get("array"));
@@ -121,7 +121,7 @@ public class CollectionTCKImpl implements CollectionTCK {
     List<String> listString = Arrays.asList("foo", "bar", "wibble");
     List<Integer> listInt = Arrays.asList(5, 12, 100);
     Set<String> setString = new LinkedHashSet<>( Arrays.asList("foo", "bar", "wibble"));
-    Set<Integer> setInt = new LinkedHashSet<>(Arrays.asList(new Integer[] {5, 12, 100}));
+    Set<Integer> setInt = new LinkedHashSet<>(Arrays.asList(5, 12, 100));
     listStringHandler.handle(listString);
     listIntHandler.handle(listInt);
     setStringHandler.handle(setString);
@@ -356,12 +356,6 @@ public class CollectionTCKImpl implements CollectionTCK {
   }
 
   @Override
-  public Map<String, String> methodWithMapReturn(Handler<String> handler) {
-    Map<String, String> map = new HandlerTestMap<>(handler);
-    return map;
-  }
-
-  @Override
   public Map<String, String> methodWithMapStringReturn(Handler<String> handler) {
     Map<String, String> map = new StringHandlerTestMap(handler);
     map.put("foo", "bar");
@@ -393,6 +387,18 @@ public class CollectionTCKImpl implements CollectionTCK {
   public Map<String, JsonArray> methodWithMapComplexJsonArrayReturn(Handler<String> handler) {
     Map<String, JsonArray> map = new JsonArrayHandlerTestMap(handler);
     map.put("foo", new JsonArray().add(new JsonObject().put("foo", "hello")).add(new JsonObject().put("bar", "bye")));
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> methodWithMapObjectReturn(Handler<String> handler) {
+    Map<String, Object> map = new ObjectHandlerTestMap(handler);
+    map.put("string", "foo");
+    map.put("integer", 4);
+    map.put("float", 3.4f);
+    map.put("object", new JsonObject().put("wibble", "eek"));
+    map.put("array", new JsonArray().add("one").add(2));
+    map.put("boolean", true);
     return map;
   }
 
@@ -493,6 +499,11 @@ public class CollectionTCKImpl implements CollectionTCK {
   }
 
   @Override
+  public List<Object> methodWithListObjectReturn() {
+    return Arrays.asList("foo", 4, 3.4f, true, new JsonObject().put("wibble", "eek"), new JsonArray().add("one").add(2));
+  }
+
+  @Override
   public Set<Long> methodWithSetLongReturn() {
     return new LinkedHashSet<>(Arrays.asList(123l, 456l));
   }
@@ -530,6 +541,11 @@ public class CollectionTCKImpl implements CollectionTCK {
   @Override
   public Set<TestEnum> methodWithSetEnumReturn() {
     return new LinkedHashSet<>(methodWithListEnumReturn());
+  }
+
+  @Override
+  public Set<Object> methodWithSetObjectReturn() {
+    return new LinkedHashSet<>(methodWithListObjectReturn());
   }
 
   private static class HandlerTestMap<V> implements Map<String, V> {
@@ -715,6 +731,21 @@ public class CollectionTCKImpl implements CollectionTCK {
      */
     @Override
     public JsonArray put(String key, JsonArray value) {
+      return super.put(key, value);
+    }
+  }
+
+  private static class ObjectHandlerTestMap extends HandlerTestMap<Object> {
+    public ObjectHandlerTestMap(Handler<String> handler) {
+      super(handler);
+    }
+
+    /**
+     * This method exists on purpose. On a put, this force a cast to JsonArray allowing us to test
+     * that values are converted properly.
+     */
+    @Override
+    public Object put(String key, Object value) {
       return super.put(key, value);
     }
   }

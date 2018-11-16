@@ -43,7 +43,7 @@ public class HelloServiceImpl implements HelloService {
 
   public void start(Vertx vertx, String address) {
     //service = ProxyHelper.registerService(HelloService.class, vertx, this, address);
-    service = new ServiceBinder(vertx).register(HelloService.class, this);
+    service = new ServiceBinder(vertx).setAddress(address).register(HelloService.class, this);
   }
 
   public void stop() {
