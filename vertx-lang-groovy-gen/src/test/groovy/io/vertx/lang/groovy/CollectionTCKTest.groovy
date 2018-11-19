@@ -173,9 +173,14 @@ class CollectionTCKTest {
   @Test
   void testSetDataObjectReturn() {
     def set = obj.methodWithSetDataObjectReturn()
+    def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1d])
+    def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2d])
+    System.out.println(set)
+    System.out.println(tdo)
+    System.out.println(tdo2)
     assertEquals(2, set.size())
-    assertTrue(set.contains([foo:"String 1",bar: 1,wibble: 1.1d] as TestDataObject))
-    assertTrue(set.contains([foo:"String 2",bar: 2,wibble: 2.2d] as TestDataObject))
+    assertTrue(set.contains(tdo))
+    assertTrue(set.contains(tdo2))
   }
 
   @Test
@@ -453,8 +458,8 @@ class CollectionTCKTest {
     def count = 0
     obj.methodWithHandlerSetDataObject({
       assertEquals(2, it.size())
-      assertTrue(it.contains(new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1)))
-      assertTrue(it.contains(new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2)))
+      assertTrue(it.contains(new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1d)))
+      assertTrue(it.contains(new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2d)))
       count++
     })
     assertEquals(1, count)
@@ -547,8 +552,8 @@ class CollectionTCKTest {
     def count = 0
     obj.methodWithHandlerAsyncResultSetDataObject({
       assertEquals(2, it.result().size())
-      assertTrue(it.result().contains([foo:"String 1",bar: 1,wibble: 1.1 as Double] as TestDataObject))
-      assertTrue(it.result().contains([foo:"String 2",bar: 2,wibble: 2.2 as Double] as TestDataObject))
+      assertTrue(it.result().contains([foo:"String 1",bar: 1,wibble: 1.1d] as TestDataObject))
+      assertTrue(it.result().contains([foo:"String 2",bar: 2,wibble: 2.2d] as TestDataObject))
       count++
     })
     assertEquals(1, count)

@@ -57,15 +57,6 @@ public class TestDataObject {
     return this;
   }
 
-  /*@Override
-  public boolean equals(Object obj) {
-    if (obj instanceof TestDataObject) {
-      TestDataObject that = (TestDataObject) obj;
-      return Objects.equals(foo, that.foo) && bar == that.bar && wibble == that.wibble;
-    }
-    return false;
-  }*/
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
