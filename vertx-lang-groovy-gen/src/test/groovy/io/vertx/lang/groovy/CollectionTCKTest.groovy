@@ -174,10 +174,8 @@ class CollectionTCKTest {
   void testSetDataObjectReturn() {
     def set = obj.methodWithSetDataObjectReturn()
     assertEquals(2, set.size())
-    def tdo = new TestDataObject().setFoo("String 1").setBar(1).setWibble(1.1)
-    def tdo2 = new TestDataObject().setFoo("String 2").setBar(2).setWibble(2.2)
-    assertTrue(set.contains(tdo))
-    assertTrue(set.contains(tdo2))
+    assertTrue(set.contains([foo:"String 1",bar: 1,wibble: 1.1d] as TestDataObject))
+    assertTrue(set.contains([foo:"String 2",bar: 2,wibble: 2.2d] as TestDataObject))
   }
 
   @Test
@@ -549,8 +547,8 @@ class CollectionTCKTest {
     def count = 0
     obj.methodWithHandlerAsyncResultSetDataObject({
       assertEquals(2, it.result().size())
-      assertTrue(it.result().contains(new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1 as Double] as TestDataObject)))
-      assertTrue(it.result().contains(new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2 as Double] as TestDataObject)))
+      assertTrue(it.result().contains([foo:"String 1",bar: 1,wibble: 1.1 as Double] as TestDataObject))
+      assertTrue(it.result().contains([foo:"String 2",bar: 2,wibble: 2.2 as Double] as TestDataObject))
       count++
     })
     assertEquals(1, count)
@@ -562,13 +560,15 @@ class CollectionTCKTest {
     refed1.setString("foo")
     RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
+    JsonObject jo = new JsonObject().put("foo", "bar")
+    JsonObject jo2 = new JsonObject().put("eek", "wibble")
     def tdo = new TestDataObject([foo:"String 1",bar: 1,wibble: 1.1 as Double])
     def tdo2 = new TestDataObject([foo:"String 2",bar: 2,wibble: 2.2 as Double])
     obj.methodWithListParams((List<String>)["foo", "bar"], (List<Byte>)[(byte)2, (byte)3], (List<Short>)[(short)12, (short)13],
-        (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
-        (List<List<Object>>)[["foo"], ["blah"]], (List<RefedInterface1>)[refed1, refed2],
+        (List<Integer>)[1234, 1345], (List<Long>)[123l, 456l], (List<JsonObject>)[jo, jo2],
+        (List<List<Object>>)[["foo"] as JsonArray, ["blah"] as JsonArray], (List<RefedInterface1>)[refed1, refed2],
         (List<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1] as TestDataObject, [foo:"String 2",bar: 2,wibble: 2.2] as TestDataObject], (List<TestEnum>)[TestEnum.JULIEN, TestEnum.TIM],
-        (List<Object>)["foo",4,3.4,true,[wibble: "eek"],["one", 2]]
+        (List<Object>)["foo",4,3.4,true,[wibble: "eek"] as JsonObject,["one", 2] as JsonArray]
     )
   }
 
@@ -579,10 +579,10 @@ class CollectionTCKTest {
     RefedInterface1 refed2 = new RefedInterface1Impl()
     refed2.setString("bar")
     obj.methodWithSetParams((Set<String>)["foo", "bar"], (Set<Byte>)[(byte)2, (byte)3], (Set<Short>)[(short)12, (short)13],
-        (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"], [eek: "wibble"]],
-        (Set<List<Object>>)[["foo"], ["blah"]], (Set<RefedInterface1>)[refed1, refed2],
-        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1], [foo:"String 2",bar: 2,wibble: 2.2]], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN],
-        (Set<Object>)["foo",4,3.4,true,[wibble: "eek"],["one", 2]]
+        (Set<Integer>)[1234, 1345], (Set<Long>)[123l, 456l], (Set<Map<String, Object>>)[[foo:"bar"] as JsonObject, [eek: "wibble"] as JsonObject],
+        (Set<List<Object>>)[["foo"] as JsonArray, ["blah"] as JsonArray], (Set<RefedInterface1>)[refed1, refed2],
+        (Set<TestDataObject>)[[foo:"String 1",bar:1,wibble:1.1] as TestDataObject, [foo:"String 2",bar: 2,wibble: 2.2] as TestDataObject], (Set<TestEnum>)[TestEnum.TIM,TestEnum.JULIEN],
+        (Set<Object>)["foo",4,3.4,true,[wibble: "eek"] as JsonObject,["one", 2] as JsonArray]
     )
   }
 
@@ -598,10 +598,10 @@ class CollectionTCKTest {
         (Map<String, Short>)[foo: (short)12, eek: (short)13],
         (Map<String, Integer>)[foo: 1234, eek: 1345],
         (Map<String, Long>)[foo: 123l, eek: 456l],
-        (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
-        (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]],
+        (Map<String, Map<String, Object>>)[foo: [foo:"bar"] as JsonObject, eek: [eek: "wibble"] as JsonObject],
+        (Map<String, List<Object>>)[foo: ["foo"] as JsonArray, eek: ["blah"] as JsonArray],
         (Map<String, RefedInterface1>)[foo: refed1, eek: refed2],
-        (Map<String, Object>)[string:"foo", integer:4, float:3.4, boolean: true, object: [wibble: "eek"], array: ["one", 2]] as JsonObject
+        (Map<String, Object>)[string:"foo", integer:4, float:3.4, boolean: true, object: [wibble: "eek"] as JsonObject, array: ["one", 2] as JsonArray]
     )
   }
 
