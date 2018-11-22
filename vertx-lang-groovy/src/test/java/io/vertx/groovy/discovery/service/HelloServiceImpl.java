@@ -23,7 +23,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
 //import io.vertx.serviceproxy.ProxyHelper;
-import io.vertx.serviceproxy.ProxyHelper;
 import io.vertx.serviceproxy.ServiceBinder;
 
 /**
@@ -43,13 +42,13 @@ public class HelloServiceImpl implements HelloService {
   }
 
   public void start(Vertx vertx, String address) {
-    service = ProxyHelper.registerService(HelloService.class, vertx, this, address);
-    //service = new ServiceBinder(vertx).setAddress(address).register(HelloService.class, this);
+    //service = ProxyHelper.registerService(HelloService.class, vertx, this, address);
+    service = new ServiceBinder(vertx).setAddress(address).register(HelloService.class, this);
   }
 
   public void stop() {
-    ProxyHelper.unregisterService(service);
-    //service.unregister();
+    //ProxyHelper.unregisterService(service);
+    service.unregister();
   }
 
   @Override

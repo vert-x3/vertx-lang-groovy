@@ -24,7 +24,7 @@ import io.vertx.servicediscovery.types.EventBusService
 def discovery = ServiceDiscovery.create(vertx, ServiceProxiesTest.DISCOVERY_OPTIONS)
 EventBusService.<HelloService> getServiceProxy(
         discovery,
-        { rec -> rec.metadata["service.interface"] == HelloService.class.getName() },
+        { rec -> rec.metadata.getValue("service.interface").equals(HelloService.class.getName()) },
         HelloService.class, // service interface
         { ar ->
           if (ar.failed()) {
@@ -46,7 +46,7 @@ EventBusService.<HelloService> getServiceProxy(
                 vertx.eventBus().send("result", [
                         "status" : "ok",
                         "message": result.result()
-                ])
+                ] as JsonObject)
                 ServiceDiscovery.releaseServiceObject(discovery, hello)
               }
             })
