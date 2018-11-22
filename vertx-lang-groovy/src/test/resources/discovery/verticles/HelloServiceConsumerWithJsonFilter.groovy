@@ -20,9 +20,7 @@ import io.vertx.groovy.discovery.ServiceProxiesTest
 import io.vertx.groovy.discovery.service.HelloService
 import io.vertx.servicediscovery.ServiceDiscovery
 import io.vertx.servicediscovery.types.EventBusService
-import io.vertx.core.Vertx
 
-def vertx = Vertx.vertx()
 def discovery = ServiceDiscovery.create(vertx, ServiceProxiesTest.DISCOVERY_OPTIONS)
 EventBusService.<HelloService> getServiceProxyWithJsonFilter(
         discovery,
