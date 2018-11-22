@@ -29,12 +29,12 @@ import io.vertx.core.AsyncResult
 import io.vertx.core.VertxException
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
-import io.vertx.groovy.codegen.testmodel.ConcreteHandlerUserTypeExtension
-import io.vertx.groovy.codegen.testmodel.GenericRefedInterface
-import io.vertx.groovy.codegen.testmodel.RefedInterface1
-import io.vertx.groovy.codegen.testmodel.RefedInterface2
-import io.vertx.groovy.codegen.testmodel.TestInterface
-import io.vertx.groovy.codegen.testmodel.Factory
+import io.vertx.codegen.testmodel.ConcreteHandlerUserTypeExtension
+import io.vertx.codegen.testmodel.GenericRefedInterface
+import io.vertx.codegen.testmodel.RefedInterface1
+import io.vertx.codegen.testmodel.RefedInterface2
+import io.vertx.codegen.testmodel.TestInterface
+import io.vertx.codegen.testmodel.Factory
 import org.junit.Test
 
 import static org.junit.Assert.*

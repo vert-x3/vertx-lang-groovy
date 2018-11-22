@@ -16,7 +16,7 @@
 
 package io.vertx.lang.groovy
 
-import io.vertx.groovy.core.Vertx
+import io.vertx.core.Vertx
 import org.junit.Test
 
 /**
@@ -25,20 +25,20 @@ import org.junit.Test
 class OptionsTest {
 
   @Test
-  public void testHttpServer() {
-    def vertx = Vertx.vertx();
+  void testHttpServer() {
+    def vertx = Vertx.vertx()
     try {
       try {
-        vertx.createHttpServer(null);
+        vertx.createHttpServer(null)
       } catch (Exception ignore) {
         // Expected
       }
-      vertx.createHttpServer();
-      vertx.createHttpServer(port: 8080);
-      vertx.createHttpServer([:]);
-      vertx.createHttpServer([port:8080]);
+      vertx.createHttpServer()
+      vertx.createHttpServer(port: 8080)
+      vertx.createHttpServer([:])
+      vertx.createHttpServer([port:8080])
     } finally {
-      vertx.close();
+      vertx.close()
     }
   }
 }

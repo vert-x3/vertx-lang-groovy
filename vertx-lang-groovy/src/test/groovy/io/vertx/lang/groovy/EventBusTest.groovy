@@ -16,28 +16,28 @@
 
 package io.vertx.lang.groovy
 
-import io.vertx.groovy.core.Vertx
-import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.core.Vertx
+import io.vertx.core.buffer.Buffer
 import io.vertx.test.core.VertxTestBase
 import org.junit.Test
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
 class EventBusTest extends VertxTestBase {
 
-  Vertx _vertx;
+  Vertx _vertx
 
   @Override
   void setUp() throws Exception {
     super.setUp()
-    _vertx = vertx;
+    _vertx = vertx
   }
 
   @Test
-  public void testBuffer() {
+  void testBuffer() {
     def eventBus = _vertx.eventBus()
     eventBus.consumer("the_address").handler { message ->
       def body = message.body()
@@ -52,7 +52,7 @@ class EventBusTest extends VertxTestBase {
   }
 
   @Test
-  public void testGroovyString() {
+  void testGroovyString() {
     def eventBus = _vertx.eventBus()
     eventBus.consumer("the_address").handler { message ->
       def body = message.body()
@@ -68,7 +68,7 @@ class EventBusTest extends VertxTestBase {
   }
 
   @Test
-  public void testComplexJson() {
+  void testComplexJson() {
     def val = [outer: [inner: 'value'], list: ['v1', 'v2', 'v3']]
     def eventBus = _vertx.eventBus()
     eventBus.consumer("the_address").handler { message ->

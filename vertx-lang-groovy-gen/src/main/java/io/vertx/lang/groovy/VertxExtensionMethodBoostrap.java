@@ -45,14 +45,10 @@ public class VertxExtensionMethodBoostrap {
               ScanResult result = new ClassGraph().enableAllInfo().scan();
               ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
               List<Class<?>> lvem = infolist.loadClasses();
-              //ClassInfo info = infolist.get("io.vertx.groovy.codegen.testmodel.VertxExtensionModule");
-              //ClassInfo info = result.getClassInfo("io.vertx.groovy.codegen.testmodel.VertxExtensionModule");
-              System.out.println("Resultado eh: " + infolist);
               lvem.forEach(item->{
                 if(item.getClass().getSimpleName()=="VertxExtensionModule") {
                   try {
                     ExtensionModule module = (ExtensionModule) item.newInstance();
-                    System.out.println("Module: " + module.getClass().getName());
                     if (!moduleRegistry.hasModule(module.getName())) {
                       moduleRegistry.addModule(module);
                       for (MetaMethod metaMethod : module.getMetaMethods()) {

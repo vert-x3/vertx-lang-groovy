@@ -20,30 +20,30 @@ import io.vertx.codegen.testmodel.DataObjectTCKImpl
 import io.vertx.codegen.testmodel.DataObjectWithNestedBuffer
 import io.vertx.codegen.testmodel.DataObjectWithOnlyJsonObjectConstructor
 import io.vertx.core.json.JsonObject
-import io.vertx.groovy.codegen.testmodel.DataObjectTCK
-import io.vertx.groovy.core.buffer.Buffer
+import io.vertx.codegen.testmodel.DataObjectTCK
+import io.vertx.core.buffer.Buffer
 import org.junit.Test
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-public class DataObjectTCKTest {
+class DataObjectTCKTest {
 
-  final DataObjectTCK dataObjectTCK = new DataObjectTCKImpl();
+  final DataObjectTCK dataObjectTCK = new DataObjectTCKImpl()
 
   @Test
-  public void testMethodWithOnlyJsonObjectConstructor() {
-    dataObjectTCK.methodWithOnlyJsonObjectConstructorDataObject(new DataObjectWithOnlyJsonObjectConstructor(new JsonObject().put("foo","bar")));
+  void testMethodWithOnlyJsonObjectConstructor() {
+    dataObjectTCK.methodWithOnlyJsonObjectConstructorDataObject(new DataObjectWithOnlyJsonObjectConstructor(new JsonObject().put("foo","bar")))
   }
 
   @Test
-  public void testDataObjectWithBuffer() {
+  void testDataObjectWithBuffer() {
     dataObjectTCK.setDataObjectWithBuffer([
         buffer: Buffer.buffer("Hello World"),
         buffers: [Buffer.buffer("one"), Buffer.buffer("two")],
         nested: [
             buffer: Buffer.buffer("Bye World")
         ]
-    ] as DataObjectWithNestedBuffer);
+    ] as DataObjectWithNestedBuffer)
   }
 }
