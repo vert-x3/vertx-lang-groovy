@@ -326,7 +326,7 @@ public class TestInterfaceImpl implements TestInterface {
     if (sendFailure) {
       handler.handle(Future.failedFuture(new VertxException("foo!")));
     } else {
-      handler.handle(Future.succeededFuture(null));
+      handler.handle(Future.succeededFuture((Void) null));
     }
   }
 

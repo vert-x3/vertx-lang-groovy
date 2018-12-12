@@ -316,9 +316,8 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
+      <artifactId>groovy</artifactId>
       <version>2.5.4</version>
-      <type>pom</type>
     </dependency>
 
     <!-- Test dependencies -->
@@ -573,9 +572,8 @@
           </dependency>
           <dependency>
             <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
+            <artifactId>groovy</artifactId>
             <version>2.5.4</version>
-            <type>pom</type>
           </dependency>
           <dependency>
             <groupId>com.netflix.hystrix</groupId>

@@ -32,8 +32,8 @@ public class CollectionTCKImpl implements CollectionTCK {
     assertEquals((byte) 3, listByte.get(1).byteValue());
     assertEquals((short) 12, listShort.get(0).shortValue());
     assertEquals((short) 13, listShort.get(1).shortValue());
-    assertEquals(1234, listInt.get(0).intValue());
-    assertEquals(1345, listInt.get(1).intValue());
+    assertEquals((int) 1234, listInt.get(0).intValue());
+    assertEquals((int) 1345, listInt.get(1).intValue());
     System.out.println("entry type is " + ((List) listLong).get(0).getClass().getName());
     assertEquals(123l, listLong.get(0).longValue());
     assertEquals(456l, listLong.get(1).longValue());
@@ -121,7 +121,7 @@ public class CollectionTCKImpl implements CollectionTCK {
     List<String> listString = Arrays.asList("foo", "bar", "wibble");
     List<Integer> listInt = Arrays.asList(5, 12, 100);
     Set<String> setString = new LinkedHashSet<>( Arrays.asList("foo", "bar", "wibble"));
-    Set<Integer> setInt = new LinkedHashSet<>(Arrays.asList(5, 12, 100));
+    Set<Integer> setInt = new LinkedHashSet<>(Arrays.asList(new Integer[] {5, 12, 100}));
     listStringHandler.handle(listString);
     listIntHandler.handle(listInt);
     setStringHandler.handle(setString);
