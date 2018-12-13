@@ -17,6 +17,7 @@
   <properties>
     <stack.version>3.6.1-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
+    <groovy.version>2.5.4</groovy.version>
   </properties>
 
   <dependencyManagement>
