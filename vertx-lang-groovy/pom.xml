@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.vertx</groupId>
     <artifactId>vertx-lang-groovy-parent</artifactId>
-    <version>3.6.0-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -59,11 +59,6 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-mongo-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-mongo-service</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -135,6 +130,11 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web-api-contract</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -254,67 +254,12 @@
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-git</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-hocon</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-kubernetes-configmap</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-redis</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-spring-config-server</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-zookeeper</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-yaml</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-vault</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config-consul</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-amqp-bridge</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
       <artifactId>vertx-kafka-client</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-mqtt</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-mysql-postgresql-client</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -347,11 +292,10 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-lang-groovy-gen</artifactId>
-      <version>3.6.0-SNAPSHOT</version>
+      <version>4.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
-<<<<<<< HEAD
       <artifactId>groovy</artifactId>
       <version>${groovy.version}</version>
     </dependency>
@@ -359,11 +303,6 @@
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-json</artifactId>
       <version>${groovy.version}</version>
-=======
-      <artifactId>groovy-all</artifactId>
-      <version>2.5.4</version>
-      <type>pom</type>
->>>>>>> master
     </dependency>
 
     <!-- Test dependencies -->
@@ -371,6 +310,11 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
       <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-service-proxy</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -408,7 +352,6 @@
             vertx-bridge-common,
             vertx-sql-common,
             vertx-mongo-client,
-            vertx-mongo-service,
             vertx-cassandra-client,
             vertx-jdbc-client,
             vertx-auth-common,
@@ -423,6 +366,7 @@
             vertx-web-common,
             vertx-web-client,
             vertx-web,
+            vertx-web-api-contract,
             vertx-web-templ-freemarker,
             vertx-web-templ-handlebars,
             vertx-web-templ-jade,
@@ -446,19 +390,8 @@
             vertx-service-discovery-bridge-zookeeper,
             vertx-service-discovery-bridge-docker-links,
             vertx-config,
-            vertx-config-git,
-            vertx-config-hocon,
-            vertx-config-kubernetes-configmap,
-            vertx-config-redis,
-            vertx-config-spring-config-server,
-            vertx-config-zookeeper,
-            vertx-config-yaml,
-            vertx-config-vault,
-            vertx-config-consul,
-            vertx-amqp-bridge,
             vertx-kafka-client,
             vertx-mqtt,
-            vertx-mysql-postgresql-client,
             vertx-rabbitmq-client,
             vertx-health-check,
             vertx-shell,
@@ -625,14 +558,8 @@
           </dependency>
           <dependency>
             <groupId>org.codehaus.groovy</groupId>
-<<<<<<< HEAD
             <artifactId>groovy</artifactId>
             <version>${groovy.version}</version>
-=======
-            <artifactId>groovy-all</artifactId>
-            <version>2.5.4</version>
-            <type>pom</type>
->>>>>>> master
           </dependency>
           <dependency>
             <groupId>com.netflix.hystrix</groupId>
