@@ -17,7 +17,10 @@ package io.vertx.lang.groovy;
 
 import groovy.lang.MetaClassRegistry;
 import groovy.lang.MetaMethod;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
+import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ClassInfoList;
 import org.codehaus.groovy.reflection.CachedClass;
 import org.codehaus.groovy.runtime.m12n.ExtensionModule;
 import org.codehaus.groovy.runtime.m12n.ExtensionModuleRegistry;
@@ -37,24 +40,37 @@ public class VertxExtensionMethodBoostrap {
         MetaClassRegistryImpl registryImpl = (MetaClassRegistryImpl) registry;
         ExtensionModuleRegistry moduleRegistry = registryImpl.getModuleRegistry();
         HashMap<CachedClass, List<MetaMethod>> map = new HashMap<>();
-        new FastClasspathScanner().matchSubclassesOf(ExtensionModule.class, subclass -> {
-          if (subclass.getSimpleName().equals("VertxExtensionModule")) {
+        
             try {
-              ExtensionModule module = subclass.newInstance();
-              if (!moduleRegistry.hasModule(module.getName())) {
-                moduleRegistry.addModule(module);
-                for (MetaMethod metaMethod : module.getMetaMethods()) {
-                  List<MetaMethod> metaMethods = map.computeIfAbsent(metaMethod.getDeclaringClass(), k -> new ArrayList<>());
-                  metaMethods.add(metaMethod);
-                  FastArray methods = metaMethod.isStatic() ? registryImpl.getStaticMethods() : registryImpl.getInstanceMethods();
-                  methods.add(metaMethod);
+              ScanResult result = new ClassGraph().enableAllInfo().scan();
+              ClassInfoList infolist = result.getSubclasses("org.codehaus.groovy.runtime.m12n.ExtensionModule").directOnly();
+              List<Class<?>> lvem = infolist.loadClasses();
+              lvem.forEach(item->{
+                if(item.getClass().getSimpleName()=="VertxExtensionModule") {
+                  try {
+                    ExtensionModule module = (ExtensionModule) item.newInstance();
+                    if (!moduleRegistry.hasModule(module.getName())) {
+                      moduleRegistry.addModule(module);
+                      for (MetaMethod metaMethod : module.getMetaMethods()) {
+                        List<MetaMethod> metaMethods = map.computeIfAbsent(metaMethod.getDeclaringClass(), k -> new ArrayList<>());
+                        metaMethods.add(metaMethod);
+                        FastArray methods = metaMethod.isStatic() ? registryImpl.getStaticMethods() : registryImpl.getInstanceMethods();
+                        methods.add(metaMethod);
+                      }
+                    }
+                  } catch (InstantiationException e) {
+                    e.printStackTrace();
+                  } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                  }
                 }
-              }
+              });
+
             } catch (Exception e) {
               e.printStackTrace();
             }
-          }
-        }).scan();
+        
+        
         for (Map.Entry<CachedClass, List<MetaMethod>> e : map.entrySet()) {
           CachedClass cls = e.getKey();
           List<MetaMethod> metaMethods = new ArrayList<>();

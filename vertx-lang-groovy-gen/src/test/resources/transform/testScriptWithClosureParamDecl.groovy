@@ -1,6 +1,6 @@
-package transform;
+package transform
 
-import io.vertx.groovy.core.Vertx
+import io.vertx.core.Vertx
 
 def closure = { Vertx vertx_ ->
   vertx_.eventBus().send("the-address", true)

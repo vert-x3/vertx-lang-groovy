@@ -1,16 +1,16 @@
-package transform;
+package transform
 
-import io.vertx.groovy.core.Vertx
-import io.vertx.lang.groovy.GroovyVerticle;
+import io.vertx.core.Vertx
+import io.vertx.core.AbstractVerticle
 
-public class testClassField extends GroovyVerticle {
+class testClassField extends AbstractVerticle {
 
-  Vertx vertx_;
+  Vertx vertx_
 
   @Override
   void start() throws Exception {
-    vertx_ = vertx;
-    vertx_.eventBus().send("the-address", true);
+    vertx_ = vertx
+    vertx_.eventBus().send("the-address", true)
   }
 }
 

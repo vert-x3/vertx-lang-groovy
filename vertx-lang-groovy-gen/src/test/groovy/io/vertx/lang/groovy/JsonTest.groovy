@@ -14,20 +14,20 @@ import org.junit.Test
 class JsonTest {
 
   @Test
-  public void testFoo() {
+  void testFoo() {
 
     Json.prettyMapper.registerModule(new SimpleModule().addSerializer(GString.class, new StdSerializer<GString>(GString.class) {
       @Override
       void serialize(GString value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        gen.writeString(value.toString());
+        gen.writeString(value.toString())
       }
-    }));
+    }))
 
     def x = 12
     def y = 5
     def m = [val: "$x:$y"]
-    JsonObject obj = new JsonObject(m);
-    String s = obj.encodePrettily();
+    JsonObject obj = new JsonObject(m)
+    String s = obj.encodePrettily()
     println "s = $s"
 
   }

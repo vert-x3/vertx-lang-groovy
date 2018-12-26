@@ -17,25 +17,26 @@
 package io.vertx.lang.groovy
 
 import io.vertx.core.Future
+import io.vertx.core.AbstractVerticle
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-public class LifeCycleAsyncVerticleClass extends GroovyVerticle {
+class LifeCycleAsyncVerticleClass extends AbstractVerticle {
 
   @Override
   void start(Future<Void> startFuture) throws Exception {
     vertx.timerStream(200).handler({ id ->
-      System.setProperty("started", "true");
+      System.setProperty("started", "true")
       startFuture.complete()
-    });
+    })
   }
 
   @Override
   void stop(Future<Void> stopFuture) throws Exception {
     vertx.timerStream(200).handler({ id ->
-      System.setProperty("stopped", "true");
+      System.setProperty("stopped", "true")
       stopFuture.complete()
-    });
+    })
   }
 }

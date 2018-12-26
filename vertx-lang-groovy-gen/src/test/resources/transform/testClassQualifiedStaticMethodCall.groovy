@@ -1,13 +1,13 @@
-package transform;
+package transform
 
-import io.vertx.lang.groovy.GroovyVerticle;
+import io.vertx.core.AbstractVerticle
 
-public class testClassQualifiedStaticMethod extends GroovyVerticle {
+class testClassQualifiedStaticMethod extends AbstractVerticle {
 
   @Override
   void start() throws Exception {
-    def fut = io.vertx.groovy.core.Future.succeededFuture(true);
-    vertx.eventBus().send("the-address", fut.result());
+    def fut = io.vertx.groovy.core.Future.succeededFuture(true)
+    vertx.eventBus().send("the-address", fut.result())
   }
 }
 

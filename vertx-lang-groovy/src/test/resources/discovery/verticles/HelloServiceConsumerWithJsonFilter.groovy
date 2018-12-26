@@ -15,6 +15,7 @@
  */
 package verticles
 
+import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
 import io.vertx.groovy.discovery.ServiceProxiesTest
 import io.vertx.groovy.discovery.service.HelloService
@@ -24,7 +25,7 @@ import io.vertx.servicediscovery.types.EventBusService
 def discovery = ServiceDiscovery.create(vertx, ServiceProxiesTest.DISCOVERY_OPTIONS)
 EventBusService.<HelloService> getServiceProxyWithJsonFilter(
         discovery,
-        ["service.interface" : HelloService.class.getName()],
+        ['service.interface' : "io.vertx.groovy.discovery.service.HelloService"] as JsonObject,
         HelloService.class, // service interface
         { ar ->
           if (ar.failed()) {
@@ -46,7 +47,7 @@ EventBusService.<HelloService> getServiceProxyWithJsonFilter(
                 vertx.eventBus().send("result", [
                         "status" : "ok",
                         "message": result.result()
-                ])
+                ] as JsonObject)
                 ServiceDiscovery.releaseServiceObject(discovery, hello)
               }
             })

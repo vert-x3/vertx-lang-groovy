@@ -18,12 +18,15 @@ package io.vertx.lang.groovy;
 import groovy.lang.*;
 import groovy.util.ConfigObject;
 import groovy.util.ConfigSlurper;
+import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.spi.VerticleFactory;
 import org.codehaus.groovy.control.CompilerConfiguration;
+
+import io.vertx.core.AbstractVerticle;
 
 import java.io.File;
 import java.io.InputStream;
@@ -93,8 +96,19 @@ public class GroovyVerticleFactory implements VerticleFactory {
     }
 
     Verticle verticle;
-    if (instance instanceof GroovyVerticle) {
-      verticle = ((GroovyVerticle) instance).asJavaVerticle();
+    if (instance instanceof AbstractVerticle) {
+      verticle = new AbstractVerticle() {
+        @Override
+        public void start(Future<Void> startFuture) throws Exception{
+          super.start(startFuture);
+        }
+
+        @Override
+        public void stop(Future<Void> stopFuture) throws Exception{
+          super.stop(stopFuture);
+        }
+      };
+      //verticle = ((GroovyVerticle) instance).asJavaVerticle();
     } else if (instance instanceof Script) {
       verticle = new ScriptVerticle((Script) instance);
     } else if (instance instanceof Verticle) {

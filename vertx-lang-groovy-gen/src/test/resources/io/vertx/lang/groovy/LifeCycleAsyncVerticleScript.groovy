@@ -16,14 +16,14 @@
 
 package io.vertx.lang.groovy
 
-import io.vertx.groovy.core.Future
+import io.vertx.core.Future
 
 void vertxStart(Future start) {
-  System.setProperty("started", "true");
+  System.setProperty("started", "true")
   start.complete()
 }
 
 void vertxStop(Future stop) {
-  System.setProperty("stopped", "true");
+  System.setProperty("stopped", "true")
   stop.complete()
 }

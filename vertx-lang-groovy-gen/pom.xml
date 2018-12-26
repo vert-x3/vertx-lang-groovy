@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.vertx</groupId>
     <artifactId>vertx-lang-groovy-parent</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>3.6.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -22,6 +22,7 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
+<<<<<<< HEAD
       <artifactId>groovy</artifactId>
       <version>${groovy.version}</version>
     </dependency>
@@ -29,11 +30,16 @@
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-console</artifactId>
       <version>${groovy.version}</version>
+=======
+      <artifactId>groovy-all</artifactId>
+      <version>2.5.4</version>
+      <type>pom</type>
+>>>>>>> master
     </dependency>
     <dependency>
-      <groupId>io.github.lukehutch</groupId>
-      <artifactId>fast-classpath-scanner</artifactId>
-      <version>2.7.4</version>
+      <groupId>io.github.classgraph</groupId>
+      <artifactId>classgraph</artifactId>
+      <version>4.4.8</version>
     </dependency>
 
     <!-- Not needed at runtime -->
@@ -87,10 +93,16 @@
     <!-- Used by failsafe plugin that excludes the compile scope -->
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
+<<<<<<< HEAD
       <artifactId>groovy-all</artifactId>
       <version>${groovy.version}</version>
       <type>pom</type>
+=======
+      <artifactId>groovy</artifactId>
+      <version>2.5.4</version>
+>>>>>>> master
       <scope>test</scope>
+      <type>pom</type>
     </dependency>
 
 
@@ -172,12 +184,12 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.5</version>
+        <version>1.6.2</version>
         <executions>
           <execution>
             <goals>
               <goal>addTestSources</goal>
-              <goal>testCompile</goal>
+              <goal>compileTests</goal>
             </goals>
           </execution>
         </executions>
@@ -195,13 +207,13 @@
             <configuration>
               <relocations>
                 <relocation>
-                  <pattern>io.github.lukehutch.fastclasspathscanner</pattern>
-                  <shadedPattern>io.vertx.lang.groovy.fastclasspathscanner</shadedPattern>
+                  <pattern>io.github.classgraph.classgraph</pattern>
+                  <shadedPattern>io.vertx.lang.groovy.classgraph</shadedPattern>
                 </relocation>
               </relocations>
               <artifactSet>
                 <includes>
-                  <include>io.github.lukehutch:fast-classpath-scanner</include>
+                  <include>io.github.classgraph:classgraph</include>
                 </includes>
               </artifactSet>
             </configuration>

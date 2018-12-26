@@ -2,7 +2,10 @@ package io.vertx.lang.groovy;
 
 import io.vertx.codegen.testmodel.FunctionParamTCKImpl
 import io.vertx.codegen.testmodel.RefedInterface1Impl
-import io.vertx.codegen.testmodel.TestEnum;
+import io.vertx.codegen.testmodel.TestDataObject
+import io.vertx.codegen.testmodel.TestEnum
+import io.vertx.core.json.JsonArray
+import io.vertx.core.json.JsonObject;
 import io.vertx.groovy.codegen.testmodel.FunctionParamTCK
 import io.vertx.groovy.codegen.testmodel.RefedInterface1;
 import org.junit.Test;
@@ -36,8 +39,8 @@ public class FunctionParamTCKTest {
   @Test
   public void testJsonParam() {
     def ret = obj.methodWithJsonParam(
-        { assertEquals([one:1,two:2,three:3], it); return "ok0" },
-        { assertEquals(["one","two","three"], it); return "ok1" })
+        { assertEquals(new JsonObject().put("one",1).put("two",2).put("three",3), it); return "ok0" },
+        { assertEquals(new JsonArray(["one","two","three"]), it); return "ok1" })
     assertEquals(["ok0","ok1"], ret);
   }
 
@@ -160,8 +163,8 @@ public class FunctionParamTCKTest {
   @Test
   public void testJsonReturn() {
     assertEquals("ok", obj.methodWithJsonReturn(
-        { [foo:"foo_value",bar:10,wibble:0.1] },
-        { ["one","two","three"] }
+        { new JsonObject().put("foo","foo_value").put("bar",10).put("wibble",0.1 as Double) },
+        { new JsonArray(["one","two","three"]) }
     ))
   }
 
@@ -173,8 +176,8 @@ public class FunctionParamTCKTest {
             case 0: return "the-string"
             case 1: return 123
             case 2: return true
-            case 3: return [foo:"foo_value"]
-            case 4: return ["foo","bar"]
+            case 3: return new JsonObject().put("foo","foo_value")
+            case 4: return new JsonArray(["foo","bar"])
             default: throw new Exception()
           }
         }
@@ -183,7 +186,7 @@ public class FunctionParamTCKTest {
 
   @Test
   public void testDataObjectReturn() {
-    assertEquals("ok", obj.methodWithDataObjectReturn({[foo:"wasabi",bar:6,wibble:0.01]}))
+    assertEquals("ok", obj.methodWithDataObjectReturn({[foo:"wasabi",bar:6,wibble:0.01] as TestDataObject}))
   }
 
   @Test

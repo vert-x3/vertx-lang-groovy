@@ -1,15 +1,15 @@
-package transform;
+package transform
 
-import io.vertx.lang.groovy.GroovyVerticle;
+import io.vertx.core.AbstractVerticle
 
-public class testClassQualifiedTypeArgField extends GroovyVerticle {
+class testClassQualifiedTypeArgField extends AbstractVerticle {
 
-  List<io.vertx.groovy.core.Vertx> vertx_;
+  List<io.vertx.core.Vertx> vertx_
 
   @Override
   void start() throws Exception {
-    vertx_ = [vertx] as List;
-    vertx_[0].eventBus().send("the-address", true);
+    vertx_ = [vertx] as List
+    vertx_[0].eventBus().send("the-address", true)
   }
 }
 

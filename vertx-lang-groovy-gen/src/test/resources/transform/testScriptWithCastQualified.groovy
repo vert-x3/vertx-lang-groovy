@@ -1,3 +1,3 @@
-package transform;
+package transform
 
-((io.vertx.groovy.core.Vertx)vertx).eventBus().send("the-address", true);
+((io.vertx.core.Vertx)vertx).eventBus().send("the-address", true)
