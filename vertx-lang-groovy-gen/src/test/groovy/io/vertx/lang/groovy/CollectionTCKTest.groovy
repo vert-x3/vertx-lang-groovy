@@ -557,6 +557,8 @@ public class CollectionTCKTest {
         (Map<String, Map<String, Object>>)[foo: [foo:"bar"], eek: [eek: "wibble"]],
         (Map<String, List<Object>>)[foo: ["foo"], eek: ["blah"]],
         (Map<String, RefedInterface1>)[foo: refed1, eek: refed2],
+        (Map<String, TestDataObject>)[foo:[foo:"String 1",bar:1,wibble:1.1]],
+        (Map<String, TestEnum>)[foo:TestEnum.JULIEN],
         (Map<String, Object>)[string:"foo", integer:4, float:3.4, boolean: true, object: [wibble: "eek"], array: ["one", 2]]
     )
   }
