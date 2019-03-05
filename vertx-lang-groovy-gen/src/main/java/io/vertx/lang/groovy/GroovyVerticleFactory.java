@@ -20,8 +20,8 @@ import groovy.util.ConfigObject;
 import groovy.util.ConfigSlurper;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.spi.VerticleFactory;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
