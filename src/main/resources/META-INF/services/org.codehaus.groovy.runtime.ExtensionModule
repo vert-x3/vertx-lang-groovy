@@ -1,0 +1,4 @@
+moduleName = vertx-module
+moduleVersion = 1.0
+extensionClasses = io.vertx.lang.groovy.VertxExtensionModule
+
