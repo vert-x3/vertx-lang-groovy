@@ -638,6 +638,21 @@
               </optionMap>
             </configuration>
           </execution>
+          <execution>
+            <id>generate-test-sources</id>
+            <goals>
+              <goal>process-test</goal>
+            </goals>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <processors>
+                <processor>io.vertx.codegen.CodeGenProcessor</processor>
+              </processors>
+              <includes>
+                <include>io/vertx/groovy/discovery/service/**</include>
+              </includes>
+            </configuration>
+          </execution>
         </executions>
         <dependencies>
           <dependency>
