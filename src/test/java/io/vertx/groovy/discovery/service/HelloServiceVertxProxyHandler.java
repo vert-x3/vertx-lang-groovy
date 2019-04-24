@@ -116,7 +116,7 @@ public class HelloServiceVertxProxyHandler extends ProxyHandler {
       switch (action) {
         case "hello": {
           service.hello((io.vertx.core.json.JsonObject)json.getValue("name"),
-                        HelperUtils.createHandler(msg));
+                        HelperUtils.createHandler(msg,true));
           break;
         }
         default: throw new IllegalStateException("Invalid action: " + action);
