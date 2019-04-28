@@ -16,7 +16,7 @@
   <properties>
     <stack.version>4.0.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>2.5.4</groovy.version>
+    <groovy.version>2.5.6</groovy.version>
     <asciidoc.path>/groovy</asciidoc.path>
   </properties>
 
@@ -48,11 +48,6 @@
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-console</artifactId>
       <version>${groovy.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.lukehutch</groupId>
-      <artifactId>fast-classpath-scanner</artifactId>
-      <version>2.7.4</version>
     </dependency>
 
     <!-- Not needed at runtime -->
