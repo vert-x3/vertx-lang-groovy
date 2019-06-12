@@ -20,6 +20,7 @@ import groovy.lang.MetaMethod;
 import groovy.lang.Script;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 
 /**
  * A Vert.x native verticle wrapping a Groovy script, the script will be executed when the Verticle starts.
@@ -50,12 +51,12 @@ public class ScriptVerticle extends AbstractVerticle {
    * Vert.x calls this method when deploying the instance. You do not call it yourself.
    * <p>
    * A future is passed into the method, and when deployment is complete the verticle should either call
-   * {@link io.vertx.core.Future#complete} or {@link io.vertx.core.Future#fail} the future.
+   * {@link io.vertx.core.Promise#complete} or {@link io.vertx.core.Promise#fail} the future.
    *
    * @param startFuture  the future
    */
   @Override
-  public void start(Future<Void> startFuture) throws Exception {
+  public void start(Promise<Void> startFuture) throws Exception {
     Binding binding = script.getBinding();
     if (script.getBinding() == null) {
       script.setBinding(binding = new Binding());
@@ -71,16 +72,16 @@ public class ScriptVerticle extends AbstractVerticle {
    * Vert.x calls this method when un-deploying the instance. You do not call it yourself.
    * <p>
    * A future is passed into the method, and when un-deployment is complete the verticle should either call
-   * {@link io.vertx.core.Future#complete} or {@link io.vertx.core.Future#fail} the future.
+   * {@link io.vertx.core.Promise#complete} or {@link io.vertx.core.Promise#fail} the future.
    *
    * @param stopFuture  the future
    */
   @Override
-  public void stop(Future<Void> stopFuture) throws Exception {
+  public void stop(Promise<Void> stopFuture) throws Exception {
     handleLifecycle("vertxStop", stopFuture);
   }
 
-  private void handleLifecycle(String methodName, Future<Void> future) {
+  private void handleLifecycle(String methodName, Promise<Void> future) {
     MetaMethod method = script.getMetaClass().getMetaMethod(methodName, EMPTY_PARAMS);
     if (method != null) {
       if (method.isValidMethod(FUTURE_PARAMS)) {

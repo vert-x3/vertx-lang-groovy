@@ -114,8 +114,8 @@ void vertxStop(Future<Void> future) {
 ----
 
 If your verticle extends {@link io.vertx.core.AbstractVerticle}, you override the
-{@link io.vertx.core.AbstractVerticle#start(io.vertx.core.Future)} and
-{@link io.vertx.core.AbstractVerticle#stop(io.vertx.core.Future)} methods:
+{@link io.vertx.core.AbstractVerticle#start(io.vertx.core.Promise)} and
+{@link io.vertx.core.AbstractVerticle#stop(io.vertx.core.Promise)} methods:
 
 [source, groovy]
 ----
