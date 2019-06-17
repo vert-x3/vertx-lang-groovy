@@ -18,6 +18,8 @@
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
     <groovy.version>2.5.6</groovy.version>
     <asciidoc.path>/groovy</asciidoc.path>
+    <graphql.java.major.version>12</graphql.java.major.version>
+    <graphql.java.version>${graphql.java.major.version}.0</graphql.java.version>
   </properties>
 
   <dependencyManagement>
@@ -630,6 +632,7 @@
                 <maven.groupId>${project.groupId}</maven.groupId>
                 <maven.artifactId>${project.artifactId}</maven.artifactId>
                 <maven.version>${project.version}</maven.version>
+                <graphql.java.doc.version>v${graphql.java.major.version}</graphql.java.doc.version>
               </optionMap>
             </configuration>
           </execution>
