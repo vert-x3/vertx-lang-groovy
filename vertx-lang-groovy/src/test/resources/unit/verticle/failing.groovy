@@ -10,5 +10,5 @@ def vertxStart(Future future) {
       context.fail(new Exception("the_failure"))
     }
   }
-  suite.run().resolve(future)
+  suite.run().resolve((Future)future)
 }

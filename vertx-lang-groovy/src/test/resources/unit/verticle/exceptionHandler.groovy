@@ -12,5 +12,5 @@ def vertxStart(Future future) {
       throw new AssertionError("the_failure")
     }
   }
-  suite.run().resolve(future)
+  suite.run().resolve((Future)future)
 }
