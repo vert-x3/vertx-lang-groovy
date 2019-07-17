@@ -4570,6 +4570,9 @@ Set whether Netty pooled buffers are enabled
 |[[cachePreparedStatements]]`@cachePreparedStatements`|`Boolean`|+++
 Set whether prepared statements cache should be enabled.
 +++
+|[[collation]]`@collation`|`String`|+++
+Set the collation for the connection.
++++
 |[[connectTimeout]]`@connectTimeout`|`Number (int)`|+++
 Set the connect timeout
 +++
@@ -4643,6 +4646,12 @@ Set the maximum number of prepared statements that the connection will cache.
 +++
 |[[preparedStatementCacheSqlLimit]]`@preparedStatementCacheSqlLimit`|`Number (int)`|+++
 Set the maximum length of prepared statement SQL string that the connection will cache.
++++
+|[[properties]]`@properties`|`String`|+++
+Set properties for this client, which will be sent to server at the connection start.
++++
+|[[propertys]]`@propertys`|`String`|+++
+Add a property for this client, which will be sent to server at the connection start.
 +++
 |[[proxyOptions]]`@proxyOptions`|`link:dataobjects.html#ProxyOptions[ProxyOptions]`|+++
 Set proxy options for connections via CONNECT proxy (e.g. Squid) or a SOCKS proxy.
@@ -6030,6 +6039,12 @@ Set the maximum number of prepared statements that the connection will cache.
 +++
 |[[preparedStatementCacheSqlLimit]]`@preparedStatementCacheSqlLimit`|`Number (int)`|+++
 Set the maximum length of prepared statement SQL string that the connection will cache.
++++
+|[[properties]]`@properties`|`String`|+++
+Set properties for this client, which will be sent to server at the connection start.
++++
+|[[propertys]]`@propertys`|`String`|+++
+Add a property for this client, which will be sent to server at the connection start.
 +++
 |[[proxyOptions]]`@proxyOptions`|`link:dataobjects.html#ProxyOptions[ProxyOptions]`|+++
 Set proxy options for connections via CONNECT proxy (e.g. Squid) or a SOCKS proxy.
@@ -7491,6 +7506,12 @@ Set the maximum number of prepared statements that the connection will cache.
 +++
 |[[preparedStatementCacheSqlLimit]]`@preparedStatementCacheSqlLimit`|`Number (int)`|+++
 Set the maximum length of prepared statement SQL string that the connection will cache.
++++
+|[[properties]]`@properties`|`String`|+++
+Set properties for this client, which will be sent to server at the connection start.
++++
+|[[propertys]]`@propertys`|`String`|+++
+Add a property for this client, which will be sent to server at the connection start.
 +++
 |[[proxyOptions]]`@proxyOptions`|`link:dataobjects.html#ProxyOptions[ProxyOptions]`|+++
 Set proxy options for connections via CONNECT proxy (e.g. Squid) or a SOCKS proxy.
