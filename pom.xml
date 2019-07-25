@@ -8,13 +8,13 @@
     <version>14</version>
   </parent>
 
-  <version>4.0.0-SNAPSHOT</version>
+  <version>4.0.0-milestone1</version>
   <artifactId>vertx-lang-groovy</artifactId>
 
   <name>Vert.x Groovy Language Support</name>
 
   <properties>
-    <stack.version>4.0.0-SNAPSHOT</stack.version>
+    <stack.version>4.0.0-milestone1</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
     <groovy.version>2.5.6</groovy.version>
     <asciidoc.path>/groovy</asciidoc.path>
@@ -569,7 +569,7 @@
                   <fileset dir="${project.build.directory}/sources/asciidoc">
                     <include name="**/*"/>
                   </fileset>
-                  <mapper type="regexp" from="^(.*)-sources-jar(.*)$" to="\1${asciidoc.path}\2"/>
+                  <mapper from="^(.*)-sources-jar(.*)$" to="\1${asciidoc.path}\2" type="regexp"/>
                 </move>
               </target>
             </configuration>
