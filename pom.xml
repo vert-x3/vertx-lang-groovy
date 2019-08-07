@@ -16,7 +16,7 @@
   <properties>
     <stack.version>4.0.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>3.0.0-beta-2</groovy.version>
+    <groovy.version>3.0.0-beta-3</groovy.version>
     <asciidoc.path>/groovy</asciidoc.path>
   </properties>
 
