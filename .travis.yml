@@ -3,6 +3,7 @@ branches:
   only:
   - master
   - /^\d+\.\d+$/
+  - patch-2
 cache:
   directories:
     - $HOME/.m2
