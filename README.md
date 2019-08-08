@@ -21,5 +21,3 @@ For more information on Vert.x and where Vert.x core fits into the big picture p
 ```
 
 Open _target/docs/vertx-lang-groovy/groovy/index.html _ with your browser
-
-
