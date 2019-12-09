@@ -18,6 +18,8 @@ package io.vertx.lang.groovy;
 import groovy.lang.*;
 import groovy.util.ConfigObject;
 import groovy.util.ConfigSlurper;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.logging.Logger;
@@ -27,8 +29,10 @@ import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
+import java.util.concurrent.Callable;
 
 /**
  * Placeholder
@@ -59,47 +63,48 @@ public class GroovyVerticleFactory implements VerticleFactory {
   }
 
   @Override
-  public boolean blockingCreate() {
-    return true;
-  }
-
-  @Override
-  public Verticle createVerticle(String verticleName, ClassLoader classLoader) throws Exception {
-    verticleName = VerticleFactory.removePrefix(verticleName);
-    Object instance;
-    CompilerConfiguration compilerConfig = createCompilerConfiguration(classLoader);
-    if (verticleName.endsWith(".groovy")) {
-      URL url = classLoader.getResource(verticleName);
-      if (url == null) {
-        File f = new File(verticleName);
-        if (!f.isAbsolute()) {
-          f = new File(System.getProperty("user.dir"), verticleName);
+  public void createVerticle(String verticleName, ClassLoader classLoader, Promise<Callable<Verticle>> promise) {
+    String name = VerticleFactory.removePrefix(verticleName);
+    Future<Class<?>> fut = vertx.executeBlocking(p -> {
+      Class clazz;
+      try {
+        CompilerConfiguration compilerConfig = createCompilerConfiguration(classLoader);
+        if (name.endsWith(".groovy")) {
+          URL url = classLoader.getResource(name);
+          if (url == null) {
+            File f = new File(name);
+            if (!f.isAbsolute()) {
+              f = new File(System.getProperty("user.dir"), name);
+            }
+            if (f.exists() && f.isFile()) {
+              url = f.toURI().toURL();
+            }
+          }
+          if (url == null) {
+            throw new IllegalStateException("Cannot find verticle script: " + name + " on classpath");
+          }
+          GroovyClassLoader gcl = new GroovyClassLoader(classLoader, compilerConfig);
+          GroovyCodeSource gcs = new GroovyCodeSource(url);
+          clazz = gcl.parseClass(gcs);
+        } else {
+          clazz = classLoader.loadClass(name);
         }
-        if (f.exists() && f.isFile()) {
-          url = f.toURI().toURL();
-        }
+      } catch (Exception e) {
+        p.fail(e);
+        return;
       }
-      if (url == null) {
-        throw new IllegalStateException("Cannot find verticle script: " + verticleName + " on classpath");
+      p.complete(clazz);
+    });
+    fut.map(clazz -> (Callable<Verticle>) () -> {
+      Object instance = clazz.getDeclaredConstructor().newInstance();
+      if (instance instanceof Script) {
+        return new ScriptVerticle((Script) instance);
+      } else if (instance instanceof Verticle) {
+        return (Verticle) instance;
+      } else {
+        throw new Exception("Class " + instance.getClass().getName() + " is not a Verticle");
       }
-      GroovyClassLoader gcl = new GroovyClassLoader(classLoader, compilerConfig);
-      GroovyCodeSource gcs = new GroovyCodeSource(url);
-      Class clazz = gcl.parseClass(gcs);
-      instance = clazz.newInstance();
-    } else {
-      Class clazz = classLoader.loadClass(verticleName);
-      instance = clazz.newInstance();
-    }
-
-    Verticle verticle;
-    if (instance instanceof Script) {
-      verticle = new ScriptVerticle((Script) instance);
-    } else if (instance instanceof Verticle) {
-      verticle = (Verticle) instance;
-    } else {
-      throw new Exception("Class " + instance.getClass().getName() + " is not a Verticle");
-    }
-    return verticle;
+    }).onComplete(promise);
   }
 
   @Override

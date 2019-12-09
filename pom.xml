@@ -16,8 +16,12 @@
   <properties>
     <stack.version>4.0.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>2.5.6</groovy.version>
+    <groovy.version>3.0.0-rc-1</groovy.version>
     <asciidoc.path>/groovy</asciidoc.path>
+    <graphql.java.major.version>13</graphql.java.major.version>
+    <graphql.java.version>${graphql.java.major.version}.0</graphql.java.version>
+    <datastax-driver.minor.version>3.5</datastax-driver.minor.version>
+    <datastax-driver.version>${datastax-driver.minor.version}.0</datastax-driver.version>
   </properties>
 
   <dependencyManagement>
@@ -388,22 +392,15 @@
       <artifactId>vertx-web</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
-      <version>4.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web-templ-freemarker</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
-      <version>4.0.0-SNAPSHOT</version>
     </dependency>
 
     <!-- What we need at runtime -->
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-lang-groovy-gen</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
-    </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy</artifactId>
@@ -454,12 +451,12 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.5</version>
+        <version>1.8.0</version>
         <executions>
           <execution>
             <goals>
               <goal>addTestSources</goal>
-              <goal>testCompile</goal>
+              <goal>compileTests</goal>
             </goals>
           </execution>
         </executions>
@@ -572,7 +569,7 @@
                   <fileset dir="${project.build.directory}/sources/asciidoc">
                     <include name="**/*"/>
                   </fileset>
-                  <mapper type="regexp" from="^(.*)-sources-jar(.*)$" to="\1${asciidoc.path}\2"/>
+                  <mapper from="^(.*)-sources-jar(.*)$" to="\1${asciidoc.path}\2" type="regexp"/>
                 </move>
               </target>
             </configuration>
@@ -630,6 +627,9 @@
                 <maven.groupId>${project.groupId}</maven.groupId>
                 <maven.artifactId>${project.artifactId}</maven.artifactId>
                 <maven.version>${project.version}</maven.version>
+                <graphql.java.doc.version>v${graphql.java.major.version}</graphql.java.doc.version>
+                <datastax.driver.minor.version>${datastax-driver.minor.version}</datastax.driver.minor.version>
+                <datastax.driver.version>${datastax-driver.version}</datastax.driver.version>
               </optionMap>
             </configuration>
           </execution>
