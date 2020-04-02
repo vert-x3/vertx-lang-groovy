@@ -136,6 +136,21 @@
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
+      <artifactId>vertx-sql-client</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-pg-client</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-mysql-client</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
       <artifactId>vertx-jdbc-client</artifactId>
       <optional>true</optional>
     </dependency>
@@ -452,6 +467,9 @@
             vertx-sql-common,
             vertx-mongo-client,
             vertx-cassandra-client,
+            vertx-sql-client,
+            vertx-pg-client,
+            vertx-mysql-client,
             vertx-jdbc-client,
             vertx-auth-common,
             vertx-auth-jdbc,
