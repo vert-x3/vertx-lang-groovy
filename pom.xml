@@ -16,7 +16,7 @@
   <properties>
     <stack.version>4.0.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>3.0.1</groovy.version>
+    <groovy.version>3.0.2</groovy.version>
     <asciidoc.path>/groovy</asciidoc.path>
     <graphql.java.major.version>14</graphql.java.major.version>
     <graphql.java.version>${graphql.java.major.version}.0</graphql.java.version>
@@ -419,7 +419,7 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.8.0</version>
+        <version>1.9.0</version>
         <executions>
           <execution>
             <goals>
