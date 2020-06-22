@@ -16,7 +16,7 @@
   <properties>
     <stack.version>4.0.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>3.0.3</groovy.version>
+    <groovy.version>3.0.4</groovy.version>
     <asciidoc.path>/groovy</asciidoc.path>
     <graphql.java.major.version>14</graphql.java.major.version>
     <graphql.java.version>${graphql.java.major.version}.0</graphql.java.version>
@@ -84,7 +84,7 @@
     <!-- Used by failsafe plugin that excludes the compile scope -->
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
+      <artifactId>groovy</artifactId>
       <version>${groovy.version}</version>
       <type>pom</type>
       <scope>test</scope>
