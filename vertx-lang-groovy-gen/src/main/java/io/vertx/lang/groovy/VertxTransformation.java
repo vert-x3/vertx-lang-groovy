@@ -63,24 +63,22 @@ public class VertxTransformation implements ASTTransformation {
 
   @Override
   public void visit(ASTNode[] astNodes, SourceUnit sourceUnit) {
-    loader = sourceUnit.getClassLoader();
-    synchronized(this){
+    loader = sourceUnit.getClassLoader();    
       try {
         Stream.of(astNodes).forEach(n -> visit(n, sourceUnit));      
       } catch (Exception e) {
         // Don't prevent compilation with a failure
         e.printStackTrace();
-      }
-    }
+      }    
   }
 
-  private synchronized void visit(ASTNode node, SourceUnit sourceUnit) {
+  private void visit(ASTNode node, SourceUnit sourceUnit) {
     if (node instanceof ModuleNode) {
       visit((ModuleNode)node, sourceUnit);
     }
   }
 
-  private synchronized void visit(ModuleNode moduleNode, SourceUnit sourceUnit) {
+  private void visit(ModuleNode moduleNode, SourceUnit sourceUnit) {
     for (ImportNode importNode : moduleNode.getImports()) {
       if (shouldTransformClass(importNode.getType())) {
         moduleNode.addImport(importNode.getAlias(), rewriteType(importNode.getType()));
