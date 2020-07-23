@@ -64,14 +64,13 @@ public class VertxTransformation implements ASTTransformation {
   @Override
   public void visit(ASTNode[] astNodes, SourceUnit sourceUnit) {
     loader = sourceUnit.getClassLoader();
-    try {
-      //Stream.of(astNodes).forEach(n -> visit(n, sourceUnit));
-      for (int i = 0; i < astNodes.length; i++) {        
-        visit(astNodes[i], sourceUnit);
+    synchronized(this){
+      try {
+        Stream.of(astNodes).forEach(n -> visit(n, sourceUnit));      
+      } catch (Exception e) {
+        // Don't prevent compilation with a failure
+        e.printStackTrace();
       }
-    } catch (Exception e) {
-      // Don't prevent compilation with a failure
-      e.printStackTrace();
     }
   }
 
