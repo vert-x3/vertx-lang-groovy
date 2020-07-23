@@ -74,13 +74,13 @@ public class VertxTransformation implements ASTTransformation {
     }
   }
 
-  private void visit(ASTNode node, SourceUnit sourceUnit) {
+  private synchronized void visit(ASTNode node, SourceUnit sourceUnit) {
     if (node instanceof ModuleNode) {
       visit((ModuleNode)node, sourceUnit);
     }
   }
 
-  private void visit(ModuleNode moduleNode, SourceUnit sourceUnit) {
+  private synchronized void visit(ModuleNode moduleNode, SourceUnit sourceUnit) {
     for (ImportNode importNode : moduleNode.getImports()) {
       if (shouldTransformClass(importNode.getType())) {
         moduleNode.addImport(importNode.getAlias(), rewriteType(importNode.getType()));
