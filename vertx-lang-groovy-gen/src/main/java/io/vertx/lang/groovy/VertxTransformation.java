@@ -50,7 +50,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-import java.util.Iterator;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
@@ -67,8 +66,7 @@ public class VertxTransformation implements ASTTransformation {
     loader = sourceUnit.getClassLoader();
     try {
       //Stream.of(astNodes).forEach(n -> visit(n, sourceUnit));
-      for(Iterator<ASTNode> itr = astNodes.iterator(); itr.hasNext();){
-        ASTNode n = itr.next();
+      for(ASTNode n : astNodes){       
         visit(n, sourceUnit);
       }
     } catch (Exception e) {
