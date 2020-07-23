@@ -66,7 +66,7 @@ public class VertxTransformation implements ASTTransformation {
     loader = sourceUnit.getClassLoader();
     try {
       //Stream.of(astNodes).forEach(n -> visit(n, sourceUnit));
-      for (i = 0; i < astNodes.length; i++) {        
+      for (int i = 0; i < astNodes.length; i++) {        
         visit(astnodes[i], sourceUnit);
       }
     } catch (Exception e) {
