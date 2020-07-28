@@ -96,9 +96,9 @@ vertx.deployVerticle("another_verticle.groovy")
 .Access to the vert.x instance in a Groovy class
 [source, groovy]
 ----
-import io.vertx.lang.groovy.GroovyVerticle;
+import io.vertx.core.AbstractVerticle;
 
-class HelloWorldHttpVerticle extends GroovyVerticle {
+class HelloWorldHttpVerticle extends AbstractVerticle {
 
    void start() {
      vertx.deployVerticle("another_verticle.groovy")
