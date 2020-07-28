@@ -323,7 +323,7 @@ You get values from a JSON object using the `getXXX` methods, for example:
 
 [source,java]
 ----
-dev val1 = jsonObject.getString("some-key")
+def val1 = jsonObject.getString("some-key")
 def val2 = jsonObject.getInteger("some-other-key")
 ----
 
@@ -331,7 +331,7 @@ The Groovy subscript operator works too:
 
 [source,groovy]
 ----
-dev val1 = jsonObject["some-key"]
+def val1 = jsonObject["some-key"]
 def val2 = jsonObject["some-other-key"]
 ----
 
