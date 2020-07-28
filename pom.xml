@@ -71,16 +71,6 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-    <!-- Used by failsafe plugin that excludes the compile scope -->
-    <dependency>
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
-      <version>${groovy.version}</version>
-      <type>pom</type>
-      <scope>test</scope>
-    </dependency>
-
-
 
     <!-- Stack dependencies -->
     <dependency>
