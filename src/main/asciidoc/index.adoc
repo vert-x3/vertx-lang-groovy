@@ -57,7 +57,7 @@ void vertxStop() {
 }
 ----
 
-Such methods are synchronous, after the method is called the verticle is considered as started or stopped.
+Such methods are synchronous, after the method is called the verticle is considered started or stopped.
 
 Alternatively, you can extend the {@link io.vertx.core.AbstractVerticle} class and implement the `start` and
 `stop` methods:
@@ -83,6 +83,8 @@ verticle will be considered started.
 
 You can also optionally override the `stop` method. This will be called by Vert.x when the verticle is undeployed
 and when the method has completed the verticle will be considered stopped.
+
+Like before such methods are synchronous, after the method is called the verticle is considered started or stopped.
 
 === Accessing the vertx instance from a verticle
 
