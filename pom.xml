@@ -43,11 +43,6 @@
       <artifactId>groovy</artifactId>
       <version>${groovy.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-console</artifactId>
-      <version>${groovy.version}</version>
-    </dependency>
 
     <!-- Not needed at runtime -->
     <dependency>
