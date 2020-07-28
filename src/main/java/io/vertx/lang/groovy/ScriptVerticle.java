@@ -43,7 +43,7 @@ public class ScriptVerticle extends AbstractVerticle {
   }
 
   private static final Class[] EMPTY_PARAMS = {};
-  private static final Class[] FUTURE_PARAMS = {io.vertx.core.Future.class};
+  private static final Class[] FUTURE_PARAMS = {io.vertx.core.Promise.class};
 
   /**
    * Start the verticle instance.
@@ -53,17 +53,17 @@ public class ScriptVerticle extends AbstractVerticle {
    * A future is passed into the method, and when deployment is complete the verticle should either call
    * {@link io.vertx.core.Promise#complete} or {@link io.vertx.core.Promise#fail} the future.
    *
-   * @param startFuture  the future
+   * @param startPromise  the future
    */
   @Override
-  public void start(Promise<Void> startFuture) throws Exception {
+  public void start(Promise<Void> startPromise) throws Exception {
     Binding binding = script.getBinding();
     if (script.getBinding() == null) {
       script.setBinding(binding = new Binding());
     }
     binding.setVariable("vertx", vertx);
     script.run();
-    handleLifecycle("vertxStart", startFuture);
+    handleLifecycle("vertxStart", startPromise);
   }
 
   /**
@@ -74,24 +74,24 @@ public class ScriptVerticle extends AbstractVerticle {
    * A future is passed into the method, and when un-deployment is complete the verticle should either call
    * {@link io.vertx.core.Promise#complete} or {@link io.vertx.core.Promise#fail} the future.
    *
-   * @param stopFuture  the future
+   * @param stopPromise  the future
    */
   @Override
-  public void stop(Promise<Void> stopFuture) throws Exception {
-    handleLifecycle("vertxStop", stopFuture);
+  public void stop(Promise<Void> stopPromise) throws Exception {
+    handleLifecycle("vertxStop", stopPromise);
   }
 
-  private void handleLifecycle(String methodName, Promise<Void> future) {
+  private void handleLifecycle(String methodName, Promise<Void> promise) {
     MetaMethod method = script.getMetaClass().getMetaMethod(methodName, EMPTY_PARAMS);
     if (method != null) {
       if (method.isValidMethod(FUTURE_PARAMS)) {
-        method.invoke(script, new Object[]{future});
+        method.invoke(script, new Object[]{promise});
       } else if (method.isValidMethod(EMPTY_PARAMS)) {
         method.invoke(script, EMPTY_PARAMS);
-        future.complete();
+        promise.complete();
       }
     } else {
-      future.complete();
+      promise.complete();
     }
   }
 }
