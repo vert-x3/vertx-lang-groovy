@@ -87,7 +87,7 @@
     <!-- Used by failsafe plugin that excludes the compile scope -->
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
+      <artifactId>groovy</artifactId>
       <version>${groovy.version}</version>
       <type>pom</type>
       <scope>test</scope>
@@ -172,7 +172,7 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.9.0</version>
+        <version>1.9.1</version>
         <executions>
           <execution>
             <goals>
