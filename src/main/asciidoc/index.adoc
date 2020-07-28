@@ -127,22 +127,22 @@ When your Verticle is implemented as a script, asynchronous start and stop are i
 
 [source, groovy]
 ----
-import io.vertx.core.Future
+import io.vertx.core.Promise
 
-void vertxStart(Future<Void> future) {
+void vertxStart(Promise<Void> promise) {
  println "starting"
  vertx.deployVerticle("v.rb", { res ->
    if (res.succeeded()) {
-     future.complete()
+     promise.complete()
    } else {
-     future.fail()
+     promise.fail(res.cause())
    }
  })
 }
 
-void vertxStop(Future<Void> future) {
+void vertxStop(Promise<Void> future) {
  println "stopping"
- future.complete()
+ promise.complete()
 }
 ----
 
@@ -156,19 +156,19 @@ import io.vertx.core.Future
 import io.vertx.core.AbstractVerticle
 
 public class HelloWorldHttpVerticle extends AbstractVerticle {
- public void start(Future<Void> future) {
+ public void start(Promise<Void> future) {
    println "starting"
    vertx.deployVerticle("v.rb",
    { res ->
      if (res.succeeded()) {
        future.complete()
      } else {
-       future.fail()
+       future.fail(res.cause())
      }
    })
   }
 
- public void stop(Future<Void> future) {
+ public void stop(Promise<Void> future) {
   println("stopping")
   future.complete()
  }
