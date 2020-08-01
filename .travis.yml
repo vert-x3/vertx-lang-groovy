@@ -3,7 +3,6 @@ branches:
   only:
   - master
   - /^\d+\.\d+$/
-  - /^\d+\.\d+\-\w$/
 cache:
   directories:
     - $HOME/.m2
