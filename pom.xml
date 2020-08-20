@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.vertx</groupId>
     <artifactId>vertx-parent</artifactId>
-    <version>14</version>
+    <version>17</version>
   </parent>
 
   <version>4.0.0-SNAPSHOT</version>
@@ -16,12 +16,7 @@
   <properties>
     <stack.version>4.0.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>3.0.3</groovy.version>
-    <asciidoc.path>/groovy</asciidoc.path>
-    <graphql.java.major.version>14</graphql.java.major.version>
-    <graphql.java.version>${graphql.java.major.version}.0</graphql.java.version>
-    <datastax-driver.minor.version>3.5</datastax-driver.minor.version>
-    <datastax-driver.version>${datastax-driver.minor.version}.0</datastax-driver.version>
+    <groovy.version>3.0.5</groovy.version>
   </properties>
 
   <dependencyManagement>
@@ -46,11 +41,6 @@
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy</artifactId>
-      <version>${groovy.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-console</artifactId>
       <version>${groovy.version}</version>
     </dependency>
 
@@ -81,16 +71,6 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-    <!-- Used by failsafe plugin that excludes the compile scope -->
-    <dependency>
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
-      <version>${groovy.version}</version>
-      <type>pom</type>
-      <scope>test</scope>
-    </dependency>
-
-
 
     <!-- Stack dependencies -->
     <dependency>
@@ -102,291 +82,6 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-docgen</artifactId>
       <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-codetrans</artifactId>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-unit</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-sql-common</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-bridge-common</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-mongo-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-cassandra-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-jdbc-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-common</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-jdbc</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-htdigest</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-htpasswd</artifactId>
-      <version>${stack.version}</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-jwt</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-mongo</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-oauth2</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-shiro</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-webauthn</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-jwt</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-common</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-api-contract</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-templ-freemarker</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-templ-handlebars</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-templ-jade</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-templ-mvel</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-templ-pebble</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-templ-rocker</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-templ-thymeleaf</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-graphql</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-validation</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-circuit-breaker</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-dropwizard-metrics</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-redis-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-stomp</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-mail-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-consul-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery-backend-consul</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery-backend-redis</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery-backend-zookeeper</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery-bridge-consul</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery-bridge-docker</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery-bridge-kubernetes</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery-bridge-zookeeper</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-service-discovery-bridge-docker-links</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-config</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-kafka-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-mqtt</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-rabbitmq-client</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-health-check</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-shell</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-micrometer-metrics</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-tcp-eventbus-bridge</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-json-schema</artifactId>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web-templ-freemarker</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
     </dependency>
 
     <!-- What we need at runtime -->
@@ -406,6 +101,33 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-service-proxy</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web-templ-freemarker</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-service-discovery</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web-templ-freemarker</artifactId>
+      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -429,151 +151,12 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.9.0</version>
+        <version>1.9.1</version>
         <executions>
           <execution>
             <goals>
               <goal>addTestSources</goal>
               <goal>compileTests</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.0.2</version>
-        <configuration>
-          <includeGroupIds>io.vertx</includeGroupIds>
-          <includeArtifactIds>
-            vertx-core,
-            vertx-unit,
-            vertx-bridge-common,
-            vertx-sql-common,
-            vertx-mongo-client,
-            vertx-cassandra-client,
-            vertx-jdbc-client,
-            vertx-auth-common,
-            vertx-auth-jdbc,
-            vertx-auth-htdigest,
-            vertx-auth-htpasswd,
-            vertx-auth-jwt,
-            vertx-auth-mongo,
-            vertx-auth-oauth2,
-            vertx-auth-shiro,
-            vertx-auth-webauthn,
-            vertx-jwt,
-            vertx-web-common,
-            vertx-web-client,
-            vertx-web,
-            vertx-web-api-contract,
-            vertx-web-templ-freemarker,
-            vertx-web-templ-handlebars,
-            vertx-web-templ-jade,
-            vertx-web-templ-mvel,
-            vertx-web-templ-pebble,
-            vertx-web-templ-rocker,
-            vertx-web-templ-thymeleaf,
-            vertx-web-graphql,
-            vertx-web-validation,
-            vertx-circuit-breaker,
-            vertx-dropwizard-metrics,
-            vertx-redis-client,
-            vertx-stomp,
-            vertx-mail-client,
-            vertx-consul-client,
-            vertx-service-discovery,
-            vertx-service-discovery-backend-consul,
-            vertx-service-discovery-backend-redis,
-            vertx-service-discovery-backend-zookeeper,
-            vertx-service-discovery-bridge-consul,
-            vertx-service-discovery-bridge-docker,
-            vertx-service-discovery-bridge-kubernetes,
-            vertx-service-discovery-bridge-zookeeper,
-            vertx-service-discovery-bridge-docker-links,
-            vertx-config,
-            vertx-kafka-client,
-            vertx-mqtt,
-            vertx-rabbitmq-client,
-            vertx-health-check,
-            vertx-shell,
-            vertx-micrometer-metrics,
-            vertx-tcp-eventbus-bridge,
-            vertx-json-schema
-          </includeArtifactIds>
-          <classifier>sources</classifier>
-          <includeTypes>jar</includeTypes>
-        </configuration>
-        <executions>
-          <!-- Unpack java sources to target/java-sources -->
-          <execution>
-            <id>unpack-java</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <configuration>
-              <includes>io/vertx/**/*.java,examples/**/*.java</includes>
-              <excludes>**/impl/**/*.java,io/vertx/groovy/**,io/vertx/reactivex/**,io/vertx/rxjava/**,examples/override/**</excludes>
-              <outputDirectory>${project.build.directory}/sources/java</outputDirectory>
-            </configuration>
-          </execution>          <!-- Unpack asciidoc sources to target/asciidoc-sources -->
-          <execution>
-            <id>unpack-asciidoc</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <configuration>
-              <includes>*.adoc</includes>
-              <outputDirectory>${project.build.directory}/sources/asciidoc</outputDirectory>
-              <useSubDirectoryPerArtifact>true</useSubDirectoryPerArtifact>
-              <stripVersion>true</stripVersion>
-              <stripClassifier>true</stripClassifier>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
-          <!-- Remove the -source-jar suffix in unpacked asciidoc -->
-          <execution>
-            <id>rename-asciidoc</id>
-            <phase>generate-sources</phase>
-            <configuration>
-              <target name="Remove the -source-jar prefix in unpackage asciidoc">
-                <move todir="${project.build.directory}/sources/asciidoc">
-                  <fileset dir="${project.build.directory}/sources/asciidoc">
-                    <include name="**/*"/>
-                  </fileset>
-                  <mapper from="^(.*)-sources-jar(.*)$" to="\1${asciidoc.path}\2" type="regexp"/>
-                </move>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-
-          <!-- Copy asciidoc override -->
-          <execution>
-            <id>copy-asciidoc-override</id>
-            <phase>generate-sources</phase>
-            <configuration>
-              <target name="Copy asciidoc override">
-                <copy todir="${project.build.directory}/sources/asciidoc">
-                  <fileset dir="${project.basedir}/src/main/docoverride">
-                    <include name="**/*"/>
-                  </fileset>
-                </copy>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
             </goals>
           </execution>
         </executions>
@@ -598,19 +181,16 @@
             </goals>
             <phase>process-classes</phase>
             <configuration>
-              <sourceDirectory>${project.build.directory}/sources/java</sourceDirectory>
+              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
               <processors>
-                <processor>io.vertx.docgen.DocGenProcessor</processor>
+                <processor>io.vertx.docgen.JavaDocGenProcessor</processor>
               </processors>
               <optionMap>
-                <docgen.source>${project.build.directory}/sources/asciidoc</docgen.source>
+                <docgen.source>${asciidoc.dir}</docgen.source>
                 <docgen.output>${project.build.directory}/asciidoc</docgen.output>
                 <maven.groupId>${project.groupId}</maven.groupId>
                 <maven.artifactId>${project.artifactId}</maven.artifactId>
                 <maven.version>${project.version}</maven.version>
-                <graphql.java.doc.version>v${graphql.java.major.version}</graphql.java.doc.version>
-                <datastax.driver.minor.version>${datastax-driver.minor.version}</datastax.driver.minor.version>
-                <datastax.driver.version>${datastax-driver.version}</datastax.driver.version>
               </optionMap>
             </configuration>
           </execution>
