@@ -16,7 +16,7 @@
   <properties>
     <stack.version>4.0.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>3.0.5</groovy.version>
+    <groovy.version>3.0.6</groovy.version>
   </properties>
 
   <dependencyManagement>
@@ -151,7 +151,7 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.9.1</version>
+        <version>1.10.1</version>
         <executions>
           <execution>
             <goals>
