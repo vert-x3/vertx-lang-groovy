@@ -1,9 +1,9 @@
 package verticle
 
-import io.vertx.core.Future
+import io.vertx.core.Promise
 import io.vertx.ext.unit.TestSuite
 
-def vertxStart(Future future) {
+def vertxStart(Promise promise) {
   def suite = TestSuite.create("my_suite").beforeEach({ context ->
     vertx.exceptionHandler(context.exceptionHandler())
   }).test "timer_test", { context ->
@@ -12,5 +12,5 @@ def vertxStart(Future future) {
       throw new AssertionError("the_failure")
     }
   }
-  suite.run().resolve((Future)future)
+  suite.run().resolve((Promise)promise)
 }
