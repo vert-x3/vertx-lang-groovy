@@ -10,5 +10,5 @@ def vertxStart(Promise promise) {
       context.fail(new Exception("the_failure"))
     }
   }
-  suite.run().resolve(promise)
+  suite.run().resolve((Promise)promise)
 }
