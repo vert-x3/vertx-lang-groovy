@@ -35,7 +35,7 @@ public class LifeCycleAsyncVerticleClass extends GroovyVerticle {
   void stop(Promise<Void> stopPromise) throws Exception {
     vertx.timerStream(200).handler({ id ->
       System.setProperty("stopped", "true");
-      stopFuture.complete()
+      stopPromise.complete()
     });
   }
 }
