@@ -17,7 +17,7 @@ package io.vertx.lang.groovy;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 
@@ -58,9 +58,9 @@ public class GroovyVerticle {
    *
    * @param startFuture  the future
    */
-  public void start(Future<Void> startFuture) throws Exception {
+  public void start(Promise<Void> startPromise) throws Exception {
     start();
-    startFuture.complete();
+    startPromise.complete();
   }
 
   /**
@@ -73,9 +73,9 @@ public class GroovyVerticle {
    *
    * @param stopFuture  the future
    */
-  public void stop(Future<Void> stopFuture) throws Exception {
+  public void stop(Promise<Void> stopPromise) throws Exception {
     stop();
-    stopFuture.complete();
+    stopPromise.complete();
   }
 
   /**
@@ -85,15 +85,15 @@ public class GroovyVerticle {
     return new AbstractVerticle() {
 
       @Override
-      public void start(Future<Void> startFuture) throws Exception {
+      public void start(Promise<Void> startPromise) throws Exception {
         GroovyVerticle.this.vertx = super.vertx;
         GroovyVerticle.this.context = super.context;
-        GroovyVerticle.this.start(startFuture);
+        GroovyVerticle.this.start(startPromise);
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) throws Exception {
-        GroovyVerticle.this.stop(stopFuture);
+      public void stop(Promise<Void> stopPromise) throws Exception {
+        GroovyVerticle.this.stop(stopPromise);
       }
     };
   }
