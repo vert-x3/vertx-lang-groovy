@@ -1,6 +1,7 @@
 package io.vertx.lang.groovy;
 
 import io.vertx.codegen.annotations.DataObject;
+import io.vertx.core.AsyncResult;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.codehaus.groovy.runtime.typehandling.GroovyCastException;
