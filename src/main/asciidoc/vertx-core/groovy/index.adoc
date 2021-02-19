@@ -153,7 +153,8 @@ void vertxStop(Promise<Void> future) {
 NOTE: The objects of {@link io.vertx.core.AsyncResult} or it's subclasses are 
 coerced to {@link java.lang.Boolean} according to (http://groovy-lang.org/semantics.html#Groovy-Truth)[Groovy-Truth],
 so that an instance of {@link io.vertx.core.AsyncResult} or {@link io.vertx.core.Future} 
-evaluates to `true` if succeeded, or to `false` otherwise.
+evaluates to `true` if succeeded, or to `false` otherwise. 
+That allowes to write more readable code like `res ? doSuccess() : doFail()`.
 
 If your verticle extends {@link io.vertx.core.AbstractVerticle}, you override the
 {@link io.vertx.core.AbstractVerticle#start(io.vertx.core.Promise)} and
