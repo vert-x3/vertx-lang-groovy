@@ -13,15 +13,15 @@ class AsyncResultTruthTest {
   @Test
   void testTrue() {
     def fut = Future.succeededFuture() 
-    assertTrue fut
-    assertEquals fut, fut.succeeded()
+    assertTrue !!fut
+    assertEquals !!fut, fut.succeeded()
   }
   
   @Test
   void testFalse() {
     def fut = Future.failedFuture( 'fail' ) 
-    assertFalse fut
-    assertEquals fut, fut.failed()
+    assertFalse !!fut
+    assertEquals !!fut, fut.failed()
   }
   
 }
