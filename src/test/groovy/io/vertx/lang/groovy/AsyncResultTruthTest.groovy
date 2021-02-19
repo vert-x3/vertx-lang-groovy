@@ -19,9 +19,9 @@ class AsyncResultTruthTest {
   
   @Test
   void testFalse() {
-    def fut = Future.failedFuture( 'fail' ) 
+    def fut = Future.failedFuture 'fail' 
     assertFalse !!fut
-    assertEquals !!fut, fut.failed()
+    assertEquals !!fut, fut.succeeded()
   }
   
 }
