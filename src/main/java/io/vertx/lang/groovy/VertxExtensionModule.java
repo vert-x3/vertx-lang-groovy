@@ -1,6 +1,7 @@
 package io.vertx.lang.groovy;
 
 import io.vertx.codegen.annotations.DataObject;
+import io.vertx.core.AsyncResult;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.codehaus.groovy.runtime.typehandling.GroovyCastException;
@@ -99,5 +100,15 @@ public class VertxExtensionModule {
    */
   public static void leftShift(JsonArray json, Object value) {
     json.add(value);
+  }
+  
+ /**
+   * Coerces an {@link AsyncResult} as a boolean value according to Groovy-Truth.
+   *
+   * @param self the {@link AsyncResult} instance
+   * @return true if succeeded
+   */
+  public static boolean asBoolean( final AsyncResult self ) {
+    return self.succeeded();
   }
 }
