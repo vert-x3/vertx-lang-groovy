@@ -17,7 +17,7 @@
   <properties>
     <stack.version>3.9.8-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>3.0.7</groovy.version>
+    <groovy.version>3.0.8</groovy.version>
   </properties>
 
   <dependencyManagement>
