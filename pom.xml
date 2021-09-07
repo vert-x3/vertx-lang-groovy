@@ -1,40 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <groupId>io.vertx</groupId>
-    <artifactId>vertx-parent</artifactId>
-    <version>19</version>
-  </parent>
-
-  <packaging>pom</packaging>
-  <artifactId>vertx-lang-groovy-parent</artifactId>
-  <version>3.9.9-SNAPSHOT</version>
-
-  <name>Vert.x Groovy Language Support</name>
-
-  <properties>
-    <stack.version>3.9.9-SNAPSHOT</stack.version>
-    <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>3.0.8</groovy.version>
-  </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
+      
+    <modelVersion>4.0.0</modelVersion>
+      
+    <parent>
+            
         <groupId>io.vertx</groupId>
-        <artifactId>vertx-dependencies</artifactId>
-        <version>${stack.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <modules>
-    <module>vertx-lang-groovy-gen</module>
-    <module>vertx-lang-groovy</module>
-  </modules>
-
+            
+        <artifactId>vertx-parent</artifactId>
+            
+        <version>19</version>
+          
+    </parent>
+      
+    <packaging>pom</packaging>
+      
+    <artifactId>vertx-lang-groovy-parent</artifactId>
+      
+    <version>3.9.9</version>
+      
+    <name>Vert.x Groovy Language Support</name>
+      
+    <properties>
+            
+        <stack.version>3.9.9</stack.version>
+            
+        <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
+            
+        <groovy.version>3.0.8</groovy.version>
+          
+    </properties>
+      
+    <dependencyManagement>
+            
+        <dependencies>
+                  
+            <dependency>
+                        
+                <groupId>io.vertx</groupId>
+                        
+                <artifactId>vertx-dependencies</artifactId>
+                        
+                <version>${stack.version}</version>
+                        
+                <type>pom</type>
+                        
+                <scope>import</scope>
+                      
+            </dependency>
+                
+        </dependencies>
+          
+    </dependencyManagement>
+      
+    <modules>
+            
+        <module>vertx-lang-groovy-gen</module>
+            
+        <module>vertx-lang-groovy</module>
+          
+    </modules>
+    
 </project>
