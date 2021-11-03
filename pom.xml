@@ -8,13 +8,13 @@
     <version>19</version>
   </parent>
 
-  <version>4.2.1</version>
+  <version>4.2.2-SNAPSHOT</version>
   <artifactId>vertx-lang-groovy</artifactId>
 
   <name>Vert.x Groovy Language Support</name>
 
   <properties>
-    <stack.version>4.2.1</stack.version>
+    <stack.version>4.2.2-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
     <groovy.version>3.0.8</groovy.version>
   </properties>
