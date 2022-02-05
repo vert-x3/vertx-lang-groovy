@@ -218,7 +218,7 @@
             <version>4.13.1</version>
           </dependency>
           <dependency>
-            <groupId>org.codehaus.groovy</groupId>
+            <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
             <version>${groovy.version}</version>
           </dependency>
