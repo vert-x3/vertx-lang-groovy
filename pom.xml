@@ -40,7 +40,7 @@
       <artifactId>vertx-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.groovy</groupId>
+      <groupId>org.apache.groovy</groupId>
       <artifactId>groovy</artifactId>
       <version>${groovy.version}</version>
     </dependency>
@@ -87,7 +87,7 @@
 
     <!-- What we need at runtime -->
     <dependency>
-      <groupId>org.codehaus.groovy</groupId>
+      <groupId>org.apache.groovy</groupId>
       <artifactId>groovy-json</artifactId>
       <version>${groovy.version}</version>
     </dependency>
@@ -218,7 +218,7 @@
             <version>4.13.1</version>
           </dependency>
           <dependency>
-            <groupId>org.codehaus.groovy</groupId>
+            <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
             <version>${groovy.version}</version>
           </dependency>
