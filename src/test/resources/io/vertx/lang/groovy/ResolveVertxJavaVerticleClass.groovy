@@ -9,7 +9,7 @@ public class ResolveVertxJavaVerticleClass extends AbstractVerticle {
 
   @Override
   void start() throws Exception {
-    boolean started = vertx != null && vertx.currentContext().deploymentID() != null && vertx.currentContext().config() != null
+    boolean started = vertx != null && vertx.getOrCreateContext().deploymentID() != null && vertx.getOrCreateContext().config() != null
     System.setProperty("started", "${started}");
   }
 }

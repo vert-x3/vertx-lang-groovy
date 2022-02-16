@@ -16,7 +16,7 @@
   <properties>
     <stack.version>4.3.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>3.0.8</groovy.version>
+    <groovy.version>4.0.0</groovy.version>
     <log4j2.version>2.17.1</log4j2.version>
   </properties>
 
@@ -40,7 +40,7 @@
       <artifactId>vertx-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.groovy</groupId>
+      <groupId>org.apache.groovy</groupId>
       <artifactId>groovy</artifactId>
       <version>${groovy.version}</version>
     </dependency>
@@ -87,7 +87,7 @@
 
     <!-- What we need at runtime -->
     <dependency>
-      <groupId>org.codehaus.groovy</groupId>
+      <groupId>org.apache.groovy</groupId>
       <artifactId>groovy-json</artifactId>
       <version>${groovy.version}</version>
     </dependency>
@@ -218,7 +218,7 @@
             <version>4.13.1</version>
           </dependency>
           <dependency>
-            <groupId>org.codehaus.groovy</groupId>
+            <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
             <version>${groovy.version}</version>
           </dependency>
