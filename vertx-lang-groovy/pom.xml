@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.vertx</groupId>
     <artifactId>vertx-lang-groovy-parent</artifactId>
-    <version>3.9.15</version>
+    <version>3.9.16-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -352,7 +352,7 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-lang-groovy-gen</artifactId>
-      <version>3.9.15</version>
+      <version>3.9.16-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
