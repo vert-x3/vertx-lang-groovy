@@ -1,7 +1,8 @@
 Vert.x for Groovy
 ========
 
-[![Build Status](https://github.com/vert-x3/vertx-lang-groovy/workflows/CI/badge.svg?branch=master)](https://github.com/vert-x3/vertx-lang-groovy/actions?query=workflow%3ACI)
+[![Build Status (5.x)](https://github.com/vert-x3/vertx-lang-groovy/actions/workflows/ci-5.x.yml/badge.svg)](https://github.com/vert-x3/vertx-lang-groovy/actions/workflows/ci-5.x.yml)
+[![Build Status (4.x)](https://github.com/vert-x3/vertx-lang-groovy/actions/workflows/ci-4.x.yml/badge.svg)](https://github.com/vert-x3/vertx-lang-groovy/actions/workflows/ci-4.x.yml)
 
 This is the repository for Groovy for Vert.x.
 
