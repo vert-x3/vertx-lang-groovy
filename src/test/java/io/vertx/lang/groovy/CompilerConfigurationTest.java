@@ -109,7 +109,7 @@ public class CompilerConfigurationTest {
     Thread.currentThread().setContextClassLoader(nextLoader);
     try {
       CountDownLatch latch = new CountDownLatch(1);
-      vertx.deployVerticle(verticleName, ar -> latch.countDown());
+      vertx.deployVerticle(verticleName).onComplete(ar -> latch.countDown());
       latch.await(10, TimeUnit.SECONDS);
     } finally {
       Thread.currentThread().setContextClassLoader(prevLoader);
