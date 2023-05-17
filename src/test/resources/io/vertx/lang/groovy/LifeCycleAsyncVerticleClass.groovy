@@ -26,7 +26,7 @@ public class LifeCycleAsyncVerticleClass extends AbstractVerticle {
 
   @Override
   void start(Promise<Void> startFuture) throws Exception {
-    vertx.timerStream(200).handler({ id ->
+    vertx.setTimer(200, { id ->
       System.setProperty("started", "true");
       startFuture.complete()
     });
@@ -34,7 +34,7 @@ public class LifeCycleAsyncVerticleClass extends AbstractVerticle {
 
   @Override
   void stop(Promise<Void> stopFuture) throws Exception {
-    vertx.timerStream(200).handler({ id ->
+    vertx.setTimer(200, { id ->
       System.setProperty("stopped", "true");
       stopFuture.complete()
     });
