@@ -65,35 +65,28 @@ public class GroovyVerticleFactory implements VerticleFactory {
   @Override
   public void createVerticle(String verticleName, ClassLoader classLoader, Promise<Callable<Verticle>> promise) {
     String name = VerticleFactory.removePrefix(verticleName);
-    Future<Class<?>> fut = vertx.executeBlocking(p -> {
-      Class clazz;
-      try {
-        CompilerConfiguration compilerConfig = createCompilerConfiguration(classLoader);
-        if (name.endsWith(".groovy")) {
-          URL url = classLoader.getResource(name);
-          if (url == null) {
-            File f = new File(name);
-            if (!f.isAbsolute()) {
-              f = new File(System.getProperty("user.dir"), name);
-            }
-            if (f.exists() && f.isFile()) {
-              url = f.toURI().toURL();
-            }
+    Future<Class<?>> fut = vertx.executeBlocking(() -> {
+      CompilerConfiguration compilerConfig = createCompilerConfiguration(classLoader);
+      if (name.endsWith(".groovy")) {
+        URL url = classLoader.getResource(name);
+        if (url == null) {
+          File f = new File(name);
+          if (!f.isAbsolute()) {
+            f = new File(System.getProperty("user.dir"), name);
           }
-          if (url == null) {
-            throw new IllegalStateException("Cannot find verticle script: " + name + " on classpath");
+          if (f.exists() && f.isFile()) {
+            url = f.toURI().toURL();
           }
-          GroovyClassLoader gcl = new GroovyClassLoader(classLoader, compilerConfig);
-          GroovyCodeSource gcs = new GroovyCodeSource(url);
-          clazz = gcl.parseClass(gcs);
-        } else {
-          clazz = classLoader.loadClass(name);
         }
-      } catch (Exception e) {
-        p.fail(e);
-        return;
+        if (url == null) {
+          throw new IllegalStateException("Cannot find verticle script: " + name + " on classpath");
+        }
+        GroovyClassLoader gcl = new GroovyClassLoader(classLoader, compilerConfig);
+        GroovyCodeSource gcs = new GroovyCodeSource(url);
+        return gcl.parseClass(gcs);
+      } else {
+        return classLoader.loadClass(name);
       }
-      p.complete(clazz);
     });
     fut.map(clazz -> (Callable<Verticle>) () -> {
       Object instance = clazz.getDeclaredConstructor().newInstance();
