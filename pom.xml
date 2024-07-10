@@ -13,8 +13,13 @@
 
   <name>Vert.x Groovy Language Support</name>
 
+  <scm>
+    <connection>scm:git:git@github.com:vert-x3/vertx-lang-groovy.git</connection>
+    <developerConnection>scm:git:git@github.com:vert-x3/vertx-lang-groovy.git</developerConnection>
+    <url>git@github.com:vert-x3/vertx-lang-groovy.git</url>
+  </scm>
+
   <properties>
-    <stack.version>5.0.0-SNAPSHOT</stack.version>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
     <groovy.version>4.0.20</groovy.version>
     <log4j2.version>2.17.1</log4j2.version>
@@ -25,7 +30,7 @@
       <dependency>
         <groupId>io.vertx</groupId>
         <artifactId>vertx-dependencies</artifactId>
-        <version>${stack.version}</version>
+        <version>${project.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
