@@ -21,7 +21,7 @@
 
   <properties>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>4.0.20</groovy.version>
+    <groovy.version>4.0.22</groovy.version>
     <log4j2.version>2.17.1</log4j2.version>
   </properties>
 
