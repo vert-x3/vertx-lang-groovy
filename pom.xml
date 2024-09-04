@@ -13,7 +13,7 @@
           
     </parent>
       
-    <version>4.5.10</version>
+    <version>4.5.11-SNAPSHOT</version>
       
     <artifactId>vertx-lang-groovy</artifactId>
       
@@ -21,7 +21,7 @@
       
     <properties>
             
-        <stack.version>4.5.10</stack.version>
+        <stack.version>4.5.11-SNAPSHOT</stack.version>
             
         <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
             
