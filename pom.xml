@@ -13,6 +13,12 @@
 
   <name>Vert.x Groovy Language Support</name>
 
+  <scm>
+    <connection>scm:git:git@github.com:vert-x3/vertx-lang-groovy.git</connection>
+    <developerConnection>scm:git:git@github.com:vert-x3/vertx-lang-groovy.git</developerConnection>
+    <url>git@github.com:vert-x3/vertx-lang-groovy.git</url>
+  </scm>
+
   <properties>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
     <groovy.version>4.0.22</groovy.version>
