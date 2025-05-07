@@ -8,7 +8,7 @@
     <version>11</version>
   </parent>
 
-  <version>5.0.0-SNAPSHOT</version>
+  <version>5.0.0.CR8</version>
   <artifactId>vertx-lang-groovy</artifactId>
 
   <name>Vert.x Groovy Language Support</name>
