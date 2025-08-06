@@ -8,7 +8,7 @@
     <version>22</version>
   </parent>
 
-  <version>4.518-SNAPSHOT</version>
+  <version>4.5.18-SNAPSHOT</version>
   <artifactId>vertx-lang-groovy</artifactId>
 
   <name>Vert.x for Groovy</name>
