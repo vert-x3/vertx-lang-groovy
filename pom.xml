@@ -21,7 +21,7 @@
 
   <properties>
     <asciidoc.dir>${project.basedir}/src/main/asciidoc</asciidoc.dir>
-    <groovy.version>4.0.28</groovy.version>
+    <groovy.version>5.0.3</groovy.version>
     <log4j2.version>2.17.1</log4j2.version>
   </properties>
 
@@ -159,7 +159,10 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>4.2.0</version>
+        <version>4.2.1</version>
+        <configuration>
+          <targetBytecode>11</targetBytecode>
+        </configuration>
         <executions>
           <execution>
             <goals>
