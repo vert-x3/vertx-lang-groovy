@@ -17,11 +17,10 @@
 package io.vertx.groovy.web
 
 import io.vertx.core.http.HttpMethod
-import io.vertx.ext.web.tests.WebTestBase
 import io.vertx.ext.web.handler.TemplateHandler
 import io.vertx.ext.web.templ.freemarker.FreeMarkerTemplateEngine
-import org.junit.Assume
-import org.junit.Test
+import io.vertx.ext.web.tests.WebTestBase
+import org.junit.jupiter.api.Test
 
 /**
  * @author Thomas Segismont
@@ -30,7 +29,6 @@ class FreeMarkerGroovyTemplateTest extends WebTestBase {
 
   @Test
   void testTemplateHandler() throws Exception {
-    Assume.assumeFalse(System.getProperty("java.version").startsWith("9"));
     def engine = FreeMarkerTemplateEngine.create(vertx)
     router.route().handler({ context ->
       def ctx = [:]
