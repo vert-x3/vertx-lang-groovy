@@ -101,7 +101,7 @@ public class VertxExtensionModule {
   public static void leftShift(JsonArray json, Object value) {
     json.add(value);
   }
-  
+
  /**
    * Coerces an {@link AsyncResult} as a boolean value according to Groovy-Truth.
    *

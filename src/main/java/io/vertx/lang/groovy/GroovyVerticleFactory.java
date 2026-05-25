@@ -29,7 +29,6 @@ import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.concurrent.Callable;

@@ -16,7 +16,6 @@
 
 package io.vertx.lang.groovy;
 
-import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.lang.groovy.basescripts.FooScript;
 import org.codehaus.groovy.control.CompilerConfiguration;
